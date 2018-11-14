@@ -1,0 +1,17 @@
+{
+	"name": "hearthstone",
+	"version": "augustus",
+	"description": "Mini projet Hearthstone",
+	"main": "server.js",
+	"dependencies": {
+		"express": "*",
+		"express-session": "*",
+		"express-socket.io-session": "*",
+		"socket.io": "*"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/aliegeois/hearthstone.git"
+	},
+	"private": true
+}
