@@ -88,6 +88,7 @@ io.on('connection', socket => {
 	} else {
 		console.log(`old client, room: ${sess.room}, name: ${sess.name}`);
 		socket.join('lobby');
+		socket.name = ess.name;
 		socket.emit('name', sess.name);
 	}
 });
