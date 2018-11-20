@@ -36,11 +36,11 @@ class Player {
         for(let i = 0; i < data.cards.length; i++)
             if(data.cards[i].deck == 'shared' || data.cards[i].deck == heroClass.toString())
                 this.deck.push(data.cards[i]);
-        
+		this.cards = [];
     }
     
     drawCard() {
-        var card = this.deck[Math.floor(Math.random() * this.deck.length)];
+        let card = this.deck[Math.floor(Math.random() * this.deck.length)];
         if(card.type == 'minion')
             return new CardMinion(this, card.name, card.mana, card.damage, card.health, card.effects, card.boosts);
         else if(card.type == 'spell') {
@@ -75,15 +75,20 @@ class HeroMage extends Hero {
     }
 }
 
-class HeroWarrior extends Hero {
-    static toString() {
-        return 'warrior';
-    }
-}
-
 class HeroPaladin extends Hero {
     static toString() {
         return 'paladin';
+    }
+}
+
+class HeroWarrior extends Hero {
+    constrcutor(player) {
+		super(player);
+		this.armor = 0;
+	}
+	
+	static toString() {
+        return 'warrior';
     }
 }
 
@@ -93,8 +98,6 @@ class Card {
         this.name = name;
         this.mana = mana;
     }
-    
-    use() {}
 }
 
 class CardSpell extends Card {

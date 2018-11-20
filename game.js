@@ -1,15 +1,23 @@
 class Game {
 	constructor() {
-		this.players = {};
+		this.players = new Map();
 	}
 	
-	addPlayer(socket) {
-		this.players[socket.id] = new Player(socket);
-		let nbPlayers = Object.keys(this.players).length;
-		if(nbPlayers == 2)
+	addPlayer(socket, heroName) {
+		this.players.set(socket.id, new Player(socket, heroName));
+		let nbPlayers = this.players.size;
+		if(nbPlayers == 2) {
+			for(let p1 in this.players.values()) {
+				for(let p2 in this.players.values()) {
+					if(p1 != p2) {
+						p1.setOpponent(p2);
+						p2.setOpponent(p1);
+					}
+				}
+			}
 			this.start();
-		else if(nbPlayers > 2) {
-			// Erreur
+		} else if(nbPlayers > 2) {
+            // Erreur
 		}
 	}
 	
@@ -17,17 +25,264 @@ class Game {
 		// Déconnection d'un joueur
 	}
 	
-	setHero(playerId, heroId) {
+	/*setHero(playerId, heroId) {
 		this.players[playerId].setHero(heroId);
+	}*/
+	
+	start() {
+		
 	}
 }
 
 class Player {
-	constructor(s) {
+	constructor(s, heroName) {
 		this.socket = s;
+		
+		switch(heroName) {
+			case 'mage':
+				this.hero = new HeroMage(this);
+				break;
+			case 'paladin':
+				this.hero = new HeroPaladin(this);
+				break;
+			case 'warrior':
+				this.hero = new HeroWarrior(this);
+				break;
+			default:
+				// Erreur
+				throw new Error('Héro inconnu');
+		}
+		
+		this.CARD_ID = 0;
+		
+		this.deck = new Set();
+        for(let i = 0; i < data.cards.length; i++) {
+			let card = data.cards[i];
+            if(card.deck == 'shared' || card.deck == heroName) {
+				if(card.type == 'minion')
+					this.deck.add(new CardMinion(this, ++this.CARD_ID, card.name, card.mana, card.damage, card.health, card.effects, card.boosts));
+				else if(card.type == 'spell')
+					this.deck.add(new CardSpell(this, ++this.CARD_ID, card.name, card.mana, card.use));
+			}
+		}
+		this.hand = new Set();
+		this.board = new Set();
 	}
 	
-	setHero(heroName) {
-		
+	setOpponent(op) {
+		this.opponent = op;
 	}
+	
+	drawCard() {
+        let card = this.deck[Math.floor(Math.random() * this.deck.length)];
+        if(card.type == 'minion')
+			this.hand.add(new CardMinion(this, ++this.CARD_ID, card.name, card.mana, card.damage, card.health, card.effects, card.boosts));
+		else if(card.type == 'spell')
+			this.hand.add(new CardSpell(this, ++this.CARD_ID, card.name, card.mana, card.use));
+    }
+}
+
+Player.timeToPlay = 120000; // 2 minutes
+
+class Hero {
+    constructor(player) {
+        this.player = player;
+        this.health = Hero.healthMax;
+        this.healthMax = Hero.healthMax;
+    }
+    
+    static toString() {
+        throw new Error('cannot invoke toString on abstract class Hero');
+    }
+}
+
+Hero.healthMax = 30;
+
+class HeroMage extends Hero {
+    static toString() {
+        return 'mage';
+    }
+}
+
+class HeroPaladin extends Hero {
+    static toString() {
+        return 'paladin';
+    }
+}
+
+class HeroWarrior extends Hero {
+    constrcutor(player) {
+		super(player);
+		this.armor = 0;
+	}
+	
+	static toString() {
+        return 'warrior';
+    }
+}
+
+class Card {
+    constructor(player, id, name, mana) {
+        this.owner = player;
+		this.id = id;
+        this.name = name;
+        this.mana = mana;
+    }
+}
+
+class CardMinion extends Card {
+    constructor(player, id, name, mana, damage, health, effects, boosts) {
+        /*  valeurs possibles de effect: taunt, charge, lifesteal
+            exemple: effects: [
+                'taunt',
+                'charge'
+            ] pour invoquer un serviteur avec provocation et charge
+            
+            boost: donne un bonus de statistiques au cartes alliées tant que ce serviteur est en vie
+            exemple: boost: {
+                damage: 1
+            } pour donner 1 dégât supplémentaire aux serviteurs alliés
+        */
+        super(player, id, name, mana);
+		this.damageBase = damage; // Quantité de dégâts de la carte de base
+        this.damage = damage; // Quantité de dégâts actuels (boosts compris)
+		this.damageBoosted = 0; // Quantité de dégats en plus/moins
+		this.healthBase = health;
+        this.health = health;
+		this.healthBoosted = 0;
+        //this.healthMax = health;
+        this.effects = (effects == undefined ? [] : effects);
+        this.boosts = (boosts == undefined ? {} : boosts);
+		this.ready = effects.contains('charge');
+    }
+	
+	invoke() {
+		for(let [boost, value] in Object.entries(this.boosts)) {
+			for(let card of player.board) {
+				if(card != this) {
+					switch(boost) {
+						case 'damage':
+							card.damageBoosted += value;
+							card.damage += value;
+							break;
+						case 'health':
+							card.healthBoosted += value;
+							card.health += value;
+							break;
+					}
+				}
+			}
+		}
+	}
+    
+    takeDamage(quantity) {
+        this.health -= quantity;
+        if(this.health <= 0) {
+            
+        }
+    }
+	
+	attackMinion(minion) {
+		minion.takeDamage(this.damage);
+		this.takeDamage(minion.damage);
+	}
+	
+	attackHero(hero) {
+		hero.takeDamage(this.damage);
+	}
+	
+	get validOpponents() {
+		let all = new Set(),
+			taunts = new Set();
+		for(let card of this.player.opponent.board) {
+			all.add(card);
+			if(card.effects.contains('taunt'))
+				taunts.add(card);
+		}
+		
+		return taunts.size ? taunts : all;
+	}
+    
+    /*static attack(from, to) {
+        // from instanceof CardMinion
+        // to instanceof CardMinion
+        from.takeDamage(to.damage);
+        to.takeDamage(from.damage);
+    }*/
+}
+
+class CardSpell extends Card {
+    constructor(player, id, name, mana, use) {
+        super(player, id, name, mana);
+        this.use = use;
+    }
+    
+    use() {
+        if(this.use.summonMinions) {
+            /*  Invoque des cartes sur le terrain
+            
+                exemple: this.use: {
+                summonMinions: {
+                    name: "Avocat commis d'office",
+                    quantity: 1
+                }
+            } pour invoquer 1 Avocat commis d'office
+            */
+        }
+        if(this.use.damageCards) {
+            /*  Inflige des dégâts à des serviteurs
+            
+                Options complémentaires:
+                .value: quantité de dégâts ingligé par le sort (prend en comtpe le héro ?)
+                exemple: this.use: {
+                    damageCards: {
+                        all: {
+                            value: 1
+                        }
+                    }
+                } pour infliger 1 dégât à tous les serviteurs
+            */
+            if(this.use.damageCards == 'all') {
+                // Inflige des dégâts à toutes les cartes
+            } else if (this.use.damageCards == 'enemy') {
+                // Inflige des dégâts aux cartes ennemies
+            }
+        }
+        if(this.use.alterCard) {
+            /*  Change les statistiques d'une carte
+            
+                Options complémentaires:
+                .[mana/damage/health].[set/alter]: set pour remplacer la stat et alter pour augmenter/réduire la valeur de la stat
+                exemple: this.use: {
+                    alterCard: {
+                        damage: {
+                            alter: 3
+                        }
+                    }
+                } pour augmenter de 3 l'attaque d'une carte
+            */
+        }
+        if(this.use.alterHero) {
+            /*  Change les statistiques du héro
+                
+                Options complémentaires:
+                options.[health/armor].[set/alter]: set pour remplacer la stat et alter pour augmenter/réduire la valeur de la stat
+                exemple: this.use: {
+                    alterHero: {
+                        armor: {
+                            alter: 5
+                        }
+                    }
+                } pour ajouter 5 d'armure au héro
+            */
+        }
+        if(this.use.drawCards) {
+            /*  Pioche des cartes
+            
+                exemple: this.use: {
+                    drawCards: 2
+                } pour piocher 2 cartes au hasard
+            */
+        }
+    }
 }
