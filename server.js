@@ -1,49 +1,49 @@
 const express = require('express'),
-	  session = require('express-session')({
+	  /*session = require('express-session')({
 	      secret: 'haha benis',
 	      resave: true,
 	      saveUninitialized: true
 	  }),
 	  sharedsession = require('express-socket.io-session'),
-	  util = require('util'),
+	  util = require('util'),*/
       app = express(),
       http = require('http').Server(app),
       io = require('socket.io')(http),
       port = 8080;
 
 app.use(express.static('public'));
-app.use(session);
+//app.use(session);
 
-app.get('/', (req, res) => res.sendFile(`${__dirname}/index.html`));
-app.get('/lobby', (req, res) => res.sendFile(`${__dirname}/lobby/index.html`));
-app.get('/game/:id', (req, res) => {
-    var gameId = req.params.id;
+app.get('/', (_, res) => res.sendFile(`${__dirname}/index.html`));
+app.get('/lobby', (_, res) => res.sendFile(`${__dirname}/lobby/index.html`));
+app.get('/game/:id', (_, res) => {
+    //let gameId = req.params.id;
     res.sendFile(`${__dirname}/game/index.html`);
 });
-app.get('/bite', (req, res) => {
+app.get('/bite', (_, res) => {
     res.json({haha: 'benis'});
 });
-app.get('/session', (req, res) => {
+/*app.get('/session', (req, res) => {
 	res.json(req.session);
-});
+});*/
 
-io.use(sharedsession(session));
+//io.use(sharedsession(session));
 
 io.on('connection', socket => {
-	let sess = socket.handshake.session;
+	//let sess = socket.handshake.session;
 	
     socket.on('setName', name => {
         socket.name = name;
-		sess.name = name;
-		sess.save();
+		//sess.name = name;
+		//sess.save();
         if(socket.rooms.hasOwnProperty('lobby')) {
             socket.broadcast.to(socket.room).emit('rename', socket.id, name);
         } else if(socket.rooms.hasOwnProperty('void')) {
             socket.leave('void', () => {
                 socket.join('lobby', () => {
                     socket.room = 'lobby';
-					sess.room = 'lobby';
-					sess.save();
+					//sess.room = 'lobby';
+					//sess.save();
                     socket.broadcast.to(socket.room).emit('joinLobby', socket.id, name);
 					socket.emit('playersAlreadyConnected', Object.values(io.sockets.sockets).filter(s => s.room == 'lobby' && s.id != socket.id).map(s => {
 						return {id: s.id, name: s.name}}));
@@ -65,7 +65,8 @@ io.on('connection', socket => {
     });
     
     socket.on('startGame', () => {
-        
+        let game = new Game();
+        game.addPlayer(socket);
     });
     
     socket.on('disconnect', () => {
@@ -75,9 +76,9 @@ io.on('connection', socket => {
 		}
     });
 	
-	console.log(`connexion, sess.room = ${sess.room}`);
+	//console.log(`connexion, sess.room = ${sess.room}`);
 	
-	if(typeof sess.room == 'undefined') {
+	/*if(typeof sess.room == 'undefined') {
 		console.log('new client');
 		socket.join('void', () => {
 			socket.room = 'void';
@@ -90,7 +91,7 @@ io.on('connection', socket => {
 		socket.join('lobby');
 		socket.name = ess.name;
 		socket.emit('name', sess.name);
-	}
+    }*/
 });
 
 http.listen(port, () => console.log(`Dbar on port ${port}`));
