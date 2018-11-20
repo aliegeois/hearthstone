@@ -76,9 +76,10 @@ io.on('connection', socket => {
         io.sockets.sockets[id].emit('refuseChallenge', socket.id);
     });
     
-    socket.on('startGame', () => {
+    socket.on('startGame', (otherName) => {
         let game = new Game();
-        game.addPlayer(socket);
+        game.addPlayer(clients.get(socket.name));
+        game.addPlayer(clients.get(otherName));
     });
     
     socket.on('disconnect', () => {
