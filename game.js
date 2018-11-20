@@ -1,8 +1,16 @@
+/**
+ * @class
+ */
 class Game {
 	constructor() {
 		this.players = new Map();
 	}
 	
+	/**
+	 * 
+	 * @param {SClient} sc 
+	 * @param {string} heroName 
+	 */
 	addPlayer(sc, heroName) {
 		this.players.set(sc.socket.id, new Player(sc, heroName));
 		let nbPlayers = this.players.size;
@@ -21,6 +29,10 @@ class Game {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param {number} playerId 
+	 */
 	disconnect(playerId) {
 		// Déconnection d'un joueur
 	}
@@ -34,7 +46,15 @@ class Game {
 	}
 }
 
+/**
+ * @class
+ */
 class Player {
+	/**
+	 * 
+	 * @param {SClient} s 
+	 * @param {string} heroName 
+	 */
 	constructor(s, heroName) {
 		this.sclient = s;
 		
@@ -69,6 +89,10 @@ class Player {
 		this.board = new Set();
 	}
 	
+	/**
+	 * 
+	 * @param {Player} op 
+	 */
 	setOpponent(op) {
 		this.opponent = op;
 	}
@@ -81,6 +105,11 @@ class Player {
 			this.hand.add(new CardSpell(this, ++this.CARD_ID, card.name, card.mana, card.use));
 	}
 	
+	/**
+	 * 
+	 * @param {CardMinion} card
+	 * @param {? implements takesDamage} target
+	 */
 	playCard(card, target) {
 		if(!this.hand.has(card))
 			throw new Error('La carte n\'est pas dans la main');
@@ -93,13 +122,24 @@ class Player {
 
 Player.timeToPlay = 120000; // 2 minutes
 
+/**
+ * @class
+ */
 class Hero {
+	/**
+	 * 
+	 * @param {Player} player 
+	 */
     constructor(player) {
         this.player = player;
         this.health = Hero.healthMax;
         this.healthMax = Hero.healthMax;
 	}
 	
+	/**
+	 * 
+	 * @param {number} quantity 
+	 */
 	takeDamage(quantity) {
 		this.health -= quantity;
 		if(this.health <= 0) {
@@ -114,6 +154,9 @@ class Hero {
 
 Hero.healthMax = 30;
 
+/**
+ * @class
+ */
 class HeroMage extends Hero {
 	special(target) {
 		target.takeDamage(1);
@@ -124,6 +167,9 @@ class HeroMage extends Hero {
 	}
 }
 
+/**
+ * @class
+ */
 class HeroPaladin extends Hero {
 	special() {
 		this.player.board.add(new CardMinion(this.player, ++this.player.CARD_ID, "Recrue de la Main d'argent", 0, 1, 1));
@@ -134,6 +180,9 @@ class HeroPaladin extends Hero {
     }
 }
 
+/**
+ * @class
+ */
 class HeroWarrior extends Hero {
     constrcutor(player) {
 		super(player);
@@ -149,7 +198,17 @@ class HeroWarrior extends Hero {
     }
 }
 
+/**
+ * @class
+ */
 class Card {
+	/**
+	 * 
+	 * @param {Player} player 
+	 * @param {number} id 
+	 * @param {string} name 
+	 * @param {number} mana 
+	 */
     constructor(player, id, name, mana) {
         this.owner = player;
 		this.id = id;
@@ -160,7 +219,21 @@ class Card {
     invoke() {}
 }
 
+/**
+ * @class
+ */
 class CardMinion extends Card {
+	/**
+	 * 
+	 * @param {Player} player 
+	 * @param {number} id 
+	 * @param {string} name 
+	 * @param {number} mana 
+	 * @param {number} damage 
+	 * @param {number} health 
+	 * @param {array} effects 
+	 * @param {array} boosts 
+	 */
     constructor(player, id, name, mana, damage, health, effects, boosts) {
         /*  valeurs possibles de effect: taunt, charge, lifesteal
             exemple: effects: [
@@ -204,7 +277,11 @@ class CardMinion extends Card {
 			}
 		}
 	}
-    
+	
+	/**
+	 * 
+	 * @param {number} quantity 
+	 */
     takeDamage(quantity) {
         this.health -= quantity;
         if(this.health <= 0) {
@@ -212,11 +289,19 @@ class CardMinion extends Card {
         }
     }
 	
+	/**
+	 * 
+	 * @param {CardMinion} minion 
+	 */
 	attackMinion(minion) {
 		minion.takeDamage(this.damage);
 		this.takeDamage(minion.damage);
 	}
 	
+	/**
+	 * 
+	 * @param {Hero} hero 
+	 */
 	attackHero(hero) {
 		hero.takeDamage(this.damage);
 	}
@@ -241,7 +326,18 @@ class CardMinion extends Card {
     }*/
 }
 
+/**
+ * @class
+ */
 class CardSpell extends Card {
+	/**
+	 * 
+	 * @param {Player} player 
+	 * @param {number} id 
+	 * @param {string} name 
+	 * @param {number} mana 
+	 * @param {object} use 
+	 */
     constructor(player, id, name, mana, use) {
         super(player, id, name, mana);
         this.use = use;
@@ -320,7 +416,7 @@ class CardSpell extends Card {
 						break;
 				}
 			}
-        }
+		}
         if(this.use.alterHero) {
             /*  Change les statistiques du héro
                 
