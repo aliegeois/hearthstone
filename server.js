@@ -1,8 +1,8 @@
 const express = require('express'),
 	  session = require('express-session')({
-		  secret: 'haha benis',
-		  resave: true,
-		  saveUninitialized: true
+	      secret: 'haha benis',
+	      resave: true,
+	      saveUninitialized: true
 	  }),
 	  sharedsession = require('express-socket.io-session'),
 	  util = require('util'),
