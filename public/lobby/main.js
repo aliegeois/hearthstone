@@ -3,10 +3,9 @@ var socket = io();
 var player_list,
 	players = new Map();
 
-//var wantToChallenge = null;
-
 socket.on('connect', () => {
 	console.log(`Connected, id: ${socket.id}`);
+	socket.emit('login', localStorage.getItem('name'));
 });
 
 socket.on('joinLobby', (id, name) => {
@@ -20,13 +19,13 @@ socket.on('leaveLobby', id => {
 });
 
 socket.on('playersAlreadyConnected', data => {
-	console.log('players already connected: ', ids);
+	console.log('players already connected: ', data);
 	for(let i = 0; i < data.length; i++)
 		addPlayer(data[i].id, data[i].name);
 });
 
 socket.on('newChallenge', id => {
-	
+	console.log(`new challenge from ${players.get(id).innerHTML}`);
 });
 
 socket.on('name', name => {

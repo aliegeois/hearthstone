@@ -3,8 +3,8 @@ class Game {
 		this.players = new Map();
 	}
 	
-	addPlayer(socket, heroName) {
-		this.players.set(socket.id, new Player(socket, heroName));
+	addPlayer(sc, heroName) {
+		this.players.set(sc.socket.id, new Player(sc, heroName));
 		let nbPlayers = this.players.size;
 		if(nbPlayers == 2) {
 			for(let p1 in this.players.values()) {
@@ -36,7 +36,7 @@ class Game {
 
 class Player {
 	constructor(s, heroName) {
-		this.socket = s;
+		this.sclient = s;
 		
 		switch(heroName) {
 			case 'mage':
