@@ -12,7 +12,7 @@ class Game {
 	 * @param {string} heroName 
 	 */
 	addPlayer(sc, heroName) {
-		this.players.set(sc.socket.id, new Player(sc, heroName));
+		this.players.set(sc.name, new Player(sc, heroName));
 		let nbPlayers = this.players.size;
 		if(nbPlayers == 2) {
 			for(let p1 in this.players.values()) {
@@ -33,7 +33,7 @@ class Game {
 	 * 
 	 * @param {number} playerId 
 	 */
-	disconnect(playerId) {
+	disconnect(playerName) {
 		// Déconnection d'un joueur
 	}
 	
