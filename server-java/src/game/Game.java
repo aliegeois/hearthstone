@@ -1,0 +1,43 @@
+package game;
+
+import java.util.HashMap;
+import java.util.Map;
+
+class Game {
+	private Map<String,Player> players = new HashMap<>();
+	
+	void addPlayer(String name, Player p) {
+		players.put(name, p);
+		if(players.size() == 2) {
+			for(Player p1 : players.values()) {
+				for(Player p2 : players.values()) {
+					if(p1.name != p2.name) {
+						p1.setOpponent(p2);
+						p2.setOpponent(p1);
+					}
+				}
+			}
+			// start()
+		}
+	}
+	
+	void playMinion(String playerName, int cardId) {
+		players.get(playerName).playMinion(cardId);
+	}
+
+	void attackMinion(String playerName, int minionId1, int minionId2) {
+		players.get(playerName).attackMinion(minionId1, minionId2);
+	}
+
+	void useSpell(String playerName, int cardId, CardMinion target) {
+		players.get(playerName).useSpell(cardId, target);
+	}
+
+	void heroSpecial(String playerName, Entity target) {
+		players.get(playerName).hero.special(target);
+	}
+
+	void endTurn(String playerName) {
+		//this.players.get(playerName).endTurn();
+	}
+}
