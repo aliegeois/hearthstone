@@ -1,10 +1,10 @@
 {
 	"name": "hearthstone",
 	"version": "augustus",
-	"description": "Mini projet Hearthstone",
-	"main": "server/app.js",
+	"description": "Mini projet Hearthstone (en js) :eggplant:",
+	"main": "app.js",
 	"scripts": {
-		"start": "node server/app.js"
+		"start": "node app.js"
 	},
 	"dependencies": {
 		"express": "*",
@@ -14,7 +14,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/aliegeois/hearthstone.git"
+		"url": "git://github.com/aliegeois/hearthstone/server-js.git"
 	},
 	"private": true
 }
