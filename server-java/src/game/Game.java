@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 class Game {
-	private Map<String,Player> players = new HashMap<>();
+	private Map<String, Player> players = new HashMap<>();
 	
 	void addPlayer(String name, Player p) {
 		players.put(name, p);

@@ -7,9 +7,9 @@ import java.util.Set;
 
 class Player {
 	String name;
-	private Set<Card> deck = new HashSet<>();
-	private Map<Integer,Card> hand = new HashMap<>();
-	private Map<Integer,Card> board = new HashMap<>();
+	Set<Card> deck = new HashSet<>();
+	Map<Integer, Card> hand = new HashMap<>();
+	Map<Integer, CardMinion> board = new HashMap<>();
 	
 	Hero hero;
 	Player opponent;
@@ -41,8 +41,8 @@ class Player {
 	}
 	
 	void attackMinion(int minionId1, int minionId2) {
-		CardMinion minion1 = (CardMinion)board.get(minionId1),
-		           minion2 = (CardMinion)board.get(minionId2);
+		CardMinion minion1 = board.get(minionId1),
+		           minion2 = board.get(minionId2);
 		minion1.attackMinion(minion2);
 	}
 	
