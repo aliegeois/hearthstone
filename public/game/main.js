@@ -6,5 +6,5 @@ socket.on('connect', () => {
 });
 
 onload = () => {
-
+    
 }
