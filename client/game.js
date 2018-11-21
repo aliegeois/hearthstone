@@ -184,7 +184,7 @@ class HeroPaladin extends Hero {
  * @class
  */
 class HeroWarrior extends Hero {
-    constrcutor(player) {
+    constructor(player) {
 		super(player);
 		this.armor = 0;
 	}
