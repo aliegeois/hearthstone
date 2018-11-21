@@ -28,6 +28,26 @@ class Game {
             // Erreur
 		}
 	}
+
+	playMinion(playerName, minionId) {
+		this.players.get(playerName).playMinion(minionId);
+	}
+
+	attackMinion(playerName, minionId1, minionId2) {
+		this.players.get(playerName).attackMinion(minionId1, minionId2);
+	}
+
+	useSpell(playerName, spellId, target) {
+		this.players.get(playerName).useSpell(spellId, target);
+	}
+
+	heroSpecial(playerName, target) {
+		this.players.get(playerName).heroSpecial(target);
+	}
+
+	endTurn(playerName) {
+		this.players.get(playerName).endTurn();
+	}
 	
 	/**
 	 * 
@@ -85,8 +105,8 @@ class Player {
 					this.deck.add(new CardSpell(this, ++this.CARD_ID, card.name, card.mana, card.use));
 			}
 		}
-		this.hand = new Set();
-		this.board = new Set();
+		this.hand = new Map();
+		this.board = new Map();
 	}
 	
 	/**
@@ -98,11 +118,38 @@ class Player {
 	}
 	
 	drawCard() {
-        let card = this.deck[Math.floor(Math.random() * this.deck.length)];
+		let card = this.deck[Math.floor(Math.random() * this.deck.length)],
+		    id = ++this.CARD_ID;
         if(card.type == 'minion')
-			this.hand.add(new CardMinion(this, ++this.CARD_ID, card.name, card.mana, card.damage, card.health, card.effects, card.boosts));
+			this.hand.set(id, new CardMinion(this, id, card.name, card.mana, card.damage, card.health, card.effects, card.boosts));
 		else if(card.type == 'spell')
-			this.hand.add(new CardSpell(this, ++this.CARD_ID, card.name, card.mana, card.use));
+			this.hand.set(id, new CardSpell(this, id, card.name, card.mana, card.use));
+	}
+
+	playMinion(minionId) {
+		let minion = this.hand.get(minionId);
+		this.hand.delete(minionId);
+		this.board.set(minionId, minion);
+		minion.summon();
+	}
+
+	attackMinion(minionId1, minionId2) {
+		let minion1 = this.board.get(minionId1),
+			minion2 = this.board.get(minionId2);
+		minion1.attackMinion(minion2);
+	}
+
+	useSpell(spellId, target) {
+		let spell = this.hand.get(spellId);
+		spell.summon(target);
+	}
+
+	heroSpecial(target) {
+		this.hero.special(target);
+	}
+
+	endTurn() {
+		// ???
 	}
 	
 	/**
@@ -110,13 +157,14 @@ class Player {
 	 * @param {CardMinion} card
 	 * @param {? implements takesDamage} target
 	 */
-	playCard(card, target) {
-		if(!this.hand.has(card))
+	playCard(id, target) {
+		if(!this.hand.has(id))
 			throw new Error('La carte n\'est pas dans la main');
 		
-		this.hand.delete(card);
-		this.board.add(card);
-		card.invoke(target);
+		let card = this.hand.get(id);
+		this.hand.delete(id);
+		this.board.set(id, card);
+		card.summon(target);
 	}
 }
 
@@ -215,8 +263,6 @@ class Card {
         this.name = name;
         this.mana = mana;
     }
-
-    invoke() {}
 }
 
 /**
@@ -259,7 +305,7 @@ class CardMinion extends Card {
 		this.ready = effects.contains('charge');
     }
 	
-	invoke() {
+	summon() {
 		for(let [boost, value] in Object.entries(this.boosts)) {
 			for(let card of player.board) {
 				if(card != this) {
@@ -343,7 +389,7 @@ class CardSpell extends Card {
         this.use = use;
     }
     
-    invoke(target) {
+    summon(target) {
         if(this.use.summonMinions) {
             /*  Invoque des cartes sur le terrain
             

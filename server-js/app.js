@@ -38,12 +38,33 @@ app.get('/bite', (_, res) => {
 //io.use(sharedsession(session));
 
 let clients = new Map();
+/**
+ * @class
+ */
 class SClient {
+	/**
+	 * 
+	 * @param {Socket} socket 
+	 * @param {string} name 
+	 */
 	constructor(socket, name) {
 		this.socket = socket;
 		this.name = name;
 		this.challenging = null;
-		this.inGame = false;
+		
+		this.game = null;
+	}
+
+	/**
+	 * 
+	 * @param {Game} game 
+	 */
+	launchGame(game) {
+		this.game = game;
+	}
+
+	exitGame() {
+		this.game = null;
 	}
 }
 
@@ -51,18 +72,29 @@ let globalGameId = 0;
 let games = new Map();
 
 io.on('connection', socket => {
+	let client = null;
+
 	socket.on('login', name => {
+		let reconnect = null;
 		socket.name = name;
 		if(clients.has(name)) {
-			clients.get(name).socket = socket;
+			client = clients.get(name);
+			client.socket = socket;
+			reconnect = true;
 		} else {
-			clients.set(name, new SClient(socket, name));
+			client = new SClient(socket, name);
+			clients.set(name, client);
+			reconnect = false;
 		}
-		socket.join('lobby', () => {
-			socket.room = 'lobby';
-			socket.broadcast.to(socket.room).emit('new', name);
-			socket.emit('playersAlreadyConnected', Object.values(io.sockets.sockets).filter(s => s.room == 'lobby' && s.id != socket.id).map(s => s.name));
-		});
+
+		if(client.game == null) {
+			socket.join('lobby', () => {
+				socket.room = 'lobby';
+				if(!reconnect)
+					socket.broadcast.to(socket.room).emit('new', name);
+				socket.emit('playersAlreadyConnected', Object.values(io.sockets.sockets).filter(s => s.room == 'lobby' && s.id != socket.id).map(s => s.name));
+			});
+		}
 	});
 	
 	socket.on('challengePlayer', name => {
@@ -77,25 +109,43 @@ io.on('connection', socket => {
 		}
 	});
 	
-	socket.on('acceptChallenge', name => {
-		
-		io.sockets.sockets[id].emit('acceptChallenge', socket.id);
-	});
-	
-	socket.on('refuseChallenge', () => {
-		io.sockets.sockets[id].emit('refuseChallenge', socket.id);
-	});
-	
-	socket.on('startGame', (otherName) => {
-		let game = new Game();
+	socket.on('acceptChallenge', otherName => {
 		let p1 = clients.get(socket.name),
-			p2 = clients.get(otherName);
-		p1.inGame = true;
-		p2.inGame = true;
+			p2 = clients.get(otherName),
+			game = new Game();
 		game.addPlayer(clients.get(socket.name));
 		game.addPlayer(clients.get(otherName));
 		games.set(globalGameId++, game);
+		p1.launchGame(game);
+		p2.launchGame(game);
 		game.start();
+
+		//io.sockets.sockets[id].emit('acceptChallenge', socket.id);
+	});
+	
+	socket.on('refuseChallenge', otherName => {
+		clients.get(otherName).socket.emit('refuseChallenge', socket.name);
+		//io.sockets.sockets[id].emit('refuseChallenge', socket.id);
+	});
+
+	socket.on('playMinion', minionId => {
+		client.game.playMinion(client.name, minionId);
+	});
+
+	socket.on('attackMinion', (minionId1, minionId2) => {
+		client.game.attackMinion(client.name, minionId1, minionId2);
+	});
+
+	socket.on('useSpell', (spellId, target) => {
+		client.game.useSpell(client.name, spellId, target);
+	});
+
+	socket.on('heroSpecial', target => {
+		client.game.heroSpecial(client.name, target);
+	});
+
+	socket.on('endTurn', () => {
+		client.game.endTurn(client.name);
 	});
 	
 	socket.on('disconnect', () => {
