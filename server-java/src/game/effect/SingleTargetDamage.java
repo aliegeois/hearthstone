@@ -11,11 +11,11 @@ public class SingleTargetDamage extends Effect {
 		this.damage = damage;
 	}
 	
-	public void summon() {
+	public void play() {
 		throw new UnsupportedOperationException();
 	}
 	
-	public void summon(Entity e) {
+	public void play(Entity e) {
 		e.takeDamage(damage);
 	}
 }

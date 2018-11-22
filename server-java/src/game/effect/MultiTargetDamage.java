@@ -1,5 +1,6 @@
 package game.effect;
 
+import game.CardMinion;
 import game.CardSpell;
 import game.Entity;
 
@@ -19,13 +20,26 @@ public class MultiTargetDamage extends Effect {
 		this.quantity = quantity;
 	}
 	
-	public void summon() {
+	public void play() {
 		if(ownBoard) {
-			card.owner;
+			for(CardMinion minion : card.getOwner().getBoard().values()) {
+				minion.takeDamage(quantity);
+			}
+		}
+		if(opponentBoard) {
+			for(CardMinion minion : card.getOwner().getOpponent().getBoard().values()) {
+				minion.takeDamage(quantity);
+			}
+		}
+		if(ownHero) {
+			card.getOwner().getHero().takeDamage(quantity);
+		}
+		if(opponentHero) {
+			card.getOwner().getOpponent().getHero().takeDamage(quantity);
 		}
 	}
 	
-	public void summon(Entity e) {
+	public void play(Entity e) {
 		throw new UnsupportedOperationException();
 	}
 }
