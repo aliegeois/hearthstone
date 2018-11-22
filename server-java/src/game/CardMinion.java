@@ -6,7 +6,7 @@ import java.util.Set;
 public class CardMinion extends Card implements Entity {
 	int damageBase, damage, damageBoosted;
 	int healthBase, health, healthBoosted;
-	private Set<String> effects;
+	Set<String> effects;
 	private Map<String, Integer> boosts;
 	boolean ready;
 	
@@ -42,15 +42,15 @@ public class CardMinion extends Card implements Entity {
 	}
 	
 	void attackMinion(CardMinion o) {
-		o.takeDamage(this);
-		takeDamage(o);
+		o.takeDamage(damage);
+		takeDamage(o.damage);
 		if(o.health <= 0)
 			owner.opponent.board.remove(o.id);
 		if(health <= 0)
 			owner.board.remove(id);
 	}
 	
-	public void takeDamage(Entity e) {
-		
+	public void takeDamage(int quantity) {
+		this.health -= quantity;
 	}
 }

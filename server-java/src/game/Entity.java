@@ -1,5 +1,5 @@
 package game;
 
 interface Entity {
-	void takeDamage(Entity e);
+	void takeDamage(int quantity);
 }

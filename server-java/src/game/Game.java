@@ -3,8 +3,9 @@ package game;
 import java.util.HashMap;
 import java.util.Map;
 
-class Game {
+class Game implements GameEvent {
 	private Map<String, Player> players = new HashMap<>();
+	String playing;
 	
 	void addPlayer(String name, Player p) {
 		players.put(name, p);
@@ -17,27 +18,32 @@ class Game {
 					}
 				}
 			}
-			// start()
+			start();
 		}
 	}
 	
-	void playMinion(String playerName, int cardId) {
+	private void start() {
+		String[] names = (String[])players.keySet().toArray();
+		playing = names[(int)(Math.random() * names.length)];
+	}
+	
+	public void playMinion(String playerName, int cardId) {
 		players.get(playerName).playMinion(cardId);
 	}
 
-	void attackMinion(String playerName, int minionId1, int minionId2) {
+	public void attackMinion(String playerName, int minionId1, int minionId2) {
 		players.get(playerName).attackMinion(minionId1, minionId2);
 	}
 
-	void useSpell(String playerName, int cardId, CardMinion target) {
+	public void useSpell(String playerName, int cardId, CardMinion target) {
 		players.get(playerName).useSpell(cardId, target);
 	}
 
-	void heroSpecial(String playerName, Entity target) {
+	public void heroSpecial(String playerName, Entity target) {
 		players.get(playerName).hero.special(target);
 	}
 
-	void endTurn(String playerName) {
+	public void endTurn(String playerName) {
 		//this.players.get(playerName).endTurn();
 	}
 }

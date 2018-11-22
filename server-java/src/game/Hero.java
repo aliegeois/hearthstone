@@ -11,7 +11,7 @@ abstract class Hero implements Entity {
 	
 	void special(Entity e) {}
 	
-	public void takeDamage(Entity e) {
+	public void takeDamage(int quantity) {
 		//health -= c
 	}
 }
