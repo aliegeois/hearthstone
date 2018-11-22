@@ -3,40 +3,40 @@ package game.effect;
 import game.CardSpell;
 import game.Entity;
 
-public class MultiTargetDamage extends Effect {
+public class MultiTargetHeal extends Effect {
 	private boolean ownBoard;
 	private boolean opponentBoard;
 	private boolean ownHero;
 	private boolean opponentHero;
-	private int damage;
+	private int amount;
 	
-	public MultiTargetDamage(CardSpell card, boolean ownBoard, boolean opponentBoard, boolean ownHero, boolean opponentHero, int damage) {
+	public MultiTargetHeal(CardSpell card, boolean ownBoard, boolean opponentBoard, boolean ownHero, boolean opponentHero, int amount) {
 		super(card);
 		this.ownBoard = ownBoard;
 		this.opponentBoard = opponentBoard;
 		this.ownHero = ownHero;
 		this.opponentHero = opponentHero;
-		this.damage = damage;
+		this.amount = amount;
 	}
 	
 	@Override
 	public void play() {
 		if(ownBoard) {
 			card.getOwner().getBoard().forEach((i, card) -> {
-				card.takeDamage(damage);
+				card.heal(amount);
 			});
 		}
 		if(opponentBoard) {
 			card.getOwner().getOpponent().getBoard().forEach((i, card) -> {
-				card.takeDamage(damage);
+				card.heal(amount);
 			});
 		}
 		
 		if(ownHero) {
-			card.getOwner().getHero().takeDamage(damage);
+			card.getOwner().getHero().heal(amount);
 		}
 		if(opponentHero) {
-			card.getOwner().getOpponent().getHero().takeDamage(damage);
+			card.getOwner().getOpponent().getHero().heal(amount);
 		}
 	}
 	
