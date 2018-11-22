@@ -11,13 +11,13 @@ public class MultiTargetDamage extends Effect {
 	private boolean opponentHero;
 	private int quantity;
 	
-	public MultiTargetDamage(CardSpell card, boolean ownBoard, boolean opponentBoard, boolean ownHero, boolean opponentHero, int quantity) {
+	public MultiTargetDamage(CardSpell card, boolean ownBoard, boolean opponentBoard, boolean ownHero, boolean opponentHero, int damage) {
 		super(card);
 		this.ownBoard = ownBoard;
 		this.opponentBoard = opponentBoard;
 		this.ownHero = ownHero;
 		this.opponentHero = opponentHero;
-		this.quantity = quantity;
+		this.quantity = damage;
 	}
 	
 	public void play() {
