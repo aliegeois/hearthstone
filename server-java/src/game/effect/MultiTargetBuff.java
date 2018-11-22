@@ -1,5 +1,6 @@
 package game.effect;
 
+import game.CardMinion;
 import game.CardSpell;
 import game.Entity;
 
@@ -20,16 +21,16 @@ public class MultiTargetBuff extends Effect {
 	@Override
 	public void play() {
 		if(ownBoard) {
-			card.getOwner().getBoard().forEach((i, card) -> {
-				card.boostHealth(life);
-				card.boostDamage(attack);
-			});
+			for(CardMinion minion : card.getOwner().getBoard().values()) {
+			    minion.boostHealth(life);
+			    minion.boostDamage(attack);
+			}
 		}
 		if(opponentBoard) {
-			card.getOwner().getOpponent().getBoard().forEach((i, card) -> {
-				card.boostHealth(life);
-				card.boostDamage(attack);
-			});
+			for(CardMinion minion : card.getOwner().getOpponent().getBoard().values()) {
+			    minion.boostHealth(life);
+			    minion.boostDamage(attack);
+			}
 		}
 	}
 	

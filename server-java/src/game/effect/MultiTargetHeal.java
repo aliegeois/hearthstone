@@ -1,5 +1,6 @@
 package game.effect;
 
+import game.CardMinion;
 import game.CardSpell;
 import game.Entity;
 
@@ -22,14 +23,14 @@ public class MultiTargetHeal extends Effect {
 	@Override
 	public void play() {
 		if(ownBoard) {
-			card.getOwner().getBoard().forEach((i, card) -> {
-				card.heal(amount);
-			});
+			for(CardMinion minion : card.getOwner().getBoard().values()) {
+			    minion.heal(amount);
+			}
 		}
 		if(opponentBoard) {
-			card.getOwner().getOpponent().getBoard().forEach((i, card) -> {
-				card.heal(amount);
-			});
+			for(CardMinion minion : card.getOwner().getOpponent().getBoard().values()) {
+			    minion.heal(amount);
+			}
 		}
 		
 		if(ownHero) {

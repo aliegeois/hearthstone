@@ -23,12 +23,12 @@ public class MultiTargetDamage extends Effect {
 	public void play() {
 		if(ownBoard) {
 			for(CardMinion minion : card.getOwner().getBoard().values()) {
-				minion.takeDamage(quantity);
+			    minion.takeDamage(quantity);
 			}
 		}
 		if(opponentBoard) {
 			for(CardMinion minion : card.getOwner().getOpponent().getBoard().values()) {
-				minion.takeDamage(quantity);
+			    minion.takeDamage(quantity);
 			}
 		}
 		if(ownHero) {
