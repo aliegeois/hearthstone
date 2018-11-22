@@ -15,6 +15,7 @@ public class Player {
 	private Set<Card> deck = new HashSet<>();
 	private Map<Integer, Card> hand = new HashMap<>();
 	private Map<Integer, CardMinion> board = new HashMap<>();
+	private int cardId = 0;
 	
 	private Hero hero;
 	private Player opponent;
@@ -36,6 +37,10 @@ public class Player {
 	
 	void setOpponent(Player p) {
 		opponent = p;
+	}
+	
+	public void drawCard() {
+		hand.put(cardId++, (Card)deck.toArray()[(int)(Math.random() * deck.size())]);
 	}
 	
 	void playMinion(int cardId) {
