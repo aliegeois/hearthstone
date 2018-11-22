@@ -19,13 +19,21 @@ public class MultiTargetDamage extends Effect {
 		this.quantity = quantity;
 	}
 	
-	public void summon() {
+	@Override
+	public void play() {
 		if(ownBoard) {
-			card.owner;
+			card.getOwner().getBoard().forEach((i, card) -> {
+				card.takeDamage(quantity);
+			});
+		}
+		if(opponentBoard) {
+			card.getOwner().getOpponent().getBoard().forEach((i, card) -> {
+				card.takeDamage(quantity);
+			});
 		}
 	}
 	
-	public void summon(Entity e) {
+	public void play(Entity e) {
 		throw new UnsupportedOperationException();
 	}
 }

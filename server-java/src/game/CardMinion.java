@@ -25,7 +25,7 @@ public class CardMinion extends Card implements Entity {
 	
 	public void summon() {
 		for(Map.Entry<String, Integer> boost : boosts.entrySet()) {
-			for(CardMinion minion : owner.board.values()) {
+			for(CardMinion minion : owner.getBoard().values()) {
 				if(minion.id != id) {
 					switch(boost.getKey()) {
 					case "damage":
@@ -47,9 +47,9 @@ public class CardMinion extends Card implements Entity {
 		o.takeDamage(damage);
 		takeDamage(o.damage);
 		if(o.health <= 0)
-			owner.opponent.board.remove(o.id);
+			owner.getOpponent().getBoard().remove(o.id);
 		if(health <= 0)
-			owner.board.remove(id);
+			owner.getBoard().remove(id);
 	}
 	
 	public void takeDamage(int quantity) {

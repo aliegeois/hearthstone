@@ -10,11 +10,11 @@ public abstract class Effect {
 		this.card = card;
 	}
 	
-	void summon() {
+	void play() {
 		
 	}
 	
-	void summon(Entity e) {
+	void play(Entity e) {
 		
 	}
 }

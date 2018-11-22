@@ -72,11 +72,15 @@ public class Player {
 		return hand;
 	}
 	
-	Map<Integer, CardMinion> getBoard() {
+	public Map<Integer, CardMinion> getBoard() {
 		return board;
 	}
 	
 	public Hero getHero() {
 		return hero;
+	}
+	
+	public Player getOpponent() {
+		return opponent;
 	}
 }
