@@ -4,13 +4,13 @@ import java.util.Map;
 import java.util.Set;
 
 public class CardMinion extends Card implements Entity {
-	int damageBase, damage, damageBoosted;
-	int healthBase, health, healthBoosted;
-	Set<String> effects;
+	private int damageBase, damage, damageBoosted;
+	private int healthBase, health, healthBoosted;
+	private Set<String> effects;
 	private Map<String, Integer> boosts;
-	boolean ready;
+	private boolean ready;
 	
-	CardMinion(int id, Player owner, String name, int mana, int damage, int health, Set<String> effects, Map<String, Integer> boosts) {
+	public CardMinion(int id, Player owner, String name, int mana, int damage, int health, Set<String> effects, Map<String, Integer> boosts) {
 		super(id, owner, name, mana);
 		this.damageBase = damage;
 		this.damage = damage;
@@ -23,18 +23,20 @@ public class CardMinion extends Card implements Entity {
 		this.ready = effects.contains("charge");
 	}
 	
-	void summon() {
+	public void summon() {
 		for(Map.Entry<String, Integer> boost : boosts.entrySet()) {
 			for(CardMinion minion : owner.board.values()) {
 				if(minion.id != id) {
 					switch(boost.getKey()) {
 					case "damage":
-						minion.damage += boost.getValue();
-						minion.damageBoosted += boost.getValue();
+						//minion.damage += boost.getValue();
+						//minion.damageBoosted += boost.getValue();
+						boostDamage(boost.getValue());
 						break;
 					case "health":
-						minion.health += boost.getValue();
-						minion.healthBoosted += boost.getValue();
+						//minion.health += boost.getValue();
+						//minion.healthBoosted += boost.getValue();
+						boostHealth(boost.getValue());
 					}
 				}
 			}
@@ -51,6 +53,53 @@ public class CardMinion extends Card implements Entity {
 	}
 	
 	public void takeDamage(int quantity) {
-		this.health -= quantity;
+		health -= quantity;
+	}
+	
+	public void heal(int quantity) {
+		if(health + quantity <= healthBase)
+			health = health + quantity;
+	}
+	
+	public void boostHealth(int quantity) {
+		health += quantity;
+		healthBoosted += quantity;
+	}
+	
+	public void boostDamage(int quantity) {
+		damage += quantity;
+		damageBoosted += quantity;
+	}
+	
+	public int getDamageBase() {
+		return damageBase;
+	}
+	
+	public int getDamage() {
+		return damage;
+	}
+	
+	public int getDamageBoosted() {
+		return damageBoosted;
+	}
+	
+	public int getHealthBase() {
+		return healthBase;
+	}
+	
+	public int getHealth() {
+		return health;
+	}
+	
+	public int getHealthBoosted() {
+		return healthBoosted;
+	}
+	
+	public Set<String> getEffects() {
+		return effects;
+	}
+	
+	public boolean isReady() {
+		return ready;
 	}
 }

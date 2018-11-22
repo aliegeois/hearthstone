@@ -18,4 +18,13 @@ public abstract class Hero implements Entity {
 	public void takeDamage(int quantity) {
 		//health -= c
 	}
+	
+	public void heal(int quantity) {
+		if(health + quantity <= healthMax)
+			health = health + quantity;
+	}
+	
+	public void boostHealth(int quantity) {
+		health += quantity;
+	}
 }

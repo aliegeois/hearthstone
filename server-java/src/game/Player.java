@@ -11,13 +11,13 @@ import game.hero.HeroPaladin;
 import game.hero.HeroWarrior;
 
 public class Player {
-	String name;
-	Set<Card> deck = new HashSet<>();
-	Map<Integer, Card> hand = new HashMap<>();
-	Map<Integer, CardMinion> board = new HashMap<>();
+	private String name;
+	private Set<Card> deck = new HashSet<>();
+	private Map<Integer, Card> hand = new HashMap<>();
+	private Map<Integer, CardMinion> board = new HashMap<>();
 	
-	Hero hero;
-	Player opponent;
+	private Hero hero;
+	private Player opponent;
 	
 	Player(String name, String heroType) {
 		this.name = name;
@@ -54,5 +54,29 @@ public class Player {
 	void useSpell(int cardId, CardMinion target) {
 		CardSpell spell = (CardSpell)hand.get(cardId);
 		spell.summon(target);
+	}
+	
+	void heroSpecial(Entity target) {
+		hero.special(target);
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public Set<Card> getDeck() {
+		return deck;
+	}
+	
+	public  Map<Integer, Card> getHand() {
+		return hand;
+	}
+	
+	Map<Integer, CardMinion> getBoard() {
+		return board;
+	}
+	
+	public Hero getHero() {
+		return hero;
 	}
 }
