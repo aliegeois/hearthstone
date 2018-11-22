@@ -1,15 +1,19 @@
-package game;
+package game.hero;
 
-abstract class Hero implements Entity {
+import game.Constants;
+import game.Entity;
+import game.Player;
+
+public abstract class Hero implements Entity {
 	protected Player player;
 	protected int health = Constants.heroMaxHealth;
 	protected int healthMax = Constants.heroMaxHealth;
 	
-	Hero(Player player) {
+	public Hero(Player player) {
 		this.player = player;
 	}
 	
-	void special(Entity e) {}
+	public void special(Entity e) {}
 	
 	public void takeDamage(int quantity) {
 		//health -= c

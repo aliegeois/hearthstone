@@ -2,6 +2,8 @@ package game;
 
 import java.util.Set;
 
+import game.effect.Effect;
+
 public class CardSpell extends Card {
 	Set<Effect> effects;
 	

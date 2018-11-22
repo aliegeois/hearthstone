@@ -5,7 +5,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-class Player {
+import game.hero.Hero;
+import game.hero.HeroMage;
+import game.hero.HeroPaladin;
+import game.hero.HeroWarrior;
+
+public class Player {
 	String name;
 	Set<Card> deck = new HashSet<>();
 	Map<Integer, Card> hand = new HashMap<>();

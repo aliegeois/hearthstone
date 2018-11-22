@@ -1,6 +1,6 @@
 package game;
 
-abstract class Constants {
+public abstract class Constants {
 	public static final int heroMaxHealth = 30;
 	
 	
