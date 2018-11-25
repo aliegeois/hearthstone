@@ -1,1 +1,17 @@
-/* You can add global styles to this file, and also import other style files */
+$color_wood: #6f4328;
+$color_anthracite: #282923;
+
+body {
+	background-color: $color_anthracite;
+	margin : 0;
+	width: 100%;
+}
+
+#flag_div {
+	border: 1px solid red;
+
+	#flag_div_name {
+		color: red;
+		weight: bold;
+	}
+}
