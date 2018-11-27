@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GameComponent implements OnInit {
 
+	height: number = window.innerHeight;
+	width: number = window.innerWidth;
+	
   constructor() { }
 
   ngOnInit() {

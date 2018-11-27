@@ -4,19 +4,21 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GameComponent } from './game/game.component';
-import { CardMinionComponent } from './card-minion/card-minion.component';
-import { CardSpellComponent } from './card-spell/card-spell.component';
 import { PlayerComponent } from './player/player.component';
 import { HeroComponent } from './hero/hero.component';
+import { ConstantesComponent } from './constantes/constantes.component';
+import { CardComponent } from './card/card.component';
+import { EffectsComponent } from './effects/effects.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     GameComponent,
-    CardMinionComponent,
-    CardSpellComponent,
     PlayerComponent,
-    HeroComponent
+    HeroComponent,
+    ConstantesComponent,
+    CardComponent,
+    EffectsComponent
   ],
   imports: [
     BrowserModule,
