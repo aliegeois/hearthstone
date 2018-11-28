@@ -12,7 +12,7 @@ public class CardSpell extends Card {
 		this.effects = effects;
 	}
 	
-	void summon(CardMinion target) {
+	void cast(CardMinion target) {
 		for(Effect e : effects) {
 			
 		}

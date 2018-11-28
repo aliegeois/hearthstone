@@ -6,11 +6,11 @@ import java.util.Set;
 public class CardMinion extends Card implements Entity {
 	private int damageBase, damage, damageBoosted;
 	private int healthBase, health, healthBoosted;
-	private Set<String> effects;
+	private Set<String> capacities;
 	private Map<String, Integer> boosts;
 	private boolean ready;
 	
-	public CardMinion(int id, Player owner, String name, int mana, int damage, int health, Set<String> effects, Map<String, Integer> boosts) {
+	public CardMinion(int id, Player owner, String name, int mana, int damage, int health, Set<String> capacities, Map<String, Integer> boosts) {
 		super(id, owner, name, mana);
 		this.damageBase = damage;
 		this.damage = damage;
@@ -18,9 +18,9 @@ public class CardMinion extends Card implements Entity {
 		this.healthBase = health;
 		this.health = health;
 		this.healthBoosted = 0;
-		this.effects = effects;
+		this.capacities = capacities;
 		this.boosts = boosts;		
-		this.ready = effects.contains("charge");
+		this.ready = capacities.contains("charge");
 	}
 	
 	public void summon() {
@@ -96,7 +96,7 @@ public class CardMinion extends Card implements Entity {
 	}
 	
 	public Set<String> getEffects() {
-		return effects;
+		return capacities;
 	}
 	
 	public boolean isReady() {
