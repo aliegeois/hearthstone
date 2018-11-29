@@ -9,6 +9,7 @@ import { HeroComponent } from './hero/hero.component';
 import { ConstantesComponent } from './constantes/constantes.component';
 import { CardComponent } from './card/card.component';
 import { EffectsComponent } from './effects/effects.component';
+import { EntityComponent } from './entity/entity.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { EffectsComponent } from './effects/effects.component';
     HeroComponent,
     ConstantesComponent,
     CardComponent,
-    EffectsComponent
+    EffectsComponent,
+    EntityComponent
   ],
   imports: [
     BrowserModule,

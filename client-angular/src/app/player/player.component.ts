@@ -31,16 +31,15 @@ export class PlayerComponent implements OnInit {
     this.name = name;
   	switch(heroType) {
       case "warrior":
-        this.hero = new HeroWarriorComponent(this);
+        //this.hero = new HeroWarriorComponent(this);
         break;
       case "mage":
-        this.hero = new HeroMageComponent(this);
+        //this.hero = new HeroMageComponent(this);
         break;
       default:
-        this.hero = new HeroPaladinComponent(this);
+        //this.hero = new HeroPaladinComponent(this);
     }
-      
-  	//this.hero.special(); TODO : voir pour l'héritage
+      //TODO
   }
 
   setOpponent(p: PlayerComponent) {

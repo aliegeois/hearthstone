@@ -7,6 +7,8 @@ import { EffectsComponent } from '../effects/effects.component';
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss']
 })
+
+
 export class CardComponent implements OnInit {
 
 	id: number;
@@ -23,6 +25,7 @@ export class CardComponent implements OnInit {
 
   ngOnInit() {
   }
+
 
 }
 
