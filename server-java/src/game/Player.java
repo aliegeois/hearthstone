@@ -17,6 +17,9 @@ public class Player {
 	private Map<Integer, CardMinion> board = new HashMap<>();
 	private int cardId = 0;
 	
+	private int manaMax;
+	private int mana;
+	
 	private Hero hero;
 	private Player opponent;
 	
@@ -45,9 +48,15 @@ public class Player {
 	
 	void playMinion(int cardId) {
 		CardMinion minion = (CardMinion)hand.get(cardId);
-		hand.remove(cardId);
-		board.put(cardId, minion);
-		minion.summon();
+		
+		//Verifiy if the player has enough mana to play the minion
+		if(minion.manaCost > this.mana) {
+			this.mana = this.mana - minion.manaCost;
+			
+			hand.remove(cardId);
+			board.put(cardId, minion);
+			minion.summon();
+		}
 	}
 	
 	void attackMinion(int minionId1, int minionId2) {
@@ -87,5 +96,13 @@ public class Player {
 	
 	public Player getOpponent() {
 		return opponent;
+	}
+	
+	public int getManaMax() {
+		return manaMax;
+	}
+	
+	public int getMana() {
+		return mana;
 	}
 }

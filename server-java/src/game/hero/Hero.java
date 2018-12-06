@@ -6,8 +6,8 @@ import game.Player;
 
 public abstract class Hero implements Entity {
 	protected Player player;
-	protected int health = Constants.heroMaxHealth;
-	protected int healthMax = Constants.heroMaxHealth;
+	protected int health = Constants.HEROMAXHEALTH;
+	protected int healthMax = Constants.HEROMAXHEALTH;
 	
 	public Hero(Player player) {
 		this.player = player;

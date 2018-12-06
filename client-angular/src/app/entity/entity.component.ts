@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 
 //Doc pour piger tout ça : https://www.sitepoint.com/angular-2-components-providers-classes-factories-values/
-export interface EntityComponent {
-	
+export interface EntityComponent implements onInit {
+	takeDamage(quantity: number) {
+	}
+	heal(quantity: number){}
 }

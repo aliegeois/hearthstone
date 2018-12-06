@@ -7,6 +7,8 @@ class Game implements GameEvent {
 	private Map<String, Player> players = new HashMap<>();
 	private String playing;
 	
+	private int turn;
+	
 	void addPlayer(String name, Player p) {
 		players.put(name, p);
 		if(players.size() == 2) {
@@ -45,9 +47,14 @@ class Game implements GameEvent {
 
 	public void endTurn(String playerName) {
 		//this.players.get(playerName).endTurn();
+		turn++;
 	}
 	
 	public String getPlaying() {
 		return playing;
+	}
+	
+	public int getTurn() {
+		return turn;
 	}
 }
