@@ -4,7 +4,7 @@ import game.CardSpell;
 import game.hero.Hero;
 import game.CardMinion;
 
-public class SingleTargetBuff extends Effect {
+public class SingleTargetBuff extends SingleTargetEffect {
 	private int life;
 	private int attack;
 	

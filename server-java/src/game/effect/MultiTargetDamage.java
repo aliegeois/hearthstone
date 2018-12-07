@@ -4,37 +4,30 @@ import game.CardMinion;
 import game.CardSpell;
 import game.Entity;
 
-public class MultiTargetDamage extends Effect {
-	private boolean ownBoard;
-	private boolean opponentBoard;
-	private boolean ownHero;
-	private boolean opponentHero;
+public class MultiTargetDamage extends MultipleTargetEffect {
 	private int quantity;
 	
 	public MultiTargetDamage(CardSpell card, boolean ownBoard, boolean opponentBoard, boolean ownHero, boolean opponentHero, int damage) {
-		super(card);
-		this.ownBoard = ownBoard;
-		this.opponentBoard = opponentBoard;
-		this.ownHero = ownHero;
-		this.opponentHero = opponentHero;
+		super(card, ownBoard, opponentBoard, ownHero, opponentHero);
 		this.quantity = damage;
 	}
 	
+	@Override
 	public void play() {
-		if(ownBoard) {
+		if(getOwnBoard()) {
 			for(CardMinion minion : card.getOwner().getBoard().values()) {
 			    minion.takeDamage(quantity);
 			}
 		}
-		if(opponentBoard) {
+		if(getOpponentBoard()) {
 			for(CardMinion minion : card.getOwner().getOpponent().getBoard().values()) {
 			    minion.takeDamage(quantity);
 			}
 		}
-		if(ownHero) {
+		if(getOwnHero()) {
 			card.getOwner().getHero().takeDamage(quantity);
 		}
-		if(opponentHero) {
+		if(getOpponentHero()) {
 			card.getOwner().getOpponent().getHero().takeDamage(quantity);
 		}
 	}

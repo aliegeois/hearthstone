@@ -3,7 +3,7 @@ package game.effect;
 import game.CardSpell;
 import game.Entity;
 
-public class SingleTargetHeal extends Effect {
+public class SingleTargetHeal extends SingleTargetEffect {
 	private int amount;
 	
 	public SingleTargetHeal(CardSpell card, int amount) {
