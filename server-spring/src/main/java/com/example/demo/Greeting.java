@@ -2,15 +2,15 @@ package com.example.demo;
 
 public class Greeting {
 
-    private String content;
+	private String content;
 
-    public Greeting() {}
+	public Greeting() {}
 
-    public Greeting(String content) {
-        this.content = content;
-    }
+	public Greeting(String content) {
+		this.content = content;
+	}
 
-    public String getContent() {
-        return content;
-    }
+	public String getContent() {
+		return content;
+	}
 }
