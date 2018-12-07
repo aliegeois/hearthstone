@@ -1,6 +1,6 @@
 package com.example.demo.message;
 
-public class MessageSummonMinion extends Message {
+public class MessageSummonMinion extends GameMessage {
 
     private int idCard;
 

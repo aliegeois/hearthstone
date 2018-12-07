@@ -1,11 +1,11 @@
-package com.example.demo;
+package com.example.demo.message;
 
-abstract class Message {
+public abstract class GameMessage {
     protected boolean player1;
     
-    public Message() {}
+    public GameMessage() {}
 
-    public Message(boolean player1) {
+    public GameMessage(boolean player1) {
         this.player1 = player1;
     }
 

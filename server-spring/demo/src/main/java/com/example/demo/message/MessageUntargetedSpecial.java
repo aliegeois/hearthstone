@@ -1,6 +1,6 @@
 package com.example.demo.message;
 
-public class MessageUntargetedSpecial extends Message {
+public class MessageUntargetedSpecial extends GameMessage {
 
     public MessageUntargetedSpecial() {}
 

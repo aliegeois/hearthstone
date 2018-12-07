@@ -1,13 +1,23 @@
 package com.example.demo;
 
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import com.example.demo.message.*;
 //import org.springframework.web.util.HtmlUtils;
 
 @Controller
-public class ActionController {
+public class GameController {
+    private SimpMessagingTemplate template;
+
+    @Autowired
+    public GameController(SimpMessagingTemplate template) {
+        this.template = template;
+    }
 
     /*@MessageMapping("/hello")
     @SendTo("/topic/greetings")
@@ -17,13 +27,36 @@ public class ActionController {
         return new Greeting("Bonjour, " + message.getName() + " !");
     }*/
 
-    @MessageMapping("/attack")
-    @SendTo("/topic/attack")
-    public MessageAttack attack(MessageAttack message) throws Exception {
+    // SITE DE LA VIE: https://www.programcreek.com/java-api-examples/?api=org.springframework.messaging.handler.annotation.MessageMapping
+
+    //@DestinationVariable("gameId") String gameId met le contenu de la variable gameId dans une string gameId que l'on peut ensuite utiliser
+    //Le MessageTest message est le message qui transite.
+    /*@MessageMapping("/game/{gameId}")
+    @SendTo("/topic/")
+    public MessageTest test(@DestinationVariable("gameId") String gameId, @Payload MessageTest message) throws Exception {
         // Le message reçu et le message envoyé sont du même type
         // modifications côté serveur
         
-        return new MessageAttack(/* des trucs */);
+        return new MessageTest(gameId);
+    }*/
+
+    @MessageMapping("/lobby")
+    @SendTo("/topic/lobby")
+    public MessageJoinLobby joinLobby(MessageJoinLobby message) throws Exception {
+        // Stocker le joueur qui viens d'arriver
+
+        return message;
+    }
+
+    @MessageMapping("/game/{gameId}/test")
+    public void test2(@DestinationVariable("gameId") String gameId, @Payload MessageTest message) throws Exception {
+        template.convertAndSend("/topic/game/" + gameId + "/test", "{\"value\": \"" + message.getValue() + "\"}");
+    }
+
+    @MessageMapping("/game/{gameId}/attack")
+    @SendTo("/topic/attack")
+    public MessageAttack attack(@DestinationVariable("gameId") String gameId, @Payload MessageAttack message) throws Exception {
+        return new MessageAttack();
     }
 
     @MessageMapping("/summonMinion")

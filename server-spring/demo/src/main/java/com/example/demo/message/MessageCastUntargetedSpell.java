@@ -1,6 +1,6 @@
 package com.example.demo.message;
 
-public class MessageCastUntargetedSpell extends Message {
+public class MessageCastUntargetedSpell extends GameMessage {
 
     private int source;
 

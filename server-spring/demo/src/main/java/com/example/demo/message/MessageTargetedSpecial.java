@@ -1,6 +1,6 @@
 package com.example.demo.message;
 
-public class MessageTargetedSpecial extends Message {
+public class MessageTargetedSpecial extends GameMessage {
 
     private int target;
 
