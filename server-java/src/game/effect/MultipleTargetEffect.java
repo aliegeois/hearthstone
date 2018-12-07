@@ -18,4 +18,20 @@ public abstract class MultipleTargetEffect extends Effect{
 	public void play() {
 	
 	}
+	
+	public boolean getOwnBoard() {
+		return this.ownBoard;
+	}
+	
+	public boolean getOpponentBoard() {
+		return this.opponentBoard;
+	}
+	
+	public boolean getOwnHero() {
+		return this.ownHero;
+	}
+	
+	public boolean getOpponentHero() {
+		return this.opponentHero;
+	}
 }

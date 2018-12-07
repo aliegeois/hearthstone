@@ -12,24 +12,25 @@ public class MultiTargetDamage extends MultipleTargetEffect {
 		this.quantity = damage;
 	}
 	
-	/*public void play() {
-		if(ownBoard) {
+	@Override
+	public void play() {
+		if(getOwnBoard()) {
 			for(CardMinion minion : card.getOwner().getBoard().values()) {
 			    minion.takeDamage(quantity);
 			}
 		}
-		if(opponentBoard) {
+		if(getOpponentBoard()) {
 			for(CardMinion minion : card.getOwner().getOpponent().getBoard().values()) {
 			    minion.takeDamage(quantity);
 			}
 		}
-		if(ownHero) {
+		if(getOwnHero()) {
 			card.getOwner().getHero().takeDamage(quantity);
 		}
-		if(opponentHero) {
+		if(getOpponentHero()) {
 			card.getOwner().getOpponent().getHero().takeDamage(quantity);
 		}
-	}*/
+	}
 	
 	public void play(Entity e) {
 		throw new UnsupportedOperationException();

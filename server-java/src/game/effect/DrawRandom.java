@@ -3,7 +3,7 @@ package game.effect;
 import game.CardSpell;
 import game.Entity;
 
-public class DrawRandom extends Effect {
+public class DrawRandom extends GlobalEffect {
 	private int cardNumber;
 	
 	public DrawRandom(CardSpell card, int cardNumber) {
@@ -11,7 +11,8 @@ public class DrawRandom extends Effect {
 		this.cardNumber = cardNumber;
 	}
 	
-	void play() {
+	@Override
+	public void play() {
 		for(int i = 0; i < cardNumber; i++)
 			card.getOwner().drawCard();
 	}
