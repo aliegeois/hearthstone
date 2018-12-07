@@ -3,7 +3,7 @@ package game.effect;
 import game.CardMinion;
 import game.CardSpell;
 
-public class Transform extends Effect{
+public class Transform extends SingleTargetEffect{
 	private CardMinion into;
 	
 	public Transform(CardSpell card, CardMinion into) {

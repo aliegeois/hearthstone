@@ -3,7 +3,7 @@ package game.effect;
 import game.CardSpell;
 import game.Entity;
 
-public class SingleTargetDamage extends Effect {
+public class SingleTargetDamage extends SingleTargetEffect {
 	private int damage;
 	
 	public SingleTargetDamage(CardSpell card, int damage) {
