@@ -1,4 +1,4 @@
-package com.example.demo.message;
+package server.message;
 
 public class MessageCastTargetedSpell extends GameMessage {
 

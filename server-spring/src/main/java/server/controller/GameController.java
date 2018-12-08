@@ -1,4 +1,4 @@
-package com.example.demo;
+package server.controller;
 
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -7,16 +7,23 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import com.example.demo.message.*;
+import server.message.*;
+import game.*;
+import java.util.Map;
+import java.util.HashMap;
 //import org.springframework.web.util.HtmlUtils;
 
 @Controller
 public class GameController {
+	// Pour envoyer des messages sans utiliser "@SendTo"
 	private SimpMessagingTemplate template;
+	// Liste des parties en cours
+	private Map<String, Game> games;
 
 	@Autowired
 	public GameController(SimpMessagingTemplate template) {
 		this.template = template;
+		this.games = new HashMap<>();
 	}
 
 	/*@MessageMapping("/hello")
@@ -40,12 +47,29 @@ public class GameController {
 		return new MessageTest(gameId);
 	}*/
 
-	@MessageMapping("/lobby")
+	/*@MessageMapping("/lobby")
 	@SendTo("/topic/lobby")
 	public MessageJoinLobby joinLobby(MessageJoinLobby message) throws Exception {
 		// Stocker le joueur qui viens d'arriver
 
 		return message;
+	}*/
+
+	// Lorsqu'un utilisateur veut créer une partie, une demande d'affrontement est envoyée au joueur adverse, si celui-ci accepte, la partie est créée
+	@MessageMapping("/game/create")
+	public void createGame(@DestinationVariable("gameId") String gameId, @Payload MessageCreateGame message) throws Exception {
+		MessageGameCreated gc = new MessageGameCreated()
+		template.convertAndSend("/topic/game/" + gameId + "/test", "{\"value\": \"" + message.getOpponent() + "\"}");
+	}
+
+	@MessageMapping("/game/{gameId}/confirm")
+	public void confirmGame(@DestinationVariable("gameId") String gameId, @Payload MessageTest message) throws Exception {
+		template.convertAndSend("/topic/game/" + gameId + "/test", "{\"value\": \"" + message.getValue() + "\"}");
+	}
+
+	@MessageMapping("/game/{gameId}/reject")
+	public void rejectGame(@DestinationVariable("gameId") String gameId, @Payload MessageTest message) throws Exception {
+		template.convertAndSend("/topic/game/" + gameId + "/test", "{\"value\": \"" + message.getValue() + "\"}");
 	}
 
 	@MessageMapping("/game/{gameId}/test")
@@ -102,5 +126,9 @@ public class GameController {
 		// modifications côté serveur
 
 		return new MessageUntargetedSpecial(/* des trucs */);
+	}
+
+	public void createGame() {
+
 	}
 }

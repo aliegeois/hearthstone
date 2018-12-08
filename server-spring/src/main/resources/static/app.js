@@ -52,19 +52,19 @@ function sendName() {
 	//stompClient.send("/app/hello", {}, JSON.stringify({'name': $("#name").val()}));
 	name = $("#name").val();
 
-	stompClient.subscribe(`/topic/lobby/${name}/players`, players => {
-		console.log(players);
-		players = JSON.parse(players.body);
-		for(let player of players)
-			showGreeting(player);
+	stompClient.subscribe(`/topic/lobby/${name}/users`, users => {
+		console.log(users);
+		users = JSON.parse(users.body);
+		for(let user of users)
+			showGreeting(user);
 		//showGreeting(JSON.parse(greeting.body).value);
 	});
-	stompClient.subscribe(`/topic/lobby/${name}/newPlayer`, playerName => {
-		console.log(playerName);
-		showGreeting(playerName.body);
+	stompClient.subscribe(`/topic/lobby/${name}/newUser`, userName => {
+		console.log(userName);
+		showGreeting(userName.body);
 	});
 
-	stompClient.send("/app/lobby/join", {}, JSON.stringify({'playerName': name}));
+	stompClient.send("/app/lobby/join", {}, JSON.stringify({'name': name}));
 }
 
 let sendTest = () => {
