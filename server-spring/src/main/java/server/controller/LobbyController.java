@@ -7,6 +7,7 @@ import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.socket.messaging.SessionConnectEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -21,6 +22,7 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @Controller
@@ -41,15 +43,21 @@ public class LobbyController {
 	}
 	
 	@MessageMapping("/lobby/join")
-	public void joinLobby(@Payload MessageJoinLobby message, @Headers StompHeaderAccessor headers) throws Exception {
+	public void joinLobby(@Payload MessageJoinLobby message, @RequestHeader("sessionId") String sessionId) throws Exception {
 		// On envoie les infos sur une url spécifique pour chaque joueur (avec le nom du joueur dedans), chaque joueur se subscribe donc à l'url avec son nom
 		// htmlEscape: pour éviter que l'utilisateur ne prenne un nom comme "<script>while(true)alert('');</script>"
 		String name = HtmlUtils.htmlEscape(message.getName());
-		String sessionId = headers.getSessionId();
 		if(users.containsKey(sessionId)) {
 			// Le nom est déjà pris
 		} else {
-			template.convertAndSend("/topic/lobby/" + name + "/users", users);
+			ArrayList<Object> usersBefore = new ArrayList<>();
+			for(Map.Entry<String, User> pair : users.entrySet()) {
+				usersBefore.add(new Object() {
+					@JsonProperty("name")
+					private String name = pair.getValue().getName();
+				});
+			}
+			template.convertAndSend("/topic/lobby/" + name + "/usersBefore", new ObjectMapper().writeValueAsString(usersBefore));
 			for(Map.Entry<String, User> pair : users.entrySet())
 				template.convertAndSend("/topic/lobby/" + pair.getValue() + "/userJoined", name);
 			
@@ -58,32 +66,28 @@ public class LobbyController {
 	}
 
 	@MessageMapping("/lobby/leave")
-	public void leaveLobby(@Payload MessageJoinLobby message, @Headers StompHeaderAccessor headers) throws Exception {
-		// On envoie les infos sur une url spécifique pour chaque joueur (avec le nom du joueur dedans), chaque joueur se subscribe donc à l'url avec son nom
-		// htmlEscape: pour éviter que l'utilisateur ne prenne un nom comme "<script>while(true)alert('');</script>"
-		String name = HtmlUtils.htmlEscape(message.getName());
-		String sessionId = headers.getSessionId();
+	public void leaveLobby(@RequestHeader("sessionId") String sessionId) throws Exception {
 		if(users.containsKey(sessionId)) {
-			// Un utilisateur qui n'existe pas leave ???
-		} else {
-			users.remove(sessionId);
+			User old = users.remove(sessionId);
 			for(Map.Entry<String, User> pair : users.entrySet())
-				template.convertAndSend("/topic/lobby/" + pair.getValue().getName() + "/userLeaved", name);
+				template.convertAndSend("/topic/lobby/" + pair.getValue().getName() + "/userLeaved", old.getName());
+		} else {
+			// Un utilisateur qui n'existe pas leave ???
 		}
 	}
 
 	// Lorsqu'un utilisateur veut créer une partie, une demande d'affrontement est envoyée au joueur adverse, si celui-ci accepte, la partie est créée
-	@MessageMapping("/lobby/createGame")
-	public void createGame(@Payload MessageCreateGame message, @Headers StompHeaderAccessor headers) throws Exception {
-		User asking = users.get(headers.getSessionId());
-		System.out.println("incomming sessionId: " + headers.getSessionId());
+	@MessageMapping("/lobby/challenge")
+	public void createGame(@Payload MessageCreateGame message, @RequestHeader("sessionId") String sessionId) throws Exception {
+		User asking = users.get(sessionId);
+		System.out.println("incomming sessionId: " + sessionId);
 		User asked = getUserFromName(message.getOpponent());
 		System.out.println("incomming userName: " + message.getOpponent());
 		for(Map.Entry<String, User> pair : users.entrySet())
 			System.out.println(pair.getKey() + " - " + pair.getValue().getName());
 		if(asking == null || asked == null) {
 			// Erreur: l'un des deux utilisateur n'a pas été trouvé
-			System.out.println("Utilisateurs inconnus");
+			System.out.println("utilisateur(s) inconnus");
 		} else if(temporaryGames.containsKey(asking.getSessionId())) {
 			// L'utilisateur est déjà en train de créer une partie, or il ne peut en avoir qu'une seule à la fois
 			System.out.println("asking déjà en demande");
@@ -102,22 +106,40 @@ public class LobbyController {
 				@JsonProperty("asking")
 				private String asking = askingName;
 			});
-			System.out.println("ok - " + sendAsking + " - " + sendAsked);
-			template.convertAndSend("/topic/lobby/" + askingName + "/confirmCreateGame", sendAsking);
-			template.convertAndSend("/topic/lobby/" + askedName + "/askCreateGame", sendAsked);
+			template.convertAndSend("/topic/lobby/" + askingName + "/confirmChallenge", sendAsking);
+			template.convertAndSend("/topic/lobby/" + askedName + "/challengedBy", sendAsked);
 		}
 	}
 
-	@MessageMapping("/lobby/{gameId}/confirm")
-	public void confirmGame(@DestinationVariable("gameId") String gameId, @Payload MessageTest message) throws Exception {
+	@MessageMapping("/lobby/{userName}/acceptChallenge")
+	public void confirmGame(@DestinationVariable("userName") String userName, @RequestHeader("sessionId") String sessionId) throws Exception {
+		User asking = getTemporaryFromName(userName);
+		User asked = users.get(sessionId);
+		if(asking == null || asked == null) {
+			// Erreur
+		} else {
+			temporaryGames.remove(asking.getSessionId());
+			users.remove(asked.getSessionId());
+			gameController.createGame(asking, asked);
+		}
 		
-		
-		template.convertAndSend("/topic/game/" + gameId + "/test", "{\"value\": \"" + message.getValue() + "\"}");
+		//template.convertAndSend("/topic/game/" + userName + "/test", "{\"value\": \"" + message.getValue() + "\"}");
 	}
 
-	@MessageMapping("/lobby/{gameId}/reject")
-	public void rejectGame(@DestinationVariable("gameId") String gameId, @Payload MessageTest message) throws Exception {
-		template.convertAndSend("/topic/game/" + gameId + "/test", "{\"value\": \"" + message.getValue() + "\"}");
+	@MessageMapping("/lobby/{gameId}/rejectChallenge")
+	public void rejectGame(@DestinationVariable("gameId") String gameId, @Payload MessageTest message, @Headers StompHeaderAccessor headers) throws Exception {
+		String sessionId = headers.getSessionId();
+		if(temporaryGames.containsKey(sessionId)) {
+			User rejected = temporaryGames.remove(sessionId);
+			String sendRejected = new ObjectMapper().writeValueAsString(new Object() {
+				@JsonProperty("name")
+				private String name = rejected.getName();
+			});
+			template.convertAndSend("/topic/game/" + gameId + "/test", sendRejected);
+		} else {
+
+		}
+		
 	}
 
 	@EventListener
@@ -135,6 +157,13 @@ public class LobbyController {
 
 	private User getUserFromName(String name) {
 		for(Map.Entry<String, User> pair : users.entrySet())
+			if(pair.getValue().getName().equals(name))
+				return pair.getValue();
+		return null;
+	}
+
+	private User getTemporaryFromName(String name) {
+		for(Map.Entry<String, User> pair : temporaryGames.entrySet())
 			if(pair.getValue().getName().equals(name))
 				return pair.getValue();
 		return null;
