@@ -7,9 +7,12 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+
+import server.User;
 import server.message.*;
 import game.*;
 import java.util.Map;
+import java.util.UUID;
 import java.util.HashMap;
 //import org.springframework.web.util.HtmlUtils;
 
@@ -18,7 +21,7 @@ public class GameController {
 	// Pour envoyer des messages sans utiliser "@SendTo"
 	private SimpMessagingTemplate template;
 	// Liste des parties en cours
-	private Map<String, Game> games;
+	private Map<UUID, Game> games;
 
 	@Autowired
 	public GameController(SimpMessagingTemplate template) {
@@ -55,22 +58,7 @@ public class GameController {
 		return message;
 	}*/
 
-	// Lorsqu'un utilisateur veut créer une partie, une demande d'affrontement est envoyée au joueur adverse, si celui-ci accepte, la partie est créée
-	@MessageMapping("/game/create")
-	public void createGame(@DestinationVariable("gameId") String gameId, @Payload MessageCreateGame message) throws Exception {
-		MessageGameCreated gc = new MessageGameCreated()
-		template.convertAndSend("/topic/game/" + gameId + "/test", "{\"value\": \"" + message.getOpponent() + "\"}");
-	}
 
-	@MessageMapping("/game/{gameId}/confirm")
-	public void confirmGame(@DestinationVariable("gameId") String gameId, @Payload MessageTest message) throws Exception {
-		template.convertAndSend("/topic/game/" + gameId + "/test", "{\"value\": \"" + message.getValue() + "\"}");
-	}
-
-	@MessageMapping("/game/{gameId}/reject")
-	public void rejectGame(@DestinationVariable("gameId") String gameId, @Payload MessageTest message) throws Exception {
-		template.convertAndSend("/topic/game/" + gameId + "/test", "{\"value\": \"" + message.getValue() + "\"}");
-	}
 
 	@MessageMapping("/game/{gameId}/test")
 	public void test2(@DestinationVariable("gameId") String gameId, @Payload MessageTest message) throws Exception {
@@ -128,7 +116,10 @@ public class GameController {
 		return new MessageUntargetedSpecial(/* des trucs */);
 	}
 
-	public void createGame() {
-
+	public UUID createGame(User player1) {
+		UUID id = UUID.randomUUID();
+		Game g = new Game(id, player1);
+		games.put(id, g);
+		return id;
 	}
 }

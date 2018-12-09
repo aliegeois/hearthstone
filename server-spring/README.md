@@ -10,3 +10,13 @@
 * /lobby/createGame - un utilisateur veut en affronter un autre
 
 ## doc socket events (server -> client):
+* /lobby/{userName}/users: liste des utilisateurs déjà connectés
+	- array<string>: liste du nom des utilisateurs
+* /lobby/{userName}/userJoined: un nouvel utilisateur s'est connecté
+* /lobby/{userName}/userLeaved: un utilisateur s'est déconnecté
+* /lobby/{userName}/confirmCreateGame: confirme à l'utilisateur que se demande de création de partie a été enregistrée
+* /lobby/{userName}/askCreateGame: informe un utilisateur qu'un autre veut le défier
+
+## Propositions:
+* Une partie (objet "Game") est définit par un identifiant unique (passé dans l'URL du websocket) via l'objet UUID (java.util.UUID)
+* Lobby et création de game: faire comme le lobby de LoL et les swaps de champions (je me comprends)

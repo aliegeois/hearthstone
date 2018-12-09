@@ -6,37 +6,18 @@ function setConnected(connected) {
 	$("#disconnect").prop("disabled", !connected);
 	if (connected) {
 		$("#conversation").show();
-	}
-	else {
+	} else {
 		$("#conversation").hide();
 	}
 	$("#greetings").html("");
 }
 
 function connect() {
-	var socket = new SockJS('/gs-guide-websocket');
+	let socket = new SockJS('/gs-guide-websocket');
 	stompClient = Stomp.over(socket);
-	stompClient.connect({}, function (frame) {
+	stompClient.connect({}, frame => {
 		setConnected(true);
 		console.log('Connected: ' + frame);
-		/*stompClient.subscribe('/topic/greetings', function (greeting) {
-			console.log(greeting);
-			showGreeting(JSON.parse(greeting.body).content);
-		});
-		stompClient.subscribe('/topic/attack', function (response) {
-			console.log(response);
-			showGreeting(JSON.parse(response.body).content);
-		});*/
-		/*stompClient.subscribe('/topic/', function (greeting) {
-			console.log(greeting);
-			showGreeting(JSON.parse(greeting.body).value);
-		});*/
-		/*stompClient.subscribe('/topic/game/meskouilles/test', function (greeting) {
-			console.log(greeting);
-			showGreeting(JSON.parse(greeting.body).value);
-		});*/
-		//Connexion to lobby
-		
 	});
 }
 
@@ -52,35 +33,42 @@ function sendName() {
 	//stompClient.send("/app/hello", {}, JSON.stringify({'name': $("#name").val()}));
 	name = $("#name").val();
 
-	stompClient.subscribe(`/topic/lobby/${name}/users`, users => {
-		console.log(users);
-		users = JSON.parse(users.body);
-		for(let user of users)
-			showGreeting(user);
-		//showGreeting(JSON.parse(greeting.body).value);
+	// Récupère les clients déjà connecté
+	stompClient.subscribe(`/topic/lobby/${name}/users`, data => {
+		console.log(data);
+		let users = JSON.parse(data.body);
+		for(let [sessionId, user] of Object.entries(users))
+			showGreeting(user.name);
 	});
-	stompClient.subscribe(`/topic/lobby/${name}/newUser`, userName => {
-		console.log(userName);
-		showGreeting(userName.body);
+	// Nouvel utilisateur se connecte
+	stompClient.subscribe(`/topic/lobby/${name}/newUser`, data => {
+		console.log(data);
+		showGreeting(data.body);
 	});
-
-	stompClient.send("/app/lobby/join", {}, JSON.stringify({'name': name}));
+	// Un utilisateur nous défie
+	stompClient.subscribe(`/topic/lobby/${name}/askCreateGame`, data => {
+		console.log(`askCreateGame: ${data.body}`);
+		let askedName = JSON.parse(data.body).asked;
+	});
+	// Confirmation de la demande de création d'une partie
+	stompClient.subscribe(`/topic/lobby/${name}/confirmCreateGame`, data => {
+		console.log(`confirmCreateGame: ${data.body}`);
+		let askingName = JSON.parse(data.body).asking;
+	});
+	
+	stompClient.send("/app/lobby/join", {}, JSON.stringify({name: name}));
 }
-
-let sendTest = () => {
-	stompClient.send("/app/game/meskouilles/test", {}, JSON.stringify({value: "meskouilles"}));
-};
 
 function showGreeting(message) {
-	$("#greetings").append("<tr><td>" + message + "</td></tr>");
+	$("#players").append("<tr><td>" + message + "</td></tr>");
 }
 
-$(function () {
-	$("form").on('submit', function (e) {
+$(() => {
+	$("form").on('submit', e => {
 		e.preventDefault();
 	});
-	$( "#connect" ).click(function() { connect(); });
-	$( "#disconnect" ).click(function() { disconnect(); });
-	$( "#send" ).click(function() { sendName(); });
-	$( "#test" ).click(function() { sendTest() });
+	$( "#connect" ).click( connect );
+	$( "#disconnect" ).click( disconnect );
+	$( "#send" ).click( sendName );
+	$( "#toBattle" ).click( () => { stompClient.send('/app/lobby/createGame', {}, JSON.stringify({opponent: $('#battle').val()})) } );
 });
