@@ -1,5 +1,7 @@
 package server;
 
+import java.util.UUID;
+
 public class User {
 	// Nom de l'utilisateur (unique)
 	private String name;
@@ -7,13 +9,13 @@ public class User {
 	private String sessionId;
 	// Nombre de victoires et de défaites
 	private int nbWins, nbLoses;
-	// Indique si l'utilisateur est en train de créer une partie
-	private boolean inTemporaryGame;
+	
+	private UUID temporaryGameId;
 
 	public User(String name, String sessionId) {
 		this.name = name == null ? "" : name; // Putain de bordel de merde
 		this.sessionId = sessionId;
-		this.inTemporaryGame = false;
+		this.temporaryGameId = null;
 		this.nbWins = 0;
 		this.nbLoses = 0;
 	}
@@ -30,15 +32,15 @@ public class User {
 		return nbWins;
 	}
 
-	public boolean isInTemporaryGame() {
-		return inTemporaryGame;
+	public UUID getTemporaryGameId() {
+		return temporaryGameId;
 	}
 
 	public int getNbLoses() {
 		return nbLoses;
 	}
 
-	public void setInTemporaryGame(boolean newInTemporaryGame) {
-		inTemporaryGame = newInTemporaryGame;
+	public void setTemporaryGameId(UUID newTemporaryGameId) {
+		temporaryGameId = newTemporaryGameId;
 	}
 }

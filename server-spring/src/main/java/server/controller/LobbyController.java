@@ -18,21 +18,33 @@ import game.*;
 import server.message.*;
 import server.*;
 import java.util.Map;
+import java.util.Random;
+import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @Controller
 public class LobbyController {
+	private class TemporaryGame {
+		private User user1, user2;
+		public TemporaryGame(User user1, User user2) {
+			this.user1 = user1;
+			this.user2 = user2;
+		}
+	}
+
 	private SimpMessagingTemplate template;
 	private GameController gameController;
 
 	// <sessionId, utilisateur>
 	private Map<String, User> users = new HashMap<>();
-	private Map<String, User> temporaryGames = new HashMap<>();
+	private Map<String, User> waiting = new HashMap<>();
+	private Map<UUID, TemporaryGame> temporaryGames = new HashMap<>();
 	
 	@Autowired
 	public LobbyController(SimpMessagingTemplate template, GameController gameController) {
@@ -53,8 +65,7 @@ public class LobbyController {
 			ArrayList<Object> usersBefore = new ArrayList<>();
 			for(Map.Entry<String, User> pair : users.entrySet()) {
 				usersBefore.add(new Object() {
-					@JsonProperty("name")
-					private String name = pair.getValue().getName();
+					@JsonProperty private String name = pair.getValue().getName();
 				});
 			}
 			template.convertAndSend("/topic/lobby/" + name + "/usersBefore", new ObjectMapper().writeValueAsString(usersBefore));
@@ -77,69 +88,84 @@ public class LobbyController {
 	}
 
 	// Lorsqu'un utilisateur veut créer une partie, une demande d'affrontement est envoyée au joueur adverse, si celui-ci accepte, la partie est créée
-	@MessageMapping("/lobby/challenge")
-	public void createGame(@Payload MessageCreateGame message, @RequestHeader("sessionId") String sessionId) throws Exception {
-		User asking = users.get(sessionId);
-		System.out.println("incomming sessionId: " + sessionId);
-		User asked = getUserFromName(message.getOpponent());
-		System.out.println("incomming userName: " + message.getOpponent());
-		for(Map.Entry<String, User> pair : users.entrySet())
-			System.out.println(pair.getKey() + " - " + pair.getValue().getName());
-		if(asking == null || asked == null) {
+	@MessageMapping("/lobby/searchGame")
+	public void createGame(@RequestHeader("sessionId") String sessionId) throws Exception {
+		User user1 = users.get(sessionId);
+		if(user1 == null) {
 			// Erreur: l'un des deux utilisateur n'a pas été trouvé
 			System.out.println("utilisateur(s) inconnus");
-		} else if(temporaryGames.containsKey(asking.getSessionId())) {
-			// L'utilisateur est déjà en train de créer une partie, or il ne peut en avoir qu'une seule à la fois
+		} else if(waiting.containsKey(user1.getSessionId())) {
+			// L'utilisateur est déjà en train de chercher une partie
 			System.out.println("asking déjà en demande");
-		} else if(temporaryGames.containsKey(asked.getSessionId())) {
-			// l'utilisateur défié est déjà en train de créer une partie, on ne peut pas le déranger
-			System.out.println("asked déjà en demande");
 		} else {
-			String askingName = asking.getName();
-			String askedName = asked.getName();
-			temporaryGames.put(asking.getSessionId(), asking);
-			String sendAsking = new ObjectMapper().writeValueAsString(new Object() {
-				@JsonProperty("asked")
-				private String asked = askedName;
-			});
-			String sendAsked = new ObjectMapper().writeValueAsString(new Object() {
-				@JsonProperty("asking")
-				private String asking = askingName;
-			});
-			template.convertAndSend("/topic/lobby/" + askingName + "/confirmChallenge", sendAsking);
-			template.convertAndSend("/topic/lobby/" + askedName + "/challengedBy", sendAsked);
+			if(waiting.size() > 0) {
+				List<User> tmpUsers = new ArrayList<>(waiting.values());
+				User user2 = tmpUsers.get(new Random().nextInt(tmpUsers.size()));
+
+				users.remove(sessionId);
+				waiting.remove(user2.getSessionId());
+
+				TemporaryGame tg = new TemporaryGame(user1, user2);
+				UUID uuid = UUID.randomUUID();
+				temporaryGames.put(uuid, tg);
+				user1.setTemporaryGameId(uuid);
+				user2.setTemporaryGameId(uuid);
+
+				String sendUser1 = new ObjectMapper().writeValueAsString(new Object() {
+					@JsonProperty private String opponent = user2.getName();
+					@JsonProperty private String id = uuid.toString();
+				});
+				String sendUser2 = new ObjectMapper().writeValueAsString(new Object() {
+					@JsonProperty private String opponent = user1.getName();
+					@JsonProperty private String id = uuid.toString();
+				});
+				template.convertAndSend("/topic/lobby/" + user1.getName() + "/matchFound", sendUser1);
+				template.convertAndSend("/topic/lobby/" + user2.getName() + "/matchFound", sendUser2);
+			} else {
+				users.remove(sessionId);
+				waiting.put(sessionId, user1);
+			}
 		}
 	}
 
-	@MessageMapping("/lobby/{userName}/acceptChallenge")
-	public void confirmGame(@DestinationVariable("userName") String userName, @RequestHeader("sessionId") String sessionId) throws Exception {
-		User asking = getTemporaryFromName(userName);
-		User asked = users.get(sessionId);
-		if(asking == null || asked == null) {
+	@MessageMapping("/lobby/acceptMatch")
+	public void confirmGame(@RequestHeader("sessionId") String sessionId) throws Exception {
+		User user1 = users.get(sessionId);
+		if(user1 == null) {
 			// Erreur
 		} else {
-			temporaryGames.remove(asking.getSessionId());
-			users.remove(asked.getSessionId());
-			gameController.createGame(asking, asked);
+			UUID gameId = user1.getTemporaryGameId();
+			TemporaryGame tg = temporaryGames.get(gameId);
+			if(tg == null) {
+				// Encore une erreur
+			} else {
+				temporaryGames.remove(gameId);
+				gameController.createGame(gameId, tg.user1, tg.user2);
+			}
 		}
-		
-		//template.convertAndSend("/topic/game/" + userName + "/test", "{\"value\": \"" + message.getValue() + "\"}");
 	}
 
-	@MessageMapping("/lobby/{gameId}/rejectChallenge")
-	public void rejectGame(@DestinationVariable("gameId") String gameId, @Payload MessageTest message, @Headers StompHeaderAccessor headers) throws Exception {
-		String sessionId = headers.getSessionId();
-		if(temporaryGames.containsKey(sessionId)) {
-			User rejected = temporaryGames.remove(sessionId);
-			String sendRejected = new ObjectMapper().writeValueAsString(new Object() {
-				@JsonProperty("name")
-				private String name = rejected.getName();
-			});
-			template.convertAndSend("/topic/game/" + gameId + "/test", sendRejected);
+	@MessageMapping("/lobby/rejectMatch")
+	public void rejectGame(@RequestHeader("sessionId") String sessionId) throws Exception {
+		User user1 = users.get(sessionId);
+		if(user1 == null) {
+			// Erreur
 		} else {
-
+			UUID uuid = user1.getTemporaryGameId();
+			TemporaryGame tg = temporaryGames.get(uuid);
+			if(tg == null) {
+				// Encore une erreur
+			} else {
+				User user2 = tg.user1 == user1 ? tg.user2 : tg.user1;
+				user1.setTemporaryGameId(null);
+				user2.setTemporaryGameId(null);
+				String sendReject = new ObjectMapper().writeValueAsString(new Object() {
+					@JsonProperty private String id = uuid.toString();
+				});
+				template.convertAndSend("/topic/lobby/" + user2.getName() + "/rejectMatch", sendReject);
+				template.convertAndSend("/topic/lobby/" + user2.getName() + "/rejectMatch", sendReject);
+			}
 		}
-		
 	}
 
 	@EventListener
@@ -155,17 +181,10 @@ public class LobbyController {
 		users.remove(headers.getSessionId());
 	}
 
-	private User getUserFromName(String name) {
+	/*private User getUserFromName(String name) {
 		for(Map.Entry<String, User> pair : users.entrySet())
 			if(pair.getValue().getName().equals(name))
 				return pair.getValue();
 		return null;
-	}
-
-	private User getTemporaryFromName(String name) {
-		for(Map.Entry<String, User> pair : temporaryGames.entrySet())
-			if(pair.getValue().getName().equals(name))
-				return pair.getValue();
-		return null;
-	}
+	}*/
 }
