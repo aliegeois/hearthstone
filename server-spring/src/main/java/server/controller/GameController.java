@@ -116,7 +116,7 @@ public class GameController {
 		return new MessageUntargetedSpecial(/* des trucs */);
 	}
 
-	public UUID createGame(UUID gameId, User player1, User player2) {
+	public void createGame(UUID gameId, User player1, User player2) {
 		Game g = new Game(gameId, player1, player2);
 		games.put(gameId, g);
 	}
