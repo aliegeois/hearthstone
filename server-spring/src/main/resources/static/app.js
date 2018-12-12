@@ -1,15 +1,25 @@
 var stompClient = null, name, sessionId, nodeUsers = new Map();
 
 function setConnected(connected) {
-	$('#connect').prop('disabled', connected);
-	$('#test').prop('disabled', !connected);
-	$('#disconnect').prop('disabled', !connected);
+	//document.getElementById('connect').setAttribute('disabled', connected);
+	//$('#connect').prop('disabled', connected);
+	//document.getElementById('test').setAttribute('disabled', !connected);
+	//$('#test').prop('disabled', !connected);
+	
+	//$('#disconnect').prop('disabled', !connected);
 	if (connected) {
-		$('#conversation').show();
+		//$('#connected-content').show();
+		document.getElementById('connected-content').style.setProperty('display', 'block');
+		document.getElementById('connect').setAttribute('disabled', 'true');
+		document.getElementById('disconnect').removeAttribute('disabled');
 	} else {
-		$('#conversation').hide();
+		//$('#connected-content').hide();
+		document.getElementById('connected-content').style.setProperty('display', 'none');
+		document.getElementById('connect').removeAttribute('disabled');
+		document.getElementById('disconnect').setAttribute('disabled', 'true');
 	}
-	$('#greetings').html('');
+	//$('#players').html('');
+	document.getElementById('players').innerHTML = '';
 }
 
 function connect() {
@@ -24,6 +34,8 @@ function connect() {
 		stompClient.subscribe(`/topic/lobby/${sessionId}/confirmName`, data => {
 			console.log(`event: confirmName, data: ${data.body}`);
 			name = JSON.parse(data.body).name;
+			for(el of document.getElementsByClassName('name'))
+				el.innerHTML = name;
 		});
 		// Récupère les clients déjà connecté
 		stompClient.subscribe(`/topic/lobby/${sessionId}/usersBefore`, data => {
@@ -72,7 +84,9 @@ function disconnect() {
 }
 
 function sendName() {
-	stompClient.send('/app/lobby/join', {}, JSON.stringify({name: $('#name').val().trim()}));
+	document.getElementById('ask-for-name').style.setProperty('display', 'none');
+	document.getElementById('your-name').style.setProperty('display', 'block');
+	stompClient.send('/app/lobby/join', {}, JSON.stringify({name: document.getElementById('name').value.trim()}));
 }
 
 function addPlayer(name) {
@@ -81,20 +95,35 @@ function addPlayer(name) {
 	td.innerHTML = name;
 	tr.appendChild(td);
 	nodeUsers.set(name, tr);
-	$('#players').append(tr);
+	//$('#players').append(tr);
+	document.getElementById('players').appendChild(tr);
 }
 
 function removePlayer(name) {
-	let tr = nodeUsers.delete(name);
+	let tr = nodeUsers.get(name);
 	tr.parentElement.removeChild(tr);
+	nodeUsers.delete(name);
 }
 
-$(() => {
-	$('form').on('submit', e => {
+//$(() => {
+onload = () => {
+	/*$('form').on('submit', e => {
 		e.preventDefault();
+	});*/
+	for(form of document.getElementsByTagName('form')) {
+		form.addEventListener('submit', e => {
+			e.preventDefault();
+		});
+	}
+	//$( '#connect' ).click( connect );
+	document.getElementById('connect').addEventListener('click', connect);
+	//$( '#disconnect' ).click( disconnect );
+	document.getElementById('disconnect').addEventListener('click', disconnect);
+	//$( '#send' ).click( sendName );
+	document.getElementById('send').addEventListener('click', sendName);
+	//$( '#search-game' ).click( () => { stompClient.send('/app/lobby/searchGame') } );
+	document.getElementById('search-game').addEventListener('click', () => {
+		stompClient.send('/app/lobby/searchGame');
 	});
-	$( '#connect' ).click( connect );
-	$( '#disconnect' ).click( disconnect );
-	$( '#send' ).click( sendName );
-	$( '#toBattle' ).click( () => { stompClient.send('/app/lobby/createGame', {}, JSON.stringify({opponent: $('#battle').val()})) } );
-});
+//});
+};
