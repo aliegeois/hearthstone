@@ -56,7 +56,7 @@ function connect() {
 			let user = JSON.parse(data.body);
 			removePlayer(user.name);
 		});
-		// Un utilisateur nous défie
+		/*// Un utilisateur nous défie
 		stompClient.subscribe(`/topic/lobby/${sessionId}/askCreateGame`, data => {
 			console.log(`event: askCreateGame, data: ${data.body}`);
 			let askedName = JSON.parse(data.body).asked;
@@ -65,6 +65,12 @@ function connect() {
 		stompClient.subscribe(`/topic/lobby/${sessionId}/confirmCreateGame`, data => {
 			console.log(`event: askCreateGame, data: ${data.body}`);
 			let askingName = JSON.parse(data.body).asking;
+		});*/
+		// 
+		stompClient.subscribe(`/topic/lobby/${sessionId}/matchFound`, data => {
+			console.log(`event: matchFound, data: ${data.body}`);
+			data = JSON.parse(data.body);
+			matchFound(data.opponent);
 		});
 		// Erreur quelconque
 		stompClient.subscribe(`/topic/lobby/${sessionId}/error`, data => {
@@ -81,6 +87,24 @@ function disconnect() {
 	}
 	setConnected(false);
 	console.log('Disconnected');
+}
+
+function matchFound(opponent) {
+	let opponentRow = nodeUsers.get(opponent);
+	let tdButtons = document.createElement('td'),
+	    buttonAccept = document.createElement('button'),
+		buttonDecline = document.createElement('button');
+	buttonAccept.innerHTML = "<span style=\"color:green\">Accept</span>";
+	buttonDecline.innerHTML = "<span style=\"color:red\">Decline</span>";
+	buttonAccept.addEventListener('click', () => {
+		stompClient.send('/app/lobby/acceptMatch');
+	});
+	buttonDecline.addEventListener('click', () => {
+		stompClient.send('/app/lobby/declineMatch');
+	});
+	tdButtons.appendChild(buttonAccept);
+	tdButtons.appendChild(buttonDecline);
+	opponentRow.appendChild(tdButtons);
 }
 
 function sendName() {

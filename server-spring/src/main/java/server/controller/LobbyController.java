@@ -26,10 +26,13 @@ import java.util.HashMap;
 @Controller
 public class LobbyController {
 	private class TemporaryGame {
-		private User user1, user2;
+		private Map<String, User> users = new HashMap<>();
+		private Map<String, Boolean> accept = new HashMap<>();
 		public TemporaryGame(User user1, User user2) {
-			this.user1 = user1;
-			this.user2 = user2;
+			this.users.put(user1.getName(), user1);
+			this.users.put(user2.getName(), user2);
+			this.accept.put(user1.getName(), false);
+			this.accept.put(user2.getName(), false);
 		}
 	}
 
@@ -46,8 +49,6 @@ public class LobbyController {
 	public LobbyController(SimpMessagingTemplate template, GameController gameController) {
 		this.template = template;
 		this.gameController = gameController;
-		// Test
-		this.users.put("Billy", new User("Billy", "___"));
 	}
 	
 	@MessageMapping("/lobby/join")
@@ -101,11 +102,17 @@ public class LobbyController {
 	public void createGame(@Header("simpSessionId") String sessionId) throws Exception {
 		if(containsSessionId(sessionId)) {
 			User user1 = getBySessionId(sessionId);
+			// Si le joueur est le premier à ce mettre en file d'attente
 			if(waiting == null) {
 				waiting = users.remove(user1.getName());
+				System.out.println("Premier joueur en attente");
+			// Si le joueur est déjà en attente
 			} else if(waiting.getName().equals(user1.getName())) {
 				// Grosse erreur de cohérence
+				System.out.println("Même joueur deux fois dans la file d'attente");
+			// S'il y a déjà un joueur en attente
 			} else {
+				System.out.println("Deuxième joueur en attente");
 				User user2 = waiting;
 				users.remove(user1.getName());
 				waiting = null;
@@ -140,7 +147,7 @@ public class LobbyController {
 			if(temporaryGames.containsKey(gameId)) {
 				TemporaryGame tg = temporaryGames.get(gameId);
 				temporaryGames.remove(gameId);
-				gameController.createGame(gameId, tg.user1, tg.user2);
+				//gameController.createGame(gameId, tg.user1, tg.user2);
 			} else {
 				// Encore une erreur
 			}
@@ -149,22 +156,23 @@ public class LobbyController {
 		}
 	}
 
-	@MessageMapping("/lobby/rejectMatch")
-	public void rejectGame(@Header("simpSessionId") String sessionId) throws Exception {
+	@MessageMapping("/lobby/declineMatch")
+	public void declineGame(@Header("simpSessionId") String sessionId) throws Exception {
 		if(containsSessionId(sessionId)) {
 			User user1 = getBySessionId(sessionId);
 			UUID gameId = user1.getTemporaryGameId();
 			if(temporaryGames.containsKey(gameId)) {
 				TemporaryGame tg = temporaryGames.get(gameId);
-				User user2 = tg.user1.getName().equals(user1.getName()) ? tg.user2 : tg.user1;
+				//User user2 = tg.user1.getName().equals(user1.getName()) ? tg.user2 : tg.user1;
+				User user2 = null;
 				user1.setTemporaryGameId(null);
 				user2.setTemporaryGameId(null);
 				temporaryGames.remove(gameId);
-				String sendReject = new ObjectMapper().writeValueAsString(new Object() {
+				String sendDecline = new ObjectMapper().writeValueAsString(new Object() {
 					@JsonProperty private String id = gameId.toString();
 				});
-				template.convertAndSend("/topic/lobby/" + user2.getSessionId() + "/rejectMatch", sendReject);
-				template.convertAndSend("/topic/lobby/" + user2.getSessionId() + "/rejectMatch", sendReject);
+				template.convertAndSend("/topic/lobby/" + user2.getSessionId() + "/declineMatch", sendDecline);
+				template.convertAndSend("/topic/lobby/" + user2.getSessionId() + "/declineMatch", sendDecline);
 			} else {
 				// Encore une erreur
 			}
