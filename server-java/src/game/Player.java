@@ -46,7 +46,7 @@ public class Player {
 		hand.put(cardId++, (Card)deck.toArray()[(int)(Math.random() * deck.size())]);
 	}
 	
-	void playMinion(int cardId) {
+	public void playMinion(int cardId) {
 		CardMinion minion = (CardMinion)hand.get(cardId);
 		
 		//Verifiy if the player has enough mana to play the minion
@@ -60,8 +60,16 @@ public class Player {
 	}
 	
 	void attackMinion(int minionId1, int minionId2) {
+		
 		CardMinion minion1 = board.get(minionId1),
-		           minion2 = board.get(minionId2);
+		           minion2 = opponent.board.get(minionId2);
+		
+		for(Map.Entry<Integer, CardMinion> pair : opponent.board.entrySet()) {
+			if (pair.getValue().isProvoking()) {
+				//TODO: finir la partie provocation
+			}
+		}
+		
 		minion1.attackMinion(minion2);
 	}
 	

@@ -2,13 +2,14 @@ package game;
 
 import java.util.Map;
 import java.util.Set;
+import game.hero.Hero;
 
 public class CardMinion extends Card implements Entity {
 	private int damageBase, damage, damageBoosted;
 	private int healthBase, health, healthBoosted;
 	private Set<String> capacities;
 	private Map<String, Integer> boosts;
-	private boolean ready;
+	private boolean ready, provocation;
 	
 	public CardMinion(int id, Player owner, String name, int mana, int damage, int health, Set<String> capacities, Map<String, Integer> boosts) {
 		super(id, owner, name, mana);
@@ -21,11 +22,12 @@ public class CardMinion extends Card implements Entity {
 		this.capacities = capacities;
 		this.boosts = boosts;		
 		this.ready = capacities.contains("charge");
+		this.provocation = capacities.contains("provocation");
 	}
 	
 	public void summon() {
 		for(Map.Entry<String, Integer> boost : boosts.entrySet()) {
-			for(CardMinion minion : owner.getBoard().values()) {
+			for(CardMinion minion : getOwner().getBoard().values()) {
 				if(minion.id != id) {
 					switch(boost.getKey()) {
 					case "damage":
@@ -46,10 +48,19 @@ public class CardMinion extends Card implements Entity {
 	void attackMinion(CardMinion o) {
 		o.takeDamage(damage);
 		takeDamage(o.damage);
-		if(o.health <= 0)
+		if(o.isDead())
 			owner.getOpponent().getBoard().remove(o.id);
-		if(health <= 0)
+		if(isDead())
 			owner.getBoard().remove(id);
+	}
+	
+	void attackHero(Hero h) {
+		h.takeDamage(damage);
+		
+		if(h.isDead()) {
+			//TODO: faire un vrai truc
+			System.out.println("Bravo");
+		}
 	}
 	
 	public void takeDamage(int quantity) {
@@ -101,5 +112,14 @@ public class CardMinion extends Card implements Entity {
 	
 	public boolean isReady() {
 		return ready;
+	}
+	
+	public boolean isProvoking() {
+		return provocation;
+	}
+	
+	@Override
+	public boolean isDead() {
+		return (health <= 0);
 	}
 }
