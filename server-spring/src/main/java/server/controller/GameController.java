@@ -1,6 +1,10 @@
 package server.controller;
 
+import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+import org.springframework.web.socket.messaging.SessionConnectEvent;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.context.event.EventListener;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -116,8 +120,22 @@ public class GameController {
 		return new MessageUntargetedSpecial(/* des trucs */);
 	}
 
+	@EventListener
+	public void onConnectEvent(SessionConnectEvent event) {
+		StompHeaderAccessor headers = StompHeaderAccessor.wrap(event.getMessage());
+		System.out.println("onConnect (game): " + headers.getSessionId());
+	}
+
+	@EventListener
+	public void onDisconnectEvent(SessionDisconnectEvent event) {
+		StompHeaderAccessor headers = StompHeaderAccessor.wrap(event.getMessage());
+		System.out.println("onDisconnect (game): " + headers.getSessionId());
+	}
+
 	public void createGame(UUID gameId, User player1, User player2) {
 		Game g = new Game(gameId, player1, player2);
 		games.put(gameId, g);
+		
+		System.out.println("create game with " + player1.getName() + " and " + player2.getName());
 	}
 }

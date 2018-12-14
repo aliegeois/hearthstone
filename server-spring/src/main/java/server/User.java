@@ -12,12 +12,15 @@ public class User {
 	
 	private UUID temporaryGameId;
 
+	private User opponent;
+
 	public User(String name, String sessionId) {
 		this.name = name == null ? "" : name; // Putain de bordel de merde
 		this.sessionId = sessionId;
 		this.temporaryGameId = null;
 		this.nbWins = 0;
 		this.nbLoses = 0;
+		this.opponent = null;
 	}
 
 	public String getName() {
@@ -40,7 +43,15 @@ public class User {
 		return nbLoses;
 	}
 
+	public User getOpponent() {
+		return opponent;
+	}
+
 	public void setTemporaryGameId(UUID newTemporaryGameId) {
 		temporaryGameId = newTemporaryGameId;
+	}
+
+	public void setOpponent(User op) {
+		opponent = op;
 	}
 }

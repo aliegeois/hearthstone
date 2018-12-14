@@ -1,30 +1,14 @@
 var stompClient = null, name, sessionId, nodeUsers = new Map();
 
 function setConnected(connected) {
-	//document.getElementById('connect').setAttribute('disabled', connected);
-	//$('#connect').prop('disabled', connected);
-	//document.getElementById('test').setAttribute('disabled', !connected);
-	//$('#test').prop('disabled', !connected);
-	
-	//$('#disconnect').prop('disabled', !connected);
-	if (connected) {
-		//$('#connected-content').show();
-		document.getElementById('connected-content').style.setProperty('display', 'block');
-		document.getElementById('connect').setAttribute('disabled', 'true');
-		document.getElementById('disconnect').removeAttribute('disabled');
-	} else {
-		//$('#connected-content').hide();
-		document.getElementById('connected-content').style.setProperty('display', 'none');
-		document.getElementById('connect').removeAttribute('disabled');
-		document.getElementById('disconnect').setAttribute('disabled', 'true');
-	}
-	//$('#players').html('');
+	document.getElementById('connected-content').style.setProperty('display', connected ? 'block' : 'none');
 	document.getElementById('players').innerHTML = '';
 }
 
 function connect() {
 	let socket = new SockJS('/gs-guide-websocket');
 	stompClient = Stomp.over(socket);
+
 	stompClient.connect({}, frame => {
 		setConnected(true);
 		console.log('Connected: ' + frame);
@@ -56,21 +40,26 @@ function connect() {
 			let user = JSON.parse(data.body);
 			removePlayer(user.name);
 		});
-		/*// Un utilisateur nous défie
-		stompClient.subscribe(`/topic/lobby/${sessionId}/askCreateGame`, data => {
-			console.log(`event: askCreateGame, data: ${data.body}`);
-			let askedName = JSON.parse(data.body).asked;
-		});
-		// Confirmation de la demande de création d'une partie
-		stompClient.subscribe(`/topic/lobby/${sessionId}/confirmCreateGame`, data => {
-			console.log(`event: askCreateGame, data: ${data.body}`);
-			let askingName = JSON.parse(data.body).asking;
-		});*/
 		// 
+		stompClient.subscribe(`/topic/lobby/${sessionId}/matchDeclined`, data => {
+			console.log(`event: matchDeclined, data: ${data.body}`);
+			data = JSON.parse(data.body);
+			let td = document.getElementById('buttons-' + data.id);
+			nodeUsers.get(data.opponent).firstElementChild.colSpan = 2;
+			td.parentElement.removeChild(td);
+		});
+		// Adversaire trouvé
 		stompClient.subscribe(`/topic/lobby/${sessionId}/matchFound`, data => {
 			console.log(`event: matchFound, data: ${data.body}`);
 			data = JSON.parse(data.body);
-			matchFound(data.opponent);
+			matchFound(data.id, data.opponent);
+		});
+		// Partie lancée
+		stompClient.subscribe(`/topic/lobby/${sessionId}/startGame`, data => {
+			console.log(`event: startGame, data: ${data.body}`);
+			data = JSON.parse(data.body);
+			window.location.replace('/game.html');
+			// TODO lancer la partie, genre redirection vers /game
 		});
 		// Erreur quelconque
 		stompClient.subscribe(`/topic/lobby/${sessionId}/error`, data => {
@@ -89,19 +78,29 @@ function disconnect() {
 	console.log('Disconnected');
 }
 
-function matchFound(opponent) {
+function matchFound(gameId, opponent) {
 	let opponentRow = nodeUsers.get(opponent);
 	let tdButtons = document.createElement('td'),
 	    buttonAccept = document.createElement('button'),
 		buttonDecline = document.createElement('button');
+	tdButtons.style.textAlign = 'right';
+	tdButtons.setAttribute('id', 'buttons-' + gameId);
+
+	nodeUsers.get(opponent).firstElementChild.colSpan = 1;
+	
 	buttonAccept.innerHTML = "<span style=\"color:green\">Accept</span>";
 	buttonDecline.innerHTML = "<span style=\"color:red\">Decline</span>";
+
 	buttonAccept.addEventListener('click', () => {
 		stompClient.send('/app/lobby/acceptMatch');
+		buttonAccept.setAttribute('disabled', true);
 	});
+
 	buttonDecline.addEventListener('click', () => {
 		stompClient.send('/app/lobby/declineMatch');
+		buttonAccept.setAttribute('disabled', true);
 	});
+
 	tdButtons.appendChild(buttonAccept);
 	tdButtons.appendChild(buttonDecline);
 	opponentRow.appendChild(tdButtons);
@@ -117,9 +116,9 @@ function addPlayer(name) {
 	let tr = document.createElement('tr'),
 		td = document.createElement('td');
 	td.innerHTML = name;
+	td.colSpan = 2;
 	tr.appendChild(td);
 	nodeUsers.set(name, tr);
-	//$('#players').append(tr);
 	document.getElementById('players').appendChild(tr);
 }
 
@@ -129,25 +128,17 @@ function removePlayer(name) {
 	nodeUsers.delete(name);
 }
 
-//$(() => {
 onload = () => {
-	/*$('form').on('submit', e => {
-		e.preventDefault();
-	});*/
 	for(form of document.getElementsByTagName('form')) {
 		form.addEventListener('submit', e => {
 			e.preventDefault();
 		});
 	}
-	//$( '#connect' ).click( connect );
-	document.getElementById('connect').addEventListener('click', connect);
-	//$( '#disconnect' ).click( disconnect );
-	document.getElementById('disconnect').addEventListener('click', disconnect);
-	//$( '#send' ).click( sendName );
-	document.getElementById('send').addEventListener('click', sendName);
-	//$( '#search-game' ).click( () => { stompClient.send('/app/lobby/searchGame') } );
+	
+	connect();
+	
+	document.getElementById('send-name').addEventListener('click', sendName);
 	document.getElementById('search-game').addEventListener('click', () => {
 		stompClient.send('/app/lobby/searchGame');
 	});
-//});
 };
