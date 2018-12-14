@@ -13,6 +13,7 @@ function connect() {
 		setConnected(true);
 		console.log('Connected: ' + frame);
 		sessionId = socket._transport.url.split('/').slice(-2, -1)[0];
+		console.log("SessionId : " + sessionId);
 
 		// Confirmation du nom
 		stompClient.subscribe(`/topic/lobby/${sessionId}/confirmName`, data => {
