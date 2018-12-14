@@ -13,9 +13,7 @@ abstract class Card {
 		this.manaCost = manaCost;
 	}
 	
-	public void summon() {
-		
-	}
+	public abstract void play();
 	
 	public String getName() {
 		return name;

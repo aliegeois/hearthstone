@@ -9,6 +9,6 @@ public class HeroMage extends Hero {
 	}
 	
 	public void special(Entity e) {
-		
+		e.takeDamage(2);
 	}
 }
