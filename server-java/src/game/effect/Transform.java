@@ -17,8 +17,7 @@ public class Transform extends SingleTargetEffect{
 	}
 	
 	//TODO : voir pourquoi ça ne marche pas alors que c'est sensé être la base de l'héritage
-	/*@Override
 	public void play(CardMinion target) {
 		target = into;
-	}*/
+	}
 }

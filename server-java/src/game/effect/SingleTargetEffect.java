@@ -9,7 +9,5 @@ public abstract class SingleTargetEffect extends Effect{
 		super(card);
 	}
 	
-	public void play(Entity e) {
-		
-	}
+	public void play(Entity e) {}
 }

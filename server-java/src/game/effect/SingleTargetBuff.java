@@ -1,6 +1,7 @@
 package game.effect;
 
 import game.CardSpell;
+import game.Entity;
 import game.hero.Hero;
 import game.CardMinion;
 
@@ -20,13 +21,13 @@ public class SingleTargetBuff extends SingleTargetEffect {
 	}
 	
 	//TODO : voir pourquoi ça ne marche pas
-	/*@Override
+	
 	public void play(Hero e) {
-		
-	}*/
+		e.boostHealth(life);
+	}
 	
-	/*@Override
 	public void play(CardMinion e) {
-	
-	}*/
+		e.boostHealth(life);
+		e.boostDamage(attack);
+	}
 }
