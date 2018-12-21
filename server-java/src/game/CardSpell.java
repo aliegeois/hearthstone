@@ -16,17 +16,25 @@ public class CardSpell extends Card {
 		this.globalEffects = global;
 	}
 	
-	void cast(CardMinion target) {
+	@Override
+	public void play() {
+
+		//S'il lui faut une target, on laisse l'utilisateur en choisir une
+		if(singleEffects.isEmpty()) {
+			//TODO
+			//Entity target = 
+		}
+
 		for(SingleTargetEffect s : singleEffects) {
-			
+			s.play(target);	
 		}
 		
 		for(MultipleTargetEffect m : multipleEffects) {
-			
+			m.play();
 		}
 		
 		for(GlobalEffect g : globalEffects) {
-			
+			g.play();
 		}
 	}
 }

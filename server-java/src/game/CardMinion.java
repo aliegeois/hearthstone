@@ -25,7 +25,9 @@ public class CardMinion extends Card implements Entity {
 		this.provocation = capacities.contains("provocation");
 	}
 	
-	public void summon() {
+	@Override
+	public void play() {
+		//Si le minion a été boosté alors qu'il était dans la main, on lui applique les boosts à son arrivée en jeu
 		for(Map.Entry<String, Integer> boost : boosts.entrySet()) {
 			for(CardMinion minion : getOwner().getBoard().values()) {
 				if(minion.id != id) {

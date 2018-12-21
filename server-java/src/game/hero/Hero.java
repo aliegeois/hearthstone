@@ -22,7 +22,6 @@ public abstract class Hero implements Entity {
 			quantity -= armor;
 			armor -= tampon;
 		}
-		
 		if (armor < 0) {
 			armor = 0;
 		}
@@ -31,8 +30,11 @@ public abstract class Hero implements Entity {
 	}
 	
 	public void heal(int quantity) {
-		if(health + quantity <= healthMax)
-			health = health + quantity;
+		if(health + quantity <= healthMax) {
+			heath = health + quantity;
+		} else {
+			health = healthMax;
+		}
 	}
 	
 	public void boostHealth(int quantity) {
