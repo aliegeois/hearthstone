@@ -42,35 +42,20 @@ public class Player {
 		opponent = p;
 	}
 	
+	public void playMinion(int minionId) {
+		CardMinion minion = (CardMinion)hand.get(minionId);
+		this.board.put(minionId, minion);
+		this.hand.remove(minionId);
+	}
+	
 	public void drawCard() {
 		hand.put(cardId++, (Card)deck.toArray()[(int)(Math.random() * deck.size())]);
 	}
 	
-	public void playMinion(int cardId) {
-		CardMinion minion = (CardMinion)hand.get(cardId);
+	public void attack(CardMinion minion, Entity cible) {
+		cible.takeDamage(minion.getDamage());
+		minion.takeDamage(cible.getDamage());
 		
-		//Verifiy if the player has enough mana to play the minion
-		if(minion.manaCost > this.mana) {
-			this.mana = this.mana - minion.manaCost;
-			
-			hand.remove(cardId);
-			board.put(cardId, minion);
-			minion.summon();
-		}
-	}
-	
-	void attackMinion(int minionId1, int minionId2) {
-		
-		CardMinion minion1 = board.get(minionId1),
-		           minion2 = opponent.board.get(minionId2);
-		
-		for(Map.Entry<Integer, CardMinion> pair : opponent.board.entrySet()) {
-			if (pair.getValue().isProvoking()) {
-				//TODO: finir la partie provocation
-			}
-		}
-		
-		minion1.attackMinion(minion2);
 	}
 	
 	void useSpell(int cardId, CardMinion target) {

@@ -9,6 +9,7 @@ public abstract class Hero implements Entity {
 	protected int health = Constants.HEROMAXHEALTH;
 	protected int healthMax = Constants.HEROMAXHEALTH;
 	protected int armor = 0;
+	protected boolean provocation = false;
 	
 	public Hero(Player player) {
 		this.player = player;
@@ -29,9 +30,14 @@ public abstract class Hero implements Entity {
 		this.health -= quantity;
 	}
 	
+	@Override
+	public int getDamage() {
+		return 0;
+	}
+	
 	public void heal(int quantity) {
 		if(health + quantity <= healthMax) {
-			heath = health + quantity;
+			health = health + quantity;
 		} else {
 			health = healthMax;
 		}
@@ -45,8 +51,19 @@ public abstract class Hero implements Entity {
 		armor += quantity;
 	}
 	
+	public boolean isProvoking() {
+		return provocation;
+	}
+	
 	@Override
 	public boolean isDead() {
 		return (health <= 0);
+	}
+	
+	@Override
+	public void die() {
+		if(isDead()) {
+			
+		}
 	}
 }

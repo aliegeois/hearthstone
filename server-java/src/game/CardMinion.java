@@ -124,4 +124,11 @@ public class CardMinion extends Card implements Entity {
 	public boolean isDead() {
 		return (health <= 0);
 	}
+	
+	@Override
+	public void die() {
+		if(isDead()) {
+			this.getOwner().getBoard().remove(this);
+		}
+	}
 }

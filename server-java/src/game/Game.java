@@ -34,7 +34,10 @@ class Game implements GameEvent {
 	}
 
 	public void attackMinion(String playerName, int minionId1, int minionId2) {
-		players.get(playerName).attackMinion(minionId1, minionId2);
+		Player player = players.get(playerName);
+		CardMinion minion1 = player.getBoard().get(minionId1);
+		CardMinion minion2 = player.getOpponent().getBoard().get(minionId2);
+		players.get(playerName).attack(minion1, minion2);
 	}
 
 	public void useSpell(String playerName, int cardId, CardMinion target) {
