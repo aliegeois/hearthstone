@@ -5,7 +5,7 @@ public interface GameEvent {
 
 	void attackMinion(String playerName, int minionId1, int minionId2);
 
-	void useSpell(String playerName, int cardId, CardMinion target);
+	void useSpell(String playerName, int cardId);
 
 	void heroSpecial(String playerName, Entity target);
 

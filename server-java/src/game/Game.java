@@ -40,8 +40,8 @@ class Game implements GameEvent {
 		players.get(playerName).attack(minion1, minion2);
 	}
 
-	public void useSpell(String playerName, int cardId, CardMinion target) {
-		players.get(playerName).useSpell(cardId, target);
+	public void useSpell(String playerName, int cardId) {
+		players.get(playerName).useSpell(cardId);
 	}
 
 	public void heroSpecial(String playerName, Entity target) {

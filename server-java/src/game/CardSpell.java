@@ -26,7 +26,7 @@ public class CardSpell extends Card {
 		}
 
 		for(SingleTargetEffect s : singleEffects) {
-			s.play(target);	
+			//s.play(target); TODO : gestion des targets	
 		}
 		
 		for(MultipleTargetEffect m : multipleEffects) {

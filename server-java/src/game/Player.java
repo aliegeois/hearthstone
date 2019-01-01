@@ -58,9 +58,9 @@ public class Player {
 		
 	}
 	
-	void useSpell(int cardId, CardMinion target) {
+	void useSpell(int cardId) {
 		CardSpell spell = (CardSpell)hand.get(cardId);
-		spell.cast(target);
+		spell.play();
 	}
 	
 	void heroSpecial(Entity target) {
