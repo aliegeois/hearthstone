@@ -54,8 +54,7 @@ public class Player {
 	}
 	
 	public void attack(CardMinion minion, Entity cible) {
-		cible.takeDamage(minion.getDamage());
-		minion.takeDamage(cible.getDamage());
+		minion.attack(cible);
 		
 	}
 	
