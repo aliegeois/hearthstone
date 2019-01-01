@@ -27,7 +27,7 @@ public class CardMinion extends Card implements Entity {
 	
 	@Override
 	public void play() {
-		//Si le minion a Ã©tÃ© boostÃ© alors qu'il Ã©tait dans la main, on lui applique les boosts Ã  son arrivÃ©e en jeu
+		//Si le minion a été boosté alors qu'il était dans la main, on lui applique les boosts à son arrivée en jeu
 		for(Map.Entry<String, Integer> boost : boosts.entrySet()) {
 			for(CardMinion minion : getOwner().getBoard().values()) {
 				if(minion.id != id) {
@@ -47,21 +47,16 @@ public class CardMinion extends Card implements Entity {
 		}
 	}
 	
-	void attackMinion(CardMinion o) {
-		o.takeDamage(damage);
-		takeDamage(o.damage);
-		if(o.isDead())
-			owner.getOpponent().getBoard().remove(o.id);
-		if(isDead())
-			owner.getBoard().remove(id);
-	}
 	
-	void attackHero(Hero h) {
-		h.takeDamage(damage);
+	void attack(Entity o) {
+		o.takeDamage(this.damage);
+		this.takeDamage(o.getDamage());
 		
-		if(h.isDead()) {
-			//TODO: faire un vrai truc
-			System.out.println("Bravo");
+		if(o.isDead()) {
+			o.die();
+		}
+		if(this.isDead()) {
+			this.die();
 		}
 	}
 	

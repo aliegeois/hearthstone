@@ -63,7 +63,8 @@ public abstract class Hero implements Entity {
 	@Override
 	public void die() {
 		if(isDead()) {
-			
+			//TODO : faire gagner l'adversaire
+			System.out.println(this.player.getName() + " a gagné !");
 		}
 	}
 }
