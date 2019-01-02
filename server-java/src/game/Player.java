@@ -15,7 +15,6 @@ public class Player {
 	private Set<Card> deck = new HashSet<>();
 	private Map<Integer, Card> hand = new HashMap<>();
 	private Map<Integer, CardMinion> board = new HashMap<>();
-	private int cardId = 0; //Id à donner dans la main à la prochaine carte piochée
 	
 	private int manaMax;
 	private int mana;
@@ -49,8 +48,8 @@ public class Player {
 	}
 	
 	public void drawCard() {
-		hand.put(cardId, (Card)deck.toArray()[(int)(Math.random() * deck.size())]);
-		this.cardId = this.cardId + 1;
+		Card cardDrawn = (Card)deck.toArray()[(int)(Math.random() * deck.size())];
+		hand.put(cardDrawn.id, cardDrawn);
 	}
 	
 	public void attack(CardMinion minion, Entity cible) {
