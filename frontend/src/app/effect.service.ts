@@ -5,6 +5,7 @@ import { CardSpell, CardMinion, Entity } from './app.component';
   providedIn: 'root'
 })
 
+
 export abstract class EffectService {
 
     card: CardSpell;
@@ -184,7 +185,7 @@ export class SingleTargetBuff extends SingleTargetEffect {
         this.attack = attack;
     }
 
-    play(e?: Entity): void {
+    play(e?: CardMinion): void {
         if (e == null) { //TODO : éviter cette horreur (ts n'accepte pas les duplications de fonctions)
             throw new Error("Unsupported Operation Exception");
         }

@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { SingleTargetEffect, MultipleTargetEffect, GlobalEffect } from './effect.service';
 import { HeroMage, HeroPaladin, HeroWarrior } from './heroes.service';
+import { ConstantesService } from './constantes.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
+
+
 export class AppComponent implements OnInit{
 
 	title: String;
@@ -140,7 +143,7 @@ export interface Entity {
 	boostHealth(quantity: number):void;
 	getDamage(): number;
 	isProvoking(): void;
-	isDead(): void;
+	isDead(): boolean;
 	die(): void;
 }
 
@@ -166,8 +169,8 @@ export class Hero implements Entity {
 
 	constructor(player: Player) {
 		this.player = player;
-		this.health = Constantes.HEROMAXHEALTH;
-		this.healthMax = Constantes.HEROMAXHEALTH;
+		this.health = ConstantesService.HEROMAXHEALTH;
+		this.healthMax = ConstantesService.HEROMAXHEALTH;
 		this.armor = 0;
 		this.taunt = false;
 	}
@@ -326,7 +329,7 @@ export class CardMinion extends Card implements Entity {
 		if(o.isDead()) {
 			o.die();
 		}
-		if(this.isDead()) {
+		if(this.health <= 0) {
 			this.die();
 		}
 	}
