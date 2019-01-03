@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { CardSpell, Entity } from './app.component';
 
 @Injectable({
   providedIn: 'root'
@@ -90,17 +91,19 @@ export class MultiTargetBuff extends MultipleTargetEffect {
             throw new Error("Unsupported Operation Exception");
         }
        
+
         if(this.getOwnBoard()) {
-            for (var minion of this.card.getOwner().getBoard().values()) {
-                minion.boostHealth(this.life);
-                minion.boostDamage(this.attack);
-            }
+            this.card.getOwner().getBoard().forEach(ownCard => {
+                ownCard.boostHealth(this.life);
+                ownCard.boostDamage(this.attack);
+            });
         }
-        if (this.getOpponentBoard) {
-            for (var minion of this.card.getOwner().getOpponent().getBoard().values()) {
-                minion.boostHealth(this.life);
-                minion.boostDamage(this.attack);
-            }
+
+        if(this.getOpponentBoard()) {
+            this.card.getOwner().getOpponent().getBoard().forEach(opponentCard => {
+                opponentCard.boostHealth(this.life);
+                opponentCard.boostDamage(this.attack);
+            });
         }
     }
 }
@@ -120,6 +123,8 @@ export class MultiTargetDamage extends MultipleTargetEffect {
         }
 
         if (this.getOwnBoard()) {
+
+            
             for (var minion of this.card.getOwner().getBoard().values()) {
                 minion.takeDamage(this.quantity);
             }
