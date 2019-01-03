@@ -18,7 +18,7 @@ public class HeroPaladin extends Hero {
 		int idCarte = 0; //valeur temp
 		Set<String> cap = Collections.emptySet();
 		Map<String,Integer> boost = Collections.emptyMap();
-		CardMinion carte = new CardMinion(idCarte, player, "Petite Merde", 0, 0, 0, cap, boost);
+		CardMinion carte = new CardMinion(idCarte, player, "SilverHand recruit", 1, 1, 1, cap, boost);
 		player.getHand().put(idCarte, carte);
 		player.playMinion(idCarte);
 	}
