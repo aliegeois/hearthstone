@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CardSpell, Entity } from './app.component';
+import { CardSpell, CardMinion, Entity } from './app.component';
 
 @Injectable({
   providedIn: 'root'
@@ -93,16 +93,16 @@ export class MultiTargetBuff extends MultipleTargetEffect {
        
 
         if(this.getOwnBoard()) {
-            this.card.getOwner().getBoard().forEach(ownCard => {
-                ownCard.boostHealth(this.life);
-                ownCard.boostDamage(this.attack);
+            this.card.getOwner().getBoard().forEach(ownMinions => {
+                ownMinions.boostHealth(this.life);
+                ownMinions.boostDamage(this.attack);
             });
         }
 
         if(this.getOpponentBoard()) {
-            this.card.getOwner().getOpponent().getBoard().forEach(opponentCard => {
-                opponentCard.boostHealth(this.life);
-                opponentCard.boostDamage(this.attack);
+            this.card.getOwner().getOpponent().getBoard().forEach(opponentMinions => {
+                opponentMinions.boostHealth(this.life);
+                opponentMinions.boostDamage(this.attack);
             });
         }
     }
@@ -123,16 +123,14 @@ export class MultiTargetDamage extends MultipleTargetEffect {
         }
 
         if (this.getOwnBoard()) {
-
-            
-            for (var minion of this.card.getOwner().getBoard().values()) {
-                minion.takeDamage(this.quantity);
-            }
+            this.card.getOwner().getBoard().forEach(ownMinions => {
+                ownMinions.takeDamage(this.quantity);
+            });
         }
         if (this.getOpponentBoard) {
-            for (var minion of this.card.getOwner().getOpponent().getBoard().values()) {
-                minion.takeDamage(this.quantity);
-            }
+            this.card.getOwner().getOpponent().getBoard().forEach(opponentMinions => {
+                opponentMinions.takeDamage(this.quantity);
+            });
         }
         if (this.getOwnHero()) {
             this.card.getOwner().getHero().takeDamage(this.quantity);
@@ -157,14 +155,14 @@ export class MultiTargetHeal extends MultipleTargetEffect {
         }
 
         if (this.getOwnBoard()) {
-            for (var minion of this.card.getOwner().getBoard().values()) {
-                minion.heal(this.amount);
-            }
+            this.card.getOwner().getBoard().forEach(ownMinions => {
+                ownMinions.heal(this.amount);
+            });
         }
         if (this.getOpponentBoard) {
-            for (var minion of this.card.getOwner().getOpponent().getBoard().values()) {
-                minion.heal(this.amount);
-            }
+            this.card.getOwner().getOpponent().getBoard().forEach(opponentMinions => {
+                opponentMinions.heal(this.amount);
+            });
         }
         if (this.getOwnHero()) {
             this.card.getOwner().getHero().heal(this.amount);
@@ -190,7 +188,8 @@ export class SingleTargetBuff extends SingleTargetEffect {
         if (e == null) { //TODO : éviter cette horreur (ts n'accepte pas les duplications de fonctions)
             throw new Error("Unsupported Operation Exception");
         }
-        e.boostHealh(this.life);
+        e.boostHealth(this.life);
+        //TODO : gérer ça
         e.boostDamage(this.attack);
     }
 }

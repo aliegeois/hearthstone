@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SingleTargetEffect, MultipleTargetEffect, GlobalEffect } from './effect.service';
+import { HeroMage, HeroPaladin, HeroWarrior } from './heroes.service';
 
 @Component({
   selector: 'app-root',
@@ -171,7 +172,7 @@ export class Hero implements Entity {
 		this.taunt = false;
 	}
 
-	special(e: Entity): void {}
+	special(e?: Entity): void {}
 
 	takeDamage(quantity: number): void {
 		this.armor = this.armor - quantity;
