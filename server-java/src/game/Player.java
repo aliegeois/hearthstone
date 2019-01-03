@@ -43,6 +43,7 @@ public class Player {
 	
 	public void playMinion(int minionId) {
 		CardMinion minion = (CardMinion)hand.get(minionId);
+		minion.play();
 		this.board.put(minionId, minion);
 		this.hand.remove(minionId);
 	}

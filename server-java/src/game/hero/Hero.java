@@ -18,16 +18,11 @@ public abstract class Hero implements Entity {
 	public void special(Entity e) {}
 	
 	public void takeDamage(int quantity) {
-		if (armor > 0) {
-			int tampon = quantity;
-			quantity -= armor;
-			armor -= tampon;
+		this.armor = this.armor - quantity;
+		if(this.armor < 0) { //Si on a cassÃ© toute l'armure
+			this.health = this.health - this.armor;
+			this.armor = 0;
 		}
-		if (armor < 0) {
-			armor = 0;
-		}
-		
-		this.health -= quantity;
 	}
 	
 	@Override
@@ -64,7 +59,7 @@ public abstract class Hero implements Entity {
 	public void die() {
 		if(isDead()) {
 			//TODO : faire gagner l'adversaire
-			System.out.println(this.player.getName() + " a gagné !");
+			System.out.println(this.player.getName() + " a gagnï¿½ !");
 		}
 	}
 }

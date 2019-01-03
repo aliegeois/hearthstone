@@ -6,7 +6,7 @@ import game.hero.Hero;
 
 public class CardMinion extends Card implements Entity {
 	private int damageBase, damage, damageBoosted;
-	private int healthBase, health, healthBoosted;
+	private int healthMax, health, healthBoosted;
 	private Set<String> capacities;
 	private Map<String, Integer> boosts;
 	private boolean ready, provocation;
@@ -16,7 +16,7 @@ public class CardMinion extends Card implements Entity {
 		this.damageBase = damage;
 		this.damage = damage;
 		this.damageBoosted = 0;
-		this.healthBase = health;
+		this.healthMax = health;
 		this.health = health;
 		this.healthBoosted = 0;
 		this.capacities = capacities;
@@ -27,7 +27,7 @@ public class CardMinion extends Card implements Entity {
 	
 	@Override
 	public void play() {
-		//Si le minion a été boosté alors qu'il était dans la main, on lui applique les boosts à son arrivée en jeu
+		//Si le minion a ï¿½tï¿½ boostï¿½ alors qu'il ï¿½tait dans la main, on lui applique les boosts ï¿½ son arrivï¿½e en jeu
 		for(Map.Entry<String, Integer> boost : boosts.entrySet()) {
 			for(CardMinion minion : getOwner().getBoard().values()) {
 				if(minion.id != id) {
@@ -65,12 +65,16 @@ public class CardMinion extends Card implements Entity {
 	}
 	
 	public void heal(int quantity) {
-		if(health + quantity <= healthBase)
+		if(health + quantity < healthMax) {
 			health = health + quantity;
+		} else {
+			health = healthMax;
+		}
 	}
 	
 	public void boostHealth(int quantity) {
 		health += quantity;
+		healthMax += quantity;
 		healthBoosted += quantity;
 	}
 	
