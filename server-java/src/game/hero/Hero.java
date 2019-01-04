@@ -18,11 +18,15 @@ public abstract class Hero implements Entity {
 	public void special(Entity e) {}
 	
 	public void takeDamage(int quantity) {
+		System.out.println("flag a");
 		this.armor = this.armor - quantity;
+		System.out.println("flag b");
 		if(this.armor < 0) { //Si on a cassé toute l'armure
+		System.out.println("flag c 1");
 			this.health = this.health + this.armor;
 			this.armor = 0;
 		}
+		System.out.println("flag d");
 	}
 	
 	@Override
