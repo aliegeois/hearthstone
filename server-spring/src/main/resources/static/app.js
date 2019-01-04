@@ -13,7 +13,7 @@ function connect() {
 		setConnected(true);
 		console.log('Connected: ' + frame);
 		sessionId = socket._transport.url.split('/').slice(-2, -1)[0];
-		console.log("SessionId : " + sessionId);
+		console.log('SessionId : ' + sessionId);
 
 		// Confirmation du nom
 		stompClient.subscribe(`/topic/lobby/${sessionId}/confirmName`, data => {
@@ -89,8 +89,10 @@ function matchFound(gameId, opponent) {
 
 	nodeUsers.get(opponent).firstElementChild.colSpan = 1;
 	
-	buttonAccept.innerHTML = "<span style=\"color:green\">Accept</span>";
-	buttonDecline.innerHTML = "<span style=\"color:red\">Decline</span>";
+	buttonAccept.innerHTML = '<span style="color:green">Accept</span>';
+	buttonDecline.innerHTML = '<span style="color:red">Decline</span>';
+	buttonAccept.className = 'btn btn-default';
+	buttonDecline.className = 'btn btn-default';
 
 	buttonAccept.addEventListener('click', () => {
 		stompClient.send('/app/lobby/acceptMatch');
