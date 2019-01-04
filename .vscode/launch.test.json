@@ -1,0 +1,102 @@
+{
+    "run": {
+        "default": "",
+        "items": [
+            {
+                "name": "backend",
+                "projectName": "backend",
+                "workingDirectory": "/comptes/E134932Q/Documents/M1/Conception/hearthstone/ministone/backend",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            },
+            {
+                "name": "demo",
+                "projectName": "demo",
+                "workingDirectory": "/comptes/E134932Q/Documents/M1/Conception/hearthstone/server-spring",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            },
+            {
+                "name": "server-js",
+                "projectName": "server-js",
+                "workingDirectory": "/comptes/E134932Q/Documents/M1/Conception/hearthstone/server-js",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            },
+            {
+                "name": "server-java",
+                "projectName": "server-java",
+                "workingDirectory": "/comptes/E134932Q/Documents/M1/Conception/hearthstone/server-java",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            },
+            {
+                "name": "client-angular",
+                "projectName": "client-angular",
+                "workingDirectory": "/comptes/E134932Q/Documents/M1/Conception/hearthstone/client-angular",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            }
+        ]
+    },
+    "debug": {
+        "default": "",
+        "items": [
+            {
+                "name": "backend",
+                "projectName": "backend",
+                "workingDirectory": "/comptes/E134932Q/Documents/M1/Conception/hearthstone/ministone/backend",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            },
+            {
+                "name": "demo",
+                "projectName": "demo",
+                "workingDirectory": "/comptes/E134932Q/Documents/M1/Conception/hearthstone/server-spring",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            },
+            {
+                "name": "server-js",
+                "projectName": "server-js",
+                "workingDirectory": "/comptes/E134932Q/Documents/M1/Conception/hearthstone/server-js",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            },
+            {
+                "name": "server-java",
+                "projectName": "server-java",
+                "workingDirectory": "/comptes/E134932Q/Documents/M1/Conception/hearthstone/server-java",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            },
+            {
+                "name": "client-angular",
+                "projectName": "client-angular",
+                "workingDirectory": "/comptes/E134932Q/Documents/M1/Conception/hearthstone/client-angular",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            }
+        ]
+    }
+}

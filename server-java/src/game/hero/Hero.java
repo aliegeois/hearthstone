@@ -58,6 +58,10 @@ public abstract class Hero implements Entity {
 	public int getArmor() {
 		return this.armor;
 	}
+
+	public int getHealth() {
+		return this.health;
+	}
 	
 	@Override
 	public void die() {
