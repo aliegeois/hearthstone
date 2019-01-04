@@ -22,13 +22,13 @@ export abstract class EffectService {
 
 export abstract class GlobalEffect extends EffectService {
 
-    /*constructor(card: CardSpell) {
+    constructor(card: CardSpell) {
         super(card);
     }
 
     play():void {
 
-    }*/
+    }
 }
 
 export abstract class MultipleTargetEffect extends EffectService {
@@ -37,13 +37,13 @@ export abstract class MultipleTargetEffect extends EffectService {
     ownHero: boolean;
     opponentHero: boolean;
 
-    /*constructor(card: CardSpell, ownBoard: boolean, opponentBoard: boolean, ownHero: boolean, opponentHero: boolean) {
+    constructor(card: CardSpell, ownBoard: boolean, opponentBoard: boolean, ownHero: boolean, opponentHero: boolean) {
         super(card);
         this.ownBoard = ownBoard;
         this.opponentBoard = opponentBoard;
         this.ownHero = ownHero;
         this.opponentHero = opponentHero;
-    }*/
+    }
 
     play():void {
 
@@ -68,20 +68,20 @@ export abstract class MultipleTargetEffect extends EffectService {
 
 export abstract class SingleTargetEffect extends EffectService {
 
-    /*constructor(card: CardSpell) {
+    constructor(card: CardSpell) {
         super(card);
     }
 
     play(e?: Entity): void {
         
-    }*/
+    }
 }
 
 export class MultiTargetBuff extends MultipleTargetEffect {
     life: number;
     attack: number;
 
-    /*constructor(card: CardSpell, ownBoard: boolean, opponentBoard: boolean, ownHero: boolean, opponentHero: boolean, life: number, attack: number) {
+    constructor(card: CardSpell, ownBoard: boolean, opponentBoard: boolean, ownHero: boolean, opponentHero: boolean, life: number, attack: number) {
         super(card, ownBoard, opponentBoard, ownHero, opponentHero);
         this.life = life;
         this.attack = attack;
@@ -106,12 +106,12 @@ export class MultiTargetBuff extends MultipleTargetEffect {
                 opponentMinions.boostDamage(this.attack);
             });
         }
-    }*/
+    }
 }
 
 
 export class MultiTargetDamage extends MultipleTargetEffect {
-    /*quantity: number;
+    quantity: number;
 
     constructor(card: CardSpell, ownBoard: boolean, opponentBoard: boolean, ownHero: boolean, opponentHero: boolean, quantity: number) {
         super(card, ownBoard, opponentBoard, ownHero, opponentHero);
@@ -139,13 +139,13 @@ export class MultiTargetDamage extends MultipleTargetEffect {
         if (this.getOpponentHero()) {
             this.card.getOwner().getOpponent().getHero().takeDamage(this.quantity);
         }
-    }*/
+    }
 }
 
 export class MultiTargetHeal extends MultipleTargetEffect {
     amount: number;
 
-    /*constructor(card: CardSpell, ownBoard: boolean, opponentBoard: boolean, ownHero: boolean, opponentHero: boolean, amount: number) {
+    constructor(card: CardSpell, ownBoard: boolean, opponentBoard: boolean, ownHero: boolean, opponentHero: boolean, amount: number) {
         super(card, ownBoard, opponentBoard, ownHero, opponentHero);
         this.amount = amount;
     }
@@ -171,7 +171,7 @@ export class MultiTargetHeal extends MultipleTargetEffect {
         if (this.getOpponentHero()) {
             this.card.getOwner().getOpponent().getHero().heal(this.amount);
         }
-    }*/
+    }
 }
 
 
@@ -179,7 +179,7 @@ export class SingleTargetBuff extends SingleTargetEffect {
     life: number;
     attack: number;
 
-    /*constructor(card: CardSpell, life: number, attack: number) {
+    constructor(card: CardSpell, life: number, attack: number) {
         super(card);
         this.life = life;
         this.attack = attack;
@@ -192,13 +192,13 @@ export class SingleTargetBuff extends SingleTargetEffect {
         e.boostHealth(this.life);
         //TODO : gérer ça
         e.boostDamage(this.attack);
-    }*/
+    }
 }
 
 export class SingleTargetDamage extends SingleTargetEffect {
     damage: number;
 
-    /*constructor(card: CardSpell, damage: number) {
+    constructor(card: CardSpell, damage: number) {
         super(card);
         this.damage = damage;
     }
@@ -208,13 +208,13 @@ export class SingleTargetDamage extends SingleTargetEffect {
             throw new Error("Unsupported Operation Exception");
         }
         e.takeDamage(this.damage);
-    }*/
+    }
 }
 
 export class SingleTargetHeal extends SingleTargetEffect {
     amount: number;
 
-    /*constructor(card: CardSpell, amount: number) {
+    constructor(card: CardSpell, amount: number) {
         super(card);
         this.amount = amount;
     }
@@ -224,12 +224,12 @@ export class SingleTargetHeal extends SingleTargetEffect {
             throw new Error("Unsupported Operation Exception");
         }
         e.heal(this.amount);
-    }*/
+    }
 }
 
 
 export class Transform extends SingleTargetEffect {
-    /*into: CardMinion;
+    into: CardMinion;
 
     constructor(card: CardSpell, into: CardMinion) {
         super(card);
@@ -241,13 +241,13 @@ export class Transform extends SingleTargetEffect {
             throw new Error("Unsupported Operation Exception");
         }
         e = this.into;
-    }*/
+    }
 }
 
 export class DrawRandom extends EffectService {
     cardNumber: number;
     
-    /*constructor(card: CardSpell, cardNumber: number) {
+    constructor(card: CardSpell, cardNumber: number) {
         super(card);
         this.cardNumber = cardNumber;
     }
@@ -259,11 +259,5 @@ export class DrawRandom extends EffectService {
         for (let i:number = 0; i < this.cardNumber; i++) {
             this.card.getOwner().drawCard();
         }    
-    }*/
-
-    /*play(): void {
-       for (let i:number = 0; i < this.cardNumber; i++) {
-            this.card.getOwner().drawCard();
-        } 
-    }*/
+    }
 }
