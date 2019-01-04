@@ -22,7 +22,7 @@ public class Player {
 	private Hero hero;
 	private Player opponent;
 	
-	Player(String name, String heroType) {
+	public Player(String name, String heroType) {
 		this.name = name;
 		switch(heroType) {
 		case "mage":

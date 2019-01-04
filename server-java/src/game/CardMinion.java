@@ -2,7 +2,6 @@ package game;
 
 import java.util.Map;
 import java.util.Set;
-import game.hero.Hero;
 
 public class CardMinion extends Card implements Entity {
 	private int damageBase, damage, damageBoosted;
@@ -95,8 +94,8 @@ public class CardMinion extends Card implements Entity {
 		return damageBoosted;
 	}
 	
-	public int getHealthBase() {
-		return healthBase;
+	public int getHealthMax() {
+		return healthMax;
 	}
 	
 	public int getHealth() {
