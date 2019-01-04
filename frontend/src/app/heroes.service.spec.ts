@@ -1,30 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { HeroMage, HeroPaladin, HeroWarrior } from './heroes.service';
+import { HeroesService } from './heroes.service';
 
-describe('HeroMage', () => {
+describe('HeroesService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: HeroMage = TestBed.get(HeroMage);
-    expect(service).toBeTruthy();
-  });
-});
-
-describe('HeroPaladin', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
-
-  it('should be created', () => {
-    const service: HeroPaladin = TestBed.get(HeroPaladin);
-    expect(service).toBeTruthy();
-  });
-});
-
-describe('HeroWarrior', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
-
-  it('should be created', () => {
-    const service: HeroWarrior = TestBed.get(HeroWarrior);
+    const service: HeroesService = TestBed.get(HeroesService);
     expect(service).toBeTruthy();
   });
 });

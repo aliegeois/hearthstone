@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SingleTargetEffect, MultipleTargetEffect, GlobalEffect } from './effect.service';
-import { HeroMage, HeroPaladin, HeroWarrior } from './heroes.service';
+//import { HeroMage, HeroPaladin, HeroWarrior } from './heroes.service';
 import { ConstantesService } from './constantes.service';
 
 @Component({
@@ -21,7 +21,7 @@ export class AppComponent implements OnInit{
 	}
 
 	ngOnInit() {
-		//document.getElementById('button').addEventListener('click', this.change);
+		document.getElementById('button').addEventListener('click', this.change);
 	}
 
 
@@ -61,7 +61,7 @@ export class Player {
 
 	constructor(name: String, heroType: String) {
 		this.name = name;
-		switch(heroType) {
+		/*switch(heroType) {
 			case "mage":
 				this.hero = new HeroMage(this);
 				break;
@@ -71,7 +71,7 @@ export class Player {
 			case "warrior":
 				this.hero = new HeroWarrior(this);
 				break;
-		}
+		}*/
 	}
 
 	setOpponent(p: Player): void {

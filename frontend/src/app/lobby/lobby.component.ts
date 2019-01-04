@@ -12,8 +12,4 @@ export class LobbyComponent implements OnInit {
   ngOnInit() {
   }
 
-  change() {
-	  console.log("desbars");
-  }
-
 }
