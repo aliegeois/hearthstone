@@ -175,13 +175,11 @@ export class MultiTargetHeal extends MultipleTargetEffect {
 }
 
 
-export class SingleTargetBuff extends SingleTargetEffect {
-    life: number;
+export class SingleTargetDamageBuff extends SingleTargetEffect {
     attack: number;
 
-    constructor(card: CardSpell, life: number, attack: number) {
+    constructor(card: CardSpell, attack: number) {
         super(card);
-        this.life = life;
         this.attack = attack;
     }
 
@@ -189,11 +187,26 @@ export class SingleTargetBuff extends SingleTargetEffect {
         if (e == null) { //TODO : éviter cette horreur (ts n'accepte pas les duplications de fonctions)
             throw new Error("Unsupported Operation Exception");
         }
-        e.boostHealth(this.life);
-        //TODO : gérer ça
         e.boostDamage(this.attack);
     }
 }
+
+export class SingleTargetLifeBuff extends SingleTargetEffect {
+    life: number;
+
+    constructor(card: CardSpell, life: number) {
+        super(card);
+        this.life = life;
+    }
+
+    play(e?: Entity): void {
+        if (e == null) { //TODO : éviter cette horreur (ts n'accepte pas les duplications de fonctions)
+            throw new Error("Unsupported Operation Exception");
+        }
+        e.boostHealth(this.life);
+    }
+}
+
 
 export class SingleTargetDamage extends SingleTargetEffect {
     damage: number;
