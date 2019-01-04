@@ -20,7 +20,7 @@ public abstract class Hero implements Entity {
 	public void takeDamage(int quantity) {
 		this.armor = this.armor - quantity;
 		if(this.armor < 0) { //Si on a cassé toute l'armure
-			this.health = this.health - this.armor;
+			this.health = this.health + this.armor;
 			this.armor = 0;
 		}
 	}
