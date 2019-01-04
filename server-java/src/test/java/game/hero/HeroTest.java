@@ -38,19 +38,40 @@ public class HeroTest {
 		//TODO: faire le test pour les autres heros
 	}
 		
-	/*@Test
-	void testHeal() {
-		//assertEquals(Constants.HEROMAXHEALTH , hero1.getHealth());
-		//hero1.heal(1);
-		//assertEquals(Constants.HEROMAXHEALTH - 3, hero1.getHealth());
-		//hero1.heal(9);
-		//assertEquals(Constants.HEROMAXHEALTH, hero1.getHealth());
-		
-	}*/
 
 	@Test
-	void testHeal(){
+	void testTakeDamage(){
+
+		hero1.special();
+
 		assertEquals(Constants.HEROMAXHEALTH, hero1.getHealth());
+		assertEquals(Constants.HEROMAXHEALTH, hero2.getHealth());
+		assertEquals(2, hero1.getArmor());
+		assertEquals(0, hero2.getArmor());
+
+		hero1.takeDamage(1);
+		hero2.takeDamage(1);
+
+		assertEquals(Constants.HEROMAXHEALTH, hero1.getHealth());
+		assertEquals(29, hero2.getHealth());
+		assertEquals(1, hero1.getArmor());
+
+		hero1.takeDamage(5);
+
+		assertEquals(26, hero1.getHealth());
+		assertEquals(0, hero1.getArmor());
+
+	}
+
+	@Test
+	void testHeal() {
+		hero1.takeDamage(4);
+		assertEquals(Constants.HEROMAXHEALTH-4, hero1.getHealth());
+		hero1.heal(1);
+		assertEquals(Constants.HEROMAXHEALTH - 3, hero1.getHealth());
+		hero1.heal(9);
+		assertEquals(Constants.HEROMAXHEALTH, hero1.getHealth());
+		
 	}
 	
 	@Test
