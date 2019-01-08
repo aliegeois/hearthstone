@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SingleTargetEffect, MultipleTargetEffect, GlobalEffect } from './effect.service';
-//import { HeroMage, HeroPaladin, HeroWarrior } from './heroes.service';
+import { HeroMage, HeroPaladin, HeroWarrior } from './heroes.service';
 import { ConstantesService } from './constantes.service';
 
 @Component({
@@ -61,47 +61,24 @@ export class Player {
 
 	constructor(name: String, heroType: String) {
 		this.name = name;
-		/*switch(heroType) {
+		switch(heroType) {
 			case "mage":
-				this.hero = new HeroMage(this);
+				this.hero = new HeroMage();
 				break;
 			case "paladin":
-				this.hero = new HeroPaladin(this);
+				this.hero = new HeroPaladin();
 				break;
 			case "warrior":
-				this.hero = new HeroWarrior(this);
+				this.hero = new HeroWarrior();
 				break;
-		}*/
+		}
 	}
 
 	setOpponent(p: Player): void {
 		this.opponent = p;
 	}
 
-	playMinion(minionId: number) {
-		let minion: CardMinion = this.hand.get(minionId) as CardMinion;
-		minion.play();
-		this.board.set(minionId, minion);
-		this.hand.delete(minionId);
-	}
 
-	drawCard():void {
-		let cardDrawn: Card = this.deck.values[Math.floor(Math.random() * this.deck.size)];
-		this.hand.set(cardDrawn.id, cardDrawn);
-	}
-
-	attack(minion: CardMinion, cible: Entity):void {
-		minion.attack(cible);
-	}
-
-	useSpell(cardId: number):void {
-		let spell: CardSpell = this.hand.get(cardId) as CardSpell;
-		spell.play();
-	}
-
-	heroSpecial(target: Entity):void {
-		this.hero.special(target);
-	}
 
 	getName():String {
 		return this.name;
@@ -138,13 +115,8 @@ export class Player {
 }
 
 export interface Entity {
-	takeDamage(quantity: number): void;
-	heal(quantity: number):void;
-	boostHealth(quantity: number):void;
-	getDamage(): number;
 	isProvoking(): void;
 	isDead(): boolean;
-	die(): void;
 }
 
 
@@ -161,49 +133,20 @@ export interface Entity {
 
 
 export class Hero implements Entity {
-	player: Player;
 	health: number;
 	healthMax: number;
 	armor: number;
 	taunt: boolean;
 
-	constructor(player: Player) {
-		this.player = player;
+	constructor() {
 		this.health = ConstantesService.HEROMAXHEALTH;
 		this.healthMax = ConstantesService.HEROMAXHEALTH;
 		this.armor = 0;
 		this.taunt = false;
 	}
 
-	special(e?: Entity): void {}
 
-	takeDamage(quantity: number): void {
-		this.armor = this.armor - quantity;
-		if(this.armor < 0) { //Si on a cassé toute l'armure
-			this.health = this.health - this.armor;
-			this.armor = 0;
-		}
-	}
 
-	heal(quantity: number):void {
-		if(this.health + quantity <= this.healthMax) {
-			this.health = this.health + quantity;
-		} else {
-			this.health = this.healthMax;
-		}
-	}
-
-	boostHealth(quantity: number): void {
-		this.health = this.health + quantity;
-	}
-
-	boostArmor(quantity: number): void {
-		this.armor = this.armor + quantity;
-	}
-
-	getDamage(): number {
-		return 0;
-	}
 
 	isProvoking(): boolean {
 		return this.taunt;
@@ -213,12 +156,6 @@ export class Hero implements Entity {
 		return (this.health <= 0);
 	}
 
-	die(): void {
-		if(this.isDead()) {
-			//TODO : faire gagner l'adversaire
-			console.log(this.player.getOpponent.name + " a gagné");
-		}
-	}
 
 }
 
@@ -238,10 +175,9 @@ abstract class Card {
 	owner: Player;
 	manaCost: number;
 
-	constructor(id: number, owner: Player, name: String, manaCost: number) {
+	constructor(id: number, name: String, manaCost: number) {
 		this.id = id;
 		this.name = name;
-		this.owner = owner;
 		this.manaCost = manaCost;
 	}
 
@@ -287,8 +223,8 @@ export class CardMinion extends Card implements Entity {
 	ready: boolean;
 	provocation: boolean; //We will often nedd these, so we made them variables instead of having to search capacities everytime
 
-	constructor(id: number, owner: Player, name: String, mana: number, damage: number, health: number, capacities: Set<String>, boosts: Map<String, number>) {
-		super(id, owner, name, mana);
+	constructor(id: number, name: String, mana: number, damage: number, health: number, capacities: Set<String>, boosts: Map<String, number>) {
+		super(id, name, mana);
 
 		this.damageBase = damage;
 		this.damage = damage;
@@ -304,58 +240,6 @@ export class CardMinion extends Card implements Entity {
 		this.provocation = capacities.has("provocation");
 	}
 
-	play(): void {
-		//Si le minion a été boosté alors qu'il était dans la main, on lui applique les boosts à ce moment
-		this.boosts.forEach((value: number, key: String) => {
-			this.getOwner().getBoard().forEach(element => {
-				if(element.getId() != this.id) {
-					switch(key) {
-						case "damage":
-							this.boostDamage(value);
-							break;
-						case "health":
-							this.boostHealth(value);
-							break;
-					}
-				}
-			});
-		});
-	}
-
-	attack(o: Entity): void {
-		o.takeDamage(this.damage);
-		this.takeDamage(o.getDamage());
-
-		if(o.isDead()) {
-			o.die();
-		}
-		if(this.health <= 0) {
-			this.die();
-		}
-	}
-
-	takeDamage(quantity: number): void {
-		this.health = this.health - quantity;
-	}
-
-	heal(quantity: number): void {
-		if(this.health + quantity < this.healthMax) {
-			this.health = this.health + quantity;
-		} else {
-			this.health = this.healthMax;
-		}
-	}
-
-	boostHealth(quantity: number): void {
-		this.health = this.health + quantity;
-		this.healthMax = this.healthMax + quantity;
-		this.healthBoosted = this.healthBoosted + quantity;
-	}
-
-	boostDamage(quantity: number): void {
-		this.damage = this.damage + quantity;
-		this.damageBoosted = this.damageBoosted + quantity;
-	}
 
 	getDamage(): number {
 		return this.damage;
@@ -397,13 +281,6 @@ export class CardMinion extends Card implements Entity {
 		return (this.health <= 0);
 	}
 
-	die(): void {
-		if(this.isDead()) {
-			this.getOwner().getBoard().delete(this.id);
-		}
-	}
-
-
 }
 
 
@@ -420,26 +297,11 @@ export class CardSpell extends Card {
 	multipleEffects: Set<MultipleTargetEffect>;
 	globalEffects: Set<GlobalEffect>;
 
-	constructor(id: number, owner: Player, name: String, mana: number, singleEffects: Set<SingleTargetEffect>, multipleEffects: Set<MultipleTargetEffect>, globalEffects: Set<GlobalEffect>) {
-		super(id, owner, name, mana);
+	constructor(id: number, name: String, mana: number, singleEffects: Set<SingleTargetEffect>, multipleEffects: Set<MultipleTargetEffect>, globalEffects: Set<GlobalEffect>) {
+		super(id, name, mana);
 		this.singleEffects = singleEffects;
 		this.multipleEffects = multipleEffects;
 		this.globalEffects = globalEffects;
-	}
-
-	//TODO : gestion des cibles -> deux fonctions (une play(Entity) appelant les trois arrays et une play() n'appelant pas singleTarget) ?
-	play(target?: Entity):void {
-		if(target) {
-			this.singleEffects.forEach(effect => {
-				effect.play();
-			})
-		}
-		this.multipleEffects.forEach(effect => {
-			effect.play();
-		});
-		this.globalEffects.forEach(effect => {
-			effect.play();
-		})
 	}
 
 
