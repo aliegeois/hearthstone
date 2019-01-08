@@ -101,6 +101,16 @@ public class CardMinionTest {
     @Test
 
     void testDie(){
+        assertTrue(player1.getBoard().isEmpty());
+
+        player1.getBoard().put(1, carte1);
+        carte1.takeDamage(3);
+
+        assertEquals(carte1.getHealth(), 1);
+
+        carte2.attack(carte1);
         
+        assertTrue(carte1.isDead());
+        assertTrue(player1.getBoard().isEmpty());
     }
 }

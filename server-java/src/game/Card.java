@@ -26,4 +26,8 @@ abstract class Card {
 	public int getManaCost() {
 		return manaCost;
 	}
+
+	public int getId(){
+		return this.id;
+	}
 }
