@@ -5,7 +5,8 @@ import java.util.Set;
 
 public class CardMinion extends Card implements Entity {
 	private int damageBase, damage, damageBoosted;
-	private int healthMax, health, healthBoosted;
+	private final int healthMax;
+	private int health, healthBoosted;
 	private Set<String> capacities;
 	private Map<String, Integer> boosts;
 	private boolean ready, provocation;
@@ -47,7 +48,7 @@ public class CardMinion extends Card implements Entity {
 	}
 	
 	
-	void attack(Entity o) {
+	public void attack(Entity o) {
 		o.takeDamage(this.damage);
 		this.takeDamage(o.getDamage());
 		
@@ -73,7 +74,6 @@ public class CardMinion extends Card implements Entity {
 	
 	public void boostHealth(int quantity) {
 		health += quantity;
-		healthMax += quantity;
 		healthBoosted += quantity;
 	}
 	
@@ -125,8 +125,6 @@ public class CardMinion extends Card implements Entity {
 	
 	@Override
 	public void die() {
-		if(isDead()) {
-			this.getOwner().getBoard().remove(this);
-		}
+		this.getOwner().getBoard().remove(this.getId());
 	}
 }
