@@ -31,11 +31,17 @@ public class HeroTest {
 
 	@Test
 	void testSpecial() {
+		//Test hero1
 		assertEquals(0, hero1.getArmor());
 		hero1.special();
 		assertEquals(2, hero1.getArmor());
 
-		//TODO: faire le test pour les autres heros
+		//Test hero2
+		assertTrue(player3.getBoard().isEmpty());
+		hero3.special();
+		assertTrue(player3.getBoard().size() == 1);
+
+		
 	}
 		
 

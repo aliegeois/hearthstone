@@ -29,6 +29,16 @@ public class CardMinionTest {
     @Test
 
     void testTakeDamage(){
-        
+        assertEquals(carte1.getHealth(),4);
+        carte1.takeDamage(2);
+        assertEquals(carte1.getHealth(), 2);
+    }
+
+    @Test
+
+    void testIsDead(){
+        assertFalse(carte1.isDead());
+        carte1.takeDamage(4);
+        assertTrue(carte1.isDead());
     }
 }
