@@ -1,0 +1,15 @@
+ministone/.settings/
+ministone/.vscode/
+ministone/.project
+ministone/backend/.settings
+ministone/backend/.vscode
+ministone/backend/.project
+ministone/backend/.classpath
+ministone/backend/target/
+ministone/frontend/.settings
+ministone/frontend/.vscode
+ministone/frontend/.project
+ministone/frontend/.classpath
+ministone/frontend/target/
+ministone/frontend/src/main/web/node_modules/
+ministone/frontend/src/main/web/node/
