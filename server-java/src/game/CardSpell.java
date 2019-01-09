@@ -41,9 +41,11 @@ public class CardSpell extends Card {
 	public void addEffect(SingleTargetEffect ste) {
 		this.singleEffects.add(ste);
 	}
+
 	public void addEffect(MultipleTargetEffect mte) {
 		this.multipleEffects.add(mte);
 	}
+	
 	public void addEffect(GlobalEffect ge) {
 		this.globalEffects.add(ge);
 	}
