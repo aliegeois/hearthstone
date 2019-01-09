@@ -35,6 +35,9 @@ public class Player {
 			this.hero = new HeroWarrior(this);
 			break;
 		}
+		
+		this.manaMax = 0;
+		this.mana = this.manaMax;
 	}
 	
 	public void setOpponent(Player p) {

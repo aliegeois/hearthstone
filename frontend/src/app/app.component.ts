@@ -35,6 +35,7 @@ export class AppComponent implements OnInit {
                 break;
         }
     }
+
 }
 
 
@@ -72,6 +73,12 @@ export class Player {
                 this.hero = new HeroWarrior();
                 break;
         }
+        this.deck = new Set<Card>();
+        this.hand = new Map<number, Card>();
+        this.board = new Map<number, CardMinion>();
+
+        this.manaMax = 0;
+        this.mana = this.manaMax;
     }
 
     setOpponent(p: Player): void {

@@ -2,12 +2,49 @@ package game;
 
 import java.util.HashMap;
 import java.util.Map;
+import game.Constants;
 
 class Game implements GameEvent {
 	private Map<String, Player> players = new HashMap<>();
 	private String playing;
 	
 	private int turn;
+	
+	Game() {
+		
+	}
+	Game(String player1Name, String player2Name) {
+		String heroType1 = Constants.getAleatoireHero();
+		String heroType2 = Constants.getAleatoireHero();		
+		
+		Player player1 = new Player(player1Name, heroType1);
+		Player player2 = new Player(player2Name, heroType2);
+		
+		player1.setOpponent(player2);
+		
+		this.turn = 0;
+	}
+	
+	Game(String player1Name, String player2Name, String heroType1) {
+		String heroType2 = Constants.getAleatoireHero();		
+		
+		Player player1 = new Player(player1Name, heroType1);
+		Player player2 = new Player(player2Name, heroType2);
+		
+		player1.setOpponent(player2);
+		
+		this.turn = 0;
+	}
+	
+	Game(String player1Name, String player2Name, String heroType1, String heroType2) {		
+		
+		Player player1 = new Player(player1Name, heroType1);
+		Player player2 = new Player(player2Name, heroType2);
+		
+		player1.setOpponent(player2);
+		
+		this.turn = 0;
+	}
 	
 	void addPlayer(String name, Player p) {
 		players.put(name, p);

@@ -7,7 +7,7 @@ import java.util.Set;
 
 import game.hero.Hero;
 
-public class GameStatus { //Cette classe est renvoyï¿½e au client pour l'informer des modifications de la partie engendrï¿½es par l'action utilisateur
+public class GameStatus { //Cette classe est renvoyee au client pour l'informer des modifications de la partie engendrïees par l'action utilisateur
 	
 	private Hero ownHero;
 	private Hero opponentHero;
