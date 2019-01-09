@@ -57,6 +57,10 @@ class Game implements GameEvent {
 		return playing;
 	}
 	
+	public Player getPlayer(String playerName) {		
+		return this.players.get(playerName);
+	}
+	
 	public int getTurn() {
 		return turn;
 	}
