@@ -34,8 +34,8 @@ public class PlayerTest{
         this.hero2 = new HeroMage(player2);
         this.cap1.add("ready");
         this.cap2.add("provocation");
-        this.carte1 = new CardMinion(1, player1, "carte1", 1, 1, 1, cap1, new HashMap<String,Integer>());
-        this.carte2 = new CardMinion(2, player2, "carte2", 1, 1, 1, cap2, new HashMap<String,Integer>());
+        this.carte1 = new CardMinion(1, player1, "carte1", 1, 1, 10, cap1, new HashMap<String,Integer>());
+        this.carte2 = new CardMinion(2, player2, "carte2", 1, 1, 10, cap2, new HashMap<String,Integer>());
 
         this.player1.getDeck().add(carte1);
         this.player2.getDeck().add(carte2);
@@ -69,5 +69,16 @@ public class PlayerTest{
 
         assertEquals(player2, player1.getOpponent());
         assertEquals(player1, player2.getOpponent());
+    }
+
+    @Test 
+
+    void testAttackMinion(){
+        assertEquals(10, carte1.getHealth());
+        assertEquals(10, carte2.getHealth());
+        player1.attack(carte1, carte2);
+
+        assertEquals(9, carte1.getHealth());
+        assertEquals(9, carte2.getHealth());
     }
 }
