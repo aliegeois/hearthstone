@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import game.CardMinion;
+import game.Constants;
 import game.Player;
 import game.hero.HeroMage;
 import game.hero.HeroWarrior;
@@ -80,5 +81,14 @@ public class PlayerTest{
 
         assertEquals(9, carte1.getHealth());
         assertEquals(9, carte2.getHealth());
+    }
+
+    @Test
+    void testAttackHero(){
+        assertEquals(Constants.HEROMAXHEALTH, hero2.getHealth());
+
+        player1.attack(carte1, hero2);
+
+        assertEquals(29, hero2.getHealth());
     }
 }
