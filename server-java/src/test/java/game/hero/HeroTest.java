@@ -37,17 +37,24 @@ public class HeroTest {
 	}
 
 	@Test
-	void testSpecial() {
-		//Test hero1
+	void testSpecialHero1() {
 		assertEquals(0, hero1.getArmor());
 		hero1.special();
 		assertEquals(2, hero1.getArmor());
+	}
 
-		//Test hero2
+	@Test
+
+	void testSpecialHero2(){
 		assertEquals(3, carte1.getHealth());
 		hero2.special(carte1);
 		assertEquals(1, carte1.getHealth());
 		
+	}
+
+	@Test
+
+	void testSpecialHero3(){
 		//Test hero3
 		assertTrue(player3.getBoard().isEmpty());
 		hero3.special();
