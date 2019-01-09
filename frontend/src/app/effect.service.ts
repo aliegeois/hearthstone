@@ -44,7 +44,7 @@ export abstract class MultipleTargetEffect extends EffectService {
         return this.opponentBoard;
     }
 
-    getOwnHero():boolean {
+    getOwnHero(): boolean {
         return this.ownHero;
     }
 
@@ -149,7 +149,7 @@ export class Transform extends SingleTargetEffect {
 
 export class DrawRandom extends EffectService {
     cardNumber: number;
-    
+
     constructor(cardNumber: number) {
         super();
         this.cardNumber = cardNumber;

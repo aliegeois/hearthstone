@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 
 export class ConstantesService {
 
-  static HEROMAXHEALTH: number = 30;
+  static HEROMAXHEALTH = 30;
 
   constructor() { }
 }
