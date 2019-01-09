@@ -38,6 +38,73 @@ public class GameStatus { //Cette classe est renvoyée au client pour l'informer 
 		this.numberCardOpponentHand = opponent.getHand().size();
 
 	}
+
+	
+	public Hero getOwnHero() {
+		return ownHero;
+	}
+
+	public void setOwnHero(Hero ownHero) {
+		this.ownHero = ownHero;
+	}
+
+	public Hero getOpponentHero() {
+		return opponentHero;
+	}
+
+	public void setOpponentHero(Hero opponentHero) {
+		this.opponentHero = opponentHero;
+	}
+
+	public Map<Integer, CardMinion> getOwnBoard() {
+		return ownBoard;
+	}
+
+	public void setOwnBoard(Map<Integer, CardMinion> ownBoard) {
+		this.ownBoard = ownBoard;
+	}
+
+	public Map<Integer, CardMinion> getOpponentBoard() {
+		return opponentBoard;
+	}
+
+	public void setOpponentBoard(Map<Integer, CardMinion> opponentBoard) {
+		this.opponentBoard = opponentBoard;
+	}
+
+	public Set<Card> getOwnDeck() {
+		return ownDeck;
+	}
+
+	public void setOwnDeck(Set<Card> ownDeck) {
+		this.ownDeck = ownDeck;
+	}
+
+	public int getNumberCardOpponentDeck() {
+		return numberCardOpponentDeck;
+	}
+
+	public void setNumberCardOpponentDeck(int numberCardOpponentDeck) {
+		this.numberCardOpponentDeck = numberCardOpponentDeck;
+	}
+
+	public Map<Integer, Card> getOwnHand() {
+		return ownHand;
+	}
+
+	public void setOwnHand(Map<Integer, Card> ownHand) {
+		this.ownHand = ownHand;
+	}
+
+	public int getNumberCardOpponentHand() {
+		return numberCardOpponentHand;
+	}
+
+	public void setNumberCardOpponentHand(int numberCardOpponentHand) {
+		this.numberCardOpponentHand = numberCardOpponentHand;
+	}
+	
+	
 	
 	
 	
