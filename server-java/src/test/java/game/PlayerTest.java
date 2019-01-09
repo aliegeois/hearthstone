@@ -17,15 +17,15 @@ import game.hero.HeroWarrior;
 
 public class PlayerTest{
 
-    Player player1 = new Player("Billy", "Warrior");
-    Player player2 = new Player("Bob", "Mage");
-    Set<String> cap1 = new HashSet<String>();
-    Set<String> cap2 = new HashSet<String>();
+    private Player player1 = new Player("Billy", "Warrior");
+    private Player player2 = new Player("Bob", "Mage");
+    private Set<String> cap1 = new HashSet<String>();
+    private Set<String> cap2 = new HashSet<String>();
 
-    HeroWarrior hero1;
-    HeroMage hero2;
+    private HeroWarrior hero1;
+    private HeroMage hero2;
     
-    CardMinion carte1, carte2;
+    private CardMinion carte1, carte2;
 
 
     @BeforeEach

@@ -16,22 +16,22 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CardMinionTest {
 
-    Player player1 = new Player("Billy", "Warrior");
-    Player player2 = new Player("Bob", "Mage");
-    Set<String> cap1 = new HashSet<String>();
-    Set<String> cap2 = new HashSet<String>();
-    String prov = "provocation";
-    String ready = "charge";
-    Map<String,Integer> boost = Collections.emptyMap();
+    private Player player1 = new Player("Billy", "Warrior");
+    private Player player2 = new Player("Bob", "Mage");
+    private Set<String> cap1 = new HashSet<String>();
+    private Set<String> cap2 = new HashSet<String>();
+    private String prov = "provocation";
+    private String ready = "charge";
+    private Map<String,Integer> boost = Collections.emptyMap();
 
-    CardMinion carte1, carte2;
+    private CardMinion carte1, carte2;
 
     @BeforeEach
     public void Init(){
-        cap1.add(ready);
-        cap2.add(prov);
-        carte1 = new CardMinion(1, player1, "Carte1", 2, 7, 4, cap1, boost);
-        carte2 = new CardMinion(2, player2, "Carte2", 1, 2, 10, cap2, boost);
+        this.cap1.add(ready);
+        this.cap2.add(prov);
+        this.carte1 = new CardMinion(1, player1, "Carte1", 2, 7, 4, cap1, boost);
+        this.carte2 = new CardMinion(2, player2, "Carte2", 1, 2, 10, cap2, boost);
     }
 
 
