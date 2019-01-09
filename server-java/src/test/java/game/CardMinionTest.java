@@ -7,6 +7,8 @@ import game.CardMinion;
 import game.Player;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -16,15 +18,20 @@ public class CardMinionTest {
 
     Player player1 = new Player("Billy", "Warrior");
     Player player2 = new Player("Bob", "Mage");
-    Set<String> cap = Collections.emptySet();
+    Set<String> cap1 = new HashSet<String>();
+    Set<String> cap2 = new HashSet<String>();
+    String prov = "provocation";
+    String ready = "charge";
     Map<String,Integer> boost = Collections.emptyMap();
 
     CardMinion carte1, carte2;
 
     @BeforeEach
     public void Init(){
-        carte1 = new CardMinion(1, player1, "mes_couilles", 2, 7, 4, cap, boost);
-        carte2 = new CardMinion(2, player2, "Mickey", 1, 2, 10, cap, boost);
+        cap1.add(ready);
+        cap2.add(prov);
+        carte1 = new CardMinion(1, player1, "Carte1", 2, 7, 4, cap1, boost);
+        carte2 = new CardMinion(2, player2, "Carte2", 1, 2, 10, cap2, boost);
     }
 
 
@@ -112,5 +119,19 @@ public class CardMinionTest {
         
         assertTrue(carte1.isDead());
         assertTrue(player1.getBoard().isEmpty());
+    }
+
+    @Test
+
+    void testIsReady(){
+        assertTrue(carte1.isReady());
+        assertFalse(carte2.isReady());
+    }
+
+    @Test
+
+    void testIsProvoking(){
+        assertFalse(carte1.isProvoking());
+        assertTrue(carte2.isProvoking());
     }
 }
