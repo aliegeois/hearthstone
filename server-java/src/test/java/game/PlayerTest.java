@@ -27,6 +27,7 @@ public class PlayerTest{
         cap2.add("provocation");
         this.carte1 = new CardMinion(1, player1, "carte1", 1, 1, 1, cap1, new HashMap<String,Integer>());
         this.carte2 = new CardMinion(2, player2, "carte2", 1, 1, 1, cap2, new HashMap<String,Integer>());
+        
     }
 
     @Test
