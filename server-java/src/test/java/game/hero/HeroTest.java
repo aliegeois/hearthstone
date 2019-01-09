@@ -3,12 +3,16 @@ package test.java.game.hero;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.HashMap;
+import java.util.HashSet;
+
 import org.junit.jupiter.api.BeforeEach;
 
 import game.Player;
 import game.hero.HeroMage;
 import game.hero.HeroPaladin;
 import game.hero.HeroWarrior;
+import game.CardMinion;
 import game.Constants;
 
 public class HeroTest {
@@ -19,10 +23,13 @@ public class HeroTest {
 	private HeroWarrior hero1;
 	private HeroMage hero2;
 	private HeroPaladin hero3;
+	private CardMinion carte1;
 
 	@BeforeEach
 	public void Init(){
 		
+		this.carte1 = new CardMinion(1, player1, "carte1", 1, 0, 3, new HashSet<String>(), new HashMap<String, Integer>());
+
 		this.hero1 = new HeroWarrior(player1);
 		this.hero2 = new HeroMage(player2);
 		this.hero3 = new HeroPaladin(player3);
@@ -37,10 +44,14 @@ public class HeroTest {
 		assertEquals(2, hero1.getArmor());
 
 		//Test hero2
+		assertEquals(3, carte1.getHealth());
+		hero2.special(carte1);
+		assertEquals(1, carte1.getHealth());
+		
+		//Test hero3
 		assertTrue(player3.getBoard().isEmpty());
 		hero3.special();
 		assertTrue(player3.getBoard().size() == 1);
-
 		
 	}
 		
