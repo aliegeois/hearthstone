@@ -37,8 +37,11 @@ public class Player {
 		}
 	}
 	
-	void setOpponent(Player p) {
+	public void setOpponent(Player p) {
 		opponent = p;
+		if(p.getOpponent() == null){
+			p.setOpponent(this);
+		}
 	}
 	
 	public void playMinion(int minionId) {
@@ -50,7 +53,7 @@ public class Player {
 	
 	public void drawCard() {
 		Card cardDrawn = (Card)deck.toArray()[(int)(Math.random() * deck.size())];
-		hand.put(cardDrawn.id, cardDrawn);
+		hand.put(cardDrawn.getId(), cardDrawn);
 	}
 	
 	public void attack(CardMinion minion, Entity cible) {
