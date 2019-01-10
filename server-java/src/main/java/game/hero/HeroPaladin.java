@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import main.java.game.CardMinion;
 import main.java.game.Player;
@@ -16,8 +17,7 @@ public class HeroPaladin extends Hero {
 	
 	public void special() {
 		
-		//TODO: initialiser la valeur de idCarte à celle de la carte correspondante
-		String idCarte = "0"; //valeur temp
+		String idCarte = UUID.randomUUID().toString(); //valeur temp
 		Set<String> cap = new HashSet<String>();
 		Map<String,Integer> boost = new HashMap<String,Integer>();
 		CardMinion carte = new CardMinion(idCarte, player, "SilverHand recruit", 1, 1, 1, cap, boost);

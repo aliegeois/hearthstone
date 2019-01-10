@@ -21,8 +21,7 @@ public class GameStatus { //Cette classe est renvoyee au client pour l'informer 
 	private Map<String, Card> ownHand = new HashMap<>();
 	private int numberCardOpponentHand;
 	
-	GameStatus(Game game, String playerName) {
-		Player player = game.getPlayer(playerName);
+	GameStatus(Game game, Player player) {
 		Player opponent = player.getOpponent();
 		
 		this.ownHero = player.getHero();

@@ -17,8 +17,8 @@ import main.java.game.hero.HeroWarrior;
 
 public class PlayerTest{
 
-    private Player player1 = new Player("Billy", "Warrior");
-    private Player player2 = new Player("Bob", "Mage");
+    private Player player1 = new Player("Billy");
+    private Player player2 = new Player("Bob");
     private Set<String> cap1 = new HashSet<String>();
     private Set<String> cap2 = new HashSet<String>();
 
