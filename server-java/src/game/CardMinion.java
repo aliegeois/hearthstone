@@ -11,7 +11,7 @@ public class CardMinion extends Card implements Entity {
 	private Map<String, Integer> boosts;
 	private boolean ready, provocation;
 	
-	public CardMinion(int id, Player owner, String name, int mana, int damage, int health, Set<String> capacities, Map<String, Integer> boosts) {
+	public CardMinion(String id, Player owner, String name, int mana, int damage, int health, Set<String> capacities, Map<String, Integer> boosts) {
 		super(id, owner, name, mana);
 		this.damageBase = damage;
 		this.damage = damage;

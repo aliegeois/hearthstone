@@ -1,11 +1,11 @@
 package game;
 
 public interface GameEvent {
-	void playMinion(String playerName, int cardId);
+	void playMinion(String playerName, String cardId);
 
-	void attackMinion(String playerName, int minionId1, int minionId2);
+	void attackMinion(String playerName, String minionId1, String minionId2);
 
-	void useSpell(String playerName, int cardId);
+	void useSpell(String playerName, String cardId);
 
 	void heroSpecial(String playerName, Entity target);
 

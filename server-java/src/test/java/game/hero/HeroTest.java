@@ -28,7 +28,7 @@ public class HeroTest {
 	@BeforeEach
 	public void Init(){
 		
-		this.carte1 = new CardMinion(1, player1, "carte1", 1, 0, 3, new HashSet<String>(), new HashMap<String, Integer>());
+		this.carte1 = new CardMinion("1", player1, "carte1", 1, 0, 3, new HashSet<String>(), new HashMap<String, Integer>());
 
 		this.hero1 = new HeroWarrior(player1);
 		this.hero2 = new HeroMage(player2);

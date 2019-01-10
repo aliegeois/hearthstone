@@ -66,18 +66,18 @@ class Game implements GameEvent {
 		playing = names[(int)(Math.random() * names.length)];
 	}
 	
-	public void playMinion(String playerName, int cardId) {
+	public void playMinion(String playerName, String cardId) {
 		players.get(playerName).playMinion(cardId);
 	}
 
-	public void attackMinion(String playerName, int minionId1, int minionId2) {
+	public void attackMinion(String playerName, String minionId1, String minionId2) {
 		Player player = players.get(playerName);
 		CardMinion minion1 = player.getBoard().get(minionId1);
 		CardMinion minion2 = player.getOpponent().getBoard().get(minionId2);
 		players.get(playerName).attack(minion1, minion2);
 	}
 
-	public void useSpell(String playerName, int cardId) {
+	public void useSpell(String playerName, String cardId) {
 		players.get(playerName).useSpell(cardId);
 	}
 

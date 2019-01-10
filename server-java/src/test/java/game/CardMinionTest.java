@@ -30,8 +30,8 @@ public class CardMinionTest {
     public void Init(){
         this.cap1.add(ready);
         this.cap2.add(prov);
-        this.carte1 = new CardMinion(1, player1, "Carte1", 2, 7, 4, cap1, boost);
-        this.carte2 = new CardMinion(2, player2, "Carte2", 1, 2, 10, cap2, boost);
+        this.carte1 = new CardMinion("1", player1, "Carte1", 2, 7, 4, cap1, boost);
+        this.carte2 = new CardMinion("2", player2, "Carte2", 1, 2, 10, cap2, boost);
     }
 
 
@@ -110,7 +110,7 @@ public class CardMinionTest {
     void testDie(){
         assertTrue(player1.getBoard().isEmpty());
 
-        player1.getBoard().put(1, carte1);
+        player1.getBoard().put("1", carte1);
         carte1.takeDamage(3);
 
         assertEquals(carte1.getHealth(), 1);

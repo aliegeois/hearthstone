@@ -17,7 +17,7 @@ public class HeroPaladin extends Hero {
 	public void special() {
 		
 		//TODO: initialiser la valeur de idCarte à celle de la carte correspondante
-		int idCarte = 0; //valeur temp
+		String idCarte = "0"; //valeur temp
 		Set<String> cap = new HashSet<String>();
 		Map<String,Integer> boost = new HashMap<String,Integer>();
 		CardMinion carte = new CardMinion(idCarte, player, "SilverHand recruit", 1, 1, 1, cap, boost);

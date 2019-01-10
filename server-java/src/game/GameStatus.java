@@ -7,18 +7,18 @@ import java.util.Set;
 
 import game.hero.Hero;
 
-public class GameStatus { //Cette classe est renvoyee au client pour l'informer des modifications de la partie engendrïees par l'action utilisateur
+public class GameStatus { //Cette classe est renvoyee au client pour l'informer des modifications de la partie engendrï¿½ees par l'action utilisateur
 	
 	private Hero ownHero;
 	private Hero opponentHero;
 	
-	private Map<Integer, CardMinion> ownBoard = new HashMap<>();
-	private Map<Integer, CardMinion> opponentBoard = new HashMap<>();
+	private Map<String, CardMinion> ownBoard = new HashMap<>();
+	private Map<String, CardMinion> opponentBoard = new HashMap<>();
 	
 	private Set<Card> ownDeck = new HashSet<>();
 	private int numberCardOpponentDeck;
 	
-	private Map<Integer, Card> ownHand = new HashMap<>();
+	private Map<String, Card> ownHand = new HashMap<>();
 	private int numberCardOpponentHand;
 	
 	GameStatus(Game game, String playerName) {
@@ -56,19 +56,19 @@ public class GameStatus { //Cette classe est renvoyee au client pour l'informer 
 		this.opponentHero = opponentHero;
 	}
 
-	public Map<Integer, CardMinion> getOwnBoard() {
+	public Map<String, CardMinion> getOwnBoard() {
 		return ownBoard;
 	}
 
-	public void setOwnBoard(Map<Integer, CardMinion> ownBoard) {
+	public void setOwnBoard(Map<String, CardMinion> ownBoard) {
 		this.ownBoard = ownBoard;
 	}
 
-	public Map<Integer, CardMinion> getOpponentBoard() {
+	public Map<String, CardMinion> getOpponentBoard() {
 		return opponentBoard;
 	}
 
-	public void setOpponentBoard(Map<Integer, CardMinion> opponentBoard) {
+	public void setOpponentBoard(Map<String, CardMinion> opponentBoard) {
 		this.opponentBoard = opponentBoard;
 	}
 
@@ -88,11 +88,11 @@ public class GameStatus { //Cette classe est renvoyee au client pour l'informer 
 		this.numberCardOpponentDeck = numberCardOpponentDeck;
 	}
 
-	public Map<Integer, Card> getOwnHand() {
+	public Map<String, Card> getOwnHand() {
 		return ownHand;
 	}
 
-	public void setOwnHand(Map<Integer, Card> ownHand) {
+	public void setOwnHand(Map<String, Card> ownHand) {
 		this.ownHand = ownHand;
 	}
 
