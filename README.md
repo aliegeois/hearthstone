@@ -1,2 +1,2 @@
-# hearthstone
+# Ministone
 Mini projet Hearthstone
