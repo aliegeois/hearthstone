@@ -57,9 +57,6 @@ public class CardMinion extends Card implements Entity {
 	
 	public void takeDamage(int quantity) {
 		health -= quantity;
-		if(this.isDead()) {
-			this.die();
-		}
 	}
 	
 	public void heal(int quantity) {

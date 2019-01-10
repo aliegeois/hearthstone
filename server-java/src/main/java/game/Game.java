@@ -1,10 +1,11 @@
 package main.java.game;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import main.java.game.Constants;
 
-class Game implements GameEvent {
+public class Game implements GameEvent {
 	private Player player1, player2;
 	private Player playing, starting;
 	private int turn;
@@ -12,16 +13,15 @@ class Game implements GameEvent {
 	Game() {	
 	}
 
-	Game(Player player1, Player player2) {		
+	public Game(Player player1, Player player2) {		
 		this.player1 = player1;
 		this.player2 = player2;
 		
 		player1.setOpponent(player2);
-		
 		this.turn = 0;
 	}
 	
-	void addPlayer(Player p) {
+	public void addPlayer(Player p) {
 		if(player1 == null){
 			player1 = p;
 		}else if(player2 == null){
@@ -79,5 +79,10 @@ class Game implements GameEvent {
 	
 	public int getTurn() {
 		return turn;
+	}
+
+	public void checkBoard(){
+		player1.checkDead();
+		player2.checkDead();
 	}
 }

@@ -2,6 +2,7 @@ package main.java.game;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -102,5 +103,15 @@ public class Player {
 
 	public void setHero(Hero hero){
 		this.hero = hero;
+	}
+
+	public void checkDead(){
+		Iterator<Map.Entry<String,CardMinion>> i = this.board.entrySet().iterator();
+
+		while(i.hasNext()){
+			if(i.next().getValue().isDead()){
+				i.remove();
+			}
+		}
 	}
 }

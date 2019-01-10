@@ -30,6 +30,7 @@ public class MultiTargetDamage extends MultipleTargetEffect {
 		if(this.opponentHero) {
 			card.getOwner().getOpponent().getHero().takeDamage(quantity);
 		}
+
 	}
 	
 	public void play(Entity e) {

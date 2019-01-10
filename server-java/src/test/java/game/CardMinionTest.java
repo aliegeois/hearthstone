@@ -116,6 +116,7 @@ public class CardMinionTest {
         assertEquals(carte1.getHealth(), 1);
 
         carte2.attack(carte1);
+        carte1.getOwner().checkDead();
         
         assertTrue(carte1.isDead());
         assertTrue(player1.getBoard().isEmpty());
