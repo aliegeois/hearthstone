@@ -1,6 +1,7 @@
 package main.java.game;
 
 import java.util.Set;
+import java.util.UUID;
 
 import main.java.game.effect.*;
 
@@ -65,7 +66,9 @@ public class CardSpell extends Card {
 	@Override
 	public Card copy(){
 		
-		Card carte = new CardSpell(this.getId(), this.getOwner(), this.getName(), this.getManaCost(), this.getSTE(), this.getMTE(), this.getGE());
+		String identif = UUID.randomUUID().toString();
+		
+		Card carte = new CardSpell(identif, this.getOwner(), this.getName(), this.getManaCost(), this.getSTE(), this.getMTE(), this.getGE());
 		return carte;
 	}
 

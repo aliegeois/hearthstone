@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 
@@ -22,7 +21,6 @@ import main.java.game.effect.*;
 
 public class EffectTest{
 
-    private Effect effet;
     private CardSpell carte;
 
     private Player player1, player2;

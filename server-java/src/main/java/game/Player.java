@@ -61,7 +61,7 @@ public class Player {
 
 		Card carte = cardDrawn.copy();
 		carte.setIdentifiant(identif);
-		hand.put(identif, cardDrawn);
+		hand.put(identif, carte);
 
 		return identif;
 	}

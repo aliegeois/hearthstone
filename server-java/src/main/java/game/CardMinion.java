@@ -1,7 +1,9 @@
 package main.java.game;
 
+import java.nio.file.CopyOption;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 public class CardMinion extends Card implements Entity {
 	private int damageBase, damage, damageBoosted;
@@ -134,7 +136,17 @@ public class CardMinion extends Card implements Entity {
 
 	@Override
 	public Card copy(){
-		Card carte = new CardMinion(this.getId(), this.getOwner(), this.getName(), this.getManaCost(), this.getDamageBase(), this.getHealth(), this.getEffects(), this.getBoosts());
+
+		String identif = UUID.randomUUID().toString();
+		Player player = this.getOwner();
+		String name = this.getName();
+		int mana = this.getManaCost();
+		int damage = this.getDamageBase();
+		int health = this.getHealth();
+		Set<String> effects = this.getEffects();
+		Map<String, Integer> boosts = this.getBoosts();
+
+		Card carte = new CardMinion(identif, player, name, mana, damage, health, effects, boosts);
 		return carte;
 	}
 }
