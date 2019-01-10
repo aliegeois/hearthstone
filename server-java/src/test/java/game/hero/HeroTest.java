@@ -8,18 +8,18 @@ import java.util.HashSet;
 
 import org.junit.jupiter.api.BeforeEach;
 
-import game.Player;
-import game.hero.HeroMage;
-import game.hero.HeroPaladin;
-import game.hero.HeroWarrior;
-import game.CardMinion;
-import game.Constants;
+import main.java.game.Player;
+import main.java.game.hero.HeroMage;
+import main.java.game.hero.HeroPaladin;
+import main.java.game.hero.HeroWarrior;
+import main.java.game.CardMinion;
+import main.java.game.Constants;
 
 public class HeroTest {
 	
-	private Player player1 = new Player("Billy", "Warrior");
-	private Player player2 = new Player("Bob", "Mage");
-	private Player player3 = new Player("Tiburs", "Paladin");
+	private Player player1 = new Player("Billy");
+	private Player player2 = new Player("Bob");
+	private Player player3 = new Player("Tiburs");
 	private HeroWarrior hero1;
 	private HeroMage hero2;
 	private HeroPaladin hero3;

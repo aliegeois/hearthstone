@@ -3,8 +3,8 @@ package test.java.game;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import game.CardMinion;
-import game.Player;
+import main.java.game.CardMinion;
+import main.java.game.Player;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,8 +16,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CardMinionTest {
 
-    private Player player1 = new Player("Billy", "Warrior");
-    private Player player2 = new Player("Bob", "Mage");
+    private Player player1 = new Player("Billy");
+    private Player player2 = new Player("Bob");
     private Set<String> cap1 = new HashSet<String>();
     private Set<String> cap2 = new HashSet<String>();
     private String prov = "provocation";
@@ -116,6 +116,7 @@ public class CardMinionTest {
         assertEquals(carte1.getHealth(), 1);
 
         carte2.attack(carte1);
+        carte1.getOwner().checkDead();
         
         assertTrue(carte1.isDead());
         assertTrue(player1.getBoard().isEmpty());

@@ -9,16 +9,16 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import game.CardMinion;
-import game.Constants;
-import game.Player;
-import game.hero.HeroMage;
-import game.hero.HeroWarrior;
+import main.java.game.CardMinion;
+import main.java.game.Constants;
+import main.java.game.Player;
+import main.java.game.hero.HeroMage;
+import main.java.game.hero.HeroWarrior;
 
 public class PlayerTest{
 
-    private Player player1 = new Player("Billy", "Warrior");
-    private Player player2 = new Player("Bob", "Mage");
+    private Player player1 = new Player("Billy");
+    private Player player2 = new Player("Bob");
     private Set<String> cap1 = new HashSet<String>();
     private Set<String> cap2 = new HashSet<String>();
 
