@@ -8,11 +8,11 @@ public class Application {
 		
 		String np1 = "Nero",
 		       np2 = "Claudius";
-		Player p1 = new Player(np1, "warrior"),
-		       p2 = new Player(np2, "mage");
+		Player p1 = new Player(np1),
+		       p2 = new Player(np2);
 		
-		g.addPlayer(np1, p1);
-		g.addPlayer(np2, p2);
+		g.addPlayer(p1);
+		g.addPlayer(p2);
 		
 	}
 }

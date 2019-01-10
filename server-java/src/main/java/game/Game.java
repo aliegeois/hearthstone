@@ -21,7 +21,7 @@ class Game implements GameEvent {
 		this.turn = 0;
 	}
 	
-	void addPlayer(String name, Player p) {
+	void addPlayer(Player p) {
 		if(player1 == null){
 			player1 = p;
 		}else if(player2 == null){
