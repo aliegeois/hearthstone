@@ -1,4 +1,4 @@
-package game;
+package main.java.game;
 
 public interface Entity {
 	public void takeDamage(int quantity);

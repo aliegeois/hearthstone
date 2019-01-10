@@ -1,4 +1,4 @@
-package game;
+package main.java.game;
 
 public abstract class Constants {
 	public static final int HEROMAXHEALTH = 30;

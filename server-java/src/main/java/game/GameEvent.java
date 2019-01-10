@@ -1,4 +1,4 @@
-package game;
+package main.java.game;
 
 public interface GameEvent {
 	void playMinion(String playerName, String cardId);

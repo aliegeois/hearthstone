@@ -1,8 +1,8 @@
-package game;
+package main.java.game;
 
 import java.util.HashMap;
 import java.util.Map;
-import game.Constants;
+import main.java.game.Constants;
 
 class Game implements GameEvent {
 	private Map<String, Player> players = new HashMap<>();

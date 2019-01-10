@@ -1,9 +1,9 @@
-package game.effect;
+package main.java.game.effect;
 
-import game.CardSpell;
-import game.Entity;
-import game.hero.Hero;
-import game.CardMinion;
+import main.java.game.CardSpell;
+import main.java.game.Entity;
+import main.java.game.hero.Hero;
+import main.java.game.CardMinion;
 
 public class SingleTargetDamageBuff extends SingleTargetEffect {
 	private int attack;

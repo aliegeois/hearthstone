@@ -1,8 +1,8 @@
-package game.effect;
+package main.java.game.effect;
 
-import game.CardMinion;
-import game.CardSpell;
-import game.Entity;
+import main.java.game.CardMinion;
+import main.java.game.CardSpell;
+import main.java.game.Entity;
 
 public class MultiTargetHeal extends MultipleTargetEffect {
 	private int amount;

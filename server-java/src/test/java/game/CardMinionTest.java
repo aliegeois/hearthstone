@@ -3,8 +3,8 @@ package test.java.game;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import game.CardMinion;
-import game.Player;
+import main.java.game.CardMinion;
+import main.java.game.Player;
 
 import java.util.Collections;
 import java.util.HashMap;

@@ -1,6 +1,6 @@
-package game.effect;
+package main.java.game.effect;
 
-import game.CardSpell;
+import main.java.game.CardSpell;
 
 public abstract class GlobalEffect extends Effect{
 	

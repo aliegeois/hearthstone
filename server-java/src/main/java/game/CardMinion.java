@@ -1,4 +1,4 @@
-package game;
+package main.java.game;
 
 import java.util.Map;
 import java.util.Set;

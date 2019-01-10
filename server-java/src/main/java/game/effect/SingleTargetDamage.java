@@ -1,7 +1,7 @@
-package game.effect;
+package main.java.game.effect;
 
-import game.CardSpell;
-import game.Entity;
+import main.java.game.CardSpell;
+import main.java.game.Entity;
 
 public class SingleTargetDamage extends SingleTargetEffect {
 	private int damage;
