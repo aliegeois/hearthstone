@@ -15,9 +15,7 @@ public abstract class MultipleTargetEffect extends Effect{
 		this.opponentHero = opponentHero;
 	}
 	
-	public void play() {
-	
-	}
+	public abstract void play();
 	
 	public boolean isOwnBoard() {
 		return this.ownBoard;

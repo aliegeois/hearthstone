@@ -37,6 +37,8 @@ public class EffectTest{
 
         this.player1 = new Player("Billy", "Warrior");
         this.player2 = new Player("Bob", "Mage");
+        player1.setOpponent(player2);
+        
         this.hero1 = new HeroWarrior(player1);
         this.hero2 = new HeroMage(player2);
 
@@ -81,7 +83,7 @@ public class EffectTest{
 
     @Test
 
-    void testMultTarBuffHealthOwnBoard(){
+    void testMultTarBuffOwnBoard(){
 
         carte = new CardSpell("0", player1, "test", 7, ste, mte, gte);
         MultipleTargetEffect effect = new MultiTargetBuff(carte, true, false, false, false, 2, 0);
@@ -106,5 +108,33 @@ public class EffectTest{
      
         assertEquals(3, player1.getBoard().get(carte1).getHealth());
         assertEquals(3, player1.getBoard().get(carte2).getHealth());
+    }
+
+    @Test
+
+    void testMultTarBuffOpponentBoard(){
+        carte = new CardSpell("0", player1, "test", 7, ste, mte, gte);
+        MultipleTargetEffect effect = new MultiTargetBuff(carte, false, true, false, false, 0, 2);
+        carte.addEffect(effect);
+
+        assertEquals(1, carteMin3.getDamage());
+        assertEquals(1, carteMin4.getDamage());
+
+        String carte3 = player2.drawCard();
+        String carte4 = player2.drawCard();
+
+        assertEquals(2, player2.getHand().size());
+        assertEquals(0, player2.getBoard().size());
+
+        player2.playMinion(carte3);
+        player2.playMinion(carte4);
+
+        assertEquals(0, player2.getHand().size());
+        assertEquals(2, player2.getBoard().size());
+
+        effect.play();
+     
+        assertEquals(3, player2.getBoard().get(carte3).getDamage());
+        assertEquals(3, player2.getBoard().get(carte4).getDamage());
     }
 }
