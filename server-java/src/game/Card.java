@@ -34,4 +34,6 @@ abstract class Card {
 	public void setIdentifiant(String identif){
 		this.id = identif;
 	}
+
+	public abstract Card copy();
 }

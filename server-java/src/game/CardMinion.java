@@ -109,6 +109,10 @@ public class CardMinion extends Card implements Entity {
 	public Set<String> getEffects() {
 		return capacities;
 	}
+
+	public Map<String,Integer> getBoosts(){
+		return boosts;
+	}
 	
 	public boolean isReady() {
 		return ready;
@@ -126,5 +130,11 @@ public class CardMinion extends Card implements Entity {
 	@Override
 	public void die() {
 		this.getOwner().getBoard().remove(this.getId());
+	}
+
+	@Override
+	public Card copy(){
+		Card carte = new CardMinion(this.getId(), this.getOwner(), this.getName(), this.getManaCost(), this.getDamageBase(), this.getHealth(), this.getEffects(), this.getBoosts());
+		return carte;
 	}
 }

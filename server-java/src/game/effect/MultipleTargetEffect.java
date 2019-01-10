@@ -4,7 +4,7 @@ import game.CardSpell;
 
 public abstract class MultipleTargetEffect extends Effect{
 	
-	private boolean ownBoard, opponentBoard, ownHero, opponentHero;
+	protected boolean ownBoard, opponentBoard, ownHero, opponentHero;
 	
 	public MultipleTargetEffect(CardSpell card, boolean ownBoard, boolean opponentBoard, boolean ownHero, boolean opponentHero) {
 		

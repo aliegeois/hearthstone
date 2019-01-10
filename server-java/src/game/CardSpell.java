@@ -5,9 +5,9 @@ import java.util.Set;
 import game.effect.*;
 
 public class CardSpell extends Card {
-	Set<SingleTargetEffect> singleEffects;
-	Set<MultipleTargetEffect> multipleEffects;
-	Set<GlobalEffect> globalEffects;
+	protected Set<SingleTargetEffect> singleEffects;
+	protected Set<MultipleTargetEffect> multipleEffects;
+	protected Set<GlobalEffect> globalEffects;
 	
 	public CardSpell(String id, Player owner, String name, int mana, Set<SingleTargetEffect> single, Set<MultipleTargetEffect> multiple, Set<GlobalEffect> global) {
 		super(id, owner, name, mana);
@@ -48,6 +48,25 @@ public class CardSpell extends Card {
 	
 	public void addEffect(GlobalEffect ge) {
 		this.globalEffects.add(ge);
+	}
+
+	public Set<SingleTargetEffect> getSTE(){
+		return this.singleEffects;
+	}
+
+	public Set<MultipleTargetEffect> getMTE(){
+		return this.multipleEffects;
+	}
+
+	public Set<GlobalEffect> getGE(){
+		return this.globalEffects;
+	}
+
+	@Override
+	public Card copy(){
+		
+		Card carte = new CardSpell(this.getId(), this.getOwner(), this.getName(), this.getManaCost(), this.getSTE(), this.getMTE(), this.getGE());
+		return carte;
 	}
 
 }

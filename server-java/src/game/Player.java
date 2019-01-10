@@ -59,8 +59,8 @@ public class Player {
 		Card cardDrawn = (Card)deck.toArray()[(int)(Math.random() * deck.size())];
 		String identif = UUID.randomUUID().toString();
 
-		cardDrawn.setIdentifiant(identif);
-
+		Card carte = cardDrawn.copy();
+		carte.setIdentifiant(identif);
 		hand.put(identif, cardDrawn);
 
 		return identif;

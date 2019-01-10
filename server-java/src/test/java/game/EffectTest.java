@@ -91,14 +91,22 @@ public class EffectTest{
 
         assertEquals(1, carteMin1.getHealth());
         assertEquals(1, carteMin2.getHealth());
-        assertEquals(1, carteMin1.getDamage());
+
+        String carte1 = player1.drawCard();
+        String carte2 = player1.drawCard();
+
+        assertEquals(2, player1.getHand().size());
+        assertEquals(0, player1.getBoard().size());
+
+        player1.playMinion(carte1);
+        player1.playMinion(carte2);
+
+        assertEquals(0, player1.getHand().size());
+        assertEquals(2, player1.getBoard().size());
 
         effect.play();
      
-        //assertEquals(3, carteMin1.getHealth());
-        //assertEquals(3, carteMin2.getHealth());
-
-        assertEquals(3, carteMin1.getDamage());
-        
+        assertEquals(3, player1.getBoard().get(carte1).getHealth());
+        assertEquals(3, player1.getBoard().get(carte2).getHealth());
     }
 }

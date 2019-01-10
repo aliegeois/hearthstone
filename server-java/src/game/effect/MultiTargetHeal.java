@@ -14,21 +14,21 @@ public class MultiTargetHeal extends MultipleTargetEffect {
 	
 	@Override
 	public void play() {
-		if(isOwnBoard()) {
+		if(this.ownBoard) {
 			for(CardMinion minion : card.getOwner().getBoard().values()) {
 			    minion.heal(amount);
 			}
 		}
-		if(isOpponentBoard()) {
+		if(this.opponentBoard) {
 			for(CardMinion minion : card.getOwner().getOpponent().getBoard().values()) {
 			    minion.heal(amount);
 			}
 		}
 		
-		if(is()) {
+		if(this.ownHero) {
 			card.getOwner().getHero().heal(amount);
 		}
-		if(isOpponentHero()) {
+		if(this.opponentHero) {
 			card.getOwner().getOpponent().getHero().heal(amount);
 		}
 	}
