@@ -52,18 +52,14 @@ public class CardMinion extends Card implements Entity {
 	
 	public void attack(Entity o) {
 		o.takeDamage(this.damage);
-		this.takeDamage(o.getDamage());
-		
-		if(o.isDead()) {
-			o.die();
-		}
-		if(this.isDead()) {
-			this.die();
-		}
+		this.takeDamage(o.getDamage());		
 	}
 	
 	public void takeDamage(int quantity) {
 		health -= quantity;
+		if(this.isDead()) {
+			this.die();
+		}
 	}
 	
 	public void heal(int quantity) {

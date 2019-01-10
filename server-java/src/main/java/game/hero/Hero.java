@@ -13,6 +13,9 @@ public abstract class Hero implements Entity {
 	
 	public Hero(Player player) {
 		this.player = player;
+		if(player.getHero() == null){
+			player.setHero(this);
+		}
 	}
 	
 	public void special(Entity e) {}
@@ -65,6 +68,10 @@ public abstract class Hero implements Entity {
 
 	public int getHealth() {
 		return this.health;
+	}
+
+	public Player getOwner(){
+		return this.player;
 	}
 	
 	@Override

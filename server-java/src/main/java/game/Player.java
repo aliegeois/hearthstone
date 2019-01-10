@@ -23,20 +23,8 @@ public class Player {
 	private Hero hero;
 	private Player opponent;
 	
-	public Player(String name, String heroType) {
-		this.name = name;
-		switch(heroType) {
-		case "mage":
-			this.hero = new HeroMage(this);
-			break;
-		case "paladin":
-			this.hero = new HeroPaladin(this);
-			break;
-		case "warrior":
-			this.hero = new HeroWarrior(this);
-			break;
-		}
-		
+	public Player(String name) {
+		this.name = name;		
 		this.manaMax = 0;
 		this.mana = this.manaMax;
 	}
@@ -110,5 +98,9 @@ public class Player {
 	
 	public int getMana() {
 		return mana;
+	}
+
+	public void setHero(Hero hero){
+		this.hero = hero;
 	}
 }

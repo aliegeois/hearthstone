@@ -1,13 +1,13 @@
 package main.java.game;
 
 public interface GameEvent {
-	void playMinion(String playerName, String cardId);
+	void playMinion(Player player, String cardId);
 
-	void attackMinion(String playerName, String minionId1, String minionId2);
+	void attackMinion(Player player, String minionId1, String minionId2);
 
-	void useSpell(String playerName, String cardId);
+	void useSpell(Player player, String cardId);
 
-	void heroSpecial(String playerName, Entity target);
+	void heroSpecial(Player player, Entity target);
 
-	void endTurn(String playerName);
+	void endTurn(Player player);
 }

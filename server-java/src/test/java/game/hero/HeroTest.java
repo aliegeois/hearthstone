@@ -17,9 +17,9 @@ import main.java.game.Constants;
 
 public class HeroTest {
 	
-	private Player player1 = new Player("Billy", "Warrior");
-	private Player player2 = new Player("Bob", "Mage");
-	private Player player3 = new Player("Tiburs", "Paladin");
+	private Player player1 = new Player("Billy");
+	private Player player2 = new Player("Bob");
+	private Player player3 = new Player("Tiburs");
 	private HeroWarrior hero1;
 	private HeroMage hero2;
 	private HeroPaladin hero3;
