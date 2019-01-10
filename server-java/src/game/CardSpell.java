@@ -9,7 +9,7 @@ public class CardSpell extends Card {
 	Set<MultipleTargetEffect> multipleEffects;
 	Set<GlobalEffect> globalEffects;
 	
-	CardSpell(int id, Player owner, String name, int mana, Set<SingleTargetEffect> single, Set<MultipleTargetEffect> multiple, Set<GlobalEffect> global) {
+	public CardSpell(String id, Player owner, String name, int mana, Set<SingleTargetEffect> single, Set<MultipleTargetEffect> multiple, Set<GlobalEffect> global) {
 		super(id, owner, name, mana);
 		this.singleEffects = single;
 		this.multipleEffects = multiple;
@@ -37,4 +37,17 @@ public class CardSpell extends Card {
 			g.play();
 		}
 	}
+
+	public void addEffect(SingleTargetEffect ste) {
+		this.singleEffects.add(ste);
+	}
+
+	public void addEffect(MultipleTargetEffect mte) {
+		this.multipleEffects.add(mte);
+	}
+	
+	public void addEffect(GlobalEffect ge) {
+		this.globalEffects.add(ge);
+	}
+
 }

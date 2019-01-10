@@ -19,19 +19,19 @@ public abstract class MultipleTargetEffect extends Effect{
 	
 	}
 	
-	public boolean getOwnBoard() {
+	public boolean isOwnBoard() {
 		return this.ownBoard;
 	}
 	
-	public boolean getOpponentBoard() {
+	public boolean isOpponentBoard() {
 		return this.opponentBoard;
 	}
 	
-	public boolean getOwnHero() {
+	public boolean is() {
 		return this.ownHero;
 	}
 	
-	public boolean getOpponentHero() {
+	public boolean isOpponentHero() {
 		return this.opponentHero;
 	}
 }

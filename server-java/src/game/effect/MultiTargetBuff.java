@@ -16,13 +16,13 @@ public class MultiTargetBuff extends MultipleTargetEffect {
 	
 	@Override
 	public void play() {
-		if(getOwnBoard()) {
+		if(isOwnBoard()) {
 			for(CardMinion minion : card.getOwner().getBoard().values()) {
 			    minion.boostHealth(life);
 			    minion.boostDamage(attack);
 			}
 		}
-		if(getOpponentBoard()) {
+		if(isOpponentBoard()) {
 			for(CardMinion minion : card.getOwner().getOpponent().getBoard().values()) {
 			    minion.boostHealth(life);
 			    minion.boostDamage(attack);

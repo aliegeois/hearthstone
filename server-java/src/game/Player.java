@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import game.hero.Hero;
 import game.hero.HeroMage;
@@ -13,8 +14,8 @@ import game.hero.HeroWarrior;
 public class Player {
 	private String name;
 	private Set<Card> deck = new HashSet<>();
-	private Map<Integer, Card> hand = new HashMap<>();
-	private Map<Integer, CardMinion> board = new HashMap<>();
+	private Map<String, Card> hand = new HashMap<>();
+	private Map<String, CardMinion> board = new HashMap<>();
 	
 	private int manaMax;
 	private int mana;
@@ -47,16 +48,22 @@ public class Player {
 		}
 	}
 	
-	public void playMinion(int minionId) {
+	public void playMinion(String minionId) {
 		CardMinion minion = (CardMinion)hand.get(minionId);
 		minion.play();
 		this.board.put(minionId, minion);
 		this.hand.remove(minionId);
 	}
 	
-	public void drawCard() {
+	public String drawCard() {
 		Card cardDrawn = (Card)deck.toArray()[(int)(Math.random() * deck.size())];
-		hand.put(cardDrawn.getId(), cardDrawn);
+		String identif = UUID.randomUUID().toString();
+
+		cardDrawn.setIdentifiant(identif);
+
+		hand.put(identif, cardDrawn);
+
+		return identif;
 	}
 	
 	public void attack(CardMinion minion, Entity cible) {
@@ -64,7 +71,7 @@ public class Player {
 		
 	}
 	
-	void useSpell(int cardId) {
+	void useSpell(String cardId) {
 		CardSpell spell = (CardSpell)hand.get(cardId);
 		spell.play();
 	}
@@ -81,11 +88,11 @@ public class Player {
 		return deck;
 	}
 	
-	public Map<Integer, Card> getHand() {
+	public Map<String, Card> getHand() {
 		return hand;
 	}
 	
-	public Map<Integer, CardMinion> getBoard() {
+	public Map<String, CardMinion> getBoard() {
 		return board;
 	}
 	
