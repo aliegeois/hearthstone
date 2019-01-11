@@ -12,11 +12,8 @@ import org.junit.jupiter.api.Test;
 import game.CardMinion;
 import game.Constants;
 import game.Player;
-import game.effect.GlobalEffect;
-import game.effect.MultipleTargetEffect;
-import game.effect.SingleTargetEffect;
-import game.hero.HeroMage;
-import game.hero.HeroWarrior;
+import game.effect.*;
+import game.hero.*;
 
 public class PlayerTest{
 
