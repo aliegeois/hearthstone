@@ -81,15 +81,15 @@ public class PlayerTest{
     }
 
     @Test
-    public void testSpecial(){
 
-        //player1.heroSpecial();
+    public void testHeroSpecial(){
+        assertEquals(0, hero1.getArmor());
+        player1.heroSpecial();
+        assertEquals(2, hero1.getArmor());
 
-        //assertEquals(2, hero1.getArmor());
-
-        player2.heroSpecial(hero2);
-
-        assertEquals(28, hero1.getHealth());
+        player2.heroSpecial(hero1);
+        assertEquals(0, hero1.getArmor());
+        assertEquals(Constants.HEROMAXHEALTH, hero1.getHealth());
     }
 
     @Test
