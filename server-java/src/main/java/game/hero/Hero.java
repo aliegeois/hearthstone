@@ -31,6 +31,11 @@ public abstract class Hero implements Entity {
 		}
 		System.out.println("flag d");
 	}
+
+	@Override
+	public void boostDamage(int quantity) {
+		throw new UnsupportedOperationException();
+	}
 	
 	@Override
 	public int getDamage() {
@@ -66,6 +71,7 @@ public abstract class Hero implements Entity {
 		return this.armor;
 	}
 
+	@Override
 	public int getHealth() {
 		return this.health;
 	}
@@ -78,7 +84,7 @@ public abstract class Hero implements Entity {
 	public void die() {
 		if(isDead()) {
 			//TODO : faire gagner l'adversaire
-			System.out.println(this.player.getName() + " a gagn� !");
+			System.out.println(this.player.getName() + " a gagné !");
 		}
 	}
 }

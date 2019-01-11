@@ -18,7 +18,7 @@ public class SingleTargetDamageBuff extends SingleTargetEffect {
 		throw new UnsupportedOperationException();
 	}
 	
-	public void play(CardMinion e) {
+	public void play(Entity e) {
 		e.boostDamage(attack);
 	}
 }

@@ -1,12 +1,12 @@
 package game.effect;
 
-import game.CardMinion;
 import game.CardSpell;
+import game.Entity;
 
 public class Transform extends SingleTargetEffect{
-	private CardMinion into;
+	private Entity into;
 	
-	public Transform(CardSpell card, CardMinion into) {
+	public Transform(CardSpell card, Entity into) {
 		super(card);
 		this.into = into;		
 	}
@@ -17,7 +17,7 @@ public class Transform extends SingleTargetEffect{
 	}
 	
 	//TODO : voir pourquoi ça ne marche pas alors que c'est sensé être la base de l'héritage
-	public void play(CardMinion target) {
+	public void play(Entity target) {
 		target = into;
 	}
 }
