@@ -14,10 +14,35 @@ export class LobbyComponent implements OnInit {
 
   name: String; // Nom du client
 
-  constructor() { }
+  constructor() {
+    AppComponent.addListener(this);
+  }
 
   ngOnInit() {
-    console.log(AppComponent.stompClient.isConnected());
+    let formList = document.getElementsByTagName('form');
+
+    for(let form of <any>formList) {
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+      });
+    }
+    
+    
+    document.getElementById('send-name').addEventListener('click', this.sendName);
+    document.getElementById('search-game').addEventListener('click', () => {
+      AppComponent.stompClient.send('/app/lobby/searchGame');
+    });
+
+  }
+
+  onConnect() {
+    console.log('wesh t\'es connecté bro');
+    console.log("SessionId : " + AppComponent.sessionId);
+    // Confirmation du nom
+    AppComponent.stompClient.subscribe(`/topic/lobby/${AppComponent.sessionId}/confirmName`, data => {
+      console.log(`event: confirmName, data: ${data.body}`);
+      this.name = JSON.parse(data.body).name;
+    });
   }
 
   setConnected(connected): void {
