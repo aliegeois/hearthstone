@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import game.CardMinion;
 import game.Player;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -22,7 +21,7 @@ public class CardMinionTest {
     private Set<String> cap2 = new HashSet<String>();
     private String prov = "provocation";
     private String ready = "charge";
-    private Map<String,Integer> boost = Collections.emptyMap();
+    private Map<String,Integer> boost = new HashMap<String, Integer>();
 
     private CardMinion carte1, carte2;
 

@@ -8,9 +8,6 @@ import java.util.Set;
 import java.util.UUID;
 
 import game.hero.Hero;
-import game.hero.HeroMage;
-import game.hero.HeroPaladin;
-import game.hero.HeroWarrior;
 
 public class Player {
 	private String name;

@@ -1,6 +1,5 @@
 package game;
 
-import java.nio.file.CopyOption;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -55,10 +54,12 @@ public class CardMinion extends Card implements Entity {
 		this.takeDamage(o.getDamage());		
 	}
 	
+	@Override
 	public void takeDamage(int quantity) {
 		health -= quantity;
 	}
 	
+	@Override
 	public void heal(int quantity) {
 		if(health + quantity < healthMax) {
 			health = health + quantity;
@@ -67,11 +68,13 @@ public class CardMinion extends Card implements Entity {
 		}
 	}
 	
+	@Override
 	public void boostHealth(int quantity) {
 		health += quantity;
 		healthBoosted += quantity;
 	}
 	
+	@Override
 	public void boostDamage(int quantity) {
 		damage += quantity;
 		damageBoosted += quantity;
@@ -93,6 +96,7 @@ public class CardMinion extends Card implements Entity {
 		return healthMax;
 	}
 	
+	@Override
 	public int getHealth() {
 		return health;
 	}

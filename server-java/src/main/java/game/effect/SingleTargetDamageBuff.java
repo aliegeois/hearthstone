@@ -2,8 +2,6 @@ package game.effect;
 
 import game.CardSpell;
 import game.Entity;
-import game.hero.Hero;
-import game.CardMinion;
 
 public class SingleTargetDamageBuff extends SingleTargetEffect {
 	private int attack;
@@ -18,7 +16,7 @@ public class SingleTargetDamageBuff extends SingleTargetEffect {
 		throw new UnsupportedOperationException();
 	}
 	
-	public void play(CardMinion e) {
+	public void play(Entity e) {
 		e.boostDamage(attack);
 	}
 }
