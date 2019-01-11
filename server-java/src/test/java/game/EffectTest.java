@@ -159,7 +159,16 @@ public class EffectTest{
     }
 
     @Test
+    
     void testSinglTarDamBuff(){
-        
+        carte = new CardSpell("0", player1, "test", 7, ste, mte, gte);
+        SingleTargetEffect effect = new SingleTargetDamageBuff(carte, 1);
+        carte.addEffect(effect);
+
+        assertEquals(1, carteMin1.getDamage());
+
+        effect.play(carteMin1);
+
+        assertEquals(2, carteMin1.getDamage());
     }
 }
