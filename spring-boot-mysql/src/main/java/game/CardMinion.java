@@ -1,16 +1,38 @@
 package game;
 
-import java.nio.file.CopyOption;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-public class CardMinion extends Card implements Entity {
-	private int damageBase, damage, damageBoosted;
+import javax.persistence.Entity;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@Entity
+public class CardMinion extends Card implements Entite {
+
+	private int damageBase;
+
+	@Transient
+	private int damageBoosted;
+	
+	@Transient
+	private int damage;
+
 	private final int healthMax;
+
+	@Transient
 	private int health, healthBoosted;
+
+	@JsonInclude()
+	@Transient
 	private Set<String> capacities;
+
+	@Transient
 	private Map<String, Integer> boosts;
+
+	@Transient
 	private boolean ready, provocation;
 	
 	public CardMinion(String id, Player owner, String name, int mana, int damage, int health, Set<String> capacities, Map<String, Integer> boosts) {
@@ -50,7 +72,7 @@ public class CardMinion extends Card implements Entity {
 	}
 	
 	
-	public void attack(Entity o) {
+	public void attack(Entite o) {
 		o.takeDamage(this.damage);
 		this.takeDamage(o.getDamage());		
 	}

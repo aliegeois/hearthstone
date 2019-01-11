@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import game.CardMinion;
+import game.Entity;
 import game.Player;
 
 public class HeroPaladin extends Hero {
@@ -15,6 +16,7 @@ public class HeroPaladin extends Hero {
 		super(player);
 	}
 	
+	@Override
 	public void special() {
 		
 		String idCarte = UUID.randomUUID().toString(); //valeur temp
@@ -23,5 +25,10 @@ public class HeroPaladin extends Hero {
 		CardMinion carte = new CardMinion(idCarte, player, "SilverHand recruit", 1, 1, 1, cap, boost);
 		player.getHand().put(idCarte, carte);
 		player.playMinion(idCarte);
+	}
+
+	@Override
+	public void special(Entity e){
+
 	}
 }

@@ -1,6 +1,6 @@
 package game.hero;
 
-import game.Entity;
+import game.Entite;
 import game.Player;
 
 public class HeroMage extends Hero {
@@ -8,7 +8,7 @@ public class HeroMage extends Hero {
 		super(player);
 	}
 	
-	public void special(Entity e) {
+	public void special(Entite e) {
 		e.takeDamage(2);
 	}
 }

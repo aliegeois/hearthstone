@@ -1,7 +1,7 @@
 package game.effect;
 
 import game.CardSpell;
-import game.Entity;
+import game.Entite;
 
 public abstract class SingleTargetEffect extends Effect{
 
@@ -9,5 +9,5 @@ public abstract class SingleTargetEffect extends Effect{
 		super(card);
 	}
 	
-	public void play(Entity e) {}
+	public void play(Entite e) {}
 }

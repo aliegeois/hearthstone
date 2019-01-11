@@ -1,5 +1,6 @@
 package game.hero;
 
+import game.Entity;
 import game.Player;
 
 public class HeroWarrior extends Hero {
@@ -7,7 +8,13 @@ public class HeroWarrior extends Hero {
 		super(player);
 	}
 	
+	@Override
 	public void special() {
 		boostArmor(2);
+	}
+
+	@Override
+	public void special(Entity e){
+		
 	}
 }

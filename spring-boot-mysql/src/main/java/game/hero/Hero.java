@@ -1,10 +1,10 @@
 package game.hero;
 
 import game.Constants;
-import game.Entity;
+import game.Entite;
 import game.Player;
 
-public abstract class Hero implements Entity {
+public abstract class Hero implements Entite {
 	protected Player player;
 	protected int health = Constants.HEROMAXHEALTH;
 	protected int healthMax = Constants.HEROMAXHEALTH;
@@ -18,7 +18,7 @@ public abstract class Hero implements Entity {
 		}
 	}
 	
-	public void special(Entity e) {}
+	public void special(Entite e) {}
 	
 	public void takeDamage(int quantity) {
 		System.out.println("flag a");
