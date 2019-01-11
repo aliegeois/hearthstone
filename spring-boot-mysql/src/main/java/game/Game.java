@@ -54,7 +54,7 @@ public class Game implements GameEvent {
 		player.useSpell(cardId);
 	}
 
-	public void heroSpecial(Player player, Entity target) {
+	public void heroSpecial(Player player, Entite target) {
 		player.heroSpecial(target);
 	}
 

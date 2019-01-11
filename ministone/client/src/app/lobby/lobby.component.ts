@@ -14,6 +14,7 @@ export class LobbyComponent implements OnInit {
 
   name: String; // Nom du client
 
+<<<<<<< HEAD
   constructor() {
     AppComponent.addListener(this);
   }
@@ -43,6 +44,12 @@ export class LobbyComponent implements OnInit {
       console.log(`event: confirmName, data: ${data.body}`);
       this.name = JSON.parse(data.body).name;
     });
+=======
+  constructor() { }
+
+  ngOnInit() {
+    console.log(AppComponent.stompClient.isConnected());
+>>>>>>> dbb2bdad6e3ff37339dd01a3eab27cd1fa21d81b
   }
 
   setConnected(connected): void {

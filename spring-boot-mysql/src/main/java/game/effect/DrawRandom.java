@@ -1,7 +1,7 @@
 package game.effect;
 
 import game.CardSpell;
-import game.Entity;
+import game.Entite;
 
 public class DrawRandom extends GlobalEffect {
 	private int numberDrawnCard;
@@ -17,7 +17,7 @@ public class DrawRandom extends GlobalEffect {
 			card.getOwner().drawCard();
 	}
 	
-	void play(Entity e) {
+	void play(Entite e) {
 		throw new UnsupportedOperationException();
 	}
 }

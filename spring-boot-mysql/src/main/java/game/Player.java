@@ -55,7 +55,7 @@ public class Player {
 		return identif;
 	}
 	
-	public void attack(CardMinion minion, Entity cible) {
+	public void attack(CardMinion minion, Entite cible) {
 		minion.attack(cible);
 		
 	}
@@ -65,7 +65,7 @@ public class Player {
 		spell.play();
 	}
 	
-	void heroSpecial(Entity target) {
+	void heroSpecial(Entite target) {
 		hero.special(target);
 	}
 	

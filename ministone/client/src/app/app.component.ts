@@ -25,12 +25,12 @@ export class AppComponent implements OnInit {
     AppComponent.initializeWebSocketConnection();
   }
 
-  static listeners = [];
+
 
   static serverUrl = 'http://localhost:8080/ministone-socket';
   static stompClient;
   static socket: SockJS;
-  static sessionId = '';
+  static sessionId;
 
   static title: String;
 
@@ -40,9 +40,12 @@ export class AppComponent implements OnInit {
 
     AppComponent.stompClient.connect({}, frame => {
 
+<<<<<<< HEAD
         for (let l of AppComponent.listeners)
 			l.onConnect();
 
+=======
+>>>>>>> dbb2bdad6e3ff37339dd01a3eab27cd1fa21d81b
         console.log('Connected:' + frame);
         AppComponent.sessionId = AppComponent.socket._transport.url.split('/').slice(-2, -1)[0]; // The magic happens
         console.log('[AppComponent] sessionId = ' + AppComponent.sessionId);
@@ -52,6 +55,7 @@ export class AppComponent implements OnInit {
           console.log('Message reçu du serveur : ' + message.body);
         }
       });
+<<<<<<< HEAD
 
       
     });
@@ -61,6 +65,10 @@ export class AppComponent implements OnInit {
         AppComponent.listeners.push(obj);
         if(AppComponent.sessionId != '')
             obj.onConnect();
+=======
+
+    });
+>>>>>>> dbb2bdad6e3ff37339dd01a3eab27cd1fa21d81b
   }
 
   ngOnInit(): void {

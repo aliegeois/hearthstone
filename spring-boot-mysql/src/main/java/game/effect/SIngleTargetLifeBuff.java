@@ -1,7 +1,7 @@
 package game.effect;
 
 import game.CardSpell;
-import game.Entity;
+import game.Entite;
 import game.hero.Hero;
 import game.CardMinion;
 
@@ -18,7 +18,7 @@ public class SIngleTargetLifeBuff extends SingleTargetEffect {
 		throw new UnsupportedOperationException();
 	}
 	
-	public void play(Entity e) {
+	public void play(Entite e) {
 		e.boostHealth(life);
 	}
 }

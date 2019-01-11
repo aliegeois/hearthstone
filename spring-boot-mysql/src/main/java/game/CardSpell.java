@@ -3,11 +3,26 @@ package game;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.Entity;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import game.effect.*;
 
+@Entity
 public class CardSpell extends Card {
+
+	@JsonInclude()
+	@Transient
 	protected Set<SingleTargetEffect> singleEffects;
+
+	@JsonInclude()
+	@Transient
 	protected Set<MultipleTargetEffect> multipleEffects;
+
+	@JsonInclude()
+	@Transient
 	protected Set<GlobalEffect> globalEffects;
 	
 	public CardSpell(String id, Player owner, String name, int mana, Set<SingleTargetEffect> single, Set<MultipleTargetEffect> multiple, Set<GlobalEffect> global) {

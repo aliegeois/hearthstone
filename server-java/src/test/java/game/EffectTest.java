@@ -10,9 +10,7 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 
 import game.Player;
-import game.hero.Hero;
-import game.hero.HeroMage;
-import game.hero.HeroWarrior;
+import game.hero.*;
 import game.CardMinion;
 import game.CardSpell;
 import game.Constants;
@@ -35,7 +33,7 @@ public class EffectTest{
 
     @BeforeEach
 
-    void Init(){
+    public void Init(){
 
         this.player1 = new Player("Billy");
         this.player2 = new Player("Bob");

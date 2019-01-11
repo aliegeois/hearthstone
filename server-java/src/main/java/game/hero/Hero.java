@@ -18,7 +18,9 @@ public abstract class Hero implements Entity {
 		}
 	}
 	
-	public void special(Entity e) {}
+	public abstract void special(Entity e);
+
+	public abstract void special();
 	
 	public void takeDamage(int quantity) {
 		System.out.println("flag a");

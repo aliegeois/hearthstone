@@ -1,22 +1,24 @@
 package game;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
-@Entity
-@Inheritance(strategy=InheritanceType.JOINED)
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@MappedSuperclass
 abstract class Card {
+
+	@Transient
 	protected String id;
 
 	@Id
 	protected String name;
 
+	//@JsonInclude()
+	@Transient
 	protected Player owner;
 
-	@Column
 	protected int manaCost;
 	
 	Card(String id, Player owner, String name, int manaCost) {

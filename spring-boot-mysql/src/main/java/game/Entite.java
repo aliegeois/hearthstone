@@ -1,6 +1,6 @@
 package game;
 
-public interface Entity {
+public interface Entite {
 	public void takeDamage(int quantity);
 	public int getDamage();
 	public void heal(int quantity);

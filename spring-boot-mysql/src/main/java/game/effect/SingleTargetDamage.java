@@ -1,7 +1,7 @@
 package game.effect;
 
 import game.CardSpell;
-import game.Entity;
+import game.Entite;
 
 public class SingleTargetDamage extends SingleTargetEffect {
 	private int damage;
@@ -15,7 +15,7 @@ public class SingleTargetDamage extends SingleTargetEffect {
 		throw new UnsupportedOperationException();
 	}
 	
-	public void play(Entity e) {
+	public void play(Entite e) {
 		e.takeDamage(damage);
 	}
 }
