@@ -9,6 +9,7 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import game.effect.DrawRandom;
 import game.effect.GlobalEffect;
 import game.effect.MultiTargetDamage;
 import game.effect.MultiTargetHeal;
@@ -50,6 +51,11 @@ public class CardSpellTest{
         this.carteMin3 = new CardMinion("3", player2, "carteMin3", 1, 1, 1, new HashSet<String>(), new HashMap<String, Integer>());
         this.carteMin4 = new CardMinion("4", player2, "carteMin4", 1, 1, 3, new HashSet<String>(), new HashMap<String, Integer>());
 
+        this.player1.getDeck().add(carteMin1);
+        this.player1.getDeck().add(carteMin2);
+        this.player2.getDeck().add(carteMin3);
+        this.player2.getDeck().add(carteMin4);
+        
         this.player1.getBoard().put(carteMin1.getId(), carteMin1);
         this.player1.getBoard().put(carteMin2.getId(), carteMin2);
         this.player2.getBoard().put(carteMin3.getId(), carteMin3);
@@ -113,5 +119,18 @@ public class CardSpellTest{
         assertEquals("carteMin1", carteMin1.getName());
         carte.play(carteMin1);
         assertEquals("mouton", carteMin1.getName());
+    }
+
+    @Test
+    public void testDraw(){
+        carte = new CardSpell("0", player1, "test", 1, ste, mte, gte);
+        GlobalEffect effet = new DrawRandom(carte, 2);
+        carte.addEffect(effet);
+
+        assertEquals(0, player1.getHand().size());
+
+        carte.play();
+
+        assertEquals(2, player1.getHand().size());
     }
 }
