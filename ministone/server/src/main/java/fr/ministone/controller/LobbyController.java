@@ -79,8 +79,6 @@ public class LobbyController {
 	public void joinLobby(@Payload MessageJoinLobby message, @Header("simpSessionId") String sessionId) throws Exception {
 		// On envoie les infos sur une url spécifique pour chaque joueur (avec le nom du joueur dedans), chaque joueur se subscribe donc à l'url avec son nom
 		// htmlEscape: pour éviter que l'utilisateur ne prenne un nom comme "<script>while(true)alert('');</script>"
-		System.out.println("reçu sur /lobby/join " + sessionId);
-		System.out.println(message.getName());
 		String userName = HtmlUtils.htmlEscape(message.getName().trim());
 		if(users.containsKey(userName)) {
 			// Le nom est déjà pris
@@ -88,13 +86,11 @@ public class LobbyController {
 				@JsonProperty private String message = "Name already taken";
 			});
 			template.convertAndSend("/topic/lobby/" + sessionId + "/error", sendError);
-			System.out.println("flag a");
 		} else {
 			String sendName = new ObjectMapper().writeValueAsString(new Object() {
 				@JsonProperty private String name = userName;
 			});
 			template.convertAndSend("/topic/lobby/" + sessionId + "/confirmName", sendName);
-			System.out.println("flag b");
 
 			ArrayList<Object> usersBefore = new ArrayList<>();
 			for(Map.Entry<String, User> pair : users.entrySet()) {
@@ -103,15 +99,12 @@ public class LobbyController {
 				});
 			}
 			template.convertAndSend("/topic/lobby/" + sessionId + "/usersBefore", new ObjectMapper().writeValueAsString(usersBefore));
-			System.out.println("flag c");
 
 			for(Map.Entry<String, User> pair : users.entrySet())
 				template.convertAndSend("/topic/lobby/" + pair.getValue().getSessionId() + "/userJoined", sendName);
-				System.out.println("flag d");
 			
 			users.put(userName, new User(userName, sessionId));
 		}
-		System.out.println("flag e");
 	}
 
 	@MessageMapping("/lobby/leave")

@@ -29,6 +29,10 @@ public class Game implements GameEvent {
 			player1.setOpponent(player2);
 		}	
 	}
+
+	public boolean isReady(){
+		return((this.player1!=null) && (this.player2 != null));
+	}
 	
 	public void start() {
 		double val = Math.random();
