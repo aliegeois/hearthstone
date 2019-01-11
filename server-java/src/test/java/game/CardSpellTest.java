@@ -9,12 +9,14 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import game.effect.Effect;
 import game.effect.GlobalEffect;
 import game.effect.MultiTargetDamage;
+import game.effect.MultiTargetHeal;
 import game.effect.MultipleTargetEffect;
 import game.effect.SingleTargetDamage;
 import game.effect.SingleTargetEffect;
+import game.effect.SingleTargetHeal;
+import game.effect.Transform;
 import game.hero.Hero;
 import game.hero.HeroMage;
 import game.hero.HeroWarrior;
@@ -79,4 +81,37 @@ public class CardSpellTest{
 
     }
 
+    @Test
+    public void testCardSpellHeal(){
+        carte = new CardSpell("0", player1, "test", 1, ste, mte, gte);
+        SingleTargetEffect effet1 = new SingleTargetHeal(carte, 3);
+        MultipleTargetEffect effet2 = new MultiTargetHeal(carte, true, true, false, false, 1);
+
+        carte.addEffect(effet1);
+        carte.addEffect(effet2);
+
+        hero1.takeDamage(4);
+        carteMin2.takeDamage(2);
+        assertEquals(26, hero1.getHealth());
+        assertEquals(1, carteMin2.getHealth());
+
+        carte.play(hero1);
+
+        assertEquals(29, hero1.getHealth());
+        assertEquals(1, carteMin1.getHealth());
+        assertEquals(2, carteMin2.getHealth());
+
+    }
+
+    @Test 
+    public void testCardSpellTransform(){
+        carte = new CardSpell("0", player1, "test", 1, ste, mte, gte);
+        Entity mouton = new CardMinion(carteMin3.getId(), carteMin1.getOwner(), "mouton", 0, 0, 1, new HashSet<String>(), new HashMap<String, Integer>());
+        SingleTargetEffect effet1 = new Transform(carte, mouton);
+        carte.addEffect(effet1);
+
+        assertEquals("carteMin1", carteMin1.getName());
+        carte.play(carteMin1);
+        assertEquals("mouton", carteMin1.getName());
+    }
 }

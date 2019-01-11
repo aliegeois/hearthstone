@@ -44,16 +44,14 @@ public class PlayerTest{
     }
 
     @Test
-
-    void testDrawCard(){
+    public void testDrawCard(){
         assertEquals(0, player1.getHand().size());
         player1.drawCard();
         assertEquals(1, player1.getHand().size());
     }
 
     @Test
-
-    void testPlayMinion(){
+    public void testPlayMinion(){
         String idCard = player1.drawCard();
         assertTrue(player1.getHand().size() == 1);
         assertEquals(0, player1.getBoard().size());
@@ -64,8 +62,12 @@ public class PlayerTest{
     }
 
     @Test
+    public void testPlaySpell(){
 
-    void testSetOpponent(){
+    }
+
+    @Test
+    public void testSetOpponent(){
         player1.setOpponent(player2);
 
         assertEquals(player2, player1.getOpponent());
@@ -73,8 +75,7 @@ public class PlayerTest{
     }
 
     @Test 
-
-    void testAttackMinion(){
+    public void testAttackMinion(){
         assertEquals(10, carte1.getHealth());
         assertEquals(10, carte2.getHealth());
         player1.attack(carte1, carte2);
@@ -84,7 +85,7 @@ public class PlayerTest{
     }
 
     @Test
-    void testAttackHero(){
+    public void testAttackHero(){
         assertEquals(Constants.HEROMAXHEALTH, hero2.getHealth());
 
         player1.attack(carte1, hero2);
