@@ -19,7 +19,7 @@ function connect() {
 		stompClient.subscribe(`/topic/lobby/${sessionId}/confirmName`, data => {
 			console.log(`event: confirmName, data: ${data.body}`);
 			name = JSON.parse(data.body).name;
-			for(el of document.getElementsByClassName('name'))
+			for(let el of document.getElementsByClassName('name'))
 				el.innerHTML = name;
 		});
 		// Récupère les clients déjà connecté
