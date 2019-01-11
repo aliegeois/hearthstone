@@ -15,18 +15,42 @@ import { ConstantesService } from './constantes.service';
 })
 export class AppComponent implements OnInit {
 
-
-  private serverUrl = 'http://localhost:8080/ministone-socket';
-  private stompClient;
-
-  title: String;
-  currentPage: String;
-
   constructor() {
-    this.title = 'client-angular';
+    AppComponent.title = 'client-angular';
     this.currentPage = 'home';
 
-     this.initializeWebSocketConnection();
+    AppComponent.socket = new SockJS(AppComponent.serverUrl);
+    AppComponent.stompClient = Stomp.over(AppComponent.socket);
+
+    AppComponent.initializeWebSocketConnection();
+  }
+
+
+
+  static serverUrl = 'http://localhost:8080/ministone-socket';
+  static stompClient;
+  static socket: SockJS;
+  static sessionId;
+
+  static title: String;
+
+  currentPage: String;
+
+  static initializeWebSocketConnection() {
+
+    AppComponent.stompClient.connect({}, frame => {
+
+        console.log('Connected:' + frame);
+        AppComponent.sessionId = AppComponent.socket._transport.url.split('/').slice(-2, -1)[0]; // The magic happens
+        console.log('[AppComponent] sessionId = ' + AppComponent.sessionId);
+
+      AppComponent.stompClient.subscribe('/chat', message => {
+        if (message.body) {
+          console.log('Message reçu du serveur : ' + message.body);
+        }
+      });
+
+    });
   }
 
   ngOnInit(): void {
@@ -44,26 +68,11 @@ export class AppComponent implements OnInit {
         case 'lobby':
             this.currentPage = 'home';
             break;
-    }
-}
-
-  initializeWebSocketConnection() {
-    const ws = new SockJS(this.serverUrl);
-    this.stompClient = Stomp.over(ws);
-
-    this.stompClient.connect({}, frame => {
-
-      this.stompClient.subscribe('/chat', message => {
-        if (message.body) {
-          console.log('Message reçu du serveur : ' + message.body);
         }
-      });
-
-    });
-  }
+    }
 
   sendMessage(message) {
-    this.stompClient.send('/app/send/message' , {}, message);
+    AppComponent.stompClient.send('/app/send/message' , {}, message);
   }
 
 }
