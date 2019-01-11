@@ -1,6 +1,0 @@
-URL du tuto : https://dzone.com/articles/bootiful-development-with-spring-boot-and-angular
-
-Commande pour lancer le serveur Spring : ./mvnw spring-boot:run (à partir de la racine server)
-Pour le quitter, il ne faut pas oublier de fermer le processus "Java(TM) Platform SE Binary" dans les tâches de fond
-
-Commande pour lancer le serveur Angular : ng serve -o (à la racine du dossier client)
