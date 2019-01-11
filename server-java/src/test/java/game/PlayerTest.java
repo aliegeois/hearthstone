@@ -12,6 +12,9 @@ import org.junit.jupiter.api.Test;
 import game.CardMinion;
 import game.Constants;
 import game.Player;
+import game.effect.GlobalEffect;
+import game.effect.MultipleTargetEffect;
+import game.effect.SingleTargetEffect;
 import game.hero.HeroMage;
 import game.hero.HeroWarrior;
 
@@ -26,6 +29,7 @@ public class PlayerTest{
     private HeroMage hero2;
     
     private CardMinion carte1, carte2;
+    private CardSpell carte3;
 
 
     @BeforeEach
@@ -37,6 +41,7 @@ public class PlayerTest{
         this.cap2.add("provocation");
         this.carte1 = new CardMinion("1", player1, "carte1", 1, 1, 10, cap1, new HashMap<String,Integer>());
         this.carte2 = new CardMinion("2", player2, "carte2", 1, 1, 10, cap2, new HashMap<String,Integer>());
+        this.carte3 = new CardSpell("3", player1, "carte3", 1, new HashSet<SingleTargetEffect>(), new HashSet<MultipleTargetEffect>(), new HashSet<GlobalEffect>());
 
         this.player1.getDeck().add(carte1);
         this.player2.getDeck().add(carte2);
@@ -63,7 +68,24 @@ public class PlayerTest{
 
     @Test
     public void testPlaySpell(){
+        assertEquals(0, player1.getHand().size());
+        player1.getHand().put(carte3.getId(), carte3);
+        assertEquals(1, player1.getHand().size());
 
+        player1.useSpell(carte3.getId());
+
+        assertEquals(0, player1.getHand().size());
+    }
+
+    @Test
+    public void testSpecial(){
+        player1.heroSpecial();
+
+        assertEquals(2, hero1.getArmor());
+
+        player2.heroSpecial(hero2);
+
+        assertEquals(0, hero1.getArmor());
     }
 
     @Test

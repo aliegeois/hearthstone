@@ -57,13 +57,18 @@ public class Player {
 		
 	}
 	
-	void useSpell(String cardId) {
+	public void useSpell(String cardId) {
 		CardSpell spell = (CardSpell)hand.get(cardId);
 		spell.play();
+		this.getHand().remove(spell.getId());
 	}
 	
-	void heroSpecial(Entity target) {
+	public void heroSpecial(Entity target) {
 		hero.special(target);
+	}
+
+	public void heroSpecial(){
+		hero.special();
 	}
 	
 	public String getName() {

@@ -8,7 +8,13 @@ public class HeroMage extends Hero {
 		super(player);
 	}
 	
+	@Override
 	public void special(Entity e) {
 		e.takeDamage(2);
+	}
+
+	@Override
+	public void special(){
+		
 	}
 }
