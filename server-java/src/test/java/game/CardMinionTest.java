@@ -1,10 +1,10 @@
-package test.java.game;
+package game;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import main.java.game.CardMinion;
-import main.java.game.Player;
+import game.CardMinion;
+import game.Player;
 
 import java.util.Collections;
 import java.util.HashMap;

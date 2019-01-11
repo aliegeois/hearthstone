@@ -1,9 +1,9 @@
-package main.java.game;
+package game;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import main.java.game.Constants;
+import game.Constants;
 
 public class Game implements GameEvent {
 	private Player player1, player2;

@@ -1,8 +1,8 @@
-package main.java.game.effect;
+package game.effect;
 
-import main.java.game.CardMinion;
-import main.java.game.CardSpell;
-import main.java.game.Entity;
+import game.CardMinion;
+import game.CardSpell;
+import game.Entity;
 
 public class MultiTargetBuff extends MultipleTargetEffect {
 	private int life;

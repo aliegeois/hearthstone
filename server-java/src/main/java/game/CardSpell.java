@@ -1,9 +1,9 @@
-package main.java.game;
+package game;
 
 import java.util.Set;
 import java.util.UUID;
 
-import main.java.game.effect.*;
+import game.effect.*;
 
 public class CardSpell extends Card {
 	protected Set<SingleTargetEffect> singleEffects;

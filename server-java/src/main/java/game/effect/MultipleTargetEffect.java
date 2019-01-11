@@ -1,6 +1,6 @@
-package main.java.game.effect;
+package game.effect;
 
-import main.java.game.CardSpell;
+import game.CardSpell;
 
 public abstract class MultipleTargetEffect extends Effect{
 	

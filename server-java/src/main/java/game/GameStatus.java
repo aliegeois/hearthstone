@@ -1,11 +1,11 @@
-package main.java.game;
+package game;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import main.java.game.hero.Hero;
+import game.hero.Hero;
 
 public class GameStatus { //Cette classe est renvoyee au client pour l'informer des modifications de la partie engendr�ees par l'action utilisateur
 	

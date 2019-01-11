@@ -1,7 +1,7 @@
-package main.java.game.effect;
+package game.effect;
 
-import main.java.game.CardSpell;
-import main.java.game.Entity;
+import game.CardSpell;
+import game.Entity;
 
 public class SingleTargetHeal extends SingleTargetEffect {
 	private int amount;

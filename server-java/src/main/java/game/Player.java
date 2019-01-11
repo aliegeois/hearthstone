@@ -1,4 +1,4 @@
-package main.java.game;
+package game;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -7,10 +7,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import main.java.game.hero.Hero;
-import main.java.game.hero.HeroMage;
-import main.java.game.hero.HeroPaladin;
-import main.java.game.hero.HeroWarrior;
+import game.hero.Hero;
+import game.hero.HeroMage;
+import game.hero.HeroPaladin;
+import game.hero.HeroWarrior;
 
 public class Player {
 	private String name;
