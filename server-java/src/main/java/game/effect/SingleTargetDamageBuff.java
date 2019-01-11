@@ -2,8 +2,6 @@ package game.effect;
 
 import game.CardSpell;
 import game.Entity;
-import game.hero.Hero;
-import game.CardMinion;
 
 public class SingleTargetDamageBuff extends SingleTargetEffect {
 	private int attack;
