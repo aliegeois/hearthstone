@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
- import * as Stomp from 'stompjs';
- import * as SockJS from 'sockjs-client';
+import * as Stomp from 'stompjs';
+import * as SockJS from 'sockjs-client';
 
  import { SingleTargetEffect, MultipleTargetEffect, GlobalEffect } from './effect.service';
 // import { HeroMage, HeroPaladin, HeroWarrior } from './heroes.service';
@@ -9,11 +9,12 @@ import { ConstantesService } from './constantes.service';
 
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+
 
   private serverUrl = 'http://localhost:8080/ministone-socket';
   private stompClient;
