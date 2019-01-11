@@ -191,4 +191,18 @@ public class EffectTest{
 
         assertEquals(20, hero1.getHealth());
     }
+
+    @Test
+    void testTransform(){
+        carte = new CardSpell("0", player1, "test", 7, ste, mte, gte);
+        Entity mouton = new CardMinion(carteMin3.getId(), player2, "mouton", 0, 0, 1, new HashSet<String>(), new HashMap<String, Integer>());
+        SingleTargetEffect effect = new Transform(carte, mouton);
+
+
+        player2.getBoard().put(carteMin3.getId(), carteMin3);
+
+        effect.play(carteMin3);
+
+        assertEquals("mouton", player2.getBoard().get("3").getName());
+    }
 }

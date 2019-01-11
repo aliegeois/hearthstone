@@ -87,4 +87,9 @@ public abstract class Hero implements Entity {
 			System.out.println(this.player.getName() + " a gagné !");
 		}
 	}
+
+	@Override
+	public void transform(Entity e){
+
+	}
 }

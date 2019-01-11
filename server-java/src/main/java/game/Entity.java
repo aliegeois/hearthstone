@@ -10,4 +10,5 @@ public interface Entity {
 	public boolean isProvoking();
 	public boolean isDead();
 	public void die();
+	public void transform(Entity e);
 }
