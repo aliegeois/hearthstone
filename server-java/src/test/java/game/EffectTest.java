@@ -137,4 +137,29 @@ public class EffectTest{
         assertEquals(1, player1.getBoard().size());
         assertEquals(1, player2.getBoard().size()); 
     }
+
+    @Test 
+
+    void testMultTarHealBothHeroes(){
+        carte = new CardSpell("0", player1, "test", 7, ste, mte, gte);
+        MultipleTargetEffect effect = new MultiTargetHeal(carte, false, false, true, true, 5);
+        carte.addEffect(effect);
+
+        hero1.takeDamage(2);
+        hero2.takeDamage(8);
+
+        assertEquals(28, hero1.getHealth());
+        assertEquals(22, hero2.getHealth());
+
+        effect.play();
+
+        assertEquals(Constants.HEROMAXHEALTH, hero1.getHealth());
+        assertEquals(27, hero2.getHealth());
+        
+    }
+
+    @Test
+    void testSinglTarDamBuff(){
+        
+    }
 }
