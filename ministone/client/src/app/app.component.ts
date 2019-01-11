@@ -40,7 +40,7 @@ export class AppComponent implements OnInit {
 
     AppComponent.stompClient.connect({}, frame => {
 
-		for(let l of AppComponent.listeners)
+        for (let l of AppComponent.listeners)
 			l.onConnect();
 
         console.log('Connected:' + frame);
@@ -52,13 +52,15 @@ export class AppComponent implements OnInit {
           console.log('Message reçu du serveur : ' + message.body);
         }
       });
+
+      
     });
   }
 
   static addListener(obj) {
-	  AppComponent.listeners.push(obj);
-	  if(AppComponent.sessionId != '')
-	    obj.onConnect();
+        AppComponent.listeners.push(obj);
+        if(AppComponent.sessionId != '')
+            obj.onConnect();
   }
 
   ngOnInit(): void {
@@ -82,6 +84,8 @@ export class AppComponent implements OnInit {
   sendMessage(message) {
     AppComponent.stompClient.send('/app/send/message' , {}, message);
   }
+
+  
 
 }
 
