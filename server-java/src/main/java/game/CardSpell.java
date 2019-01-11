@@ -19,17 +19,22 @@ public class CardSpell extends Card {
 	
 	@Override
 	public void play() {
-
-		//S'il lui faut une target, on laisse l'utilisateur en choisir une
-		if(singleEffects.isEmpty()) {
-			//TODO
-			//Entity target = 
-		}
-
-		for(SingleTargetEffect s : singleEffects) {
-			//s.play(target); TODO : gestion des targets	
+		
+		for(MultipleTargetEffect m : multipleEffects) {
+			m.play();
 		}
 		
+		for(GlobalEffect g : globalEffects) {
+			g.play();
+		}
+	}
+
+	public void play(Entity e) {
+
+		for(SingleTargetEffect s : singleEffects) {
+			s.play(e);
+		}
+
 		for(MultipleTargetEffect m : multipleEffects) {
 			m.play();
 		}

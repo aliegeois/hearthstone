@@ -18,6 +18,6 @@ public class Transform extends SingleTargetEffect{
 	
 	@Override
 	public void play(Entity target) {
-		target = into;
+		target.transform(this.into);
 	}
 }

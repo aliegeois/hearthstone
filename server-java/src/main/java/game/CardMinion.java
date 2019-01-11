@@ -146,4 +146,16 @@ public class CardMinion extends Card implements Entity {
 		Card carte = new CardMinion(identif, player, name, mana, damage, health, effects, boosts);
 		return carte;
 	}
+
+	@Override
+	public void transform(Entity e){
+		if(e instanceof CardMinion){
+			this.name = ((CardMinion)e).name;
+			this.health = ((CardMinion)e).health;
+			this.manaCost = ((CardMinion)e).manaCost;
+			this.provocation = ((CardMinion)e).provocation;
+			this.ready = ((CardMinion)e).ready;
+			this.damage = ((CardMinion)e).damage;
+		}
+	}
 }
