@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CardSpell, CardMinion, Entity } from './app.component';
+//import { CardSpell, CardMinion, Entity } from './app.component';
 
 @Injectable({
   providedIn: 'root'
@@ -137,7 +137,7 @@ export class SingleTargetHeal extends SingleTargetEffect {
 }
 
 
-export class Transform extends SingleTargetEffect {
+/*export class Transform extends SingleTargetEffect {
     into: CardMinion;
 
     constructor(into: CardMinion) {
@@ -145,7 +145,7 @@ export class Transform extends SingleTargetEffect {
         this.into = into;
     }
 
-}
+}*/
 
 export class DrawRandom extends EffectService {
     cardNumber: number;

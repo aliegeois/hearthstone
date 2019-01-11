@@ -1,17 +1,11 @@
 package fr.ministone.controllertest;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.Collection;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import java.util.stream.Collectors;
 
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -21,13 +15,10 @@ public class UserController {
 
     //private BeerRepository repository;
     private SimpMessagingTemplate template;
-    private UserRepository repository;
 
     @Autowired
     public UserController(SimpMessagingTemplate template) {
         this.template = template;
-        this.repository = repository;
-
     }
 
     /*
@@ -53,7 +44,7 @@ public class UserController {
     @MessageMapping("/send/message")
     public void onReceivedMessage(String message) {
         System.out.println("Message reçu du client : " + message);
-        this.template.convertAndSend("/chat", message);
+        template.convertAndSend("/topic/chat", message);
     }
 
     /*

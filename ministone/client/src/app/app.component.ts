@@ -47,12 +47,11 @@ export class AppComponent implements OnInit {
         AppComponent.sessionId = AppComponent.socket._transport.url.split('/').slice(-2, -1)[0]; // The magic happens
         console.log('[AppComponent] sessionId = ' + AppComponent.sessionId);
 
-      AppComponent.stompClient.subscribe('/chat', message => {
+      AppComponent.stompClient.subscribe('/topic/chat', message => {
         if (message.body) {
           console.log('Message reçu du serveur : ' + message.body);
         }
       });
-
       
     });
   }
