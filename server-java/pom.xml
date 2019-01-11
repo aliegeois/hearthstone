@@ -100,23 +100,6 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>2.22.1</version>
                 </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-pmd-plugin</artifactId>
-                    <version>3.11.0</version>
-                    <configuration>
-                        <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
-                        <minimumTokens>100</minimumTokens>
-                        <targetJdk>${maven.compiler.target}</targetJdk>
-                        <rulesets>
-                            <ruleset>/rulesets/java/basic.xml</ruleset>
-                            <ruleset>/rulesets/java/sunsecure.xml</ruleset>
-                            <ruleset>/rulesets/java/naming.xml</ruleset>
-                            <ruleset>/rulesets/java/codesize.xml</ruleset>
-                            <ruleset>/rulesets/java/braces.xml</ruleset>
-                        </rulesets>
-                    </configuration>
-                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
@@ -247,6 +230,23 @@
 
     <reporting>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+                    <minimumTokens>100</minimumTokens>
+                    <targetJdk>${maven.compiler.target}</targetJdk>
+                    <rulesets>
+                        <ruleset>/rulesets/java/basic.xml</ruleset>
+                        <ruleset>/rulesets/java/sunsecure.xml</ruleset>
+                        <ruleset>/rulesets/java/naming.xml</ruleset>
+                        <ruleset>/rulesets/java/codesize.xml</ruleset>
+                        <ruleset>/rulesets/java/braces.xml</ruleset>
+                    </rulesets>
+                 </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
