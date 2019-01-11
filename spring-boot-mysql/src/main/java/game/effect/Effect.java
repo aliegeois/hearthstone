@@ -1,7 +1,7 @@
 package game.effect;
 
 import game.CardSpell;
-import game.Entity;
+import game.Entite;
 
 public abstract class Effect {
 	protected CardSpell card;
@@ -14,7 +14,7 @@ public abstract class Effect {
 		
 	}
 	
-	void play(Entity e) {
+	void play(Entite e) {
 		
 	}
 }

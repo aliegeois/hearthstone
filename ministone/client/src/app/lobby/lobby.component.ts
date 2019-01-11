@@ -12,20 +12,15 @@ import { AppComponent } from '../app.component';
 export class LobbyComponent implements OnInit {
 
 
-  constructor() {
-	  AppComponent.addListener(this);
-  }
+  constructor() { }
 
-  ngOnInit() {}
-
-  onConnect() {
-	  console.info('wesh t\'es connecté bro');
-	  
+  ngOnInit() {
+    console.log(AppComponent.stompClient.isConnected());
   }
 
   setConnected(connected): void {
-	document.getElementById('connected-content').style.setProperty('display', connected ? 'block' : 'none');
-	document.getElementById('players').innerHTML = '';
+    document.getElementById('connected-content').style.setProperty('display', connected ? 'block' : 'none');
+    document.getElementById('players').innerHTML = '';
   }
 
 

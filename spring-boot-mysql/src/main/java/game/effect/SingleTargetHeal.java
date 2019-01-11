@@ -1,7 +1,7 @@
 package game.effect;
 
 import game.CardSpell;
-import game.Entity;
+import game.Entite;
 
 public class SingleTargetHeal extends SingleTargetEffect {
 	private int amount;
@@ -17,7 +17,7 @@ public class SingleTargetHeal extends SingleTargetEffect {
 	}
 	
 	@Override
-	public void play(Entity e) {
+	public void play(Entite e) {
 		e.heal(amount);
 	}
 }

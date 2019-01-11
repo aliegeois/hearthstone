@@ -7,7 +7,7 @@ public interface GameEvent {
 
 	void useSpell(Player player, String cardId);
 
-	void heroSpecial(Player player, Entity target);
+	void heroSpecial(Player player, Entite target);
 
 	void endTurn(Player player);
 }

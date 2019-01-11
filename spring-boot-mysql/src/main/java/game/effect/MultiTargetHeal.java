@@ -2,7 +2,7 @@ package game.effect;
 
 import game.CardMinion;
 import game.CardSpell;
-import game.Entity;
+import game.Entite;
 
 public class MultiTargetHeal extends MultipleTargetEffect {
 	private int amount;
@@ -34,7 +34,7 @@ public class MultiTargetHeal extends MultipleTargetEffect {
 	}
 	
 	@Override
-	public void play(Entity e) {
+	public void play(Entite e) {
 		throw new UnsupportedOperationException();
 	}
 }

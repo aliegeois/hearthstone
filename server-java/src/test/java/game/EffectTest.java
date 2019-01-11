@@ -34,6 +34,7 @@ public class EffectTest{
     private Set<GlobalEffect> gte;
 
     @BeforeEach
+
     void Init(){
 
         this.player1 = new Player("Billy");
