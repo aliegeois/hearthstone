@@ -16,7 +16,7 @@ public class Transform extends SingleTargetEffect{
 		throw new UnsupportedOperationException();
 	}
 	
-	//TODO : voir pourquoi ça ne marche pas alors que c'est sensé être la base de l'héritage
+	@Override
 	public void play(Entity target) {
 		target = into;
 	}

@@ -3,10 +3,10 @@ package game.effect;
 import game.CardSpell;
 import game.Entity;
 
-public class SIngleTargetLifeBuff extends SingleTargetEffect {
+public class SingleTargetLifeBuff extends SingleTargetEffect {
 	private int life;
 	
-	public SIngleTargetLifeBuff(CardSpell card, int life) {
+	public SingleTargetLifeBuff(CardSpell card, int life) {
 		super(card);
 		this.life = life;
 	}

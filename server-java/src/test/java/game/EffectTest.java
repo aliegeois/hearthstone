@@ -62,7 +62,6 @@ public class EffectTest{
     }
 
     @Test
-
     void testDrawRandom() {
 
         carte = new CardSpell("0", player1, "Sprint", 7, ste, mte, gte);
@@ -83,7 +82,6 @@ public class EffectTest{
     }
 
     @Test
-
     void testMultTarBuffOwnBoard(){
 
         carte = new CardSpell("0", player1, "test", 7, ste, mte, gte);
@@ -101,7 +99,6 @@ public class EffectTest{
     }
 
     @Test
-
     void testMultTarBuffOpponentBoard(){
         carte = new CardSpell("0", player1, "test", 7, ste, mte, gte);
         MultipleTargetEffect effect = new MultiTargetBuff(carte, false, true, false, false, 0, 2);
@@ -117,7 +114,6 @@ public class EffectTest{
     }
 
     @Test
-
     void testMultTarDamageAll(){
         carte = new CardSpell("0", player1, "test", 7, ste, mte, gte);
         MultipleTargetEffect effect = new MultiTargetDamage(carte, true, true, true, true, 2);
@@ -139,7 +135,6 @@ public class EffectTest{
     }
 
     @Test 
-
     void testMultTarHealBothHeroes(){
         carte = new CardSpell("0", player1, "test", 7, ste, mte, gte);
         MultipleTargetEffect effect = new MultiTargetHeal(carte, false, false, true, true, 5);
@@ -159,7 +154,6 @@ public class EffectTest{
     }
 
     @Test
-    
     void testSinglTarDamBuff(){
         carte = new CardSpell("0", player1, "test", 7, ste, mte, gte);
         SingleTargetEffect effect = new SingleTargetDamageBuff(carte, 1);
@@ -170,5 +164,31 @@ public class EffectTest{
         effect.play(carteMin1);
 
         assertEquals(2, carteMin1.getDamage());
+    }
+
+    @Test
+    void testSinglTarHealthBuff(){
+        carte = new CardSpell("0", player1, "test", 7, ste, mte, gte);
+        SingleTargetEffect effect = new SingleTargetLifeBuff(carte, 1);
+        carte.addEffect(effect);
+
+        assertEquals(1, carteMin3.getHealth());
+
+        effect.play(carteMin3);
+
+        assertEquals(2, carteMin3.getHealth());
+    }
+
+    @Test
+    void testSinglTargDamage(){
+        carte = new CardSpell("0", player1, "test", 7, ste, mte, gte);
+        SingleTargetEffect effect = new SingleTargetDamage(carte, 10);
+        carte.addEffect(effect);
+
+        assertEquals(Constants.HEROMAXHEALTH, hero1.getHealth());
+
+        effect.play(hero1);
+
+        assertEquals(20, hero1.getHealth());
     }
 }
