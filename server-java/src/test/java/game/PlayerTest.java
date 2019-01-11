@@ -46,6 +46,12 @@ public class PlayerTest{
     }
 
     @Test
+    void testInit(){
+        assertEquals(hero1, player1.getHero());
+        assertEquals(hero2, player2.getHero());
+    }
+
+    @Test
     public void testDrawCard(){
         assertEquals(0, player1.getHand().size());
         player1.drawCard();
@@ -76,13 +82,14 @@ public class PlayerTest{
 
     @Test
     public void testSpecial(){
-        player1.heroSpecial();
 
-        assertEquals(2, hero1.getArmor());
+        //player1.heroSpecial();
+
+        //assertEquals(2, hero1.getArmor());
 
         player2.heroSpecial(hero2);
 
-        assertEquals(0, hero1.getArmor());
+        assertEquals(28, hero1.getHealth());
     }
 
     @Test
