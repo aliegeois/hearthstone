@@ -1,8 +1,8 @@
-package main.java.game.hero;
+package game.hero;
 
-import main.java.game.Constants;
-import main.java.game.Entity;
-import main.java.game.Player;
+import game.Constants;
+import game.Entity;
+import game.Player;
 
 public abstract class Hero implements Entity {
 	protected Player player;

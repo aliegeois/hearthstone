@@ -1,7 +1,7 @@
-package main.java.game.effect;
+package game.effect;
 
-import main.java.game.CardMinion;
-import main.java.game.CardSpell;
+import game.CardMinion;
+import game.CardSpell;
 
 public class Transform extends SingleTargetEffect{
 	private CardMinion into;

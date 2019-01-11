@@ -1,7 +1,7 @@
-package main.java.game.hero;
+package game.hero;
 
-import main.java.game.Entity;
-import main.java.game.Player;
+import game.Entity;
+import game.Player;
 
 public class HeroMage extends Hero {
 	public HeroMage(Player player) {

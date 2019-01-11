@@ -1,6 +1,6 @@
-package main.java.game.hero;
+package game.hero;
 
-import main.java.game.Player;
+import game.Player;
 
 public class HeroWarrior extends Hero {
 	public HeroWarrior(Player player) {

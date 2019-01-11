@@ -1,4 +1,4 @@
-package main.java.game;
+package game;
 
 abstract class Card {
 	protected String id;

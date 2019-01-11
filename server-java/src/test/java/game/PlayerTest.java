@@ -1,4 +1,4 @@
-package test.java.game;
+package game;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,11 +9,11 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import main.java.game.CardMinion;
-import main.java.game.Constants;
-import main.java.game.Player;
-import main.java.game.hero.HeroMage;
-import main.java.game.hero.HeroWarrior;
+import game.CardMinion;
+import game.Constants;
+import game.Player;
+import game.hero.HeroMage;
+import game.hero.HeroWarrior;
 
 public class PlayerTest{
 

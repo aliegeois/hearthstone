@@ -1,4 +1,4 @@
-package main.java.game.hero;
+package game.hero;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -7,8 +7,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import main.java.game.CardMinion;
-import main.java.game.Player;
+import game.CardMinion;
+import game.Player;
 
 public class HeroPaladin extends Hero {
 	public HeroPaladin(Player player) {
