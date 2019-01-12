@@ -37,8 +37,8 @@
 						<li *ngFor="let players of connectedPlayers">
 							<div id="player_line">
 								<span>{{ players[0] }}</span>
-								<button *ngIf="players[1]" id="accept_match">Accept</button>
-								<button *ngIf="players[1]" id="decline_match">Decline</button>
+								<button *ngIf="players[1]" id="accept_match" (click)="acceptMatch()">Accept</button>
+								<button *ngIf="players[1]" id="decline_match" (click)="declineMatch()">Decline</button>
 							</div>
 						</li>
 					</ul>

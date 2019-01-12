@@ -7,25 +7,32 @@
     }
 
     #player_line {
-        border: 1px solid black;
         height: 25px;
-        width: 50%;
+        margin-left: 25%;
+        margin-right: 25%;
+        margin-bottom: 5px;
+        background-color: rgba(200,200,200,1);
         text-align: left;
         
         span {
             font-weight: bold;
             vertical-align: middle;
+            padding: 3px;
         }
         button {
             float: right;
-            height: 20px;
+            height: 25px;
             vertical-align: middle;
+            font-weight: bold;
+            border: 1px solid black;
+            border-radius: 1px;
         }
         #accept_match {
-            color: green;
+            background-color: green;
+            border-left: 0px solid black; // In order for not having two collisionnal borders
         }
         #decline_match {
-            color: red;
+            background-color: red;
         }
 
     }

@@ -70,6 +70,10 @@ export class LobbyComponent implements OnInit {
 			let td = document.getElementById('buttons-' + data.id);
 			this.nodeUsers.get(data.opponent).firstElementChild.colSpan = 2;
 			td.parentElement.removeChild(td);
+
+			//Version TS
+			const index = this.foundPlayer(data.opponent);
+			this.connectedPlayers[index][1] = false;
 		});
 		// Adversaire trouvé
 		AppComponent.stompClient.subscribe(`/topic/lobby/${AppComponent.sessionId}/matchFound`, data => {
@@ -146,7 +150,7 @@ export class LobbyComponent implements OnInit {
 
 		buttonDecline.addEventListener('click', () => {
 			AppComponent.stompClient.send('/app/lobby/declineMatch');
-			buttonAccept.setAttribute('disabled', 'true');
+			buttonDecline.setAttribute('disabled', 'true');
 		});
 
 		tdButtons.appendChild(buttonAccept);
@@ -185,6 +189,14 @@ export class LobbyComponent implements OnInit {
 			index = i;
 		}
 		return index;
+	}
+
+	acceptMatch() {
+		AppComponent.stompClient.send('/app/lobby/acceptMatch');
+	}
+
+	declineMatch() {
+		AppComponent.stompClient.send('/app/lobby/declineMatch');
 	}
 	
 }
