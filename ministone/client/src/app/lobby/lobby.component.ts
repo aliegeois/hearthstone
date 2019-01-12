@@ -13,14 +13,17 @@ export class LobbyComponent implements OnInit {
 
 	
 	name: string; // Nom du client
-	level: string; //Level du client (novice, regular, expert)
+	level: string; // Level du client (novice, regular, expert)
+	heroType: string // Type du hero (paladin, mage, warrior) 
 	//nodeUsers = new Map();
-	connectedPlayers: Array<[string, string, boolean]>; // List of players. The string is the player name ; the second string is the player level (Novice, Regular, Expert) ; the boolean indicated if the player is searching for a game
+	connectedPlayers: Array<[string, string, string, boolean]>;
+	// List of players. The string is the player name ; the second string is the player level (Novice, Regular, Expert) ; the third string is the player heroType (paladin, mage, warrior) ; the boolean indicated if the player is searching for a game
 
   constructor() {
-	  	this.level = "regular";
+		  this.level = "regular";
+		  this.heroType = "mage";
 		AppComponent.addListener(this);
-		this.connectedPlayers = new Array<[string, string, boolean]>();
+		this.connectedPlayers = new Array<[string, string, string, boolean]>();
   }
 
   ngOnInit() {
@@ -47,6 +50,7 @@ export class LobbyComponent implements OnInit {
 		console.log(`event: confirmName, data: ${data.body}`);
 		this.name = JSON.parse(data.body).name;
 		this.level = JSON.parse(data.body).level;
+		this.heroType = JSON.parse(data.body).heroType;
 		});
 		// Récupère les clients déjà connecté
 		AppComponent.stompClient.subscribe(`/topic/lobby/${AppComponent.sessionId}/usersBefore`, data => {
@@ -55,7 +59,7 @@ export class LobbyComponent implements OnInit {
 			
 			for(let user of users) {
 				console.log("Niveau utilisateur " + user.name + " = " + user.level);
-				this.addPlayer(user.name, user.level);
+				this.addPlayer(user.name, user.level, user.heroType);
 			}
 				
 		});
@@ -63,7 +67,7 @@ export class LobbyComponent implements OnInit {
 		AppComponent.stompClient.subscribe(`/topic/lobby/${AppComponent.sessionId}/userJoined`, data => {
 			console.log(`event: userJoined, data: ${data.body}`);
 			let user = JSON.parse(data.body);
-			this.addPlayer(user.name, user.level);
+			this.addPlayer(user.name, user.level, user.heroType);
 		});
 		// Un utilisateur se déconnecte
 		AppComponent.stompClient.subscribe(`/topic/lobby/${AppComponent.sessionId}/userLeaved`, data => {
@@ -82,7 +86,7 @@ export class LobbyComponent implements OnInit {
 
 			//Version TS
 			const index = this.foundPlayer(data.opponent);
-			this.connectedPlayers[index][2] = false;
+			this.connectedPlayers[index][3] = false;
 		});
 		// Adversaire trouvé
 		AppComponent.stompClient.subscribe(`/topic/lobby/${AppComponent.sessionId}/matchFound`, data => {
@@ -102,7 +106,7 @@ export class LobbyComponent implements OnInit {
 
 
 
-  addPlayer(name: string, level: string): void {
+  addPlayer(name: string, level: string, heroType: string): void {
 		//Version JS
 		/*let tr = document.createElement('tr'),
 				td = document.createElement('td');
@@ -115,9 +119,9 @@ export class LobbyComponent implements OnInit {
 		//Version TS
 		const index = this.foundPlayer(name);
 		if(index !== -1) {
-			this.connectedPlayers[index] = [name, level, false];
+			this.connectedPlayers[index] = [name, level, heroType, false];
 		} else {
-			this.connectedPlayers.push([name, level, false]);
+			this.connectedPlayers.push([name, level, heroType, false]);
 		}
   }
 
@@ -168,7 +172,7 @@ export class LobbyComponent implements OnInit {
 		//Version TS
 		const index = this.foundPlayer(opponent);
 		if(index !== -1) {
-			this.connectedPlayers[index][2] = true;
+			this.connectedPlayers[index][3] = true;
 		}
 
   }
@@ -184,7 +188,7 @@ export class LobbyComponent implements OnInit {
 	console.log("sessionId: "+ AppComponent.sessionId);
 	const value = (<HTMLInputElement>document.getElementById('name')).value;
 	console.log("Envoi du nom " + value + " de niveau " + this.level);
-	AppComponent.stompClient.send('/app/lobby/join', {}, JSON.stringify({name: value.trim(), level: this.level}));
+	AppComponent.stompClient.send('/app/lobby/join', {}, JSON.stringify({name: value.trim(), level: this.level, heroType: this.heroType}));
 	//AppComponent.stompClient.send('/app/send/message' , {}, message);
 	}
 	
@@ -208,22 +212,30 @@ export class LobbyComponent implements OnInit {
 		AppComponent.stompClient.send('/app/lobby/declineMatch');
 	}
 
+
+
 	setLevelNovice(): void {
-		console.log("Set novice");
 		this.level = "novice";
-		console.log(this.level);
 	}
 
 	setLevelRegular(): void {
-		console.log("Set regular");
 		this.level = "regular";
-		console.log(this.level);
 	}
 
 	setLevelExpert(): void {
-		console.log("Set expert");
 		this.level = "expert";
-		console.log(this.level);
+	}
+
+	setHeroTypePaladin(): void {
+		this.heroType = "paladin";
+	}
+
+	setHeroTypeMage(): void {
+		this.heroType = "mage";
+	}
+
+	setHeroTypeWarrior(): void {
+		this.heroType = "warrior";
 	}
 	
 }

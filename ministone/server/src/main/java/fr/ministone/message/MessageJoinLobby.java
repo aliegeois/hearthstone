@@ -3,13 +3,15 @@ package fr.ministone.message;
 public class MessageJoinLobby {
 	private String name;
 	private String level;
+	private String heroType;
 
 	public MessageJoinLobby() {}
 
-	public MessageJoinLobby(String name, String level) {
+	public MessageJoinLobby(String name, String level, String heroType) {
 		// faire des trucs
 		this.name = name;
 		this.level = level;
+		this.heroType = heroType;
 	}
 
 	public String getName() {
@@ -26,5 +28,13 @@ public class MessageJoinLobby {
 
 	public void setLevel(String newLevel) {
 		level = newLevel;
+	}
+
+	public String getHeroType() {
+		return heroType;
+	}
+
+	public void setHeroType(String newHeroType) {
+		heroType = newHeroType;
 	}
 }

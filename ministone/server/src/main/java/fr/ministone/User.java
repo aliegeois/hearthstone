@@ -11,6 +11,8 @@ public class User {
 	private int nbWins, nbLoses;
 	// Niveau (novice, regular, expert)
 	private String level;
+	// Type de héro (paladin, mage, warrior)
+	private String heroType;
 	
 	private UUID temporaryGameId;
 
@@ -24,9 +26,10 @@ public class User {
 		this.nbLoses = 0;
 		this.opponent = null;
 		this.level = "regular";
+		this.heroType = "warrior";
 	}
 
-	public User(String name, String sessionId, String level) {
+	public User(String name, String sessionId, String level, String heroType) {
 		this.name = name == null ? "" : name; // Putain de bordel de merde
 		this.sessionId = sessionId;
 		this.temporaryGameId = null;
@@ -34,6 +37,7 @@ public class User {
 		this.nbLoses = 0;
 		this.opponent = null;
 		this.level = level;
+		this.heroType = heroType;
 	}
 
 	public String getName() {
@@ -60,6 +64,10 @@ public class User {
 		return level;
 	}
 
+	public String getHeroType() {
+		return heroType;
+	}
+
 	public User getOpponent() {
 		return opponent;
 	}
@@ -74,5 +82,9 @@ public class User {
 
 	public void setLevel(String lvl) {
 		level = lvl;
+	}
+
+	public void setHeroType(String ht) {
+		heroType = ht;
 	}
 }

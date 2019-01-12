@@ -10,5 +10,22 @@
 
 		<h1>Ministone (game)</h1>
 
+		<div id="main_joueur">
+			<ul>
+				<li *ngFor="let card of joueurHand">
+					Nom : {{ card.name }} Mana : {{ card.manaCost }}
+				</li>
+			</ul>
+		</div>
+
+
+
+
+
+
+
+
+
+
 	</body>
 </html>
