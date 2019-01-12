@@ -31,16 +31,32 @@ public class Player {
 	
 	public void setOpponent(Player p) {
 		opponent = p;
-		if(p.getOpponent() == null){
+		if(p.getOpponent() == null) {
 			p.setOpponent(this);
 		}
 	}
 	
-	public void playMinion(String minionId) {
+	public void summonMinion(String minionId) {
 		CardMinion minion = (CardMinion)hand.get(minionId);
-		minion.play();
-		this.board.put(minionId, minion);
-		this.hand.remove(minionId);
+		int manaCost = minion.getManaCost();
+		if(mana >= manaCost) {
+			minion.play();
+			mana -= manaCost;
+			board.put(minionId, minion);
+			hand.remove(minionId);
+		} else {
+			// Si on a le temps: faire un message de type "notEnoughMana" et l'envoyer
+		}
+	}
+	
+	public void attack(String cardId, String targetId) { // Plus de vérifications (genre opponent card existe ou pas) ??
+		CardMinion minion = (CardMinion)hand.get(cardId);
+		if(targetId.equals("hero")) {
+			minion.attack(opponent.hero);
+		} else {
+			minion.attack(opponent.board.get(targetId));
+		}
+		checkDead();
 	}
 	
 	public String drawCard() {
@@ -53,20 +69,34 @@ public class Player {
 
 		return identif;
 	}
-	
-	public void attack(CardMinion minion, IEntity cible) {
-		minion.attack(cible);
-		
+
+	public void castSpell(boolean own, String cardId, String targetId) { // À terminer
+		CardSpell spell = (CardSpell)hand.get(cardId);
+		IEntity victim;
+		if("hero".equals(targetId)) {
+			
+		} else {
+
+		}
+		//spell.play();
+		//this.getHand().remove(spell.getId());
 	}
-	
-	public void useSpell(String cardId) {
+
+	public void castSpell(String cardId) {
 		CardSpell spell = (CardSpell)hand.get(cardId);
 		spell.play();
 		this.getHand().remove(spell.getId());
 	}
 	
-	public void heroSpecial(IEntity target) {
-		hero.special(target);
+	public void heroSpecial(boolean own, String targetId) { // À terminer
+		IEntity victim = null;
+		if(own) {
+
+		} else {
+
+		}
+		
+		hero.special(victim);
 	}
 
 	public void heroSpecial(){

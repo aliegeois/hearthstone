@@ -1,6 +1,5 @@
 package fr.ministone.game.hero;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -24,11 +23,11 @@ public class HeroPaladin extends Hero {
 		Map<String,Integer> boost = new HashMap<String,Integer>();
 		CardMinion carte = new CardMinion(idCarte, player, "SilverHand recruit", 1, 1, 1, cap, boost);
 		player.getHand().put(idCarte, carte);
-		player.playMinion(idCarte);
+		player.summonMinion(idCarte);
 	}
 
 	@Override
-	public void special(IEntity e){
-
+	public void special(IEntity e) {
+		throw new UnsupportedOperationException();
 	}
 }

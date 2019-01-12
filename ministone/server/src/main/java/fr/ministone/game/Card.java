@@ -1,12 +1,12 @@
 package fr.ministone.game;
 
-abstract class Card {
+public abstract class Card {
 	protected String id;
 	protected String name;
 	protected Player owner;
 	protected int manaCost;
 	
-	Card(String id, Player owner, String name, int manaCost) {
+	public Card(String id, Player owner, String name, int manaCost) {
 		this.id = id;
 		this.owner = owner;
 		this.name = name;
@@ -14,6 +14,7 @@ abstract class Card {
 	}
 	
 	public abstract void play();
+	public abstract void play(IEntity target);
 	
 	public String getName() {
 		return name;

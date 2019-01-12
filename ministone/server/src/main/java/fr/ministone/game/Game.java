@@ -8,142 +8,174 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Game implements IGameEvent, IGameMessageSender {
 	private SimpMessagingTemplate template;
-	private Player player1, player2;
+	private Map<String, Player> players = new HashMap<>();
+	//private Player player1, player2;
 	private Player playing, starting;
 	private int turn;
 	private UUID id;
 	
-	public Game(UUID id, SimpMessagingTemplate template, User player1, User player2) {
+	public Game(UUID id, SimpMessagingTemplate template, User user1, User user2) {
 		this.id = id;
 		this.template = template;
-		this.player1 = new Player(player1.getName(), player1.getSessionId());
-		this.player2 = new Player(player2.getName(), player2.getSessionId());
-	}
-
-	public Game(Player player1, Player player2) {		
-		this.player1 = player1;
-		this.player2 = player2;
-		
+		Player player1 = new Player(user1.getName(), user1.getSessionId());
+		Player player2 = new Player(user2.getName(), user2.getSessionId());
 		player1.setOpponent(player2);
+		this.players.put(user1.getName(), player1);
+		this.players.put(user2.getName(), player2);
 		this.turn = 0;
 	}
 	
-	public void addPlayer(Player p) {
-		if(player1 == null){
-			player1 = p;
-		}else if(player2 == null){
-			player2 = p;
-			player1.setOpponent(player2);
-		}	
-	}
-
-	public boolean isReady(){
-		return((this.player1!=null) && (this.player2 != null));
-	}
-	
-	public void start() {
+	public void start(Player p1, Player p2) {
 		double val = Math.random();
-		if(val < 0.5){
-			playing = this.player1;
-		}else{
-			playing = this.player2;
-		}
+		playing = val > .5 ? p1 : p2;
 		starting = playing;
-	}
-	
-	public void playMinion(Player player, String cardId) {
-		player.playMinion(cardId);
+		sendIsStarting(starting.getName());
 	}
 
-	public void attackMinion(Player player, String minionId1, String minionId2) {
-		CardMinion minion1 = player.getBoard().get(minionId1);
-		CardMinion minion2 = player.getOpponent().getBoard().get(minionId2);
-		player.attack(minion1, minion2);
+	public void receiveSummonMinion(String playerName, String cardId) {
+		Player p = players.get(playerName);
+		if(playing.getName() == playerName) {
+			p.summonMinion(cardId);
+			sendSummonMinion(playerName, cardId);
+		}
 	}
 
-	public void useSpell(Player player, String cardId) {
-		player.useSpell(cardId);
+	public void receiveAttack(String playerName, String cardId, String targetId) {
+		Player p = players.get(playerName);
+		if(playing.getName() == playerName) {
+			p.attack(cardId, targetId);
+			sendAttack(playerName, cardId, targetId);
+		}
 	}
 
-	public void heroSpecial(Player player, IEntity target) {
-		player.heroSpecial(target);
+	public void receiveCastSpell(String playerName, String cardId) {
+		Player p = players.get(playerName);
+		p.castSpell(cardId);
+		sendCastUntargetedSpell(playerName, cardId);
+	}
+
+	public void receiveCastSpell(String playerName, boolean own, String cardId, String targetId) {
+		Player p = players.get(playerName);
+		if(playing.getName() == playerName) {
+			p.castSpell(own, cardId, targetId);
+			sendCastTargetedSpell(playerName, own, cardId, targetId);
+		}
+	}
+
+	public void receiveSpecial(String playerName) {
+		Player p = players.get(playerName);
+		if(playing.getName() == playerName) {
+			p.heroSpecial();
+			sendUntargetedSpecial(playerName);
+		}
+	}
+
+	public void receiveSpecial(String playerName, boolean own, String targetId) {
+		Player p = players.get(playerName);
+		if(playing.getName() == playerName) {
+			p.heroSpecial(own, targetId);
+			sendTargetedSpecial(playerName, own, targetId);
+		}
+	}
+
+	public void receiveEndTurn(String playerName) { // À faire
+		if(playing.getName() == playerName) {
+			endTurn();
+		}
 	}
 
 
-
-	public void isStarting(String _playerName) {
+	public void sendIsStarting(String playerName) {
 		Map<String,String> send = new HashMap<>();
-		send.put("playerName", _playerName);
+		send.put("playerName", playerName);
 		// Vérifier que les reçeveurs côté client on la même URL
 		template.convertAndSend("/topic/game/" + id + "/isStarting", JSONeur.toJSON(send));
 	}
 
-    public void summonMinion(String _playerName, String _cardId) {
+    public void sendSummonMinion(String playerName, String cardId) {
 		Map<String,String> send = new HashMap<>();
-		send.put("playerName", _playerName);
-		send.put("cardId", _cardId);
+		send.put("playerName", playerName);
+		send.put("cardId", cardId);
 		template.convertAndSend("/topic/game/" + id + "/summonMinion", JSONeur.toJSON(send));
 	}
 
-    public void attack(String playerName, String cardId, String targetId) {
-
+    public void sendAttack(String playerName, String cardId, String targetId) {
+		Map<String,String> send = new HashMap<>();
+		send.put("playerName", playerName);
+		send.put("cardId", cardId);
+		send.put("targetId", targetId);
+		template.convertAndSend("/topic/game/" + id + "/attack", JSONeur.toJSON(send));
 	}
 
-    public void castTargetedSpell(String playerName, String cardId, String targetId) {
-
+	public void sendCastTargetedSpell(String playerName, boolean own, String cardId, String targetId) {
+		Map<String,String> send = new HashMap<>();
+		send.put("playerName", playerName);
+		send.put("cardId", cardId);
+		send.put("targetId", targetId);
+		template.convertAndSend("/topic/game/" + id + "/castTargetedSpell", JSONeur.toJSON(send));
 	}
 
-    public void castUntargetedSpell(String playerName, String cardId) {
-
+    public void sendCastUntargetedSpell(String playerName, String cardId) {
+		Map<String,String> send = new HashMap<>();
+		send.put("playerName", playerName);
+		send.put("cardId", cardId);
+		template.convertAndSend("/topic/game/" + id + "/castUntargetedSpell", JSONeur.toJSON(send));
 	}
 
-    public void targetedSpecial(String playerName, boolean own, String targetId) {
-
+	public void sendTargetedSpecial(String playerName, boolean own, String targetId) {
+		Map<String,String> send = new HashMap<>();
+		send.put("playerName", playerName);
+		send.put("own", own ? "true" : "false");
+		send.put("targetId", targetId);
+		template.convertAndSend("/topic/game/" + id + "/targetedSpecial", JSONeur.toJSON(send));
 	}
 
-    public void untargetedSpecial(String playerName) {
-
+    public void sendUntargetedSpecial(String playerName) {
+		Map<String,String> send = new HashMap<>();
+		send.put("playerName", playerName);
+		template.convertAndSend("/topic/game/" + id + "/untargetedSpecial", JSONeur.toJSON(send));
 	}
 
-    public void timeout(String playerName) {
-
+    public void sendTimeout(String playerName) {
+		Map<String,String> send = new HashMap<>();
+		send.put("playerName", playerName);
+		template.convertAndSend("/topic/game/" + id + "/timeout", JSONeur.toJSON(send));
 	}
 
-    public void drawCard(String playerName, String cardName) {
-
+    public void sendDrawCard(String playerName, String cardName) {
+		Map<String,String> send = new HashMap<>();
+		send.put("playerName", playerName);
+		send.put("cardName", cardName);
+		template.convertAndSend("/topic/game/" + id + "/drawCard", JSONeur.toJSON(send));
 	}
 
-    public void opponentDrawCard(String playerName, String cardName) {
-
+    public void sendOpponentDrawCard(String playerName, String cardName) {
+		Map<String,String> send = new HashMap<>();
+		send.put("playerName", playerName);
+		send.put("cardName", cardName);
+		template.convertAndSend("/topic/game/" + id + "/opponentDrawCard", JSONeur.toJSON(send));
 	}
 
-    public void win(String playerName) {
-
+    public void sendWin(String playerName) {
+		Map<String,String> send = new HashMap<>();
+		send.put("playerName", playerName);
+		template.convertAndSend("/topic/game/" + id + "/win", JSONeur.toJSON(send));
 	}
 
-    public void lose(String playerName) {
-
+    public void sendLose(String playerName) {
+		Map<String,String> send = new HashMap<>();
+		send.put("playerName", playerName);
+		template.convertAndSend("/topic/game/" + id + "/lose", JSONeur.toJSON(send));
 	}
 
 
-	@Override
-	public void endTurn(Player player) {
-		if(this.playing == player){
-			if(playing == player1){
-				playing = player2;
-			}else{
-				playing = player1;
-			}
-		}
-		if(playing == starting){
-			turn++;
-		}	
+	private void endTurn() {
+		
 	}
+
 	
 	public Player getPlaying() {
 		return playing;
@@ -153,8 +185,8 @@ public class Game implements IGameEvent, IGameMessageSender {
 		return turn;
 	}
 
-	public void checkBoard(){
-		player1.checkDead();
-		player2.checkDead();
+	public void checkBoard() { // À refaire
+		/*player1.checkDead();
+		player2.checkDead();*/
 	}
 }
