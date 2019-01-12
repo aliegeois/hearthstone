@@ -181,7 +181,7 @@ export class LobbyComponent implements OnInit {
   sendName() {
     //document.getElementById('ask-for-name').style.setProperty('display', 'none');
     //document.getElementById('your-name').style.setProperty('display', 'block');
-  
+	console.log("sessionId: "+ AppComponent.sessionId);
 	const value = (<HTMLInputElement>document.getElementById('name')).value;
 	console.log("Envoi du nom " + value + " de niveau " + this.level);
 	AppComponent.stompClient.send('/app/lobby/join', {}, JSON.stringify({name: value.trim(), level: this.level}));

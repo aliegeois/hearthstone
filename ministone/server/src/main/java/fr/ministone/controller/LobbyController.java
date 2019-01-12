@@ -233,7 +233,7 @@ public class LobbyController {
 
 		User user1 = getFromTemporaryGame(sessionId);
 		UUID gameId = user1.getTemporaryGameId();
-		TemporaryGame tg = temporaryGames.get(gameId);
+		//TemporaryGame tg = temporaryGames.get(gameId);
 		User user2 = user1.getOpponent();
 
 		user1.setTemporaryGameId(null);
