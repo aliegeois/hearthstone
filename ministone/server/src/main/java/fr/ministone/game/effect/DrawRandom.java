@@ -1,23 +1,18 @@
 package fr.ministone.game.effect;
 
 import fr.ministone.game.CardSpell;
-import fr.ministone.game.IEntity;
 
 public class DrawRandom extends GlobalEffect {
-	private int numberDrawnCard;
+	private int numberCardsDrawn;
 	
-	public DrawRandom(CardSpell card, int numberDrawnCard) {
+	public DrawRandom(CardSpell card, int numberCardsDrawn) {
 		super(card);
-		this.numberDrawnCard = numberDrawnCard;
+		this.numberCardsDrawn = numberCardsDrawn;
 	}
 	
 	@Override
 	public void play() {
-		for(int i = 0; i < this.numberDrawnCard ; i++)
+		for(int i = 0; i < numberCardsDrawn ; i++)
 			card.getOwner().drawCard();
-	}
-	
-	void play(IEntity e) {
-		throw new UnsupportedOperationException();
 	}
 }

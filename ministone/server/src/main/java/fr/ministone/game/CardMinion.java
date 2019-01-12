@@ -21,7 +21,7 @@ public class CardMinion extends Card implements IEntity {
 		this.health = health;
 		this.healthBoosted = 0;
 		this.capacities = capacities;
-		this.boosts = boosts;		
+		this.boosts = boosts;
 		this.ready = capacities.contains("charge");
 		this.provocation = capacities.contains("provocation");
 	}
@@ -30,18 +30,13 @@ public class CardMinion extends Card implements IEntity {
 	public void play() {
 		//Si le minion a été boosté alors qu'il était dans la main, on lui applique les boosts à son arrivée en jeu
 		for(Map.Entry<String, Integer> boost : boosts.entrySet()) {
-			for(CardMinion minion : getOwner().getBoard().values()) {
-				if(minion.id != id) {
-					switch(boost.getKey()) {
-					case "damage":
-						//minion.damage += boost.getValue();
-						//minion.damageBoosted += boost.getValue();
-						boostDamage(boost.getValue());
-						break;
-					case "health":
-						//minion.health += boost.getValue();
-						//minion.healthBoosted += boost.getValue();
-						boostHealth(boost.getValue());
+			for(CardMinion minion : owner.getBoard().values()) {
+				if(!id.equals(minion.id)) {
+					String boostName = boost.getKey();
+					if("damage".equals(boostName)) {
+						minion.buffDamage(boost.getValue());
+					} else if("health".equals(boostName)) {
+						minion.buffHealth(boost.getValue());
 					}
 				}
 			}
@@ -55,8 +50,8 @@ public class CardMinion extends Card implements IEntity {
 	
 	
 	public void attack(IEntity o) {
-		o.takeDamage(this.damage);
-		this.takeDamage(o.getDamage());		
+		o.takeDamage(damage);
+		takeDamage(o.getDamage());	
 	}
 	
 	@Override
@@ -66,7 +61,7 @@ public class CardMinion extends Card implements IEntity {
 	
 	@Override
 	public void heal(int quantity) {
-		if(health + quantity < healthMax) {
+		if(health + quantity <= healthMax) {
 			health = health + quantity;
 		} else {
 			health = healthMax;
@@ -74,13 +69,13 @@ public class CardMinion extends Card implements IEntity {
 	}
 	
 	@Override
-	public void boostHealth(int quantity) {
+	public void buffHealth(int quantity) {
 		health += quantity;
 		healthBoosted += quantity;
 	}
 	
 	@Override
-	public void boostDamage(int quantity) {
+	public void buffDamage(int quantity) {
 		damage += quantity;
 		damageBoosted += quantity;
 	}
@@ -110,11 +105,11 @@ public class CardMinion extends Card implements IEntity {
 		return healthBoosted;
 	}
 	
-	public Set<String> getEffects() {
+	public Set<String> getCapacities() {
 		return capacities;
 	}
 
-	public Map<String,Integer> getBoosts(){
+	public Map<String,Integer> getBoosts() {
 		return boosts;
 	}
 	
@@ -128,39 +123,32 @@ public class CardMinion extends Card implements IEntity {
 	
 	@Override
 	public boolean isDead() {
-		return (health <= 0);
+		return health <= 0;
 	}
 	
 	@Override
 	public void die() {
-		this.getOwner().getBoard().remove(this.getId());
+		owner.getBoard().remove(this.getId());
 	}
 
 	@Override
-	public Card copy(){
-
-		String identif = UUID.randomUUID().toString();
-		Player player = this.getOwner();
-		String name = this.getName();
-		int mana = this.getManaCost();
-		int damage = this.getDamageBase();
-		int health = this.getHealth();
-		Set<String> effects = this.getEffects();
-		Map<String, Integer> boosts = this.getBoosts();
-
-		Card carte = new CardMinion(identif, player, name, mana, damage, health, effects, boosts);
-		return carte;
+	public Card copy() {
+		return new CardMinion(UUID.randomUUID().toString(), owner, name, manaCost, damage, health, capacities, boosts);
 	}
 
-	@Override
-	public void transform(IEntity e){
-		if(e instanceof CardMinion){
-			this.name = ((CardMinion)e).name;
-			this.health = ((CardMinion)e).health;
-			this.manaCost = ((CardMinion)e).manaCost;
-			this.provocation = ((CardMinion)e).provocation;
-			this.ready = ((CardMinion)e).ready;
-			this.damage = ((CardMinion)e).damage;
+	//@Override
+	public void transform(IEntity e) {
+		if(e instanceof CardMinion) {
+			CardMinion into = (CardMinion)e;
+			name = into.name;
+			health = into.health;
+			manaCost = into.manaCost;
+			provocation = into.provocation;
+			ready = into.ready; // Pas sûr qu'on le change
+			damage = into.damage;
+			// Si la carte donne des boosts on fait quoi ?
+		} else {
+			// TODO: ???
 		}
 	}
 }

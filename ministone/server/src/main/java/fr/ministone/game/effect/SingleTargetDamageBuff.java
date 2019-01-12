@@ -11,12 +11,7 @@ public class SingleTargetDamageBuff extends SingleTargetEffect {
 		this.attack = attack;
 	}
 	
-	@Override
-	public void play() {
-		throw new UnsupportedOperationException();
-	}
-	
 	public void play(IEntity e) {
-		e.boostDamage(attack);
+		e.buffDamage(attack);
 	}
 }

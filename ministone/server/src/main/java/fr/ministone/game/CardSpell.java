@@ -19,7 +19,6 @@ public class CardSpell extends Card {
 	
 	@Override
 	public void play() {
-		
 		for(MultipleTargetEffect m : multipleEffects) {
 			m.play();
 		}
@@ -31,7 +30,6 @@ public class CardSpell extends Card {
 
 	@Override
 	public void play(IEntity e) {
-
 		for(SingleTargetEffect s : singleEffects) {
 			s.play(e);
 		}
@@ -46,36 +44,31 @@ public class CardSpell extends Card {
 	}
 
 	public void addEffect(SingleTargetEffect ste) {
-		this.singleEffects.add(ste);
+		singleEffects.add(ste);
 	}
 
 	public void addEffect(MultipleTargetEffect mte) {
-		this.multipleEffects.add(mte);
+		multipleEffects.add(mte);
 	}
-	
+
 	public void addEffect(GlobalEffect ge) {
-		this.globalEffects.add(ge);
+		globalEffects.add(ge);
 	}
 
-	public Set<SingleTargetEffect> getSTE(){
-		return this.singleEffects;
+	public Set<SingleTargetEffect> getSTE() {
+		return singleEffects;
 	}
 
-	public Set<MultipleTargetEffect> getMTE(){
-		return this.multipleEffects;
+	public Set<MultipleTargetEffect> getMTE() {
+		return multipleEffects;
 	}
 
-	public Set<GlobalEffect> getGE(){
-		return this.globalEffects;
+	public Set<GlobalEffect> getGE() {
+		return globalEffects;
 	}
 
 	@Override
-	public Card copy(){
-		
-		String identif = UUID.randomUUID().toString();
-		
-		Card carte = new CardSpell(identif, this.getOwner(), this.getName(), this.getManaCost(), this.getSTE(), this.getMTE(), this.getGE());
-		return carte;
+	public Card copy() {
+		return new CardSpell(UUID.randomUUID().toString(), owner, name, manaCost, singleEffects, multipleEffects, globalEffects);
 	}
-
 }

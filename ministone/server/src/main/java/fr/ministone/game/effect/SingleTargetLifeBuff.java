@@ -11,12 +11,7 @@ public class SingleTargetLifeBuff extends SingleTargetEffect {
 		this.life = life;
 	}
 	
-	@Override
-	public void play() {
-		throw new UnsupportedOperationException();
-	}
-	
 	public void play(IEntity e) {
-		e.boostHealth(life);
+		e.buffHealth(life);
 	}
 }
