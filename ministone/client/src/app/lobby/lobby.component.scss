@@ -1,0 +1,32 @@
+
+#connected-content {
+    text-align: center;
+
+    #connectedPlayers ul {
+        list-style-type: none;
+    }
+
+    #player_line {
+        border: 1px solid black;
+        height: 25px;
+        width: 50%;
+        text-align: left;
+        
+        span {
+            font-weight: bold;
+            vertical-align: middle;
+        }
+        button {
+            float: right;
+            height: 20px;
+            vertical-align: middle;
+        }
+        #accept_match {
+            color: green;
+        }
+        #decline_match {
+            color: red;
+        }
+
+    }
+}

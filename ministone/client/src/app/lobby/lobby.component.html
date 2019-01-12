@@ -8,21 +8,40 @@
 	<body>
 		<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being enabled. Please enable Javascript and reload this page!</h2></noscript>
 		<div id="main-content" class="container">
+
 			<div id="connected-content" class="row">
 				<div>
 					<form id="ask-for-name" class="form-inline">
 						<div class="form-group">
-							<label for="name">What is your 🍆?</label>
+							<label for="name">What is your 🍆 ?</label><br />
 							<input type="text" id="name" class="form-control" placeholder="Your 🍆 here...">
+							<button id="send-name" class="btn btn-default" type="submit">Send</button>
 						</div>
-						<button id="send-name" class="btn btn-default" type="submit">Send</button>
+						
 					</form>
-					<div id="your-name">
+					<div id="your-name" *ngIf="name">
 						Your 🍆 is <b><span class="name">{{ name }}</span></b>
 					</div>
+						<br />
+					
 					<form class="form-inline">
 						<button id="search-game" class="btn btn-default" type="submit">Search for a game !</button>
 					</form>
+					
+					
+				</div>
+
+
+				<div id="connectedPlayers">
+					<ul>
+						<li *ngFor="let players of connectedPlayers">
+							<div id="player_line">
+								<span>{{ players[0] }}</span>
+								<button *ngIf="players[1]" id="accept_match">Accept</button>
+								<button *ngIf="players[1]" id="decline_match">Decline</button>
+							</div>
+						</li>
+					</ul>
 				</div>
 				<div class="col-md-12">
 					<table id="conversation" class="table table-striped">
