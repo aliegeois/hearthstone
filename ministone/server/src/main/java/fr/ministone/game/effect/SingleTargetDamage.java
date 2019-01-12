@@ -12,11 +12,6 @@ public class SingleTargetDamage extends SingleTargetEffect {
 	}
 	
 	@Override
-	public void play() {
-		throw new UnsupportedOperationException();
-	}
-	
-	@Override
 	public void play(IEntity e) {
 		e.takeDamage(damage);
 	}

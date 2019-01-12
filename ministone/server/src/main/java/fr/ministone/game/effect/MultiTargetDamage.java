@@ -2,7 +2,6 @@ package fr.ministone.game.effect;
 
 import fr.ministone.game.CardMinion;
 import fr.ministone.game.CardSpell;
-import fr.ministone.game.IEntity;
 
 public class MultiTargetDamage extends MultipleTargetEffect {
 	private int quantity;
@@ -30,11 +29,5 @@ public class MultiTargetDamage extends MultipleTargetEffect {
 		if(opponentHero) {
 			card.getOwner().getOpponent().getHero().takeDamage(quantity);
 		}
-
-	}
-	
-	@Override
-	public void play(IEntity e) {
-		throw new UnsupportedOperationException();
 	}
 }

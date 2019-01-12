@@ -109,7 +109,7 @@ public class CardMinion extends Card implements IEntity {
 		return capacities;
 	}
 
-	public Map<String,Integer> getBoosts(){
+	public Map<String,Integer> getBoosts() {
 		return boosts;
 	}
 	

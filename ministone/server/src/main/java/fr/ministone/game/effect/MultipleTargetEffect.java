@@ -1,6 +1,7 @@
 package fr.ministone.game.effect;
 
 import fr.ministone.game.CardSpell;
+import fr.ministone.game.IEntity;
 
 public abstract class MultipleTargetEffect extends Effect {
 	protected boolean ownBoard, opponentBoard, ownHero, opponentHero;
@@ -12,6 +13,11 @@ public abstract class MultipleTargetEffect extends Effect {
 		this.ownHero = ownHero;
 		this.opponentHero = opponentHero;
 	}
+
+	@Override
+	public void play(IEntity e) {
+		throw new UnsupportedOperationException();
+	}
 	
 	public boolean isOwnBoard() {
 		return ownBoard;
@@ -21,7 +27,7 @@ public abstract class MultipleTargetEffect extends Effect {
 		return opponentBoard;
 	}
 	
-	public boolean is() {
+	public boolean isOwnHero() {
 		return ownHero;
 	}
 	

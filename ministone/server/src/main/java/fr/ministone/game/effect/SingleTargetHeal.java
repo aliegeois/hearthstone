@@ -12,11 +12,6 @@ public class SingleTargetHeal extends SingleTargetEffect {
 	}
 	
 	@Override
-	public void play() {
-		throw new UnsupportedOperationException();
-	}
-	
-	@Override
 	public void play(IEntity e) {
 		e.heal(amount);
 	}
