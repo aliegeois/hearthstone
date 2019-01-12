@@ -11,8 +11,36 @@ body {
         border: 3px solid black;
     }
 
+    #your-name {
+        span {
+            font-weight: bold;
+        }
+    }
+
+    #chooseLevel {
+        margin: 10px;
+    }
+    
     #connectedPlayers ul {
         list-style-type: none;
+    }
+
+    #heroTypeChoosing {
+        display: inline-block;
+        margin: 10px;
+        img {
+            height: 50px;
+        }
+        span {
+            font-weight: bold;
+        }
+    }
+
+    .nonOpaque {
+        opacity: 1;
+    }
+    .opaque {
+        opacity: 0.5;
     }
 
     #player_line {

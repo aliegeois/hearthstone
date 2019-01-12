@@ -86,9 +86,10 @@ public class LobbyController {
 		// htmlEscape: pour éviter que l'utilisateur ne prenne un nom comme "<script>while(true)alert('');</script>"
 		String userName = HtmlUtils.htmlEscape(message.getName().trim());
 		String userLevel = message.getLevel();
+		String userHeroType = message.getHeroType();
 
-		System.out.println("Message reçu : " + message);
-		System.out.println("Level reçu : " + userLevel);
+		System.out.println("Level recu : " + userLevel);
+		System.out.println("HeroType recu + " + userHeroType);
 
 		if(users.containsKey(userName)) {
 			// Le nom est déjà pris
@@ -101,6 +102,7 @@ public class LobbyController {
 			String sendPlayer = new ObjectMapper().writeValueAsString(new Object() {
 				@JsonProperty private String name = userName;
 				@JsonProperty private String level = userLevel;
+				@JsonProperty private String heroType = userHeroType;
 			});
 			System.out.println("Confirmation du nom : envoi sur /topic/lobby/" + sessionId + "/confirmName");
 
@@ -111,6 +113,7 @@ public class LobbyController {
 				usersBefore.add(new Object() {
 					@JsonProperty private String name = pair.getValue().getName();
 					@JsonProperty private String level = pair.getValue().getLevel();
+					@JsonProperty private String heroType = pair.getValue().getHeroType();
 				});
 			}
 			template.convertAndSend("/topic/lobby/" + sessionId + "/usersBefore", new ObjectMapper().writeValueAsString(usersBefore));
@@ -119,7 +122,7 @@ public class LobbyController {
 				template.convertAndSend("/topic/lobby/" + pair.getValue().getSessionId() + "/userJoined", sendPlayer);
 			
 			// users.put(userName, new User(userName, sessionId, userLevel));
-			users.put(userName, new User(userName, sessionId, userLevel));
+			users.put(userName, new User(userName, sessionId, userLevel, userHeroType));
 		}
 	}
 

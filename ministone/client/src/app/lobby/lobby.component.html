@@ -15,22 +15,41 @@
 				<div>
 					<form id="ask-for-name" class="form-inline">
 						<div class="form-group">
-							<label for="name">What is your name : </label>
+							<label for="name">What is your name : </label>&nbsp;
 							<input type="text" id="name" class="form-control" placeholder="Your name here...">
 								<br /><br />
 
 							<span>What is your level ? </span><br />
-							<button [class.inlined]="level=='novice'" (click)="setLevelNovice()">Novice</button>
-							<button [class.inlined]="level=='regular'" (click)="setLevelRegular()">Regular</button>
-							<button [class.inlined]="level=='expert'" (click)="setLevelExpert()">Expert</button>
+							<button id="chooseLevel" [class.inlined]="level=='novice'" (click)="setLevelNovice()">Novice</button>
+							<button id="chooseLevel" [class.inlined]="level=='regular'" (click)="setLevelRegular()">Regular</button>
+							<button id="chooseLevel" [class.inlined]="level=='expert'" (click)="setLevelExpert()">Expert</button>
+								<br /><br />
+
+							<span>Your hero : </span><br />
+								<div id="heroTypeChoosing" (click)="setHeroTypePaladin()">
+									<img [class.nonOpaque]="heroType=='paladin'" [class.opaque]="heroType!='paladin'" src="../../assets/images/paladin_icon.png" />
+										<br />
+									<span>Paladin</span>
+								</div>
+								<div id="heroTypeChoosing" (click)="setHeroTypeMage()">
+									<img [class.nonOpaque]="heroType=='mage'" [class.opaque]="heroType!='mage'" src="../../assets/images/mage_icon.png" />
+										<br />
+									<span>Mage</span>
+								</div>
+								<div id="heroTypeChoosing" (click)="setHeroTypeWarrior()">
+									<img [class.nonOpaque]="heroType=='warrior'" [class.opaque]="heroType!='warrior'" src="../../assets/images/warrior_icon.png" />
+										<br />
+									<span>Warrior</span>
+								</div>
 								<br /><br />
 
 							<button id="send-name" class="btn btn-default" type="submit" (click)="sendName()">Send</button>
 						</div>
 						
 					</form>
+					<br />
 					<div id="your-name" *ngIf="name">
-						Your name is {{ level }}<b><span class="name">{{ name }}</span></b>
+						Your name is <span>{{ name }}</span> and you are a <span>{{ level }}</span>&nbsp;<span>{{ heroType }}</span>
 					</div>
 						<br />
 					
@@ -46,10 +65,10 @@
 					<ul>
 						<li *ngFor="let players of connectedPlayers">
 							<div id="player_line">
-								<span>({{ players[1] }})</span>
+								<span>({{ players[1] }} {{ players[2 ]}})</span>
 								<span>{{ players[0] }}</span>
-								<button *ngIf="players[2]" id="accept_match" (click)="acceptMatch()">Accept</button>
-								<button *ngIf="players[2]" id="decline_match" (click)="declineMatch()">Decline</button>
+								<button *ngIf="players[3]" id="accept_match" (click)="acceptMatch()">Accept</button>
+								<button *ngIf="players[3]" id="decline_match" (click)="declineMatch()">Decline</button>
 							</div>
 						</li>
 					</ul>
