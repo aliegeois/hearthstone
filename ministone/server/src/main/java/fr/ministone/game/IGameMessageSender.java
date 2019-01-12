@@ -25,8 +25,8 @@ public interface IGameMessageSender {
     public void targetedSpecial(String playerName, boolean own, String targetId);
     public void untargetedSpecial(String playerName);
     public void timeout(String playerName);
-    public void drawCard(String playerName, int count);
-    public void opponentDrawCard(String playerName);
+    public void drawCard(String playerName, String cardName);
+    public void opponentDrawCard(String playerName, String cardName);
     public void win(String playerName);
     public void lose(String playerName);
 }

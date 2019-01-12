@@ -1,9 +1,15 @@
 package fr.ministone.game;
 
+import fr.ministone.JSONeur;
 import fr.ministone.User;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Game implements IGameEvent, IGameMessageSender {
 	private SimpMessagingTemplate template;
@@ -12,7 +18,7 @@ public class Game implements IGameEvent, IGameMessageSender {
 	private int turn;
 	private UUID id;
 	
-	Game(UUID id, SimpMessagingTemplate template, User player1, User player2) {
+	public Game(UUID id, SimpMessagingTemplate template, User player1, User player2) {
 		this.id = id;
 		this.template = template;
 		this.player1 = new Player(player1.getName(), player1.getSessionId());
@@ -68,51 +74,59 @@ public class Game implements IGameEvent, IGameMessageSender {
 		player.heroSpecial(target);
 	}
 
-	public void isStarting() {
+
+
+	public void isStarting(String _playerName) {
+		Map<String,String> send = new HashMap<>();
+		send.put("playerName", _playerName);
+		// Vérifier que les reçeveurs côté client on la même URL
+		template.convertAndSend("/topic/game/" + id + "/isStarting", JSONeur.toJSON(send));
+	}
+
+    public void summonMinion(String _playerName, String _cardId) {
+		Map<String,String> send = new HashMap<>();
+		send.put("playerName", _playerName);
+		send.put("cardId", _cardId);
+		template.convertAndSend("/topic/game/" + id + "/summonMinion", JSONeur.toJSON(send));
+	}
+
+    public void attack(String playerName, String cardId, String targetId) {
 
 	}
 
-    public void summonMinion(String playerName, String cardId) {
-		
-	}
-
-    public void attack() {
+    public void castTargetedSpell(String playerName, String cardId, String targetId) {
 
 	}
 
-    public void castTargetedSpell() {
+    public void castUntargetedSpell(String playerName, String cardId) {
 
 	}
 
-    public void castUntargetedSpell() {
+    public void targetedSpecial(String playerName, boolean own, String targetId) {
 
 	}
 
-    public void targetedSpecial() {
+    public void untargetedSpecial(String playerName) {
 
 	}
 
-    public void untargetedSpecial() {
+    public void timeout(String playerName) {
 
 	}
 
-    public void timeout() {
+    public void drawCard(String playerName, String cardName) {
 
 	}
 
-    public void drawCard() {
+    public void opponentDrawCard(String playerName, String cardName) {
 
 	}
 
-    public void opponentDrawCard() {
+    public void win(String playerName) {
 
 	}
 
-    public void win() {
-
-	}
-
-    public void lose() {
+    public void lose(String playerName) {
 
 	}
 
