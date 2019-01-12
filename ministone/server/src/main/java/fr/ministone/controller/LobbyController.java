@@ -27,9 +27,12 @@ import java.util.HashMap;
 @Controller
 @CrossOrigin(origins = "http://localhost:4200")
 public class LobbyController {
+
 	private class TemporaryGame {
+
 		private Map<String, User> users = new HashMap<>();
 		private Map<String, Boolean> accept = new HashMap<>();
+
 		public TemporaryGame(User user1, User user2) {
 			this.users.put(user1.getName(), user1);
 			user1.setOpponent(user2);
@@ -65,7 +68,7 @@ public class LobbyController {
 	// <userName, user>
 	private Map<String, User> users = new HashMap<>();
 	//private Map<String, User> waiting = new HashMap<>();
-	User waiting = null;
+	Map<String, User> waiting = null; //Une liste pour les user novice, une pour les users regular, et une pour les users expert
 	private Map<UUID, TemporaryGame> temporaryGames = new HashMap<>();
 	
 	@Autowired
@@ -73,6 +76,8 @@ public class LobbyController {
 		this.template = template;
 		this.gameController = gameController;
 		this.users.put("_", new User("Billy", "_"));
+
+		this.waiting = new HashMap<String, User>();
 	}
 	
 	@MessageMapping("/lobby/join")
@@ -80,6 +85,11 @@ public class LobbyController {
 		// On envoie les infos sur une url spécifique pour chaque joueur (avec le nom du joueur dedans), chaque joueur se subscribe donc à l'url avec son nom
 		// htmlEscape: pour éviter que l'utilisateur ne prenne un nom comme "<script>while(true)alert('');</script>"
 		String userName = HtmlUtils.htmlEscape(message.getName().trim());
+		String userLevel = message.getLevel();
+
+		System.out.println("Message reçu : " + message);
+		System.out.println("Level reçu : " + userLevel);
+
 		if(users.containsKey(userName)) {
 			// Le nom est déjà pris
 			String sendError = new ObjectMapper().writeValueAsString(new Object() {
@@ -87,23 +97,26 @@ public class LobbyController {
 			});
 			template.convertAndSend("/topic/lobby/" + sessionId + "/error", sendError);
 		} else {
-			String sendName = new ObjectMapper().writeValueAsString(new Object() {
+			String sendPlayer = new ObjectMapper().writeValueAsString(new Object() {
 				@JsonProperty private String name = userName;
+				@JsonProperty private String level = userLevel;
 			});
-			template.convertAndSend("/topic/lobby/" + sessionId + "/confirmName", sendName);
+			template.convertAndSend("/topic/lobby/" + sessionId + "/confirmName", sendPlayer);
 
 			ArrayList<Object> usersBefore = new ArrayList<>();
 			for(Map.Entry<String, User> pair : users.entrySet()) {
 				usersBefore.add(new Object() {
 					@JsonProperty private String name = pair.getValue().getName();
+					@JsonProperty private String level = pair.getValue().getLevel();
 				});
 			}
 			template.convertAndSend("/topic/lobby/" + sessionId + "/usersBefore", new ObjectMapper().writeValueAsString(usersBefore));
 
 			for(Map.Entry<String, User> pair : users.entrySet())
-				template.convertAndSend("/topic/lobby/" + pair.getValue().getSessionId() + "/userJoined", sendName);
+				template.convertAndSend("/topic/lobby/" + pair.getValue().getSessionId() + "/userJoined", sendPlayer);
 			
-			users.put(userName, new User(userName, sessionId));
+			// users.put(userName, new User(userName, sessionId, userLevel));
+			users.put(userName, new User(userName, sessionId, userLevel));
 		}
 	}
 
@@ -131,28 +144,37 @@ public class LobbyController {
 			return;
 		}
 
-		User user1 = getBySessionId(sessionId);
+		User user1 = getBySessionId(sessionId); //
+		String user1Level = user1.getLevel(); //
+
+		System.out.println("Flag a level du joueur qui vient de rechercher une game : " + user1Level);
 		// Si le joueur est le premier à se mettre en file d'attente
-		if(waiting == null) {
-			waiting = users.get(user1.getName());
+		if(waiting.get(user1Level) == null) {
+			System.out.println("Flag b");
+			waiting.put(user1Level, users.get(user1.getName()));
+			//waiting = users.get(user1.getName());
 			System.out.println("Premier joueur en attente");
+
 		// Si le joueur est déjà en attente
-		} else if(waiting.getName().equals(user1.getName())) {
+		} else if(waiting.get(user1Level).getName().equals(user1.getName())) {
+			System.out.println("Flag c");
 			// Grosse erreur de cohérence
 			System.out.println("Même joueur deux fois dans la file d'attente");
 		// S'il y a déjà un joueur en attente
 		} else {
+			System.out.println("Flag d");
 			System.out.println("Deuxième joueur en attente");
-			User user2 = waiting;
+			User user2 = waiting.get(user1Level);
 			//users.remove(user1.getName());
-			waiting = null;
-
+			waiting.put(user1Level, null);
+			System.out.println("Flag e");
 			TemporaryGame tg = new TemporaryGame(user1, user2);
 			UUID gameId = UUID.randomUUID();
 			temporaryGames.put(gameId, tg);
 			user1.setTemporaryGameId(gameId);
 			user2.setTemporaryGameId(gameId);
 
+			System.out.println("Flag f");
 			String sendUser1 = new ObjectMapper().writeValueAsString(new Object() {
 				@JsonProperty private String opponent = user2.getName();
 				@JsonProperty private String id = gameId.toString();
@@ -161,8 +183,10 @@ public class LobbyController {
 				@JsonProperty private String opponent = user1.getName();
 				@JsonProperty private String id = gameId.toString();
 			});
+			System.out.println("Flag g");
 			template.convertAndSend("/topic/lobby/" + user1.getSessionId() + "/matchFound", sendUser1);
 			template.convertAndSend("/topic/lobby/" + user2.getSessionId() + "/matchFound", sendUser2);
+			System.out.println("Flag h");
 		}
 	}
 
