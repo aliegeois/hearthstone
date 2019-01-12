@@ -24,8 +24,9 @@ export class LobbyComponent implements OnInit {
   }
 
   ngOnInit() {
-    let formList = document.getElementsByTagName('form');
 
+    let formList = document.getElementsByTagName('form');
+	
     for(let form of <any>formList) {
       form.addEventListener('submit', e => {
         e.preventDefault();

@@ -95,12 +95,15 @@ public class LobbyController {
 			String sendError = new ObjectMapper().writeValueAsString(new Object() {
 				@JsonProperty private String message = "Name already taken";
 			});
+			System.out.println("Le nom existe déjà");
 			template.convertAndSend("/topic/lobby/" + sessionId + "/error", sendError);
 		} else {
 			String sendPlayer = new ObjectMapper().writeValueAsString(new Object() {
 				@JsonProperty private String name = userName;
 				@JsonProperty private String level = userLevel;
 			});
+			System.out.println("Confirmation du nom : envoi sur /topic/lobby/" + sessionId + "/confirmName");
+
 			template.convertAndSend("/topic/lobby/" + sessionId + "/confirmName", sendPlayer);
 
 			ArrayList<Object> usersBefore = new ArrayList<>();

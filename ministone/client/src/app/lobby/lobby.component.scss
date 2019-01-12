@@ -2,8 +2,13 @@
 body {
     text-align: center;
 
+    h1 {
+        img {
+            height: 50px;
+        }
+    }
     .inlined {
-        border: 3px solid red;
+        border: 3px solid black;
     }
 
     #connectedPlayers ul {

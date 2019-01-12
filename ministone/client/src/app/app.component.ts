@@ -17,12 +17,14 @@ export class AppComponent implements OnInit {
 
   constructor() {
     AppComponent.title = 'client-angular';
-    this.currentPage = 'lobby';
+    this.currentPage = 'home';
 
     AppComponent.socket = new SockJS(AppComponent.serverUrl);
     AppComponent.stompClient = Stomp.over(AppComponent.socket);
 
     AppComponent.initializeWebSocketConnection();
+
+    
   }
 
   static listeners = [];
@@ -63,7 +65,9 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+    document.getElementById('button').addEventListener('click', () => {
+      this.sendMessage('testMessage');
+    });
   }
 
   change() {
