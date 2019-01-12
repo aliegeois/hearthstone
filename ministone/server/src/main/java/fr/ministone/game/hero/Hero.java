@@ -13,9 +13,6 @@ public abstract class Hero implements IEntity {
 	
 	public Hero(Player player) {
 		this.player = player;
-		if(player.getHero() == null){
-			player.setHero(this);
-		}
 	}
 	
 	public abstract void special(IEntity e);

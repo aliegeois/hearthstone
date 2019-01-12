@@ -7,11 +7,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import fr.ministone.game.hero.Hero;
+import fr.ministone.game.hero.*;
 
 public class Player {
 	private String name;
-	private String sessionId;
+	//private String sessionId;
 	private Set<Card> deck = new HashSet<>();
 	private Map<String, Card> hand = new HashMap<>();
 	private Map<String, CardMinion> board = new HashMap<>();
@@ -24,7 +24,7 @@ public class Player {
 	
 	public Player(String name, String sessionId) {
 		this.name = name;
-		this.sessionId = sessionId;
+		//this.sessionId = sessionId;
 		this.manaMax = 0;
 		this.mana = this.manaMax;
 	}
@@ -74,42 +74,50 @@ public class Player {
 		CardSpell spell = (CardSpell)hand.get(cardId);
 		IEntity victim;
 		if("hero".equals(targetId)) {
-			
+			victim = (own ? this : opponent).hero;
 		} else {
-
+			victim = (own ? this : opponent).board.get(targetId);
 		}
-		//spell.play();
-		//this.getHand().remove(spell.getId());
+		spell.play(victim);
+		hand.remove(spell.getId());
 	}
 
 	public void castSpell(String cardId) {
 		CardSpell spell = (CardSpell)hand.get(cardId);
 		spell.play();
-		this.getHand().remove(spell.getId());
+		hand.remove(spell.getId());
 	}
 	
 	public void heroSpecial(boolean own, String targetId) { // À terminer
-		IEntity victim = null;
-		if(own) {
-
+		IEntity victim;
+		if("hero".equals(targetId)) {
+			victim = (own ? this : opponent).hero;
 		} else {
-
+			victim = (own ? this : opponent).board.get(targetId);
 		}
 		
 		hero.special(victim);
 	}
 
-	public void heroSpecial(){
+	public void heroSpecial() {
 		hero.special();
 	}
+
+
+	public void nextTurn() {
+		manaMax++;
+		mana = manaMax;
+		drawCard();
+	}
+
 	
 	public String getName() {
 		return name;
 	}
 
-	public String getSessionId() {
+	/*public String getSessionId() {
 		return sessionId;
-	}
+	}*/
 	
 	public Set<Card> getDeck() {
 		return deck;
@@ -139,8 +147,17 @@ public class Player {
 		return mana;
 	}
 
-	public void setHero(Hero hero) {
-		this.hero = hero;
+	public void setHero(String heroType) {
+		if("warrior".equals(heroType)) {
+			hero = new HeroWarrior(this);
+		} else if("paladin".equals(heroType)){
+			hero = new HeroPaladin(this);
+		} else if("mage".equals(heroType)){
+			hero = new HeroMage(this);
+		} else {
+			// TODO: À enlever
+			System.out.println("Va te faire foutre, cordialement");
+		}
 	}
 
 	public void checkDead() {

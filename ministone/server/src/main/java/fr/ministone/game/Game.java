@@ -9,11 +9,10 @@ import java.util.UUID;
 
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
-public class Game implements IGameEvent, IGameMessageSender {
+public class Game implements IGameMessageReceiver, IGameMessageSender {
 	private SimpMessagingTemplate template;
 	private Map<String, Player> players = new HashMap<>();
-	//private Player player1, player2;
-	private Player playing, starting;
+	private Player playing;
 	private int turn;
 	private UUID id;
 	
@@ -31,8 +30,22 @@ public class Game implements IGameEvent, IGameMessageSender {
 	public void start(Player p1, Player p2) {
 		double val = Math.random();
 		playing = val > .5 ? p1 : p2;
-		starting = playing;
-		sendIsStarting(starting.getName());
+		for(int i = 0; i < 3; i++) {
+			playing.drawCard();
+			playing.getOpponent().drawCard();
+		}
+		playing.getOpponent().drawCard();
+		playing.nextTurn();
+		sendNextTurn(playing.getName());
+		sendIsStarting(playing.getName());
+	}
+
+	public void receiveSetHero(String playerName, String heroType) {
+		Player p = players.get(playerName);
+		if(playing.getName() == playerName) {
+			p.setHero(heroType);
+			sendSummonMinion(playerName, heroType);
+		}
 	}
 
 	public void receiveSummonMinion(String playerName, String cardId) {
@@ -139,6 +152,18 @@ public class Game implements IGameEvent, IGameMessageSender {
 		template.convertAndSend("/topic/game/" + id + "/untargetedSpecial", JSONeur.toJSON(send));
 	}
 
+	public void sendEndTurn(String playerName) {
+		Map<String,String> send = new HashMap<>();
+		send.put("playerName", playerName);
+		template.convertAndSend("/topic/game/" + id + "/endTurn", JSONeur.toJSON(send));
+	}
+
+	public void sendNextTurn(String playerName) {
+		Map<String,String> send = new HashMap<>();
+		send.put("playerName", playerName);
+		template.convertAndSend("/topic/game/" + id + "/nextTurn", JSONeur.toJSON(send));
+	}
+
     public void sendTimeout(String playerName) {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", playerName);
@@ -173,7 +198,11 @@ public class Game implements IGameEvent, IGameMessageSender {
 
 
 	private void endTurn() {
-		
+		Player opponent = playing.getOpponent();
+		sendEndTurn(playing.getName());
+		opponent.nextTurn();
+		sendNextTurn(opponent.getName());
+		playing = opponent;
 	}
 
 	
@@ -185,8 +214,9 @@ public class Game implements IGameEvent, IGameMessageSender {
 		return turn;
 	}
 
-	public void checkBoard() { // À refaire
-		/*player1.checkDead();
-		player2.checkDead();*/
+	public void checkBoard() {
+		for(Player p : players.values()) {
+			p.checkDead();
+		}
 	}
 }

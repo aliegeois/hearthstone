@@ -25,6 +25,8 @@ public interface IGameMessageSender {
     public void sendTargetedSpecial(String playerName, boolean own, String targetId);
     public void sendUntargetedSpecial(String playerName);
 
+    public void sendEndTurn(String playerName);
+    public void sendNextTurn(String playerName);
     public void sendTimeout(String playerName);
 
     public void sendDrawCard(String playerName, String cardName);
