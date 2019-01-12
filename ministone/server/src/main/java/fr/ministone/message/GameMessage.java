@@ -9,7 +9,7 @@ public abstract class GameMessage {
 		this.player1 = player1;
 	}
 
-	public boolean getPlayer1() {
+	public boolean isPlayer1() {
 		return player1;
 	}
 
