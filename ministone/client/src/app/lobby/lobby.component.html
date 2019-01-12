@@ -8,19 +8,25 @@
 	<body>
 		<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being enabled. Please enable Javascript and reload this page!</h2></noscript>
 		<div id="main-content" class="container">
-
+			Level : {{ level }}
 			<div id="connected-content" class="row">
 				<div>
 					<form id="ask-for-name" class="form-inline">
 						<div class="form-group">
-							<label for="name">What is your 🍆 ?</label><br />
-							<input type="text" id="name" class="form-control" placeholder="Your 🍆 here...">
-							<button id="send-name" class="btn btn-default" type="submit">Send</button>
+							<label for="name">What is your 🍆 ?</label>
+							<input type="text" id="name" class="form-control" placeholder="Your 🍆 here..."><br />
+
+							<span>What is your level ? </span>
+							<button (click)="setLevelNovice()">Novice</button>
+							<button (click)="setLevelRegular()">Regular</button>
+							<button (click)="setLevelExpert()">Expert</button><br />
+
+							<button id="send-name" class="btn btn-default" type="submit" (click)="sendName()">Send</button>
 						</div>
 						
 					</form>
 					<div id="your-name" *ngIf="name">
-						Your 🍆 is <b><span class="name">{{ name }}</span></b>
+						Your 🍆 is {{ level }}<b><span class="name">{{ name }}</span></b>
 					</div>
 						<br />
 					
@@ -36,14 +42,15 @@
 					<ul>
 						<li *ngFor="let players of connectedPlayers">
 							<div id="player_line">
+								<span>({{ players[1] }})</span>
 								<span>{{ players[0] }}</span>
-								<button *ngIf="players[1]" id="accept_match" (click)="acceptMatch()">Accept</button>
-								<button *ngIf="players[1]" id="decline_match" (click)="declineMatch()">Decline</button>
+								<button *ngIf="players[2]" id="accept_match" (click)="acceptMatch()">Accept</button>
+								<button *ngIf="players[2]" id="decline_match" (click)="declineMatch()">Decline</button>
 							</div>
 						</li>
 					</ul>
 				</div>
-				<div class="col-md-12">
+				<!--<div class="col-md-12">
 					<table id="conversation" class="table table-striped">
 						<thead>
 							<tr>
@@ -52,7 +59,7 @@
 						</thead>
 						<tbody id="players"></tbody>
 					</table>
-				</div>
+				</div>-->
 			</div>
 		</div>
 	</body>

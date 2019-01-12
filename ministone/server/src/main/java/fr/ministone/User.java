@@ -9,6 +9,8 @@ public class User {
 	private String sessionId;
 	// Nombre de victoires et de défaites
 	private int nbWins, nbLoses;
+	// Niveau (novice, regular, expert)
+	private String level;
 	
 	private UUID temporaryGameId;
 
@@ -21,6 +23,17 @@ public class User {
 		this.nbWins = 0;
 		this.nbLoses = 0;
 		this.opponent = null;
+		this.level = "regular";
+	}
+
+	public User(String name, String sessionId, String level) {
+		this.name = name == null ? "" : name; // Putain de bordel de merde
+		this.sessionId = sessionId;
+		this.temporaryGameId = null;
+		this.nbWins = 0;
+		this.nbLoses = 0;
+		this.opponent = null;
+		this.level = level;
 	}
 
 	public String getName() {
@@ -43,6 +56,10 @@ public class User {
 		return nbLoses;
 	}
 
+	public String getLevel() {
+		return level;
+	}
+
 	public User getOpponent() {
 		return opponent;
 	}
@@ -53,5 +70,9 @@ public class User {
 
 	public void setOpponent(User op) {
 		opponent = op;
+	}
+
+	public void setLevel(String lvl) {
+		level = lvl;
 	}
 }
