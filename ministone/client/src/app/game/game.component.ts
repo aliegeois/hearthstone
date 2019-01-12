@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injectable } from '@angular/core';
 //import { Player } from '../app.component';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-game',
@@ -8,31 +9,33 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GameComponent implements OnInit {
 
-  //players: Map<String, Player>;
-  playing: String; // Actual player
-  nbTurns: number;
+ 
+	
+	
+  constructor() {
 
-
-  constructor(player1Name?: String, player1Type?: String, player2Name?: String, player2Type?: String) {
-    /*const player1: Player = new Player(player1Name, player1Type); // Quand on a pas ces paramètres, ça met juste à null
-    const player2: Player = new Player(player2Name, player2Type); // Quand on a pas ces paramètres, ça met juste à null
-
-    if (player1Name != null) {
-      this.players.set(player1Name, player1);
-    }
-    if (player2Name != null) {
-      this.players.set(player2Name, player2);
-    }*/
-
-    this.nbTurns = 0;
   }
 
   ngOnInit() {
+
+    let formList = document.getElementsByTagName('form');
+	
+    for(let form of <any>formList) {
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+      });
+    }
+    
+
+  }
+
+  onConnect() {
+    
   }
 
 
-  init_test(): GameComponent {
-    return new GameComponent('Claudius', 'paladin', 'Nero', 'warrior');
-  }
+
+
+  
 
 }

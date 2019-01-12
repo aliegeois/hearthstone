@@ -18,11 +18,12 @@ export class AppComponent implements OnInit {
   constructor() {
     AppComponent.title = 'client-angular';
     this.currentPage = 'home';
+    //this.demarreGame = false;
 
     AppComponent.socket = new SockJS(AppComponent.serverUrl);
     AppComponent.stompClient = Stomp.over(AppComponent.socket);
 
-    AppComponent.initializeWebSocketConnection();
+    this.initializeWebSocketConnection();
 
     
   }
@@ -36,19 +37,30 @@ export class AppComponent implements OnInit {
 
   static title: String;
 
-  currentPage: String;
+  public currentPage: String;
+  //public demarreGame: boolean;
 
-  static initializeWebSocketConnection() {
+  initializeWebSocketConnection() {
 
     AppComponent.stompClient.connect({}, frame => {
 
-        for (let l of AppComponent.listeners)
-			l.onConnect();
+      for (let l of AppComponent.listeners)
+			  l.onConnect();
 
-        console.log('Connected:' + frame);
-        AppComponent.sessionId = AppComponent.socket._transport.url.split('/').slice(-2, -1)[0]; // The magic happens
-        console.log('[AppComponent] sessionId = ' + AppComponent.sessionId);
+      console.log('Connected:' + frame);
+      AppComponent.sessionId = AppComponent.socket._transport.url.split('/').slice(-2, -1)[0]; // The magic happens
+      console.log('[AppComponent] sessionId = ' + AppComponent.sessionId);
 
+      
+      // Partie lancée, on switch sur le composant game
+		  AppComponent.stompClient.subscribe(`/topic/lobby/${AppComponent.sessionId}/startGame`, data => {
+			  console.log(`event: startGame, data: ${data.body}`);
+			  data = JSON.parse(data.body);
+        //window.location.replace('/game.html');
+        this.currentPage = 'game';
+			  // TODO lancer la partie, genre redirection vers /game
+      });
+      
       AppComponent.stompClient.subscribe('/topic/chat', message => {
         if (message.body) {
           console.log('Message reçu du serveur : ' + message.body);
@@ -77,7 +89,7 @@ export class AppComponent implements OnInit {
             this.currentPage = 'lobby';
             break;
         case 'lobby':
-            this.currentPage = 'home';
+            this.currentPage = 'game';
             break;
         }
     }

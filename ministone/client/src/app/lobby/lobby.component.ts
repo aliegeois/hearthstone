@@ -90,13 +90,7 @@ export class LobbyComponent implements OnInit {
 			data = JSON.parse(data.body);
 			this.matchFound(data.id, data.opponent);
 		});
-		// Partie lancée
-		AppComponent.stompClient.subscribe(`/topic/lobby/${AppComponent.sessionId}/startGame`, data => {
-			console.log(`event: startGame, data: ${data.body}`);
-			data = JSON.parse(data.body);
-			window.location.replace('/game.html');
-			// TODO lancer la partie, genre redirection vers /game
-		});
+		
 		// Erreur quelconque
 		AppComponent.stompClient.subscribe(`/topic/lobby/${AppComponent.sessionId}/error`, data => {
 			console.log(`event: error, data: ${data.body}`);
