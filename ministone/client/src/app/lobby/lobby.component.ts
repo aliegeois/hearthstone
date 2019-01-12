@@ -118,7 +118,12 @@ export class LobbyComponent implements OnInit {
 		document.getElementById('players').appendChild(tr);*/
 		
 		//Version TS
-		this.connectedPlayers.push([name, level, false]);
+		const index = this.foundPlayer(name);
+		if(index !== -1) {
+			this.connectedPlayers[index] = [name, level, false];
+		} else {
+			this.connectedPlayers.push([name, level, false]);
+		}
   }
 
   removePlayer(name: string): void {
