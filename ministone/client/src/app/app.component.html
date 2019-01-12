@@ -1,7 +1,12 @@
 
 <div *ngIf="currentPage == 'home'">
-	<h1>MiniStone 🍆</h1>
-	<button (click)="change()">Lobby</button>
+	<div id="appComponent">
+		<h1 id="title"><a href="/">
+			<img src="../favicon.ico" id="icon" />
+			MiniStone
+		</a></h1>
+		<button (click)="change()">Lobby</button>
+	</div>
 </div>
 <div *ngIf="currentPage == 'lobby'">
 	<app-lobby></app-lobby>

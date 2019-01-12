@@ -3,3 +3,14 @@ body {
     margin: 0;
     text-align: center;
 }
+
+#appComponent {
+    text-align: center;
+}
+h1 a {
+    color: black;
+    text-decoration: none;
+}
+#icon {
+    height: 50px;
+}
