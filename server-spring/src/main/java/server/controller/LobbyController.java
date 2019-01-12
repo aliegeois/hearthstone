@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
@@ -106,7 +107,7 @@ public class LobbyController {
 	}
 
 	@MessageMapping("/lobby/leave")
-	public void leaveLobby(@Header("simpSessionId") String sessionId) throws Exception {
+	public void leaveLobby(@Header("simpSessionId") String sessionId) throws JsonProcessingException {
 		if(!containsSessionId(sessionId)) {
 			return;
 		}
@@ -200,7 +201,6 @@ public class LobbyController {
 
 		User user1 = getFromTemporaryGame(sessionId);
 		UUID gameId = user1.getTemporaryGameId();
-		TemporaryGame tg = temporaryGames.get(gameId);
 		User user2 = user1.getOpponent();
 
 		user1.setTemporaryGameId(null);

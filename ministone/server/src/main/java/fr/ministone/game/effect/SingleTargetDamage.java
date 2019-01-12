@@ -1,0 +1,21 @@
+package fr.ministone.game.effect;
+
+import fr.ministone.game.CardSpell;
+import fr.ministone.game.IEntity;
+
+public class SingleTargetDamage extends SingleTargetEffect {
+	private int damage;
+	
+	public SingleTargetDamage(CardSpell card, int damage) {
+		super(card);
+		this.damage = damage;
+	}
+	
+	public void play() {
+		throw new UnsupportedOperationException();
+	}
+	
+	public void play(IEntity e) {
+		e.takeDamage(damage);
+	}
+}

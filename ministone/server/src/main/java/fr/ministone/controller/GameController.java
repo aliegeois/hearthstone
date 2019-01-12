@@ -13,7 +13,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 import fr.ministone.User;
-import fr.ministone.Game;
+import fr.ministone.game.Game;
 import fr.ministone.message.*;
 import java.util.Map;
 import java.util.UUID;
@@ -70,54 +70,56 @@ public class GameController {
 	}
 
 	@MessageMapping("/game/{gameId}/attack")
-	@SendTo("/topic/attack")
-	public MessageAttack attack(@DestinationVariable("gameId") String gameId, @Payload MessageAttack message) throws Exception {
-		return new MessageAttack();
+	//@SendTo("/topic/attack")
+	public void attack(@DestinationVariable("gameId") String gameId, @Payload MessageAttack message) throws Exception {
+		
+		
+		
 	}
 
-	@MessageMapping("/summonMinion")
-	@SendTo("/topic/summonMinion")
-	public MessageSummonMinion summonMinion(MessageSummonMinion message) throws Exception {
+	@MessageMapping("/game/{gameId}/summonMinion")
+	//@SendTo("/topic/summonMinion")
+	public void summonMinion(MessageSummonMinion message) throws Exception {
 		// Le message reçu et le message envoyé sont du même type
 		// modifications côté serveur
 
-		return new MessageSummonMinion(/* des trucs */);
+		
 	}
 
-	@MessageMapping("/castTargetedSpell")
-	@SendTo("/topic/castTargetedSpell")
-	public MessageCastTargetedSpell castTargetedSpell(MessageCastTargetedSpell message) throws Exception {
+	@MessageMapping("/game/{gameId}/castTargetedSpell")
+	//@SendTo("/topic/castTargetedSpell")
+	public void castTargetedSpell(MessageCastTargetedSpell message) throws Exception {
 		// Le message reçu et le message envoyé sont du même type
 		// modifications côté serveur
 
-		return new MessageCastTargetedSpell(/* des trucs */);
+		
 	}
 
-	@MessageMapping("/castUntargetedSpell")
-	@SendTo("/topic/castUntargetedSpell")
-	public MessageCastUntargetedSpell castUntargetedSpell(MessageCastUntargetedSpell message) throws Exception {
+	@MessageMapping("/game/{gameId}/castUntargetedSpell")
+	//@SendTo("/topic/castUntargetedSpell")
+	public void castUntargetedSpell(MessageCastUntargetedSpell message) throws Exception {
 		// Le message reçu et le message envoyé sont du même type
 		// modifications côté serveur
 
-		return new MessageCastUntargetedSpell(/* des trucs */);
+		
 	}
 
-	@MessageMapping("/targetedSpecial")
-	@SendTo("/topic/targetedSpecial")
-	public MessageTargetedSpecial targetedSpecial(MessageTargetedSpecial message) throws Exception {
+	@MessageMapping("/game/{gameId}/targetedSpecial")
+	//@SendTo("/topic/targetedSpecial")
+	public void targetedSpecial(MessageTargetedSpecial message) throws Exception {
 		// Le message reçu et le message envoyé sont du même type
 		// modifications côté serveur
 
-		return new MessageTargetedSpecial(/* des trucs */);
+		
 	}
 
-	@MessageMapping("/untargetedSpecial")
-	@SendTo("/topic/untargetedSpecial")
-	public MessageUntargetedSpecial untargetedSpecial(MessageUntargetedSpecial message) throws Exception {
+	@MessageMapping("/game/{gameId}/untargetedSpecial")
+	//@SendTo("/topic/untargetedSpecial")
+	public void untargetedSpecial(MessageUntargetedSpecial message) throws Exception {
 		// Le message reçu et le message envoyé sont du même type
 		// modifications côté serveur
 
-		return new MessageUntargetedSpecial(/* des trucs */);
+
 	}
 
 	@EventListener
@@ -133,7 +135,7 @@ public class GameController {
 	}
 
 	public void createGame(UUID gameId, User player1, User player2) {
-		Game g = new Game(gameId, player1, player2);
+		Game g = new Game(gameId, template, player1, player2);
 		games.put(gameId, g);
 		
 		System.out.println("create game with " + player1.getName() + " and " + player2.getName());

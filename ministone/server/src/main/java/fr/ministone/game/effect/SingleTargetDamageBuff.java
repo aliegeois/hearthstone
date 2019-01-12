@@ -1,0 +1,22 @@
+package fr.ministone.game.effect;
+
+import fr.ministone.game.CardSpell;
+import fr.ministone.game.IEntity;
+
+public class SingleTargetDamageBuff extends SingleTargetEffect {
+	private int attack;
+	
+	public SingleTargetDamageBuff(CardSpell card, int attack) {
+		super(card);
+		this.attack = attack;
+	}
+	
+	@Override
+	public void play() {
+		throw new UnsupportedOperationException();
+	}
+	
+	public void play(IEntity e) {
+		e.boostDamage(attack);
+	}
+}
