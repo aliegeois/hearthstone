@@ -28,7 +28,7 @@ public class CardSpell extends Card {
 		}
 	}
 
-	@Override
+	//@Override
 	public void play(IEntity e) {
 		for(SingleTargetEffect s : singleEffects) {
 			s.play(e);
@@ -43,7 +43,7 @@ public class CardSpell extends Card {
 		}
 	}
 
-	public void addEffect(SingleTargetEffect ste) {
+	/*public void addEffect(SingleTargetEffect ste) {
 		singleEffects.add(ste);
 	}
 
@@ -65,7 +65,7 @@ public class CardSpell extends Card {
 
 	public Set<GlobalEffect> getGE() {
 		return globalEffects;
-	}
+	}*/
 
 	@Override
 	public Card copy() {

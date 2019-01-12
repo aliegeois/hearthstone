@@ -101,6 +101,20 @@ public class Game implements IGameMessageReceiver, IGameMessageSender {
 	}
 
 
+	public void sendSetHero(String playerName, String heroType) {
+		Map<String,String> send = new HashMap<>();
+		send.put("playerName", playerName);
+		send.put("heroType", heroType);
+		template.convertAndSend("/topic/game/" + id + "/setHero", JSONeur.toJSON(send));
+	}
+
+    public void sendSetOpponentHero(String playerName, String heroType) {
+		Map<String,String> send = new HashMap<>();
+		send.put("playerName", playerName);
+		send.put("heroType", heroType);
+		template.convertAndSend("/topic/game/" + id + "/setOpponentHero", JSONeur.toJSON(send));
+	}
+
 	public void sendIsStarting(String playerName) {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", playerName);

@@ -3,6 +3,8 @@ package fr.ministone.game;
 
 
 public interface IGameMessageSender {
+    public void sendSetHero(String playerName, String heroType);
+    public void sendSetOpponentHero(String playerName, String heroType);
     public void sendIsStarting(String playerName);
     public void sendSummonMinion(String playerName, String cardId);
     public void sendAttack(String playerName, String cardId, String targetId);

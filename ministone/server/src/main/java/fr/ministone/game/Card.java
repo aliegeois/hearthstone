@@ -14,7 +14,7 @@ public abstract class Card {
 	}
 	
 	public abstract void play();
-	public abstract void play(IEntity target);
+	//public abstract void play(IEntity target);
 
 	public abstract Card copy();
 	
@@ -34,7 +34,7 @@ public abstract class Card {
 		return manaCost;
 	}
 
-	public void setId(String identif){
+	public void setId(String identif) {
 		this.id = identif;
 	}
 }
