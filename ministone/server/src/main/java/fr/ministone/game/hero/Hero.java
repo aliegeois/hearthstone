@@ -9,30 +9,31 @@ public abstract class Hero implements IEntity {
 	protected int health = Constants.HEROMAXHEALTH;
 	protected int healthMax = Constants.HEROMAXHEALTH;
 	protected int armor = 0;
-	protected boolean provocation = false;
+	//protected boolean provocation = false;
 	
 	public Hero(Player player) {
 		this.player = player;
+	}
+
+	public Player getOwner() {
+		return player;
 	}
 	
 	public abstract void special(IEntity e);
 	public abstract void special();
 	
-	public void takeDamage(int quantity) {
-		System.out.println("flag a");
-		this.armor = this.armor - quantity;
-		System.out.println("flag b");
-		if(this.armor < 0) { //Si on a cassé toute l'armure
-		System.out.println("flag c 1");
-			this.health = this.health + this.armor;
-			this.armor = 0;
-		}
-		System.out.println("flag d");
-	}
-
 	@Override
-	public void boostDamage(int quantity) {
-		throw new UnsupportedOperationException();
+	public void takeDamage(int quantity) {
+		System.out.println("takeDamage: init");
+		armor = armor - quantity;
+		if(armor < 0) { //Si on a cassé toute l'armure
+			System.out.println("armor < 0");
+			health += armor;
+			armor = 0;
+		} else {
+			System.out.println("armor >= 0");
+		}
+		System.out.println("takeDamage: end");
 	}
 	
 	@Override
@@ -40,6 +41,7 @@ public abstract class Hero implements IEntity {
 		return 0;
 	}
 	
+	@Override
 	public void heal(int quantity) {
 		if(health + quantity <= healthMax) {
 			health = health + quantity;
@@ -48,7 +50,18 @@ public abstract class Hero implements IEntity {
 		}
 	}
 	
-	public void boostHealth(int quantity) {
+	@Override
+	public int getHealth() {
+		return health;
+	}
+
+	@Override
+	public void buffDamage(int quantity) {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public void buffHealth(int quantity) {
 		health += quantity;
 	}
 	
@@ -56,38 +69,30 @@ public abstract class Hero implements IEntity {
 		armor += quantity;
 	}
 	
+	/*@Override
 	public boolean isProvoking() {
-		return provocation;
-	}
+		throw new UnsupportedOperationException();
+	}*/
 	
 	@Override
 	public boolean isDead() {
-		return (health <= 0);
+		return health <= 0;
 	}
 	
 	public int getArmor() {
-		return this.armor;
+		return armor;
 	}
 
-	@Override
-	public int getHealth() {
-		return this.health;
-	}
-
-	public Player getOwner(){
-		return this.player;
-	}
-	
 	@Override
 	public void die() {
 		if(isDead()) {
 			//TODO : faire gagner l'adversaire
-			System.out.println(this.player.getName() + " a gagné !");
+			System.out.println(player.getName() + " a gagné !");
 		}
 	}
 
 	@Override
-	public void transform(IEntity e){
-
+	public void transform(IEntity e) {
+		throw new UnsupportedOperationException();
 	}
 }

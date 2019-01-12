@@ -17,8 +17,7 @@ public class HeroPaladin extends Hero {
 	
 	@Override
 	public void special() {
-		
-		String idCarte = UUID.randomUUID().toString(); //valeur temp
+		String idCarte = UUID.randomUUID().toString(); // Valeur temporaire
 		Set<String> cap = new HashSet<String>();
 		Map<String,Integer> boost = new HashMap<String,Integer>();
 		CardMinion carte = new CardMinion(idCarte, player, "SilverHand recruit", 1, 1, 1, cap, boost);

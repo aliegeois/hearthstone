@@ -17,6 +17,6 @@ public class SingleTargetLifeBuff extends SingleTargetEffect {
 	}
 	
 	public void play(IEntity e) {
-		e.boostHealth(life);
+		e.buffHealth(life);
 	}
 }

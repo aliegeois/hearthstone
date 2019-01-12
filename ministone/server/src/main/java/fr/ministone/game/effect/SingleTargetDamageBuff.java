@@ -17,6 +17,6 @@ public class SingleTargetDamageBuff extends SingleTargetEffect {
 	}
 	
 	public void play(IEntity e) {
-		e.boostDamage(attack);
+		e.buffDamage(attack);
 	}
 }

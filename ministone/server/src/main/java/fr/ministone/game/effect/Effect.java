@@ -10,11 +10,6 @@ public abstract class Effect {
 		this.card = card;
 	}
 	
-	void play() {
-		
-	}
-	
-	void play(IEntity e) {
-		
-	}
+	public abstract void play();
+	public abstract void play(IEntity e);
 }

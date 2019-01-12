@@ -64,7 +64,7 @@ public class Player {
 		String identif = UUID.randomUUID().toString();
 
 		Card carte = cardDrawn.copy();
-		carte.setIdentifiant(identif);
+		carte.setId(identif);
 		hand.put(identif, carte);
 
 		return identif;

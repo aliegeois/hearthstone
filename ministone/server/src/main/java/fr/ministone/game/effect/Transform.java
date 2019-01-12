@@ -3,7 +3,7 @@ package fr.ministone.game.effect;
 import fr.ministone.game.CardSpell;
 import fr.ministone.game.IEntity;
 
-public class Transform extends SingleTargetEffect{
+public class Transform extends SingleTargetEffect {
 	private IEntity into;
 	
 	public Transform(CardSpell card, IEntity into) {

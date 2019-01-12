@@ -15,7 +15,13 @@ public abstract class Card {
 	
 	public abstract void play();
 	public abstract void play(IEntity target);
+
+	public abstract Card copy();
 	
+
+	public String getId() {
+		return id;
+	}
 	public String getName() {
 		return name;
 	}
@@ -28,13 +34,7 @@ public abstract class Card {
 		return manaCost;
 	}
 
-	public String getId(){
-		return this.id;
-	}
-
-	public void setIdentifiant(String identif){
+	public void setId(String identif){
 		this.id = identif;
 	}
-
-	public abstract Card copy();
 }
