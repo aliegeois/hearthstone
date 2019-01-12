@@ -47,6 +47,11 @@ public class CardMinion extends Card implements IEntity {
 			}
 		}
 	}
+
+	@Override
+	public void play(IEntity target) {
+		throw new UnsupportedOperationException();
+	}
 	
 	
 	public void attack(IEntity o) {

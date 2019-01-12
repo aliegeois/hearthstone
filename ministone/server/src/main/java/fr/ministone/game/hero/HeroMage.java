@@ -14,7 +14,7 @@ public class HeroMage extends Hero {
 	}
 
 	@Override
-	public void special(){
-		
+	public void special() {
+		throw new UnsupportedOperationException();
 	}
 }

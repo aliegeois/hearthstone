@@ -19,7 +19,6 @@ public abstract class Hero implements IEntity {
 	}
 	
 	public abstract void special(IEntity e);
-
 	public abstract void special();
 	
 	public void takeDamage(int quantity) {

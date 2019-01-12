@@ -1,13 +1,15 @@
 package fr.ministone.game;
 
 public interface IGameEvent {
-	void playMinion(Player player, String cardId);
+	public void receiveSummonMinion(String playerName, String cardId);
 
-	void attackMinion(Player player, String minionId1, String minionId2);
+	public void receiveAttack(String playerName, String cardId, String targetId);
 
-	void useSpell(Player player, String cardId);
+	public void receiveCastSpell(String playerName, String cardId);
+	public void receiveCastSpell(String playerName, boolean own, String cardId, String targetId);
 
-	void heroSpecial(Player player, IEntity target);
+	public void receiveSpecial(String playerName);
+	public void receiveSpecial(String playerName, boolean own, String targetId);
 
-	void endTurn(Player player);
+	public void receiveEndTurn(String playerName);
 }

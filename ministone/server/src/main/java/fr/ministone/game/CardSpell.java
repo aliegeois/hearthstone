@@ -29,6 +29,7 @@ public class CardSpell extends Card {
 		}
 	}
 
+	@Override
 	public void play(IEntity e) {
 
 		for(SingleTargetEffect s : singleEffects) {

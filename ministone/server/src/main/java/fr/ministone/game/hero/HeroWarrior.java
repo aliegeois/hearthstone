@@ -15,6 +15,6 @@ public class HeroWarrior extends Hero {
 
 	@Override
 	public void special(IEntity e){
-		
+		throw new UnsupportedOperationException();
 	}
 }
