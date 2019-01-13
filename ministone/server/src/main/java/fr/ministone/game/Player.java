@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import fr.ministone.game.hero.*;
+import fr.ministone.JSONeur;
 import fr.ministone.game.card.*;
 
 public class Player {
@@ -17,8 +18,8 @@ public class Player {
 	private Map<String, Card> hand = new HashMap<>();
 	private Map<String, CardMinion> board = new HashMap<>();
 	
-	private int manaMax;
-	private int mana;
+	private int manaMax = 0;
+	private int mana = 0;
 	
 	private Hero hero;
 	private Player opponent;
@@ -26,14 +27,12 @@ public class Player {
 	public Player(String name, String sessionId) {
 		this.name = name;
 		this.sessionId = sessionId;
-		this.manaMax = 0;
-		this.mana = this.manaMax;
 	}
 	
 	public void setOpponent(Player p) {
 		opponent = p;
-		if(p.getOpponent() == null) {
-			p.setOpponent(this);
+		if(p.opponent == null) {
+			p.opponent = this;
 		}
 	}
 	
@@ -169,5 +168,21 @@ public class Player {
 				i.remove();
 			}
 		}
+	}
+
+	public String toString() {
+		Map<String,String> me = new HashMap<>();
+		
+		me.put("name", name);
+		me.put("sessionId", sessionId);
+		me.put("deck", deck.toString());
+		me.put("hand", hand.toString());
+		me.put("board", board.toString());
+		me.put("mana", String.valueOf(mana));
+		me.put("manaMax", String.valueOf(manaMax));
+		me.put("hero", hero.toString());
+		me.put("opponent", opponent.name);
+
+		return JSONeur.toJSON(me);
 	}
 }
