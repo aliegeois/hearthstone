@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import fr.ministone.game.Player;
+import fr.ministone.game.IPlayer;
 import fr.ministone.game.IEntity;
 
 public class CardMinion extends Card implements IEntity {
@@ -15,7 +15,7 @@ public class CardMinion extends Card implements IEntity {
 	private Map<String, Integer> boosts;
 	private boolean ready, provocation;
 	
-	public CardMinion(String id, Player owner, String name, int mana, int damage, int health, Set<String> capacities, Map<String, Integer> boosts) {
+	public CardMinion(String id, IPlayer owner, String name, int mana, int damage, int health, Set<String> capacities, Map<String, Integer> boosts) {
 		super(id, owner, name, mana);
 		this.damageBase = damage;
 		this.damage = damage;

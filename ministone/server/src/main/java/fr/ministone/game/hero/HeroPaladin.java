@@ -8,10 +8,10 @@ import java.util.UUID;
 
 import fr.ministone.game.card.CardMinion;
 import fr.ministone.game.IEntity;
-import fr.ministone.game.Player;
+import fr.ministone.game.IPlayer;
 
 public class HeroPaladin extends Hero {
-	public HeroPaladin(Player player) {
+	public HeroPaladin(IPlayer player) {
 		super(player);
 	}
 	

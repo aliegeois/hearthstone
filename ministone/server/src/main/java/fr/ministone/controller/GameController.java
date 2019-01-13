@@ -15,7 +15,7 @@ import org.springframework.messaging.handler.annotation.Header;
 
 import fr.ministone.User;
 import fr.ministone.game.Game;
-import fr.ministone.game.Player;
+import fr.ministone.game.IPlayer;
 import fr.ministone.message.*;
 import java.util.Map;
 import java.util.HashMap;
@@ -41,7 +41,7 @@ public class GameController {
 		if(g == null)
 			return;
 		
-		Player p = g.getPlayer(sessionId);
+		IPlayer p = g.getPlayer(sessionId);
 		if(p == null)
 			return;
 		
@@ -54,7 +54,7 @@ public class GameController {
 		if(g == null)
 			return;
 		
-		Player p = g.getPlayer(sessionId);
+		IPlayer p = g.getPlayer(sessionId);
 		if(p == null)
 			return;
 		
@@ -67,7 +67,7 @@ public class GameController {
 		if(g == null)
 			return;
 		
-		Player p = g.getPlayer(sessionId);
+		IPlayer p = g.getPlayer(sessionId);
 		if(p == null)
 			return;
 		
@@ -80,7 +80,7 @@ public class GameController {
 		if(g == null)
 			return;
 		
-		Player p = g.getPlayer(sessionId);
+		IPlayer p = g.getPlayer(sessionId);
 		if(p == null)
 			return;
 		
@@ -93,7 +93,7 @@ public class GameController {
 		if(g == null)
 			return;
 		
-		Player p = g.getPlayer(sessionId);
+		IPlayer p = g.getPlayer(sessionId);
 		if(p == null)
 			return;
 		
@@ -106,7 +106,7 @@ public class GameController {
 		if(g == null)
 			return;
 		
-		Player p = g.getPlayer(sessionId);
+		IPlayer p = g.getPlayer(sessionId);
 		if(p == null)
 			return;
 		
@@ -119,7 +119,7 @@ public class GameController {
 		if(g == null)
 			return;
 		
-		Player p = g.getPlayer(sessionId);
+		IPlayer p = g.getPlayer(sessionId);
 		if(p == null)
 			return;
 		
@@ -132,7 +132,7 @@ public class GameController {
 		if(g == null)
 			return;
 		
-		Player p = g.getPlayer(sessionId);
+		IPlayer p = g.getPlayer(sessionId);
 		if(p == null)
 			return;
 		

@@ -11,7 +11,7 @@ import fr.ministone.game.hero.*;
 import fr.ministone.JSONeur;
 import fr.ministone.game.card.*;
 
-public class Player {
+public class Player implements IPlayer {
 	private String name;
 	private String sessionId;
 	private Set<Card> deck = new HashSet<>();
@@ -22,20 +22,22 @@ public class Player {
 	private int mana = 0;
 	
 	private Hero hero;
-	private Player opponent;
+	private IPlayer opponent;
 	
 	public Player(String name, String sessionId) {
 		this.name = name;
 		this.sessionId = sessionId;
 	}
 	
-	public void setOpponent(Player p) {
+	@Override
+	public void setOpponent(IPlayer p) {
 		opponent = p;
-		if(p.opponent == null) {
-			p.opponent = this;
+		if(p.getOpponent() == null) {
+			p.setOpponent(this);
 		}
 	}
 	
+	@Override
 	public void summonMinion(String minionId) {
 		CardMinion minion = (CardMinion)hand.get(minionId);
 		int manaCost = minion.getManaCost();
@@ -49,16 +51,18 @@ public class Player {
 		}
 	}
 	
+	@Override
 	public void attack(String cardId, String targetId) { // Plus de vérifications (genre opponent card existe ou pas) ??
 		CardMinion minion = (CardMinion)hand.get(cardId);
 		if(targetId.equals("hero")) {
-			minion.attack(opponent.hero);
+			minion.attack(opponent.getHero());
 		} else {
-			minion.attack(opponent.board.get(targetId));
+			minion.attack(opponent.getBoard().get(targetId));
 		}
 		checkDead();
 	}
 	
+	@Override
 	public String drawCard() {
 		Card cardDrawn = (Card)deck.toArray()[(int)(Math.random() * deck.size())];
 		String identif = UUID.randomUUID().toString();
@@ -70,40 +74,45 @@ public class Player {
 		return identif;
 	}
 
+	@Override
 	public void castSpell(boolean own, String cardId, String targetId) { // À terminer
 		CardSpell spell = (CardSpell)hand.get(cardId);
 		IEntity victim;
 		if("hero".equals(targetId)) {
-			victim = (own ? this : opponent).hero;
+			victim = (own ? this : opponent).getHero();
 		} else {
-			victim = (own ? this : opponent).board.get(targetId);
+			victim = (own ? this : opponent).getBoard().get(targetId);
 		}
 		spell.play(victim);
 		hand.remove(spell.getId());
 	}
 
+	@Override
 	public void castSpell(String cardId) {
 		CardSpell spell = (CardSpell)hand.get(cardId);
 		spell.play();
 		hand.remove(spell.getId());
 	}
 	
+	@Override
 	public void heroSpecial(boolean own, String targetId) { // À terminer
 		IEntity victim;
 		if("hero".equals(targetId)) {
-			victim = (own ? this : opponent).hero;
+			victim = (own ? this : opponent).getHero();
 		} else {
-			victim = (own ? this : opponent).board.get(targetId);
+			victim = (own ? this : opponent).getBoard().get(targetId);
 		}
 		
 		hero.special(victim);
 	}
 
+	@Override
 	public void heroSpecial() {
 		hero.special();
 	}
 
 
+	@Override
 	public void nextTurn() {
 		manaMax++;
 		mana = manaMax;
@@ -111,42 +120,52 @@ public class Player {
 	}
 
 	
+	@Override
 	public String getName() {
 		return name;
 	}
 
+	@Override
 	public String getSessionId() {
 		return sessionId;
 	}
 	
+	@Override
 	public Set<Card> getDeck() {
 		return deck;
 	}
 	
+	@Override
 	public Map<String, Card> getHand() {
 		return hand;
 	}
 	
+	@Override
 	public Map<String, CardMinion> getBoard() {
 		return board;
 	}
 	
+	@Override
 	public Hero getHero() {
 		return hero;
 	}
 	
-	public Player getOpponent() {
+	@Override
+	public IPlayer getOpponent() {
 		return opponent;
 	}
 	
+	@Override
 	public int getManaMax() {
 		return manaMax;
 	}
 	
+	@Override
 	public int getMana() {
 		return mana;
 	}
 
+	@Override
 	public void setHero(String heroType) {
 		if("warrior".equals(heroType)) {
 			hero = new HeroWarrior(this);
@@ -160,6 +179,7 @@ public class Player {
 		}
 	}
 
+	@Override
 	public void checkDead() {
 		Iterator<Map.Entry<String,CardMinion>> i = this.board.entrySet().iterator();
 
@@ -170,6 +190,7 @@ public class Player {
 		}
 	}
 
+	@Override
 	public String toString() {
 		Map<String,String> me = new HashMap<>();
 		
@@ -181,7 +202,7 @@ public class Player {
 		me.put("mana", String.valueOf(mana));
 		me.put("manaMax", String.valueOf(manaMax));
 		me.put("hero", hero.toString());
-		me.put("opponent", opponent.name);
+		me.put("opponent", opponent.getName());
 
 		return JSONeur.toJSON(me);
 	}
