@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import fr.ministone.game.card.CardMinion;
-import fr.ministone.game.card.CardSpell;
+import fr.ministone.game.card.*;
 import fr.ministone.repository.CardMinionRepository;
 import fr.ministone.repository.CardSpellRepository;
 

@@ -40,8 +40,8 @@ public class CardMinion extends Card implements IEntity {
 	@Transient
 	private boolean provocation;
 	
-	public CardMinion(String id, IPlayer owner, String name, int mana, int damage, int health, Set<String> capacities, Map<String, Integer> boosts) {
-		super(id, owner, name, mana);
+	public CardMinion(String id, String deck, IPlayer owner, String name, int mana, int damage, int health, Set<String> capacities, Map<String, Integer> boosts) {
+		super(id, deck, owner, name, mana);
 		this.damageBase = damage;
 		this.damage = damage;
 		this.damageBoosted = 0;
@@ -161,7 +161,7 @@ public class CardMinion extends Card implements IEntity {
 
 	@Override
 	public Card copy() {
-		return new CardMinion(UUID.randomUUID().toString(), owner, name, manaCost, damage, health, capacities, boosts);
+		return new CardMinion(UUID.randomUUID().toString(), deck, owner, name, manaCost, damage, health, capacities, boosts);
 	}
 
 	//@Override

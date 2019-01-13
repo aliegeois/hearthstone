@@ -59,7 +59,7 @@ public abstract class Hero implements IEntity {
 		health += quantity;
 	}
 	
-	public void boostArmor(int quantity) {
+	public void buffArmor(int quantity) {
 		armor += quantity;
 	}
 	

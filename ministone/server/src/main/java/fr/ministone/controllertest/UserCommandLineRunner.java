@@ -19,7 +19,7 @@ public class UserCommandLineRunner implements CommandLineRunner {
     @Override
     public void run(String... strings) throws Exception {
 
-        Stream.of("Nero", "Claudius", "Doro, monsta cardo !").forEach(name ->
+        Stream.of("Nero", "Claudius", "Dorō, monsutā cādo !").forEach(name ->
                 repository.save(new User(name))
         );
 

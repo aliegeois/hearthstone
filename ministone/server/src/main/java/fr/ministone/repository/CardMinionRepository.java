@@ -9,4 +9,5 @@ import fr.ministone.game.card.CardMinion;
 
 public interface CardMinionRepository extends CrudRepository<CardMinion, Integer> {
     CardMinion findByName(String name);
+    Iterable<CardMinion> findAllByDeck(String deck);
 }

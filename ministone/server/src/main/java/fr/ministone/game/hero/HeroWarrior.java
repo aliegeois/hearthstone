@@ -9,7 +9,7 @@ public class HeroWarrior extends Hero {
 	
 	@Override
 	public void special() {
-		boostArmor(2);
+		buffArmor(2);
 	}
 
 	@Override

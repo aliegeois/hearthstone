@@ -12,6 +12,8 @@ import fr.ministone.game.IEntity;
 public abstract class Card {
 	@Id
 	protected String id;
+
+	protected String deck;
 	
 	protected String name;
 
@@ -20,8 +22,9 @@ public abstract class Card {
 	
 	protected int manaCost;
 	
-	public Card(String id, IPlayer owner, String name, int manaCost) {
+	public Card(String id, String deck, IPlayer owner, String name, int manaCost) {
 		this.id = id;
+		this.deck = deck;
 		this.owner = owner;
 		this.name = name;
 		this.manaCost = manaCost;
