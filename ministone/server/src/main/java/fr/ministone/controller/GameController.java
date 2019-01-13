@@ -10,21 +10,24 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.messaging.handler.annotation.Header;
 
 import fr.ministone.User;
 import fr.ministone.game.Game;
+import fr.ministone.game.Player;
 import fr.ministone.message.*;
 import java.util.Map;
-import java.util.UUID;
 import java.util.HashMap;
 //import org.springframework.web.util.HtmlUtils;
 
 @Controller
+@CrossOrigin(origins = "http://localhost:4200")
 public class GameController {
 	// Pour envoyer des messages sans utiliser "@SendTo"
 	private SimpMessagingTemplate template;
 	// Liste des parties en cours
-	private Map<UUID, Game> games;
+	private Map<String, Game> games;
 
 	@Autowired
 	public GameController(SimpMessagingTemplate template) {
@@ -32,38 +35,121 @@ public class GameController {
 		this.games = new HashMap<>();
 	}
 
-	/*@MessageMapping("/hello")
-	@SendTo("/topic/greetings")
-	public Greeting greeting(HelloMessage message) throws Exception {
-		//Thread.sleep(1000); // simulated delay
-		//return new Greeting("Bonjour, " + HtmlUtils.htmlEscape(message.getName()) + " !");
-		return new Greeting("Bonjour, " + message.getName() + " !");
-	}*/
-
 	// SITE DE LA VIE: https://www.programcreek.com/java-api-examples/?api=org.springframework.messaging.handler.annotation.MessageMapping
 
-	//@DestinationVariable("gameId") String gameId met le contenu de la variable gameId dans une string gameId que l'on peut ensuite utiliser
-	//Le MessageTest message est le message qui transite.
-	/*@MessageMapping("/game/{gameId}")
-	@SendTo("/topic/")
-	public MessageTest test(@DestinationVariable("gameId") String gameId, @Payload MessageTest message) throws Exception {
-		// Le message reçu et le message envoyé sont du même type
-		// modifications côté serveur
+	@MessageMapping("/game/{gameId}/setHero")
+	public void setHero(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageSetHero message) throws Exception {
+		Game g = games.get(gameId);
+		if(g == null)
+			return;
 		
-		return new MessageTest(gameId);
-	}*/
+		Player p = g.getPlayer(sessionId);
+		if(p == null)
+			return;
+		
+		g.receiveSetHero(p.getName(), message.getHeroType());
+	}
 
-	/*@MessageMapping("/lobby")
-	@SendTo("/topic/lobby")
-	public MessageJoinLobby joinLobby(MessageJoinLobby message) throws Exception {
-		// Stocker le joueur qui viens d'arriver
+	@MessageMapping("/game/{gameId}/summonMinion")
+	public void summonMinion(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageSummonMinion message) throws Exception {
+		Game g = games.get(gameId);
+		if(g == null)
+			return;
+		
+		Player p = g.getPlayer(sessionId);
+		if(p == null)
+			return;
+		
+		g.receiveSummonMinion(p.getName(), message.getCardId());
+	}
 
-		return message;
-	}*/
+	@MessageMapping("/game/{gameId}/attack")
+	public void attack(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageAttack message) throws Exception {
+		Game g = games.get(gameId);
+		if(g == null)
+			return;
+		
+		Player p = g.getPlayer(sessionId);
+		if(p == null)
+			return;
+		
+		g.receiveAttack(p.getName(), message.getCardId(), message.getTargetId());
+	}
+
+	@MessageMapping("/game/{gameId}/castUntargetedSpell")
+	public void castUntargetedSpell(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageCastUntargetedSpell message) throws Exception {
+		Game g = games.get(gameId);
+		if(g == null)
+			return;
+		
+		Player p = g.getPlayer(sessionId);
+		if(p == null)
+			return;
+		
+		g.receiveCastSpell(p.getName(), message.getCardId());
+	}
+
+	@MessageMapping("/game/{gameId}/castTargetedSpell")
+	public void castTargetedSpell(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageCastTargetedSpell message) throws Exception {
+		Game g = games.get(gameId);
+		if(g == null)
+			return;
+		
+		Player p = g.getPlayer(sessionId);
+		if(p == null)
+			return;
+		
+		g.receiveCastSpell(p.getName(), message.isOwn(), message.getCardId(), message.getTargetId());
+	}
+
+	@MessageMapping("/game/{gameId}/heroUntargetedSpecial")
+	public void heroUntargetedSpecial(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId) throws Exception {
+		Game g = games.get(gameId);
+		if(g == null)
+			return;
+		
+		Player p = g.getPlayer(sessionId);
+		if(p == null)
+			return;
+		
+		g.receiveHeroSpecial(p.getName());
+	}
+
+	@MessageMapping("/game/{gameId}/heroTargetedSpecial")
+	public void heroTargetedSpecial(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageHeroTargetedSpecial message) throws Exception {
+		Game g = games.get(gameId);
+		if(g == null)
+			return;
+		
+		Player p = g.getPlayer(sessionId);
+		if(p == null)
+			return;
+		
+		g.receiveHeroSpecial(p.getName(), message.isOwn(), message.getTargetId());
+	}
+
+	@MessageMapping("/game/{gameId}/endTurn")
+	public void endTurn(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId) throws Exception {
+		Game g = games.get(gameId);
+		if(g == null)
+			return;
+		
+		Player p = g.getPlayer(sessionId);
+		if(p == null)
+			return;
+		
+		g.receiveEndTurn(p.getName());
+	}
 
 
 
-	@MessageMapping("/game/{gameId}/test")
+
+
+
+
+
+
+	/*@MessageMapping("/game/{gameId}/test")
 	public void test2(@DestinationVariable("gameId") String gameId, @Payload MessageTest message) throws Exception {
 		template.convertAndSend("/topic/game/" + gameId + "/test", "{\"value\": \"" + message.getValue() + "\"}");
 	}
@@ -74,52 +160,7 @@ public class GameController {
 		
 		
 		
-	}
-
-	@MessageMapping("/game/{gameId}/summonMinion")
-	//@SendTo("/topic/summonMinion")
-	public void summonMinion(MessageSummonMinion message) throws Exception {
-		// Le message reçu et le message envoyé sont du même type
-		// modifications côté serveur
-
-		
-	}
-
-	@MessageMapping("/game/{gameId}/castTargetedSpell")
-	//@SendTo("/topic/castTargetedSpell")
-	public void castTargetedSpell(MessageCastTargetedSpell message) throws Exception {
-		// Le message reçu et le message envoyé sont du même type
-		// modifications côté serveur
-
-		
-	}
-
-	@MessageMapping("/game/{gameId}/castUntargetedSpell")
-	//@SendTo("/topic/castUntargetedSpell")
-	public void castUntargetedSpell(MessageCastUntargetedSpell message) throws Exception {
-		// Le message reçu et le message envoyé sont du même type
-		// modifications côté serveur
-
-		
-	}
-
-	@MessageMapping("/game/{gameId}/targetedSpecial")
-	//@SendTo("/topic/targetedSpecial")
-	public void targetedSpecial(MessageTargetedSpecial message) throws Exception {
-		// Le message reçu et le message envoyé sont du même type
-		// modifications côté serveur
-
-		
-	}
-
-	@MessageMapping("/game/{gameId}/untargetedSpecial")
-	//@SendTo("/topic/untargetedSpecial")
-	public void untargetedSpecial(MessageUntargetedSpecial message) throws Exception {
-		// Le message reçu et le message envoyé sont du même type
-		// modifications côté serveur
-
-
-	}
+	}*/
 
 	@EventListener
 	public void onConnectEvent(SessionConnectEvent event) {
@@ -133,7 +174,7 @@ public class GameController {
 		System.out.println("onDisconnect (game): " + headers.getSessionId());
 	}
 
-	public void createGame(UUID gameId, User player1, User player2) {
+	public void createGame(String gameId, User player1, User player2) {
 		Game g = new Game(gameId, template, player1, player2);
 		games.put(gameId, g);
 		

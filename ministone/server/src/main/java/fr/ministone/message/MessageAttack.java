@@ -1,30 +1,28 @@
 package fr.ministone.message;
 
-public class MessageAttack extends GameMessage {
-
-	private int source, target;
+public class MessageAttack {
+	private String cardId, targetId;
 
 	public MessageAttack() {}
 
-	public MessageAttack(boolean player1, int idCardSource, int idCardTarget) {
-		super(player1);
-		this.source = idCardSource;
-		this.target = idCardTarget;
+	public MessageAttack(String cardId, String targetId) {
+		this.cardId = cardId;
+		this.targetId = targetId;
 	}
 
-	public int getSource() {
-		return source;
+	public String getCardId() {
+		return cardId;
 	}
 
-	public int getTarget() {
-		return target;
+	public String getTargetId() {
+		return targetId;
 	}
 
-	public void setSource(int idCard) {
-		this.source = idCard;
+	public void setSource(String newCardId) {
+		cardId = newCardId;
 	}
 
-	public void setTarget(int idCard) {
-		this.target = idCard;
+	public void setTarget(String newTargetId) {
+		targetId = newTargetId;
 	}
 }

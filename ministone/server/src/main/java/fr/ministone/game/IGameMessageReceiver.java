@@ -10,8 +10,8 @@ public interface IGameMessageReceiver {
 	public void receiveCastSpell(String playerName, String cardId);
 	public void receiveCastSpell(String playerName, boolean own, String cardId, String targetId);
 
-	public void receiveSpecial(String playerName);
-	public void receiveSpecial(String playerName, boolean own, String targetId);
+	public void receiveHeroSpecial(String playerName);
+	public void receiveHeroSpecial(String playerName, boolean own, String targetId);
 
 	public void receiveEndTurn(String playerName);
 }

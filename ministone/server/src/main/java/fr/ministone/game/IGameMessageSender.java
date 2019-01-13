@@ -3,6 +3,8 @@ package fr.ministone.game;
 
 
 public interface IGameMessageSender {
+    public void sendSetHero(String playerName, String heroType);
+    public void sendSetOpponentHero(String playerName, String heroType);
     public void sendIsStarting(String playerName);
     public void sendSummonMinion(String playerName, String cardId);
     public void sendAttack(String playerName, String cardId, String targetId);
@@ -22,8 +24,8 @@ public interface IGameMessageSender {
                 spécial vers une carte adverse
         
     */
-    public void sendTargetedSpecial(String playerName, boolean own, String targetId);
-    public void sendUntargetedSpecial(String playerName);
+    public void sendHeroTargetedSpecial(String playerName, boolean own, String targetId);
+    public void sendHeroUntargetedSpecial(String playerName);
 
     public void sendEndTurn(String playerName);
     public void sendNextTurn(String playerName);

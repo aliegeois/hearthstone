@@ -1,21 +1,19 @@
 package fr.ministone.message;
 
-public class MessageSummonMinion extends GameMessage {
-
-	private int idCard;
+public class MessageSummonMinion {
+	private String cardId;
 
 	public MessageSummonMinion() {}
 
-	public MessageSummonMinion(boolean player1, int idCard) {
-		super(player1);
-		this.idCard = idCard;
+	public MessageSummonMinion(String cardId) {
+		this.cardId = cardId;
 	}
 
-	public int getIdCard() {
-		return idCard;
+	public String getCardId() {
+		return cardId;
 	}
 
-	public void setIdCard(int newIdCard) {
-		idCard = newIdCard;
+	public void setCardId(String newCardId) {
+		cardId = newCardId;
 	}
 }

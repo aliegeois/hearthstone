@@ -11,7 +11,7 @@ import fr.ministone.game.hero.*;
 
 public class Player {
 	private String name;
-	//private String sessionId;
+	private String sessionId;
 	private Set<Card> deck = new HashSet<>();
 	private Map<String, Card> hand = new HashMap<>();
 	private Map<String, CardMinion> board = new HashMap<>();
@@ -24,7 +24,7 @@ public class Player {
 	
 	public Player(String name, String sessionId) {
 		this.name = name;
-		//this.sessionId = sessionId;
+		this.sessionId = sessionId;
 		this.manaMax = 0;
 		this.mana = this.manaMax;
 	}
@@ -115,9 +115,9 @@ public class Player {
 		return name;
 	}
 
-	/*public String getSessionId() {
+	public String getSessionId() {
 		return sessionId;
-	}*/
+	}
 	
 	public Set<Card> getDeck() {
 		return deck;

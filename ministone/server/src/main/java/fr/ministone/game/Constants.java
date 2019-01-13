@@ -4,9 +4,9 @@ public abstract class Constants {
 	public static final int HEROMAXHEALTH = 30;
 	public static final int NBPOSSIBLEHEROES = 3;
 	
-	private Constants() {}
+	//private Constants() {}
 	
-	public static String getAleatoireHero() {
+	/*public static String getAleatoireHero() {
 		int min = 1;
 		int max = Constants.NBPOSSIBLEHEROES;
 		int nbHeroChoosed = min + (int)(Math.random() * ((max - min) + 1));
@@ -28,5 +28,5 @@ public abstract class Constants {
 		}
 		
 		return heroChoosed;
-	}
+	}*/
 }
