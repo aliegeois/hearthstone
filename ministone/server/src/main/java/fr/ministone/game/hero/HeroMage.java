@@ -1,12 +1,11 @@
 package fr.ministone.game.hero;
 
 import fr.ministone.game.IEntity;
-import fr.ministone.game.IPlayer;
 
 public class HeroMage extends Hero {
-	public HeroMage(IPlayer player) {
-		super(player);
-	}
+	/*public HeroMage() {
+		super();
+	}*/
 	
 	@Override
 	public void special(IEntity e) {

@@ -35,7 +35,7 @@ public class GameController {
 
 	// SITE DE LA VIE: https://www.programcreek.com/java-api-examples/?api=org.springframework.messaging.handler.annotation.MessageMapping
 
-	@MessageMapping("/game/{gameId}/setHero")
+	/*@MessageMapping("/game/{gameId}/setHero")
 	public void setHero(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageSetHero message) {
 		Game g = games.get(gameId);
 		if(g == null)
@@ -46,7 +46,7 @@ public class GameController {
 			return;
 		
 		g.receiveSetHero(p.getName(), message.getHeroType());
-	}
+	}*/
 
 	@MessageMapping("/game/{gameId}/summonMinion")
 	public void summonMinion(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageSummonMinion message) {

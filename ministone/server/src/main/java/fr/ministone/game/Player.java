@@ -24,9 +24,21 @@ public class Player implements IPlayer {
 	private Hero hero;
 	private IPlayer opponent;
 	
-	public Player(String name, String sessionId) {
+	public Player(String name, String sessionId, String heroType) {
 		this.name = name;
 		this.sessionId = sessionId;
+
+		if("warrior".equals(heroType)) {
+			this.hero = new HeroWarrior();
+		} else if("paladin".equals(heroType)) {
+			this.hero = new HeroPaladin();
+		} else if("mage".equals(heroType)) {
+			this.hero = new HeroMage();
+		} else {
+			
+			System.out.println("Va te faire foutre, cordialement");
+		}
+		this.hero.setPlayer(this);
 	}
 	
 	@Override
@@ -165,19 +177,20 @@ public class Player implements IPlayer {
 		return mana;
 	}
 
-	@Override
+	/*@Override
 	public void setHero(String heroType) {
 		if("warrior".equals(heroType)) {
-			hero = new HeroWarrior(this);
+			hero = new HeroWarrior();
 		} else if("paladin".equals(heroType)){
-			hero = new HeroPaladin(this);
+			hero = new HeroPaladin();
 		} else if("mage".equals(heroType)){
-			hero = new HeroMage(this);
+			hero = new HeroMage();
 		} else {
 			// TODO: À enlever
 			System.out.println("Va te faire foutre, cordialement");
 		}
-	}
+		hero.setPlayer(this);
+	}*/
 
 	@Override
 	public void checkDead() {
