@@ -1,12 +1,23 @@
 package fr.ministone.game.card;
 
 import fr.ministone.game.Player;
+
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
+
 import fr.ministone.game.IEntity;
 
+@MappedSuperclass
 public abstract class Card {
+	@Id
 	protected String id;
+	
 	protected String name;
+
+	@Transient
 	protected Player owner;
+	
 	protected int manaCost;
 	
 	public Card(String id, Player owner, String name, int manaCost) {

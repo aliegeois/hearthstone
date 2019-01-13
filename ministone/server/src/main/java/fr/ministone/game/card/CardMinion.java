@@ -4,16 +4,41 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.Entity;
+import javax.persistence.Transient;
+
 import fr.ministone.game.Player;
 import fr.ministone.game.IEntity;
 
+@Entity
 public class CardMinion extends Card implements IEntity {
-	private int damageBase, damage, damageBoosted;
+	private int damageBase;
+
+	@Transient
+	private int damage;
+
+	@Transient
+	private int damageBoosted;
+
 	private final int healthMax;
-	private int health, healthBoosted;
+
+	@Transient
+	private int health;
+
+	@Transient
+	private int healthBoosted;
+
+	@Transient
 	private Set<String> capacities;
+
+	@Transient
 	private Map<String, Integer> boosts;
-	private boolean ready, provocation;
+
+	@Transient
+	private boolean ready;
+
+	@Transient
+	private boolean provocation;
 	
 	public CardMinion(String id, Player owner, String name, int mana, int damage, int health, Set<String> capacities, Map<String, Integer> boosts) {
 		super(id, owner, name, mana);
