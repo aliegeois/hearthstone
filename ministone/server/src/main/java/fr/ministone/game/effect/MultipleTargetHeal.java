@@ -1,13 +1,15 @@
 package fr.ministone.game.effect;
 
-import fr.ministone.game.card.CardMinion;
-import fr.ministone.game.card.CardSpell;
+import javax.persistence.Entity;
 
+import fr.ministone.game.card.CardMinion;
+
+@Entity
 public class MultipleTargetHeal extends MultipleTargetEffect {
 	private int quantity;
 	
-	public MultipleTargetHeal(CardSpell card, boolean ownBoard, boolean opponentBoard, boolean ownHero, boolean opponentHero, int amount) {
-		super(card, ownBoard, opponentBoard, ownHero, opponentHero);
+	public MultipleTargetHeal(boolean ownBoard, boolean opponentBoard, boolean ownHero, boolean opponentHero, int amount) {
+		super(ownBoard, opponentBoard, ownHero, opponentHero);
 		this.quantity = amount;
 	}
 	

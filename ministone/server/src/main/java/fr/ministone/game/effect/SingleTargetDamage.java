@@ -1,13 +1,15 @@
 package fr.ministone.game.effect;
 
-import fr.ministone.game.card.CardSpell;
+import javax.persistence.Entity;
+
 import fr.ministone.game.IEntity;
 
+@Entity
 public class SingleTargetDamage extends SingleTargetEffect {
 	private int damage;
 	
-	public SingleTargetDamage(CardSpell card, int damage) {
-		super(card);
+	public SingleTargetDamage(int damage) {
+		super();
 		this.damage = damage;
 	}
 	
