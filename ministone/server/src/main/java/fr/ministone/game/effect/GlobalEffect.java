@@ -10,6 +10,6 @@ public abstract class GlobalEffect extends Effect {
 
 	@Override
 	public void play(IEntity e) { // On suppose qu'un GlobalEffect n'a jamais besoin d'une cible
-		throw new UnsupportedOperationException();
+		throw new UnsupportedOperationException("GlobalEffect.play appelé avec un paramètre: " + e);
 	}
 }

@@ -204,22 +204,24 @@ public class LobbyController {
 		}
 		
 		User user1 = getFromTemporaryGame(sessionId);
-		String gameId = user1.getTemporaryGameId();
-		TemporaryGame tg = temporaryGames.get(gameId);
+		String gId = user1.getTemporaryGameId();
+		TemporaryGame tg = temporaryGames.get(gId);
 		User user2 = user1.getOpponent();
 
 		if(tg.hasAccepted(user2)) { // L'adversaire a déjà accepté
 			System.out.println("Les deux joueurs ont accepté");
 			String sendUser1 = new ObjectMapper().writeValueAsString(new Object() {
 				@JsonProperty private String opponent = user2.getName();
+				@JsonProperty private String gameId = gId;
 			});
 			String sendUser2 = new ObjectMapper().writeValueAsString(new Object() {
 				@JsonProperty private String opponent = user1.getName();
+				@JsonProperty private String gameId = gId;
 			});
 			template.convertAndSend("/topic/lobby/" + user1.getSessionId() + "/startGame", sendUser1);
 			template.convertAndSend("/topic/lobby/" + user2.getSessionId() + "/startGame", sendUser2);
-			gameController.createGame(gameId, user1, user2);
-			temporaryGames.remove(gameId);
+			gameController.createGame(gId, user1, user2);
+			temporaryGames.remove(gId);
 			users.remove(sessionId);
 			users.remove(user2.getSessionId());
 		} else { // L'adversaire n'a pas encore accepté
@@ -235,20 +237,20 @@ public class LobbyController {
 		}
 
 		User user1 = getFromTemporaryGame(sessionId);
-		String gameId = user1.getTemporaryGameId();
+		String gId = user1.getTemporaryGameId();
 		//TemporaryGame tg = temporaryGames.get(gameId);
 		User user2 = user1.getOpponent();
 
 		user1.setTemporaryGameId(null);
 		user2.setTemporaryGameId(null);
-		temporaryGames.remove(gameId);
+		temporaryGames.remove(gId);
 
 		String sendDeclineUser1 = new ObjectMapper().writeValueAsString(new Object() {
-			@JsonProperty private String id = gameId.toString();
+			@JsonProperty private String gameId = gId;
 			@JsonProperty private String opponent = user2.getName();
 		});
 		String sendDeclineUser2 = new ObjectMapper().writeValueAsString(new Object() {
-			@JsonProperty private String id = gameId.toString();
+			@JsonProperty private String gameIdd = gId;
 			@JsonProperty private String opponent = user1.getName();
 		});
 		template.convertAndSend("/topic/lobby/" + user1.getSessionId() + "/matchDeclined", sendDeclineUser1);
