@@ -10,23 +10,23 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 public class Game implements IGameMessageReceiver, IGameMessageSender {
 	private SimpMessagingTemplate template;
-	private Map<String, Player> players = new HashMap<>();
-	private Player playing;
+	private Map<String, IPlayer> players = new HashMap<>();
+	private IPlayer playing;
 	private int turn;
 	private String id;
 	
 	public Game(String id, SimpMessagingTemplate template, User user1, User user2) {
 		this.id = id;
 		this.template = template;
-		Player player1 = new Player(user1.getName(), user1.getSessionId());
-		Player player2 = new Player(user2.getName(), user2.getSessionId());
+		IPlayer player1 = new Player(user1.getName(), user1.getSessionId());
+		IPlayer player2 = new Player(user2.getName(), user2.getSessionId());
 		player1.setOpponent(player2);
 		this.players.put(user1.getName(), player1);
 		this.players.put(user2.getName(), player2);
 		this.turn = 0;
 	}
 	
-	public void start(Player p1, Player p2) {
+	public void start(IPlayer p1, IPlayer p2) {
 		double val = Math.random();
 		playing = val > .5 ? p1 : p2;
 		for(int i = 0; i < 3; i++) {
@@ -41,7 +41,7 @@ public class Game implements IGameMessageReceiver, IGameMessageSender {
 
 	@Override
 	public void receiveSetHero(String playerName, String heroType) {
-		Player p = players.get(playerName);
+		IPlayer p = players.get(playerName);
 		if(playing.getName() == playerName) {
 			p.setHero(heroType);
 			sendSummonMinion(playerName, heroType);
@@ -50,7 +50,7 @@ public class Game implements IGameMessageReceiver, IGameMessageSender {
 
 	@Override
 	public void receiveSummonMinion(String playerName, String cardId) {
-		Player p = players.get(playerName);
+		IPlayer p = players.get(playerName);
 		if(playing.getName() == playerName) {
 			p.summonMinion(cardId);
 			sendSummonMinion(playerName, cardId);
@@ -59,7 +59,7 @@ public class Game implements IGameMessageReceiver, IGameMessageSender {
 
 	@Override
 	public void receiveAttack(String playerName, String cardId, String targetId) {
-		Player p = players.get(playerName);
+		IPlayer p = players.get(playerName);
 		if(playing.getName() == playerName) {
 			p.attack(cardId, targetId);
 			sendAttack(playerName, cardId, targetId);
@@ -68,14 +68,14 @@ public class Game implements IGameMessageReceiver, IGameMessageSender {
 
 	@Override
 	public void receiveCastSpell(String playerName, String cardId) {
-		Player p = players.get(playerName);
+		IPlayer p = players.get(playerName);
 		p.castSpell(cardId);
 		sendCastUntargetedSpell(playerName, cardId);
 	}
 
 	@Override
 	public void receiveCastSpell(String playerName, boolean own, String cardId, String targetId) {
-		Player p = players.get(playerName);
+		IPlayer p = players.get(playerName);
 		if(playing.getName() == playerName) {
 			p.castSpell(own, cardId, targetId);
 			sendCastTargetedSpell(playerName, own, cardId, targetId);
@@ -84,7 +84,7 @@ public class Game implements IGameMessageReceiver, IGameMessageSender {
 
 	@Override
 	public void receiveHeroSpecial(String playerName) {
-		Player p = players.get(playerName);
+		IPlayer p = players.get(playerName);
 		if(playing.getName() == playerName) {
 			p.heroSpecial();
 			sendHeroUntargetedSpecial(playerName);
@@ -93,7 +93,7 @@ public class Game implements IGameMessageReceiver, IGameMessageSender {
 
 	@Override
 	public void receiveHeroSpecial(String playerName, boolean own, String targetId) {
-		Player p = players.get(playerName);
+		IPlayer p = players.get(playerName);
 		if(playing.getName() == playerName) {
 			p.heroSpecial(own, targetId);
 			sendHeroTargetedSpecial(playerName, own, targetId);
@@ -236,7 +236,7 @@ public class Game implements IGameMessageReceiver, IGameMessageSender {
 
 
 	private void endTurn() {
-		Player opponent = playing.getOpponent();
+		IPlayer opponent = playing.getOpponent();
 		sendEndTurn(playing.getName());
 		opponent.nextTurn();
 		sendNextTurn(opponent.getName());
@@ -247,14 +247,14 @@ public class Game implements IGameMessageReceiver, IGameMessageSender {
 		return getPlayer(sessionId) != null;
 	}
 
-	public Player getPlayer(String sessionId) {
-		for(Player p : players.values())
+	public IPlayer getPlayer(String sessionId) {
+		for(IPlayer p : players.values())
 			if(sessionId.equals(p.getSessionId()))
 				return p;
 		return null;
 	}
 	
-	public Player getPlaying() {
+	public IPlayer getPlaying() {
 		return playing;
 	}
 	
@@ -263,7 +263,7 @@ public class Game implements IGameMessageReceiver, IGameMessageSender {
 	}
 
 	public void checkBoard() {
-		for(Player p : players.values()) {
+		for(IPlayer p : players.values()) {
 			p.checkDead();
 		}
 	}

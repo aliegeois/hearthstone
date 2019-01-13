@@ -1,6 +1,6 @@
 package fr.ministone.game.card;
 
-import fr.ministone.game.Player;
+import fr.ministone.game.IPlayer;
 
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -16,11 +16,11 @@ public abstract class Card {
 	protected String name;
 
 	@Transient
-	protected Player owner;
+	protected IPlayer owner;
 	
 	protected int manaCost;
 	
-	public Card(String id, Player owner, String name, int manaCost) {
+	public Card(String id, IPlayer owner, String name, int manaCost) {
 		this.id = id;
 		this.owner = owner;
 		this.name = name;
@@ -40,7 +40,7 @@ public abstract class Card {
 		return name;
 	}
 	
-	public Player getOwner() {
+	public IPlayer getOwner() {
 		return owner;
 	}
 	

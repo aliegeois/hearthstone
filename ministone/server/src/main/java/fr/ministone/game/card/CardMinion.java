@@ -7,7 +7,7 @@ import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 
-import fr.ministone.game.Player;
+import fr.ministone.game.IPlayer;
 import fr.ministone.game.IEntity;
 
 @Entity
@@ -40,7 +40,7 @@ public class CardMinion extends Card implements IEntity {
 	@Transient
 	private boolean provocation;
 	
-	public CardMinion(String id, Player owner, String name, int mana, int damage, int health, Set<String> capacities, Map<String, Integer> boosts) {
+	public CardMinion(String id, IPlayer owner, String name, int mana, int damage, int health, Set<String> capacities, Map<String, Integer> boosts) {
 		super(id, owner, name, mana);
 		this.damageBase = damage;
 		this.damage = damage;

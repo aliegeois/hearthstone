@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Transient;
 
 import fr.ministone.game.effect.*;
-import fr.ministone.game.Player;
+import fr.ministone.game.IPlayer;
 import fr.ministone.game.IEntity;
 
 @Entity
@@ -22,7 +22,7 @@ public class CardSpell extends Card {
 	@Transient
 	protected Set<GlobalEffect> globalEffects;
 	
-	public CardSpell(String id, Player owner, String name, int mana, Set<SingleTargetEffect> single, Set<MultipleTargetEffect> multiple, Set<GlobalEffect> global) {
+	public CardSpell(String id, IPlayer owner, String name, int mana, Set<SingleTargetEffect> single, Set<MultipleTargetEffect> multiple, Set<GlobalEffect> global) {
 		super(id, owner, name, mana);
 		this.singleEffects = single;
 		this.multipleEffects = multiple;

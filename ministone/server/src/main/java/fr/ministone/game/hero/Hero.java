@@ -2,20 +2,20 @@ package fr.ministone.game.hero;
 
 import fr.ministone.game.Constants;
 import fr.ministone.game.IEntity;
-import fr.ministone.game.Player;
+import fr.ministone.game.IPlayer;
 
 public abstract class Hero implements IEntity {
-	protected Player player;
+	protected IPlayer player;
 	protected int health = Constants.HEROHEALTHMAX;
 	protected int healthMax = Constants.HEROHEALTHMAX;
 	protected int armor = 0;
 	//protected boolean provocation = false;
 	
-	public Hero(Player player) {
+	public Hero(IPlayer player) {
 		this.player = player;
 	}
 
-	public Player getOwner() {
+	public IPlayer getOwner() {
 		return player;
 	}
 	

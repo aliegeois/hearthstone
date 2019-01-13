@@ -1,10 +1,10 @@
 package fr.ministone.game.hero;
 
 import fr.ministone.game.IEntity;
-import fr.ministone.game.Player;
+import fr.ministone.game.IPlayer;
 
 public class HeroWarrior extends Hero {
-	public HeroWarrior(Player player) {
+	public HeroWarrior(IPlayer player) {
 		super(player);
 	}
 	
