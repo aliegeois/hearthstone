@@ -1,8 +1,11 @@
 package fr.ministone.game.effect;
 
+import javax.persistence.Entity;
+
 import fr.ministone.game.card.CardMinion;
 import fr.ministone.game.card.CardSpell;
 
+@Entity
 public class MultipleTargetBuff extends MultipleTargetEffect {
 	private int life;
 	private int attack;

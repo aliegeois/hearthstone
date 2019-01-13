@@ -1,9 +1,22 @@
 package fr.ministone.game.effect;
 
 import fr.ministone.game.card.CardSpell;
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
+
 import fr.ministone.game.IEntity;
 
+@MappedSuperclass
 public abstract class Effect {
+
+	@Id
+	@GeneratedValue
+	private String id;
+
+	@Transient
 	protected CardSpell card;
 	
 	public Effect(CardSpell card) {

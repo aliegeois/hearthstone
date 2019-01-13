@@ -1,8 +1,15 @@
 package fr.ministone.game.effect;
 
 import fr.ministone.game.card.CardSpell;
+
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+
 import fr.ministone.game.IEntity;
 
+@Entity
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public abstract class MultipleTargetEffect extends Effect {
 	protected boolean ownBoard, opponentBoard, ownHero, opponentHero;
 	

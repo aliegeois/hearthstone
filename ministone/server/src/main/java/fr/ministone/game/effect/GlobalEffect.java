@@ -1,8 +1,12 @@
 package fr.ministone.game.effect;
 
 import fr.ministone.game.card.CardSpell;
+
+import javax.persistence.Entity;
+
 import fr.ministone.game.IEntity;
 
+@Entity
 public abstract class GlobalEffect extends Effect {
 	public GlobalEffect(CardSpell card) {
 		super(card);
