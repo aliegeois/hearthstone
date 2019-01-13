@@ -12,7 +12,6 @@ import fr.ministone.game.IEntity;
 
 @Entity
 public class CardSpell extends Card {
-
 	@Transient
 	protected Set<SingleTargetEffect> singleEffects;
 
@@ -22,11 +21,18 @@ public class CardSpell extends Card {
 	@Transient
 	protected Set<GlobalEffect> globalEffects;
 	
-	public CardSpell(String id, IPlayer owner, String name, int mana, Set<SingleTargetEffect> single, Set<MultipleTargetEffect> multiple, Set<GlobalEffect> global) {
+	public CardSpell(String id, IPlayer owner, String name, int mana, Set<SingleTargetEffect> singleEffects, Set<MultipleTargetEffect> multipleEffects, Set<GlobalEffect> globalEffects) {
 		super(id, owner, name, mana);
-		this.singleEffects = single;
-		this.multipleEffects = multiple;
-		this.globalEffects = global;
+		this.singleEffects = singleEffects;
+		this.multipleEffects = multipleEffects;
+		this.globalEffects = globalEffects;
+		
+		for(SingleTargetEffect e : this.singleEffects)
+			e.setCard(this);
+		for(MultipleTargetEffect e : this.multipleEffects)
+			e.setCard(this);
+		for(GlobalEffect e : this.globalEffects)
+			e.setCard(this);
 	}
 	
 	@Override

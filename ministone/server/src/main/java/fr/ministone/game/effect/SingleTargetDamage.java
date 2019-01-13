@@ -1,13 +1,12 @@
 package fr.ministone.game.effect;
 
-import fr.ministone.game.card.CardSpell;
 import fr.ministone.game.IEntity;
 
 public class SingleTargetDamage extends SingleTargetEffect {
 	private int damage;
 	
-	public SingleTargetDamage(CardSpell card, int damage) {
-		super(card);
+	public SingleTargetDamage(int damage) {
+		super();
 		this.damage = damage;
 	}
 	

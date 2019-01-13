@@ -5,9 +5,13 @@ import fr.ministone.game.IEntity;
 
 public abstract class Effect {
 	protected CardSpell card;
-	
-	public Effect(CardSpell card) {
-		this.card = card;
+
+	public void setCard(CardSpell spell) {
+		card = spell;
+	}
+
+	public CardSpell getCard() {
+		return card;
 	}
 	
 	public abstract void play();

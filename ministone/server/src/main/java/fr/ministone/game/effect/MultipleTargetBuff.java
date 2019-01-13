@@ -1,14 +1,13 @@
 package fr.ministone.game.effect;
 
 import fr.ministone.game.card.CardMinion;
-import fr.ministone.game.card.CardSpell;
 
 public class MultipleTargetBuff extends MultipleTargetEffect {
 	private int life;
 	private int attack;
 	
-	public MultipleTargetBuff(CardSpell card, boolean ownBoard, boolean opponentBoard, boolean ownHero, boolean opponentHero, int life, int attack) {
-		super(card, ownBoard, opponentBoard, ownBoard, opponentBoard);
+	public MultipleTargetBuff(boolean ownBoard, boolean opponentBoard, boolean ownHero, boolean opponentHero, int life, int attack) {
+		super(ownBoard, opponentBoard, ownBoard, opponentBoard);
 		this.life = life;
 		this.attack = attack;
 	}

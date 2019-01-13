@@ -1,11 +1,10 @@
 package fr.ministone.game.effect;
 
-import fr.ministone.game.card.CardSpell;
 import fr.ministone.game.IEntity;
 
 public abstract class GlobalEffect extends Effect {
-	public GlobalEffect(CardSpell card) {
-		super(card);
+	public GlobalEffect() {
+		super();
 	}
 
 	@Override

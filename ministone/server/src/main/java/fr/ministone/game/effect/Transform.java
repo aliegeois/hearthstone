@@ -1,13 +1,12 @@
 package fr.ministone.game.effect;
 
-import fr.ministone.game.card.CardSpell;
 import fr.ministone.game.IEntity;
 
 public class Transform extends SingleTargetEffect {
 	private IEntity into;
 	
-	public Transform(CardSpell card, IEntity into) {
-		super(card);
+	public Transform(IEntity into) {
+		super();
 		this.into = into;		
 	}
 	
