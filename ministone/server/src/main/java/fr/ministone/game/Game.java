@@ -108,6 +108,7 @@ public class Game implements IGameMessageReceiver, IGameMessageSender {
 	}
 
 
+	
 	@Override
 	public void sendSetHero(String playerName, String heroType) {
 		Map<String,String> send = new HashMap<>();

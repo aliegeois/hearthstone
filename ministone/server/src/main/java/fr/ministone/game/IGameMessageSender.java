@@ -1,17 +1,19 @@
 package fr.ministone.game;
 
-
-
 public interface IGameMessageSender {
     public void sendSetHero(String playerName, String heroType);
     public void sendSetOpponentHero(String playerName, String heroType);
+
     public void sendIsStarting(String playerName);
+
     public void sendSummonMinion(String playerName, String cardId);
     public void sendAttack(String playerName, String cardId, String targetId);
+
     // Si la target est son propre héro, on envoie "ownHero", si héro adverse: "opponentHero", sinon l'id de la carte
     public void sendCastTargetedSpell(String playerName, boolean own, String cardId, String targetId);
     public void sendCastUntargetedSpell(String playerName, String cardId);
-    // Si la terget est son propre héro, on envoie "ownHero", si héro adverse: "opponentHero", sinon l'id de la carte
+
+    // Si la target est un héro, on envoie "hero" sinon l'id de la carte
     /*  Si own == true:
             si targetId == "hero":
                 Le spécial est dirigé vers notre propre héro

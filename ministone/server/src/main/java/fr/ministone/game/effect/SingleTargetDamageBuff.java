@@ -1,6 +1,6 @@
 package fr.ministone.game.effect;
 
-import fr.ministone.game.CardSpell;
+import fr.ministone.game.card.CardSpell;
 import fr.ministone.game.IEntity;
 
 public class SingleTargetDamageBuff extends SingleTargetEffect {

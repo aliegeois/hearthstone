@@ -19,7 +19,6 @@ import fr.ministone.game.Player;
 import fr.ministone.message.*;
 import java.util.Map;
 import java.util.HashMap;
-//import org.springframework.web.util.HtmlUtils;
 
 @Controller
 @CrossOrigin(origins = "http://localhost:4200")
@@ -141,26 +140,6 @@ public class GameController {
 		g.receiveEndTurn(p.getName());
 	}
 
-
-
-
-
-
-
-
-
-	/*@MessageMapping("/game/{gameId}/test")
-	public void test2(@DestinationVariable("gameId") String gameId, @Payload MessageTest message) throws Exception {
-		template.convertAndSend("/topic/game/" + gameId + "/test", "{\"value\": \"" + message.getValue() + "\"}");
-	}
-
-	@MessageMapping("/game/{gameId}/attack")
-	//@SendTo("/topic/attack")
-	public void attack(@DestinationVariable("gameId") String gameId, @Payload MessageAttack message) throws Exception {
-		
-		
-		
-	}*/
 
 	@EventListener
 	public void onConnectEvent(SessionConnectEvent event) {

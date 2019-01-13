@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import fr.ministone.game.CardMinion;
+import fr.ministone.game.card.CardMinion;
 import fr.ministone.game.IEntity;
 import fr.ministone.game.Player;
 

@@ -1,8 +1,11 @@
-package fr.ministone.game;
+package fr.ministone.game.card;
 
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+
+import fr.ministone.game.Player;
+import fr.ministone.game.IEntity;
 
 public class CardMinion extends Card implements IEntity {
 	private int damageBase, damage, damageBoosted;
@@ -43,10 +46,10 @@ public class CardMinion extends Card implements IEntity {
 		}
 	}
 
-	/*@Override
+	@Override
 	public void play(IEntity target) {
 		throw new UnsupportedOperationException();
-	}*/
+	}
 	
 	
 	public void attack(IEntity o) {

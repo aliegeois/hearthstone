@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import fr.ministone.game.hero.*;
+import fr.ministone.game.card.*;
 
 public class Player {
 	private String name;

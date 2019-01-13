@@ -1,9 +1,11 @@
-package fr.ministone.game;
+package fr.ministone.game.card;
 
 import java.util.Set;
 import java.util.UUID;
 
 import fr.ministone.game.effect.*;
+import fr.ministone.game.Player;
+import fr.ministone.game.IEntity;
 
 public class CardSpell extends Card {
 	protected Set<SingleTargetEffect> singleEffects;
@@ -28,7 +30,7 @@ public class CardSpell extends Card {
 		}
 	}
 
-	//@Override
+	@Override
 	public void play(IEntity e) {
 		for(SingleTargetEffect s : singleEffects) {
 			s.play(e);

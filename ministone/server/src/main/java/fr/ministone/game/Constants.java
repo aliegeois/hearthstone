@@ -1,7 +1,7 @@
 package fr.ministone.game;
 
 public abstract class Constants {
-	public static final int HEROMAXHEALTH = 30;
+	public static final int HEROHEALTHMAX = 30;
 	public static final int NBPOSSIBLEHEROES = 3;
 	
 	//private Constants() {}

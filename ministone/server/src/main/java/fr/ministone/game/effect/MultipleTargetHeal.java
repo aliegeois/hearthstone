@@ -1,12 +1,12 @@
 package fr.ministone.game.effect;
 
-import fr.ministone.game.CardMinion;
-import fr.ministone.game.CardSpell;
+import fr.ministone.game.card.CardMinion;
+import fr.ministone.game.card.CardSpell;
 
-public class MultiTargetHeal extends MultipleTargetEffect {
+public class MultipleTargetHeal extends MultipleTargetEffect {
 	private int quantity;
 	
-	public MultiTargetHeal(CardSpell card, boolean ownBoard, boolean opponentBoard, boolean ownHero, boolean opponentHero, int amount) {
+	public MultipleTargetHeal(CardSpell card, boolean ownBoard, boolean opponentBoard, boolean ownHero, boolean opponentHero, int amount) {
 		super(card, ownBoard, opponentBoard, ownHero, opponentHero);
 		this.quantity = amount;
 	}

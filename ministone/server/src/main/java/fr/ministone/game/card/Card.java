@@ -1,4 +1,7 @@
-package fr.ministone.game;
+package fr.ministone.game.card;
+
+import fr.ministone.game.Player;
+import fr.ministone.game.IEntity;
 
 public abstract class Card {
 	protected String id;
@@ -14,7 +17,7 @@ public abstract class Card {
 	}
 	
 	public abstract void play();
-	//public abstract void play(IEntity target);
+	public abstract void play(IEntity target);
 
 	public abstract Card copy();
 	

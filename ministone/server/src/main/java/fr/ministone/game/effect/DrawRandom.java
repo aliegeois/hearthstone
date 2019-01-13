@@ -1,6 +1,6 @@
 package fr.ministone.game.effect;
 
-import fr.ministone.game.CardSpell;
+import fr.ministone.game.card.CardSpell;
 
 public class DrawRandom extends GlobalEffect {
 	private int numberCardsDrawn;

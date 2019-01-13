@@ -6,8 +6,8 @@ import fr.ministone.game.Player;
 
 public abstract class Hero implements IEntity {
 	protected Player player;
-	protected int health = Constants.HEROMAXHEALTH;
-	protected int healthMax = Constants.HEROMAXHEALTH;
+	protected int health = Constants.HEROHEALTHMAX;
+	protected int healthMax = Constants.HEROHEALTHMAX;
 	protected int armor = 0;
 	//protected boolean provocation = false;
 	
