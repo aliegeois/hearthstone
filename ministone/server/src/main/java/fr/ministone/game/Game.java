@@ -239,6 +239,7 @@ public class Game implements IGame {
 	}
 
 
+	
 	@Override
 	public boolean containsPlayer(String sessionId) {
 		return getPlayer(sessionId) != null;

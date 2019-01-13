@@ -15,6 +15,7 @@ import org.springframework.messaging.handler.annotation.Header;
 
 import fr.ministone.User;
 import fr.ministone.game.Game;
+import fr.ministone.game.IGame;
 import fr.ministone.game.IPlayer;
 import fr.ministone.message.*;
 import java.util.Map;
@@ -26,7 +27,7 @@ public class GameController {
 	// Pour envoyer des messages sans utiliser "@SendTo"
 	private SimpMessagingTemplate template;
 	// Liste des parties en cours
-	private Map<String, Game> games = new HashMap<>();
+	private Map<String, IGame> games = new HashMap<>();
 
 	@Autowired
 	public GameController(SimpMessagingTemplate template) {
@@ -50,7 +51,7 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/summonMinion")
 	public void summonMinion(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageSummonMinion message) {
-		Game g = games.get(gameId);
+		IGame g = games.get(gameId);
 		if(g == null)
 			return;
 		
@@ -63,7 +64,7 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/attack")
 	public void attack(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageAttack message) {
-		Game g = games.get(gameId);
+		IGame g = games.get(gameId);
 		if(g == null)
 			return;
 		
@@ -76,7 +77,7 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/castUntargetedSpell")
 	public void castUntargetedSpell(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageCastUntargetedSpell message) {
-		Game g = games.get(gameId);
+		IGame g = games.get(gameId);
 		if(g == null)
 			return;
 		
@@ -89,7 +90,7 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/castTargetedSpell")
 	public void castTargetedSpell(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageCastTargetedSpell message) {
-		Game g = games.get(gameId);
+		IGame g = games.get(gameId);
 		if(g == null)
 			return;
 		
@@ -102,7 +103,7 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/heroUntargetedSpecial")
 	public void heroUntargetedSpecial(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId) {
-		Game g = games.get(gameId);
+		IGame g = games.get(gameId);
 		if(g == null)
 			return;
 		
@@ -115,7 +116,7 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/heroTargetedSpecial")
 	public void heroTargetedSpecial(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageHeroTargetedSpecial message) {
-		Game g = games.get(gameId);
+		IGame g = games.get(gameId);
 		if(g == null)
 			return;
 		
@@ -128,7 +129,7 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/endTurn")
 	public void endTurn(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId) {
-		Game g = games.get(gameId);
+		IGame g = games.get(gameId);
 		if(g == null)
 			return;
 		
