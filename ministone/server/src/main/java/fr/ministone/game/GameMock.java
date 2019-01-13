@@ -1,35 +1,29 @@
 package fr.ministone.game;
 
-import fr.ministone.JSONeur;
 import fr.ministone.User;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-
-public class Game implements IGame, IGameMessageReceiver, IGameMessageSender {
-	private SimpMessagingTemplate template;
+public class GameMock implements IGame, IGameMessageReceiver, IGameMessageSender {
 	private Map<String, IPlayer> players = new HashMap<>();
 	private IPlayer playing;
 	private int turn;
-	private String id;
 	
-	public Game(String id, SimpMessagingTemplate template, User user1, User user2) {
-		this.id = id;
-		this.template = template;
-		IPlayer player1 = new Player(user1.getName(), user1.getSessionId());
-		IPlayer player2 = new Player(user2.getName(), user2.getSessionId());
+	public GameMock(User user1, User user2){
+		IPlayer player1 = new PlayerMock(user1.getName(), "E");
+		IPlayer player2 = new PlayerMock(user2.getName(), "F");
 		player1.setOpponent(player2);
+		player1.setHero("paladin");
+		player2.setHero("mage");
 		this.players.put(user1.getName(), player1);
 		this.players.put(user2.getName(), player2);
 		this.turn = 0;
 	}
-	
-	@Override
+    
+    @Override
 	public void start(IPlayer p1, IPlayer p2) {
-		double val = Math.random();
-		playing = val > .5 ? p1 : p2;
+		playing = p1;
 		for(int i = 0; i < 3; i++) {
 			playing.drawCard();
 			playing.getOpponent().drawCard();
@@ -107,13 +101,12 @@ public class Game implements IGame, IGameMessageReceiver, IGameMessageSender {
 			endTurn();
 		}
 	}
-
+	
 	@Override
 	public void sendSetHero(String playerName, String heroType) {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", playerName);
 		send.put("heroType", heroType);
-		template.convertAndSend("/topic/game/" + id + "/setHero", JSONeur.toJSON(send));
 	}
 
 	@Override
@@ -121,15 +114,12 @@ public class Game implements IGame, IGameMessageReceiver, IGameMessageSender {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", playerName);
 		send.put("heroType", heroType);
-		template.convertAndSend("/topic/game/" + id + "/setOpponentHero", JSONeur.toJSON(send));
 	}
 
 	@Override
 	public void sendIsStarting(String playerName) {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", playerName);
-		// Vérifier que les reçeveurs côté client on la même URL
-		template.convertAndSend("/topic/game/" + id + "/isStarting", JSONeur.toJSON(send));
 	}
 
 	@Override
@@ -137,7 +127,6 @@ public class Game implements IGame, IGameMessageReceiver, IGameMessageSender {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", playerName);
 		send.put("cardId", cardId);
-		template.convertAndSend("/topic/game/" + id + "/summonMinion", JSONeur.toJSON(send));
 	}
 
 	@Override
@@ -146,7 +135,6 @@ public class Game implements IGame, IGameMessageReceiver, IGameMessageSender {
 		send.put("playerName", playerName);
 		send.put("cardId", cardId);
 		send.put("targetId", targetId);
-		template.convertAndSend("/topic/game/" + id + "/attack", JSONeur.toJSON(send));
 	}
 
 	@Override
@@ -155,7 +143,6 @@ public class Game implements IGame, IGameMessageReceiver, IGameMessageSender {
 		send.put("playerName", playerName);
 		send.put("cardId", cardId);
 		send.put("targetId", targetId);
-		template.convertAndSend("/topic/game/" + id + "/castTargetedSpell", JSONeur.toJSON(send));
 	}
 
 	@Override
@@ -163,7 +150,6 @@ public class Game implements IGame, IGameMessageReceiver, IGameMessageSender {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", playerName);
 		send.put("cardId", cardId);
-		template.convertAndSend("/topic/game/" + id + "/castUntargetedSpell", JSONeur.toJSON(send));
 	}
 
 	@Override
@@ -172,35 +158,30 @@ public class Game implements IGame, IGameMessageReceiver, IGameMessageSender {
 		send.put("playerName", playerName);
 		send.put("own", own ? "true" : "false");
 		send.put("targetId", targetId);
-		template.convertAndSend("/topic/game/" + id + "/targetedSpecial", JSONeur.toJSON(send));
 	}
 
 	@Override
     public void sendHeroUntargetedSpecial(String playerName) {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", playerName);
-		template.convertAndSend("/topic/game/" + id + "/untargetedSpecial", JSONeur.toJSON(send));
 	}
 
 	@Override
 	public void sendEndTurn(String playerName) {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", playerName);
-		template.convertAndSend("/topic/game/" + id + "/endTurn", JSONeur.toJSON(send));
 	}
 
 	@Override
 	public void sendNextTurn(String playerName) {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", playerName);
-		template.convertAndSend("/topic/game/" + id + "/nextTurn", JSONeur.toJSON(send));
 	}
 
 	@Override
     public void sendTimeout(String playerName) {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", playerName);
-		template.convertAndSend("/topic/game/" + id + "/timeout", JSONeur.toJSON(send));
 	}
 
 	@Override
@@ -208,7 +189,6 @@ public class Game implements IGame, IGameMessageReceiver, IGameMessageSender {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", playerName);
 		send.put("cardName", cardName);
-		template.convertAndSend("/topic/game/" + id + "/drawCard", JSONeur.toJSON(send));
 	}
 
 	@Override
@@ -216,24 +196,21 @@ public class Game implements IGame, IGameMessageReceiver, IGameMessageSender {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", playerName);
 		send.put("cardName", cardName);
-		template.convertAndSend("/topic/game/" + id + "/opponentDrawCard", JSONeur.toJSON(send));
 	}
 
 	@Override
     public void sendWin(String playerName) {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", playerName);
-		template.convertAndSend("/topic/game/" + id + "/win", JSONeur.toJSON(send));
 	}
 
 	@Override
     public void sendLose(String playerName) {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", playerName);
-		template.convertAndSend("/topic/game/" + id + "/lose", JSONeur.toJSON(send));
 	}
 
-	@Override
+    @Override
 	public void endTurn() {
 		IPlayer opponent = playing.getOpponent();
 		sendEndTurn(playing.getName());
@@ -242,30 +219,30 @@ public class Game implements IGame, IGameMessageReceiver, IGameMessageSender {
 		playing = opponent;
 	}
 
-	@Override
+    @Override
 	public boolean containsPlayer(String sessionId) {
 		return getPlayer(sessionId) != null;
 	}
 
-	@Override
+    @Override
 	public IPlayer getPlayer(String sessionId) {
 		for(IPlayer p : players.values())
 			if(sessionId.equals(p.getSessionId()))
 				return p;
 		return null;
 	}
-	
-	@Override
+    
+    @Override
 	public IPlayer getPlaying() {
 		return playing;
 	}
-	
-	@Override
+    
+    @Override
 	public int getTurn() {
 		return turn;
 	}
-	
-	@Override
+
+    @Override
 	public void checkBoard() {
 		for(IPlayer p : players.values()) {
 			p.checkDead();
