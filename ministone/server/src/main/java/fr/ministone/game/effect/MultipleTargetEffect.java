@@ -1,7 +1,5 @@
 package fr.ministone.game.effect;
 
-import fr.ministone.game.card.CardSpell;
-
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -13,8 +11,8 @@ import fr.ministone.game.IEntity;
 public abstract class MultipleTargetEffect extends Effect {
 	protected boolean ownBoard, opponentBoard, ownHero, opponentHero;
 	
-	public MultipleTargetEffect(CardSpell card, boolean ownBoard, boolean opponentBoard, boolean ownHero, boolean opponentHero) {
-		super(card);
+	public MultipleTargetEffect(boolean ownBoard, boolean opponentBoard, boolean ownHero, boolean opponentHero) {
+		super();
 		this.ownBoard = ownBoard;
 		this.opponentBoard = opponentBoard;
 		this.ownHero = ownHero;

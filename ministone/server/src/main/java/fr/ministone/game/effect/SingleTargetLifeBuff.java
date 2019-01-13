@@ -1,7 +1,5 @@
 package fr.ministone.game.effect;
 
-import fr.ministone.game.card.CardSpell;
-
 import javax.persistence.Entity;
 
 import fr.ministone.game.IEntity;
@@ -10,8 +8,8 @@ import fr.ministone.game.IEntity;
 public class SingleTargetLifeBuff extends SingleTargetEffect {
 	private int life;
 	
-	public SingleTargetLifeBuff(CardSpell card, int life) {
-		super(card);
+	public SingleTargetLifeBuff(int life) {
+		super();
 		this.life = life;
 	}
 	
