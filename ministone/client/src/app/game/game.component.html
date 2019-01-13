@@ -67,14 +67,14 @@
 			<img src="{{ joueur.hero.portrait }}" alt="Portrait de {{ joueur.hero.name }}" />
 				<br />
 				<p id="name">{{ joueur.name }}</p>
-				<p id="health" [style.color]="(joueur.hero.health == joueur.hero.healthMax) ? 'green': 'red'">Vie : {{ joueur.hero.health }}</p>
+				<p id="health">Vie : <span  [style.color]="(joueur.hero.health == joueur.hero.healthMax) ? 'green': 'red'">{{ joueur.hero.health }}</span></p>
 		</div>
 
 		<div id="opponent">
 			<img src="{{ opponent.hero.portrait }}" alt="Portrait de {{ opponent.hero.name }}" />
 				<br />
 				<p id="name">{{ opponent.name }}</p>
-				<p id="health" [style.color]="(opponent.hero.health == opponent.hero.healthMax) ? 'green': 'red'">Vie : {{ opponent.hero.health }}</p>
+				<p id="health">Vie : <span [style.color]="(opponent.hero.health == opponent.hero.healthMax) ? 'green': 'red'">{{ opponent.hero.health }}</span></p>
 		</div>
 
 

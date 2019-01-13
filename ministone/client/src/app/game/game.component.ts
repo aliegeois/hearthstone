@@ -1,5 +1,5 @@
 import { Component, OnInit, Injectable } from '@angular/core';
-import { Player, CardMinion, Card, CardSpell } from '../app.component';
+import { Player, CardMinion, Card, CardSpell, AppComponent } from '../app.component';
 import { initDomAdapter } from '@angular/platform-browser/src/browser';
 import { SingleTargetEffect, MultipleTargetEffect, GlobalEffect } from '../effect.service';
 
@@ -18,9 +18,12 @@ export class GameComponent implements OnInit {
 	id: number;
 
   secretMode: boolean; // False : normal heroes ; True : alternativ heroes (Pascal, Sunye, Chantal)
+  gameId: string;
 
   constructor() {
     this.secretMode = false;
+    this.gameId = AppComponent.gameId;
+    
     this.init();
   }
 
@@ -44,8 +47,8 @@ export class GameComponent implements OnInit {
 
   init() {
     console.log('Initialisation');
-    this.joueur = new Player("Timothée", "mage");
-    this.opponent = new Player("Titouan", "paladin");
+    this.joueur = new Player(AppComponent.joueurName, AppComponent.joueurHero);
+    this.opponent = new Player(AppComponent.opponentName, AppComponent.opponentHero);
     let cardTest1: CardMinion = new CardMinion(1,"recrue", 1, 1, 1, new Set<String>(), new Map<String, number>());
     let cardTest2: CardMinion = new CardMinion(2, "murloc", 3, 4, 2, new Set<String>(), new Map<String, number>());
     let cardTest3: CardSpell = new CardSpell(3, "Métamorphose", 4, new Set<SingleTargetEffect>(), new Set<MultipleTargetEffect>(), new Set<GlobalEffect>())
