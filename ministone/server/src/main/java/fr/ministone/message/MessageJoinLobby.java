@@ -8,7 +8,6 @@ public class MessageJoinLobby {
 	public MessageJoinLobby() {}
 
 	public MessageJoinLobby(String name, String level, String heroType) {
-		// faire des trucs
 		this.name = name;
 		this.level = level;
 		this.heroType = heroType;
