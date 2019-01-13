@@ -17,8 +17,10 @@ export class GameComponent implements OnInit {
 	turn: number;
 	id: number;
 
-  constructor() {
+  secretMode: boolean; // False : normal heroes ; True : alternativ heroes (Pascal, Sunye, Chantal)
 
+  constructor() {
+    this.secretMode = false;
     this.init();
   }
 
@@ -65,6 +67,18 @@ export class GameComponent implements OnInit {
 
   }
 
-  
+  enter_secretMode() {
+    switch(this.secretMode) {
+      case true:
+        this.joueur.hero.normalMode();
+        this.opponent.hero.normalMode();
+        this.secretMode = false;
+        break;
+      case false:
+        this.joueur.hero.alternativMode();
+        this.opponent.hero.alternativMode();
+        this.secretMode = true;
+    }
+  }
 
 }

@@ -4,20 +4,40 @@ body {
     padding: 0;
 
 
-    #nomJoueur {
+    #joueur {
         position: fixed;
-        bottom: 10%;
+        bottom: 5%;
         left: 5%;
+
+        * {
+            text-align: center;
+        }
+        #name {
+            font-weight: bold;
+        }
+        #health {
+            text-align: left;
+        }
     }
     
-    #nomOpponent {
+    #opponent {
         position: fixed;
-        top: 10%;
+        top: 5%;
         left: 5%;
+
+        * {
+            text-align: center;
+        }
+        #name {
+            font-weight: bold;
+        }
+        #health {
+            text-align: left;
+        }
     }
 
     #main_opponent {
-        background-color: rgb(182, 182, 182);
+        background-color: rgb(226, 226, 226);
         position: fixed;
         top: 0%;
         width: 80%;
@@ -39,7 +59,7 @@ body {
     }
 
     #main_joueur {
-        background-color: rgb(182, 182, 182);
+        background-color: rgb(226, 226, 226);
         position: fixed;
         bottom: 0%;
         width: 80%;
@@ -117,6 +137,21 @@ body {
                 right: 5%;
             }
         }
+    }
+
+
+
+
+
+    #secret_mode {
+        position: fixed;
+        bottom: 2%;
+        right: 2%;
+    }
+
+    .inlined {
+        border: 2px solid black;
+        background-color: #d8fca8;
     }
 }
 

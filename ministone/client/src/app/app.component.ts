@@ -227,6 +227,7 @@ export abstract class Hero implements Entity {
 
   constructor(name: String, portrait: String) {
       this.health = ConstantesService.HEROMAXHEALTH;
+      console.log("VIEDUHERO : " + this.health);
       this.healthMax = ConstantesService.HEROMAXHEALTH;
       this.armor = 0;
       this.taunt = false;
@@ -246,7 +247,9 @@ export abstract class Hero implements Entity {
       return (this.health <= 0);
   }
 
+  normalMode() {}
 
+  alternativMode() {}
 }
 
 
@@ -373,7 +376,6 @@ export class CardMinion extends Card implements Entity {
   isDead(): boolean {
       return (this.health <= 0);
   }
-
 }
 
 
@@ -419,6 +421,16 @@ export class HeroMage extends Hero {
     super("Jaina", "../../assets/images/portrait/Jaina_portrait.png");
   }
 
+  normalMode(): void {
+      console.log('normal mage');
+      this.name = "Jaina";
+      this.portrait = "../../assets/images/portrait/Jaina_portrait.png";
+  }
+  alternativMode(): void {
+      console.log('pasmage')
+      this.name = "Pasmage";
+      this.portrait = "../../assets/images/portrait/Jaina_portrait_alternativ.png";
+  }
 }
 
 export class HeroPaladin extends Hero {
@@ -427,6 +439,17 @@ export class HeroPaladin extends Hero {
     super("Uther", "../../assets/images/portrait/Uther_portrait.png");
   }
 
+  normalMode(): void {
+      console.log("uther normal");
+    this.name = "Uther";
+    this.portrait = "../../assets/images/portrait/Uther_portrait.png";
+}
+alternativMode(): void {
+    console.log("uther slidesbringer");
+    this.name = "Uther Slidesbringer";
+    this.portrait = "../../assets/images/portrait/Uther_portrait_alternativ.png";
+}
+
 }
 
 export class HeroWarrior extends Hero {
@@ -434,6 +457,17 @@ export class HeroWarrior extends Hero {
   constructor() {
     super("Garrosh", "../../assets/images/portrait/Garrosh_portrait.png");
   }
+
+  normalMode(): void {
+      console.log("garrosh normal");
+    this.name = "Garrosh";
+    this.portrait = "../../assets/images/portrait/Garrosh_portrait.png";
+}
+alternativMode(): void {
+    console.log("chantosh");
+    this.name = "Chantosh";
+    this.portrait = "../../assets/images/portrait/Garrosh_portrait_alternativ.png";
+}
 
 }
 

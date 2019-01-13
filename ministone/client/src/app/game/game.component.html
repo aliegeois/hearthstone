@@ -8,13 +8,7 @@
 	<body>
 		<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being enabled. Please enable Javascript and reload this page!</h2></noscript>
 
-		<div id="nomOpponent">
-			{{ opponent.name }}
-		</div>
-
-		<div id="nomJoueur">
-			{{ joueur.name }}
-		</div>
+	
 
 		<div id="main_opponent">
 			<ul>
@@ -67,10 +61,25 @@
 			END TURN
 		</div>
 
-		<div id="hero">
-			<img src="{{ joueur.hero.portrait }}" alt="Portrait de {{ joueur.hero.portrait }}" />
+
+
+		<div id="joueur">
+			<img src="{{ joueur.hero.portrait }}" alt="Portrait de {{ joueur.hero.name }}" />
+				<br />
+				<p id="name">{{ joueur.name }}</p>
+				<p id="health" [style.color]="(joueur.hero.health == joueur.hero.healthMax) ? 'green': 'red'">Vie : {{ joueur.hero.health }}</p>
+		</div>
+
+		<div id="opponent">
+			<img src="{{ opponent.hero.portrait }}" alt="Portrait de {{ opponent.hero.name }}" />
+				<br />
+				<p id="name">{{ opponent.name }}</p>
+				<p id="health" [style.color]="(opponent.hero.health == opponent.hero.healthMax) ? 'green': 'red'">Vie : {{ opponent.hero.health }}</p>
 		</div>
 
 
+
+
+		<div id="secret_mode" [class.inlined]="secretMode == true" (click)="enter_secretMode()">Enter secret mode</div>
 	</body>
 </html>
