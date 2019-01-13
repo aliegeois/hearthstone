@@ -27,11 +27,11 @@ public class GameTest{
     @BeforeEach
     public void Init(){
 
-        player1 = new PlayerMock("Billy","E");
-        player2 = new PlayerMock("Bob", "F");
+        player1 = new PlayerMock("Billy","E", "warrior");
+        player2 = new PlayerMock("Bob", "F", "paladin");
 
-        hero1 = new HeroWarrior(player1);
-        hero2 = new HeroMage(player2);
+        this.hero1.setPlayer(player1);
+        this.hero2.setPlayer(player2);
 
         user1 = new User("Pat", "E");
         user2 = new User("Bob", "F");

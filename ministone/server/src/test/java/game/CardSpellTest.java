@@ -39,10 +39,10 @@ public class CardSpellTest{
         this.player1 = this.game.getPlayer("E");
         this.player2 = this.game.getPlayer("F");    
 
-        this.carteMin1 = new CardMinion("1", this.player1, "carteMin1", 1, 1, 1, new HashSet<String>(), new HashMap<String, Integer>());
-        this.carteMin2 = new CardMinion("2", this.player1, "carteMin2", 1, 1, 3, new HashSet<String>(), new HashMap<String, Integer>());
-        this.carteMin3 = new CardMinion("3", this.player2, "carteMin3", 1, 1, 1, new HashSet<String>(), new HashMap<String, Integer>());
-        this.carteMin4 = new CardMinion("4", this.player2, "carteMin4", 1, 1, 3, new HashSet<String>(), new HashMap<String, Integer>());
+        this.carteMin1 = new CardMinion("1", "shared", this.player1, "carteMin1", 1, 1, 1, new HashSet<String>(), new HashMap<String, Integer>());
+        this.carteMin2 = new CardMinion("2", "shared", this.player1, "carteMin2", 1, 1, 3, new HashSet<String>(), new HashMap<String, Integer>());
+        this.carteMin3 = new CardMinion("3", "shared", this.player2, "carteMin3", 1, 1, 1, new HashSet<String>(), new HashMap<String, Integer>());
+        this.carteMin4 = new CardMinion("4", "shared", this.player2, "carteMin4", 1, 1, 3, new HashSet<String>(), new HashMap<String, Integer>());
 
         this.player1.getDeck().add(carteMin1);
         this.player1.getDeck().add(carteMin2);
@@ -68,7 +68,7 @@ public class CardSpellTest{
         this.ste.add(effet1);
         this.mte.add(effet2);
 
-        carte = new CardSpell("0", this.player1, "test", 1, ste, mte, gte);
+        carte = new CardSpell("0", "shared", this.player1, "test", 1, ste, mte, gte);
 
         assertEquals(2, this.player1.getBoard().size());
         assertEquals(2, this.player2.getBoard().size());
@@ -91,7 +91,7 @@ public class CardSpellTest{
         this.ste.add(effet1);
         this.mte.add(effet2);
 
-        carte = new CardSpell("0", this.player1, "test", 1, ste, mte, gte);
+        carte = new CardSpell("0", "shared", this.player1, "test", 1, ste, mte, gte);
 
         player1.getHero().takeDamage(4);
         carteMin2.takeDamage(2);
@@ -108,12 +108,12 @@ public class CardSpellTest{
 
     @Test 
     public void testCardSpellTransform() {
-        IEntity mouton = new CardMinion(carteMin3.getId(), carteMin1.getOwner(), "mouton", 0, 0, 1, new HashSet<String>(), new HashMap<String, Integer>());
+        IEntity mouton = new CardMinion(carteMin3.getId(), "shared", carteMin1.getOwner(), "mouton", 0, 0, 1, new HashSet<String>(), new HashMap<String, Integer>());
         SingleTargetEffect effet1 = new Transform(mouton);
 
         this.ste.add(effet1);
 
-        carte = new CardSpell("0", this.player1, "test", 1, ste, mte, gte);
+        carte = new CardSpell("0", "shared", this.player1, "test", 1, ste, mte, gte);
 
         assertEquals("carteMin1", carteMin1.getName());
         carte.play(carteMin1);
@@ -126,7 +126,7 @@ public class CardSpellTest{
 
         this.gte.add(effet);
 
-        carte = new CardSpell("0", this.player1, "test", 1, ste, mte, gte);
+        carte = new CardSpell("0", "shared", this.player1, "test", 1, ste, mte, gte);
         
         assertEquals(0, this.player1.getHand().size());
 

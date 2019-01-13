@@ -17,9 +17,9 @@ import fr.ministone.game.Constants;
 
 public class HeroTest {
 	
-	private Player player1 = new Player("Billy", "E");
-	private Player player2 = new Player("Bob", "F");
-	private Player player3 = new Player("Tiburs", "G");
+	private Player player1 = new Player("Billy", "E", "warrior");
+	private Player player2 = new Player("Bob", "F", "mage");
+	private Player player3 = new Player("Tiburs", "G", "paladin");
 	private HeroWarrior hero1;
 	private HeroMage hero2;
 	private HeroPaladin hero3;
@@ -28,11 +28,13 @@ public class HeroTest {
 	@BeforeEach
 	public void Init(){
 		
-		this.carte1 = new CardMinion("1", player1, "carte1", 1, 0, 3, new HashSet<String>(), new HashMap<String, Integer>());
+		this.carte1 = new CardMinion("1", "shared", player1, "carte1", 1, 0, 3, new HashSet<String>(), new HashMap<String, Integer>());
 
-		this.hero1 = new HeroWarrior(player1);
-		this.hero2 = new HeroMage(player2);
-		this.hero3 = new HeroPaladin(player3);
+		this.hero1 = new HeroWarrior();
+		this.hero2 = new HeroMage();
+		this.hero3 = new HeroPaladin();
+
+		this.hero3.setPlayer(player3);
 
 	}
 
@@ -58,8 +60,8 @@ public class HeroTest {
 		assertTrue(player3.getBoard().isEmpty());
 		assertTrue(player3.getHand().isEmpty());
 		hero3.special();
-		assertEquals(1, player3.getHand().size());
-		//assertEquals(1, player3.getBoard().size());
+		//assertEquals(1, player3.getHand().size());
+		assertEquals(1, player3.getBoard().size());
 		
 	}
 		
@@ -112,7 +114,7 @@ public class HeroTest {
 	void testBoostArmor() {
 
 		assertEquals(0, hero1.getArmor());
-		hero1.boostArmor(1);
+		hero1.buffArmor(1);
 		assertEquals(1, hero1.getArmor());
 
 	}

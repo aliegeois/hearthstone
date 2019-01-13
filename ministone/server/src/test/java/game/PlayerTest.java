@@ -18,8 +18,8 @@ import fr.ministone.game.effect.*;
 
 public class PlayerTest{
 
-    private IPlayer player1 = new PlayerMock("Billy","E");
-    private IPlayer player2 = new PlayerMock("Bob", "F");
+    private IPlayer player1 = new PlayerMock("Billy","E", "warrior");
+    private IPlayer player2 = new PlayerMock("Bob", "F", "mage");
     private Set<String> cap1 = new HashSet<String>();
     private Set<String> cap2 = new HashSet<String>();
     
@@ -30,14 +30,12 @@ public class PlayerTest{
     @BeforeEach
     public void Init(){
 
-        player1.setHero("warrior");
-        player2.setHero("mage");
         player1.setOpponent(player2);
         this.cap1.add("ready");
         this.cap2.add("provocation");
-        this.carte1 = new CardMinion("1", player1, "carte1", 1, 1, 10, cap1, new HashMap<String,Integer>());
-        this.carte2 = new CardMinion("2", player2, "carte2", 1, 1, 10, cap2, new HashMap<String,Integer>());
-        this.carte3 = new CardSpell("3", player1, "carte3", 1, new HashSet<SingleTargetEffect>(), new HashSet<MultipleTargetEffect>(), new HashSet<GlobalEffect>());
+        this.carte1 = new CardMinion("1", "shared", player1, "carte1", 1, 1, 10, cap1, new HashMap<String,Integer>());
+        this.carte2 = new CardMinion("2", "shared", player2, "carte2", 1, 1, 10, cap2, new HashMap<String,Integer>());
+        this.carte3 = new CardSpell("3", "shared", player1, "carte3", 1, new HashSet<SingleTargetEffect>(), new HashSet<MultipleTargetEffect>(), new HashSet<GlobalEffect>());
 
         this.player1.getDeck().add(carte1);
         this.player2.getDeck().add(carte2);

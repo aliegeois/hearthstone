@@ -15,8 +15,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CardMinionTest {
 
-    private Player player1 = new Player("Billy","E");
-    private Player player2 = new Player("Bob","E");
+    private Player player1 = new Player("Billy","E", "warrior");
+    private Player player2 = new Player("Bob","F", "paladin");
     private Set<String> cap1 = new HashSet<String>();
     private Set<String> cap2 = new HashSet<String>();
     private String prov = "provocation";
@@ -29,8 +29,8 @@ public class CardMinionTest {
     public void Init(){
         this.cap1.add(ready);
         this.cap2.add(prov);
-        this.carte1 = new CardMinion("1", player1, "Carte1", 2, 7, 4, cap1, boost);
-        this.carte2 = new CardMinion("2", player2, "Carte2", 1, 2, 10, cap2, boost);
+        this.carte1 = new CardMinion("1", "shared", player1, "Carte1", 2, 7, 4, cap1, boost);
+        this.carte2 = new CardMinion("2", "shared", player2, "Carte2", 1, 2, 10, cap2, boost);
     }
 
 

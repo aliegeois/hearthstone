@@ -15,10 +15,9 @@ public class HeroPaladin extends Hero {
 	@Override
 	public void special() {
 		String cardId = UUID.randomUUID().toString(); // Valeur temporaire
-		CardMinion minion = new CardMinion(cardId, "paladin", player, "SilverHand recruit", 1, 1, 1, new HashSet<String>(), new HashMap<String,Integer>());
+		CardMinion minion = new CardMinion(cardId, "paladin", this.player, "SilverHand recruit", 1, 1, 1, new HashSet<String>(), new HashMap<String,Integer>());
 
-		player.getHand().put(cardId, minion);
-		player.summonMinion(cardId);
+		this.player.getBoard().put(cardId, minion);
 	}
 
 	@Override
