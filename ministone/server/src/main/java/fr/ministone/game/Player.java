@@ -37,29 +37,12 @@ public class Player implements IPlayer {
 		this.name = name;
 		this.sessionId = sessionId;
 
-		for(Iterator<CardMinion> i = cardMinionRepository.findAllByDeck("shared").iterator(); i.hasNext();)
-			this.deck.add(i.next());
-		for(Iterator<CardSpell> i = cardSpellRepository.findAllByDeck("shared").iterator(); i.hasNext();)
-			this.deck.add(i.next());
-
 		if("warrior".equals(heroType)) {
 			this.hero = new HeroWarrior();
-			for(Iterator<CardMinion> i = cardMinionRepository.findAllByDeck("warrior").iterator(); i.hasNext();)
-				this.deck.add(i.next());
-			for(Iterator<CardSpell> i = cardSpellRepository.findAllByDeck("warrior").iterator(); i.hasNext();)
-				this.deck.add(i.next());
 		} else if("paladin".equals(heroType)) {
 			this.hero = new HeroPaladin();
-			for(Iterator<CardMinion> i = cardMinionRepository.findAllByDeck("paladin").iterator(); i.hasNext();)
-				this.deck.add(i.next());
-			for(Iterator<CardSpell> i = cardSpellRepository.findAllByDeck("paladin").iterator(); i.hasNext();)
-				this.deck.add(i.next());
 		} else if("mage".equals(heroType)) {
 			this.hero = new HeroMage();
-			for(Iterator<CardMinion> i = cardMinionRepository.findAllByDeck("mage").iterator(); i.hasNext();)
-				this.deck.add(i.next());
-			for(Iterator<CardSpell> i = cardSpellRepository.findAllByDeck("mage").iterator(); i.hasNext();)
-				this.deck.add(i.next());
 		}
 		this.hero.setPlayer(this);
 	}

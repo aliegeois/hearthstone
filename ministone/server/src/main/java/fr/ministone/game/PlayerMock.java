@@ -26,9 +26,17 @@ public class PlayerMock implements IPlayer{
 	private Hero hero;
     private IPlayer opponent;
     
-    public PlayerMock(String name, String sessionId){
+    public PlayerMock(String name, String sessionId, String heroType){
 		this.name = name;
 		this.sessionId = sessionId;
+		if("warrior".equals(heroType)) {
+			this.hero = new HeroWarrior();
+		} else if("paladin".equals(heroType)) {
+			this.hero = new HeroPaladin();
+		} else if("mage".equals(heroType)) {
+			this.hero = new HeroMage();
+		}
+		this.hero.setPlayer(this);
     }
 
     @Override
@@ -165,20 +173,6 @@ public class PlayerMock implements IPlayer{
 	@Override
 	public int getMana() {
 		return mana;
-	}
-
-	@Override
-	public void setHero(String heroType) {
-		if("warrior".equals(heroType)) {
-			hero = new HeroWarrior(this);
-		} else if("paladin".equals(heroType)){
-			hero = new HeroPaladin(this);
-		} else if("mage".equals(heroType)){
-			hero = new HeroMage(this);
-		} else {
-			// TODO: À enlever
-			System.out.println("Va te faire foutre, cordialement");
-		}
 	}
 
 	@Override

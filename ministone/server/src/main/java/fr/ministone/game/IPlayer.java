@@ -22,7 +22,6 @@ public interface IPlayer {
 
     public void nextTurn();
 
-
     public String getName();
     public String getSessionId();
     public Set<Card> getDeck();

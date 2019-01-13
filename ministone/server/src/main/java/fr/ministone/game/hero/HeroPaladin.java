@@ -8,9 +8,9 @@ import fr.ministone.game.card.CardMinion;
 import fr.ministone.game.IEntity;
 
 public class HeroPaladin extends Hero {
-	/*public HeroPaladin() {
+	public HeroPaladin() {
 		super();
-	}*/
+	}
 	
 	@Override
 	public void special() {
