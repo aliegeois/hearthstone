@@ -17,7 +17,6 @@ export class GameComponent implements OnInit {
 	turn: number;
 	id: number;
 
-
   constructor() {
 
     this.init();

@@ -135,6 +135,7 @@ export class Player {
   hero: Hero;
   opponent: Player;
 
+
   constructor(name: String, heroType: String) {
       this.name = name;
       switch (heroType) {
@@ -214,17 +215,24 @@ export interface Entity {
 
 
 
-export class Hero implements Entity {
+export abstract class Hero implements Entity {
   health: number;
   healthMax: number;
   armor: number;
   taunt: boolean;
 
-  constructor() {
+  name: String;
+  portrait: String;
+
+
+  constructor(name: String, portrait: String) {
       this.health = ConstantesService.HEROMAXHEALTH;
       this.healthMax = ConstantesService.HEROMAXHEALTH;
       this.armor = 0;
       this.taunt = false;
+
+      this.name = name;
+      this.portrait = portrait;
   }
 
 
@@ -408,7 +416,7 @@ export class CardSpell extends Card {
 export class HeroMage extends Hero {
 
   constructor() {
-    super();
+    super("Jaina", "../../assets/images/portrait/Jaina_portrait.png");
   }
 
 }
@@ -416,7 +424,7 @@ export class HeroMage extends Hero {
 export class HeroPaladin extends Hero {
 
   constructor() {
-    super();
+    super("Uther", "../../assets/images/portrait/Uther_portrait.png");
   }
 
 }
@@ -424,7 +432,7 @@ export class HeroPaladin extends Hero {
 export class HeroWarrior extends Hero {
 
   constructor() {
-    super();
+    super("Garrosh", "../../assets/images/portrait/Garrosh_portrait.png");
   }
 
 }
