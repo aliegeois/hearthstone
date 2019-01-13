@@ -16,19 +16,9 @@ export class GameComponent implements OnInit {
 	playing: Player;
 	turn: number;
 	id: number;
-	
-  /* Variables nécessaires pour l'affichage */
-  joueurHand: Array<Card>;
-  opponentHand: Array<number>; //Un simple number suffirait mais on ne peut faire des ngFor (coté html) que sur des types itérables
-  //Attention : par soucis de sécurité, on ne peut pas mettre de card dans cet array
-  joueurBoard: Array<Card>;
-  opponentBoard: Array<Card>;
+
 
   constructor() {
-    this.joueurHand = new Array<Card>();
-    this.opponentHand = new Array<number>();
-    this.joueurBoard = new Array<Card>();
-    this.opponentBoard = new Array<Card>();
 
     this.init();
   }
@@ -62,20 +52,16 @@ export class GameComponent implements OnInit {
     this.joueur.hand.set(0, cardTest1);
     this.joueur.hand.set(1, cardTest2);
     this.joueur.hand.set(2, cardTest3);
-    this.joueurHand.push(cardTest1);
-    this.joueurHand.push(cardTest2);
-    this.joueurHand.push(cardTest3);
 
-    this.opponentHand.push(0);
-    this.opponentHand.push(0);
-    this.opponentHand.push(0);
+    this.joueur.board.set(0, cardTest1);
+    this.joueur.board.set(1, cardTest2);
 
-    this.joueurBoard.push(cardTest1);
-    this.joueurBoard.push(cardTest2);
-
-    this.opponentBoard.push(cardTest1);
-    this.opponentBoard.push(cardTest2);
-    this.opponentBoard.push(cardTest1);
+    this.opponent.hand.set(0, cardTest2);
+    this.opponent.hand.set(1, cardTest2);
+  
+    this.opponent.board.set(0, cardTest2);
+    this.opponent.board.set(1, cardTest1);
+    this.opponent.board.set(2, cardTest2);
 
 
   }

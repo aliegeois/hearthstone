@@ -18,7 +18,7 @@
 
 		<div id="main_opponent">
 			<ul>
-				<li *ngFor="let card of opponentHand">
+				<li *ngFor="let card of opponent.hand | keyvalue">
 					<img src="../../assets/images/cardback.png" alt="Une carte" />
 				</li>
 			</ul>
@@ -26,12 +26,12 @@
 
 		<div id="main_joueur">
 			<ul>
-				<li *ngFor="let card of joueurHand" id="card">
+				<li *ngFor="let card of joueur.hand | keyvalue" id="card">
 					<div>
-						<span id="cardName">{{ card.name }}</span>
-						<span id="cardManaCost">{{ card.manaCost }}</span>
-						<span id="cardDamage">{{ card.damage }}</span>
-						<span id="cardHealth">{{ card.health }}</span>
+						<span id="cardName">{{ card.value.name }}</span>
+						<span id="cardManaCost">{{ card.value.manaCost }}</span>
+						<span id="cardDamage">{{ card.value.damage }}</span>
+						<span id="cardHealth">{{ card.value.health }}</span>
 					</div>
 				</li>
 			</ul>
@@ -39,12 +39,12 @@
 
 		<div id="board_joueur">
 			<ul>
-				<li *ngFor="let card of joueurBoard" id="card">
+				<li *ngFor="let card of joueur.board | keyvalue" id="card">
 					<div>
-						<span id="cardName">{{ card.name }}</span>
-						<span id="cardManaCost">{{ card.manaCost }}</span>
-						<span id="cardDamage">{{ card.damage }}</span>
-						<span id="cardHealth">{{ card.health }}</span>
+						<span id="cardName">{{ card.value.name }}</span>
+						<span id="cardManaCost">{{ card.value.manaCost }}</span>
+						<span id="cardDamage">{{ card.value.damage }}</span>
+						<span id="cardHealth">{{ card.value.health }}</span>
 					</div>
 				</li>
 			</ul>
@@ -52,23 +52,20 @@
 
 		<div id="board_opponent">
 			<ul>
-				<li *ngFor="let card of opponentBoard" id="card">
+				<li *ngFor="let card of opponent.board | keyvalue" id="card">
 					<div>
-						<span id="cardName">{{ card.name }}</span>
-						<span id="cardManaCost">{{ card.manaCost }}</span>
-						<span id="cardDamage">{{ card.damage }}</span>
-						<span id="cardHealth">{{ card.health }}</span>
+						<span id="cardName">{{ card.value.name }}</span>
+						<span id="cardManaCost">{{ card.value.manaCost }}</span>
+						<span id="cardDamage">{{ card.value.damage }}</span>
+						<span id="cardHealth">{{ card.value.health }}</span>
 					</div>
 				</li>
 			</ul>
 		</div>
 
-
-
-
-
-
-
+		<div id="endTurn_button" (click)="endTurn()">
+			END TURN
+		</div>
 
 
 
