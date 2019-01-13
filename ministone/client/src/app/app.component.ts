@@ -19,7 +19,6 @@ export class AppComponent implements OnInit {
   constructor() {
     AppComponent.title = 'client-angular';
     this.currentPage = 'home';
-    //this.demarreGame = false;
 
     AppComponent.socket = new SockJS(AppComponent.serverUrl);
     AppComponent.stompClient = Stomp.over(AppComponent.socket);
@@ -39,7 +38,13 @@ export class AppComponent implements OnInit {
   static title: String;
 
   public currentPage: String;
-  //public demarreGame: boolean;
+
+  /* Variables utilisées dans app-game et récupérées ici, on les met donc en static pour y accéder depuis app-game */
+  static joueurName: string;
+  static joueurHero: string;
+  static opponentName: string;
+  static opponentHero: string;
+  static gameId: string;
 
   initializeWebSocketConnection() {
 
@@ -53,14 +58,19 @@ export class AppComponent implements OnInit {
       console.log('[AppComponent] sessionId = ' + AppComponent.sessionId);
 
       
-      // Partie lancée, on switch sur le composant game
-		  AppComponent.stompClient.subscribe(`/topic/lobby/${AppComponent.sessionId}/startGame`, data => {
-			  console.log(`event: startGame, data: ${data.body}`);
-			  data = JSON.parse(data.body);
-        //window.location.replace('/game.html');
-        this.currentPage = 'game';
-			  // TODO lancer la partie, genre redirection vers /game
-      });
+        // Partie lancée, on switch sur le composant game
+	    AppComponent.stompClient.subscribe(`/topic/lobby/${AppComponent.sessionId}/startGame`, data => {
+		    console.log(`event: startGame, data: ${data.body}`);
+            data = JSON.parse(data.body);
+              
+            AppComponent.joueurName = data.joueurName;
+            AppComponent.joueurHero = data.joueurHero;
+            AppComponent.opponentName = data.opponentName;
+            AppComponent.opponentHero = data.opponentHero;
+            AppComponent.gameId = data.gameId;
+
+            this.currentPage = 'game';
+        });
       
       AppComponent.stompClient.subscribe('/topic/chat', message => {
         if (message.body) {
