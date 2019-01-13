@@ -1,7 +1,5 @@
 package fr.ministone;
 
-import java.util.UUID;
-
 public class User {
 	// Nom de l'utilisateur (unique)
 	private String name;
@@ -14,7 +12,7 @@ public class User {
 	// Type de héro (paladin, mage, warrior)
 	private String heroType;
 	
-	private UUID temporaryGameId;
+	private String temporaryGameId;
 
 	private User opponent;
 
@@ -52,7 +50,7 @@ public class User {
 		return nbWins;
 	}
 
-	public UUID getTemporaryGameId() {
+	public String getTemporaryGameId() {
 		return temporaryGameId;
 	}
 
@@ -72,7 +70,7 @@ public class User {
 		return opponent;
 	}
 
-	public void setTemporaryGameId(UUID newTemporaryGameId) {
+	public void setTemporaryGameId(String newTemporaryGameId) {
 		temporaryGameId = newTemporaryGameId;
 	}
 

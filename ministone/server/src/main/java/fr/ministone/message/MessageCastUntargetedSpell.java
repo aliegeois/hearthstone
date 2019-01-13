@@ -1,21 +1,19 @@
 package fr.ministone.message;
 
-public class MessageCastUntargetedSpell extends GameMessage {
-
-	private int source;
+public class MessageCastUntargetedSpell {
+	private String cardId;
 
 	public MessageCastUntargetedSpell() {}
 
-	public MessageCastUntargetedSpell(boolean player1, int idCardSource) {
-		super(player1);
-		this.source = idCardSource;
+	public MessageCastUntargetedSpell(String cardId) {
+		this.cardId = cardId;
 	}
 
-	public int getSource() {
-		return source;
+	public String getCardId() {
+		return cardId;
 	}
 
-	public void setSource(int idCard) {
-		this.source = idCard;
+	public void setCardId(String newCardId) {
+		cardId = newCardId;
 	}
 }

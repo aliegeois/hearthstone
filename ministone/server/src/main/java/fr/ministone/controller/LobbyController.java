@@ -66,22 +66,22 @@ public class LobbyController {
 	private GameController gameController;
 
 	// <userName, user>
-	private Map<String, User> users = new HashMap<>();
+	private Map<String, User> users = new HashMap<>(); // AMELIORER
 	//private Map<String, User> waiting = new HashMap<>();
 	Map<String, User> waiting = null; //Une liste pour les user novice, une pour les users regular, et une pour les users expert
-	private Map<UUID, TemporaryGame> temporaryGames = new HashMap<>();
+	private Map<String, TemporaryGame> temporaryGames = new HashMap<>();
 	
 	@Autowired
 	public LobbyController(SimpMessagingTemplate template, GameController gameController) {
 		this.template = template;
 		this.gameController = gameController;
-		this.users.put("_", new User("Billy", "_"));
+		this.users.put("Billy", new User("Billy", "_"));
 
 		this.waiting = new HashMap<String, User>();
 	}
 	
 	@MessageMapping("/lobby/join")
-	public void joinLobby(@Payload MessageJoinLobby message, @Header("simpSessionId") String sessionId) throws Exception {
+	public void joinLobby(@Header("simpSessionId") String sessionId, @Payload MessageJoinLobby message) throws Exception {
 		// On envoie les infos sur une url spécifique pour chaque joueur (avec le nom du joueur dedans), chaque joueur se subscribe donc à l'url avec son nom
 		// htmlEscape: pour éviter que l'utilisateur ne prenne un nom comme "<script>while(true)alert('');</script>"
 		String userName = HtmlUtils.htmlEscape(message.getName().trim());
@@ -175,7 +175,7 @@ public class LobbyController {
 			waiting.put(user1Level, null);
 			System.out.println("Flag e");
 			TemporaryGame tg = new TemporaryGame(user1, user2);
-			UUID gameId = UUID.randomUUID();
+			String gameId = UUID.randomUUID().toString();
 			temporaryGames.put(gameId, tg);
 			user1.setTemporaryGameId(gameId);
 			user2.setTemporaryGameId(gameId);
@@ -204,7 +204,7 @@ public class LobbyController {
 		}
 		
 		User user1 = getFromTemporaryGame(sessionId);
-		UUID gameId = user1.getTemporaryGameId();
+		String gameId = user1.getTemporaryGameId();
 		TemporaryGame tg = temporaryGames.get(gameId);
 		User user2 = user1.getOpponent();
 
@@ -235,7 +235,7 @@ public class LobbyController {
 		}
 
 		User user1 = getFromTemporaryGame(sessionId);
-		UUID gameId = user1.getTemporaryGameId();
+		String gameId = user1.getTemporaryGameId();
 		//TemporaryGame tg = temporaryGames.get(gameId);
 		User user2 = user1.getOpponent();
 
@@ -286,7 +286,7 @@ public class LobbyController {
 	}
 
 	public User getFromTemporaryGame(String sessionId) {
-		for(Map.Entry<UUID, TemporaryGame> pair : temporaryGames.entrySet())
+		for(Map.Entry<String, TemporaryGame> pair : temporaryGames.entrySet())
 			if(pair.getValue().hasUser(sessionId))
 				return pair.getValue().getUser(sessionId);
 		return null;
