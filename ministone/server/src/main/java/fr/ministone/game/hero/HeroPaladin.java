@@ -2,27 +2,23 @@ package fr.ministone.game.hero;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 import fr.ministone.game.card.CardMinion;
 import fr.ministone.game.IEntity;
-import fr.ministone.game.IPlayer;
 
 public class HeroPaladin extends Hero {
-	public HeroPaladin(IPlayer player) {
-		super(player);
-	}
+	/*public HeroPaladin() {
+		super();
+	}*/
 	
 	@Override
 	public void special() {
-		String idCarte = UUID.randomUUID().toString(); // Valeur temporaire
-		Set<String> cap = new HashSet<String>();
-		Map<String,Integer> boost = new HashMap<String,Integer>();
-		CardMinion carte = new CardMinion(idCarte, player, "SilverHand recruit", 1, 1, 1, cap, boost);
-		player.getHand().put(idCarte, carte);
-		player.summonMinion(idCarte);
+		String cardId = UUID.randomUUID().toString(); // Valeur temporaire
+		CardMinion minion = new CardMinion(cardId, "paladin", player, "SilverHand recruit", 1, 1, 1, new HashSet<String>(), new HashMap<String,Integer>());
+
+		player.getHand().put(cardId, minion);
+		player.summonMinion(cardId);
 	}
 
 	@Override

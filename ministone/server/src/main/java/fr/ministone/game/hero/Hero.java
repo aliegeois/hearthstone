@@ -11,13 +11,7 @@ public abstract class Hero implements IEntity {
 	protected int armor = 0;
 	//protected boolean provocation = false;
 	
-	public Hero(IPlayer player) {
-		this.player = player;
-	}
-
-	public IPlayer getOwner() {
-		return player;
-	}
+	//public Hero() {}
 	
 	public abstract void special(IEntity e);
 	public abstract void special();
@@ -65,7 +59,7 @@ public abstract class Hero implements IEntity {
 		health += quantity;
 	}
 	
-	public void boostArmor(int quantity) {
+	public void buffArmor(int quantity) {
 		armor += quantity;
 	}
 	
@@ -94,5 +88,14 @@ public abstract class Hero implements IEntity {
 	@Override
 	public void transform(IEntity e) {
 		throw new UnsupportedOperationException();
+	}
+	
+	
+	public void setPlayer(IPlayer p) {
+		player = p;
+	}
+
+	public IPlayer getPlayer() {
+		return player;
 	}
 }

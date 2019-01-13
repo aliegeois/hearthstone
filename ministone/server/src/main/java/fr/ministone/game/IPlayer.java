@@ -33,7 +33,5 @@ public interface IPlayer {
     public int getManaMax();
     public int getMana();
 
-    public void setHero(String heroType);
     public void checkDead();
-
 }

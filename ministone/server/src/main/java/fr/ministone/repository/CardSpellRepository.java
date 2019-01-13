@@ -9,4 +9,5 @@ import fr.ministone.game.card.CardSpell;
 
 public interface CardSpellRepository extends CrudRepository<CardSpell, Integer> {
     CardSpell findByName(String name);
+    Iterable<CardSpell> findAllByDeck(String deck);
 }

@@ -5,7 +5,7 @@ import fr.ministone.User;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GameMock implements IGame, IGameMessageReceiver, IGameMessageSender {
+public class GameMock implements IGame{
 	private Map<String, IPlayer> players = new HashMap<>();
 	private IPlayer playing;
 	private int turn;

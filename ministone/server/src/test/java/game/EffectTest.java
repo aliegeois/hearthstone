@@ -33,7 +33,6 @@ public class EffectTest{
     private Set<GlobalEffect> gte;
 
     @BeforeEach
-
     public void Init(){
 
         this.user1 = new User("Billy", "E");

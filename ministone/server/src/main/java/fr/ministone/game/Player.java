@@ -7,6 +7,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import fr.ministone.repository.CardMinionRepository;
+import fr.ministone.repository.CardSpellRepository;
+
 import fr.ministone.game.hero.*;
 import fr.ministone.JSONeur;
 import fr.ministone.game.card.*;
@@ -23,10 +27,41 @@ public class Player implements IPlayer {
 	
 	private Hero hero;
 	private IPlayer opponent;
+
+	@Autowired
+	private CardMinionRepository cardMinionRepository;
+	@Autowired
+    private CardSpellRepository cardSpellRepository;
 	
-	public Player(String name, String sessionId) {
+	public Player(String name, String sessionId, String heroType) {
 		this.name = name;
 		this.sessionId = sessionId;
+
+		for(Iterator<CardMinion> i = cardMinionRepository.findAllByDeck("shared").iterator(); i.hasNext();)
+			this.deck.add(i.next());
+		for(Iterator<CardSpell> i = cardSpellRepository.findAllByDeck("shared").iterator(); i.hasNext();)
+			this.deck.add(i.next());
+
+		if("warrior".equals(heroType)) {
+			this.hero = new HeroWarrior();
+			for(Iterator<CardMinion> i = cardMinionRepository.findAllByDeck("warrior").iterator(); i.hasNext();)
+				this.deck.add(i.next());
+			for(Iterator<CardSpell> i = cardSpellRepository.findAllByDeck("warrior").iterator(); i.hasNext();)
+				this.deck.add(i.next());
+		} else if("paladin".equals(heroType)) {
+			this.hero = new HeroPaladin();
+			for(Iterator<CardMinion> i = cardMinionRepository.findAllByDeck("paladin").iterator(); i.hasNext();)
+				this.deck.add(i.next());
+			for(Iterator<CardSpell> i = cardSpellRepository.findAllByDeck("paladin").iterator(); i.hasNext();)
+				this.deck.add(i.next());
+		} else if("mage".equals(heroType)) {
+			this.hero = new HeroMage();
+			for(Iterator<CardMinion> i = cardMinionRepository.findAllByDeck("mage").iterator(); i.hasNext();)
+				this.deck.add(i.next());
+			for(Iterator<CardSpell> i = cardSpellRepository.findAllByDeck("mage").iterator(); i.hasNext();)
+				this.deck.add(i.next());
+		}
+		this.hero.setPlayer(this);
 	}
 	
 	@Override
@@ -165,19 +200,20 @@ public class Player implements IPlayer {
 		return mana;
 	}
 
-	@Override
+	/*@Override
 	public void setHero(String heroType) {
 		if("warrior".equals(heroType)) {
-			hero = new HeroWarrior(this);
+			hero = new HeroWarrior();
 		} else if("paladin".equals(heroType)){
-			hero = new HeroPaladin(this);
+			hero = new HeroPaladin();
 		} else if("mage".equals(heroType)){
-			hero = new HeroMage(this);
+			hero = new HeroMage();
 		} else {
 			// TODO: À enlever
 			System.out.println("Va te faire foutre, cordialement");
 		}
-	}
+		hero.setPlayer(this);
+	}*/
 
 	@Override
 	public void checkDead() {
