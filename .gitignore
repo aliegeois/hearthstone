@@ -1,6 +1,7 @@
 **/.vscode
 **/.project
 **/.settings/
+**/.idea/
 **/node_modules/
 **/target/
 **/bin/
