@@ -1,4 +1,4 @@
-package game;
+package fr.ministone.game.cards;
 
 import static org.junit.jupiter.api.Assertions.*;
 

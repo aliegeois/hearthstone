@@ -1,4 +1,4 @@
-package game.hero;
+package fr.ministone.game.hero;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -60,7 +60,6 @@ public class HeroTest {
 		assertTrue(player3.getBoard().isEmpty());
 		assertTrue(player3.getHand().isEmpty());
 		hero3.special();
-		//assertEquals(1, player3.getHand().size());
 		assertEquals(1, player3.getBoard().size());
 		
 	}

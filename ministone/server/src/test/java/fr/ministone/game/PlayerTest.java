@@ -1,4 +1,4 @@
-package game;
+package fr.ministone.game;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,7 +13,6 @@ import fr.ministone.game.card.CardMinion;
 import fr.ministone.game.card.CardSpell;
 import fr.ministone.game.Constants;
 import fr.ministone.game.IPlayer;
-import fr.ministone.game.PlayerMock;
 import fr.ministone.game.effect.*;
 
 public class PlayerTest{

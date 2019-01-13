@@ -8,6 +8,8 @@ import java.util.Set;
 import java.util.UUID;
 
 import fr.ministone.JSONeur;
+import fr.ministone.game.IEntity;
+import fr.ministone.game.IPlayer;
 import fr.ministone.game.card.*;
 import fr.ministone.game.hero.*;
 

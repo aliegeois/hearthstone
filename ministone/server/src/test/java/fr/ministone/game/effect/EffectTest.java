@@ -1,4 +1,4 @@
-package game;
+package fr.ministone.game.effect;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,8 +15,6 @@ import fr.ministone.game.hero.*;
 import fr.ministone.game.card.CardMinion;
 import fr.ministone.game.card.CardSpell;
 import fr.ministone.game.Constants;
-
-import fr.ministone.game.effect.*;
 
 public class EffectTest{
 

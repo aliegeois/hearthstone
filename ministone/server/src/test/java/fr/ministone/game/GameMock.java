@@ -1,6 +1,8 @@
 package fr.ministone.game;
 
 import fr.ministone.User;
+import fr.ministone.game.IGame;
+import fr.ministone.game.IPlayer;
 
 import java.util.HashMap;
 import java.util.Map;
