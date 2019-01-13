@@ -24,28 +24,7 @@ public class Game implements IGame {
 		this.players.put(user2.getName(), player2);
 	}
 	
-	public void start() {
-		IPlayer p1 = null, p2 = null;
-
-		for(IPlayer p : players.values()) { // Je sais, c'est sale
-			if(p1 == null)
-				p1 = p;
-			else
-				p2 = p;
-		}
-
-		playing = Math.random() > .5 ? p1 : p2;
-		for(int i = 0; i < 3; i++) {
-			playing.drawCard();
-			playing.getOpponent().drawCard();
-		}
-		playing.getOpponent().drawCard();
-		playing.nextTurn();
-		sendNextTurn(playing.getName());
-		sendIsStarting(playing.getName());
-	}
-
-
+	
 	@Override
 	public void receiveSummonMinion(String playerName, String cardId) {
 		IPlayer p = players.get(playerName);
@@ -239,7 +218,29 @@ public class Game implements IGame {
 	}
 
 
-	
+
+	@Override
+	public void start() {
+		IPlayer p1 = null, p2 = null;
+
+		for(IPlayer p : players.values()) { // Je sais, c'est sale
+			if(p1 == null)
+				p1 = p;
+			else
+				p2 = p;
+		}
+
+		playing = Math.random() > .5 ? p1 : p2;
+		for(int i = 0; i < 3; i++) {
+			playing.drawCard();
+			playing.getOpponent().drawCard();
+		}
+		playing.getOpponent().drawCard();
+		playing.nextTurn();
+		sendNextTurn(playing.getName());
+		sendIsStarting(playing.getName());
+	}
+
 	@Override
 	public boolean containsPlayer(String sessionId) {
 		return getPlayer(sessionId) != null;
