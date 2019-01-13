@@ -19,7 +19,7 @@ public class MessageHeroTargetedSpecial {
 		return targetId;
 	}
 
-	public void SetOwn(boolean newOwn) {
+	public void setOwn(boolean newOwn) {
 		own = newOwn;
 	}
 
