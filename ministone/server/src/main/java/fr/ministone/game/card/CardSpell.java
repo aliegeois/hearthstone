@@ -3,13 +3,23 @@ package fr.ministone.game.card;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.Entity;
+import javax.persistence.Transient;
+
 import fr.ministone.game.effect.*;
 import fr.ministone.game.IPlayer;
 import fr.ministone.game.IEntity;
 
+@Entity
 public class CardSpell extends Card {
+
+	@Transient
 	protected Set<SingleTargetEffect> singleEffects;
+
+	@Transient
 	protected Set<MultipleTargetEffect> multipleEffects;
+
+	@Transient
 	protected Set<GlobalEffect> globalEffects;
 	
 	public CardSpell(String id, IPlayer owner, String name, int mana, Set<SingleTargetEffect> single, Set<MultipleTargetEffect> multiple, Set<GlobalEffect> global) {

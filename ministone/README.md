@@ -15,4 +15,4 @@ ng serve
 ## Utilisation standard:
 - Lancer le serveur Spring
 - Lancer le serveur Angular
-- Accéder au serveur sur [localhost:4200](http://localhost:4200/)
+- Accéder au serveur sur [localhost:4200](http://localhost:4200)
