@@ -8,12 +8,57 @@
 	<body>
 		<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being enabled. Please enable Javascript and reload this page!</h2></noscript>
 
-		<h1>Ministone (game)</h1>
+		<div id="nomOpponent">
+			{{ opponent.name }}
+		</div>
+
+		<div id="nomJoueur">
+			{{ joueur.name }}
+		</div>
+
+		<div id="main_opponent">
+			<ul>
+				<li *ngFor="let card of opponentHand">
+					<img src="../../assets/images/cardback.png" alt="Une carte" />
+				</li>
+			</ul>
+		</div>
 
 		<div id="main_joueur">
 			<ul>
-				<li *ngFor="let card of joueurHand">
-					Nom : {{ card.name }} Mana : {{ card.manaCost }}
+				<li *ngFor="let card of joueurHand" id="card">
+					<div>
+						<span id="cardName">{{ card.name }}</span>
+						<span id="cardManaCost">{{ card.manaCost }}</span>
+						<span id="cardDamage">{{ card.damage }}</span>
+						<span id="cardHealth">{{ card.health }}</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<div id="board_joueur">
+			<ul>
+				<li *ngFor="let card of joueurBoard" id="card">
+					<div>
+						<span id="cardName">{{ card.name }}</span>
+						<span id="cardManaCost">{{ card.manaCost }}</span>
+						<span id="cardDamage">{{ card.damage }}</span>
+						<span id="cardHealth">{{ card.health }}</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<div id="board_opponent">
+			<ul>
+				<li *ngFor="let card of opponentBoard" id="card">
+					<div>
+						<span id="cardName">{{ card.name }}</span>
+						<span id="cardManaCost">{{ card.manaCost }}</span>
+						<span id="cardDamage">{{ card.damage }}</span>
+						<span id="cardHealth">{{ card.health }}</span>
+					</div>
 				</li>
 			</ul>
 		</div>

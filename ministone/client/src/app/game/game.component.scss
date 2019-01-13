@@ -1,0 +1,113 @@
+body {
+    margin: 0;
+    width: 100%;
+    padding: 0;
+
+
+    #nomJoueur {
+        position: fixed;
+        bottom: 10%;
+        left: 5%;
+    }
+    
+    #nomOpponent {
+        position: fixed;
+        top: 10%;
+        left: 5%;
+    }
+
+    #main_opponent {
+        background-color: rgb(182, 182, 182);
+        position: fixed;
+        top: 0%;
+        width: 80%;
+        left: 10%;
+        text-align: center;
+
+        ul {
+            list-style-type: none;
+
+            li { /* Une carte dans la main adverse */
+                display: inline-block;
+                margin: 1%;
+                
+                img {
+                    height: 120px;
+                }
+            }
+        }
+    }
+
+    #main_joueur {
+        background-color: rgb(182, 182, 182);
+        position: fixed;
+        bottom: 0%;
+        width: 80%;
+        left: 10%;
+        text-align: center;
+
+        ul {
+            list-style-type: none;
+        }
+    }
+
+    #board_opponent {
+        position: fixed;
+        top: 25%;
+        width: 80%;
+        left: 10%;
+        text-align: center;
+
+        ul {
+            list-style-type: none;
+        }
+    }
+
+    #board_joueur {
+        position: fixed;
+        bottom: 25%;
+        width: 80%;
+        left: 10%;
+        text-align: center;
+
+        ul {
+            list-style-type: none;
+        }
+    }
+
+
+
+    #card {
+        display: inline-block;
+        margin: 1%;
+                
+        div {
+            background-color: #6b4c19;
+            position: relative;
+            height: 120px;
+            width: 80px;
+            border: 1px solid black;
+            border-radius: 5px;
+
+            #cardName {
+                font-size: 8px;
+            }
+            #cardManaCost {
+                position: absolute;
+                right: 5%;
+            }
+            #cardDamage {
+                position: absolute;
+                bottom: 5%;
+                left: 5%;
+            }
+            #cardHealth {
+                position: absolute;
+                bottom: 5%;
+                right: 5%;
+            }
+        }
+    }
+}
+
+
