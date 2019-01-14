@@ -123,10 +123,10 @@ public class GameMock implements IGame {
 		
 	}
 
-	@Override
+	/*@Override
 	public void sendEndTurn(String playerName) {
 		
-	}
+	}*/
 
 	@Override
 	public void sendNextTurn(String playerName) {
@@ -139,24 +139,15 @@ public class GameMock implements IGame {
 	}
 
 	@Override
-    public void sendDrawCard(String playerName, String cardName) {
+    public void sendDrawCard(String playerName, String cardName, String uuid) {
 		
 	}
 
 	@Override
-    public void sendOpponentDrawCard(String playerName, String cardName) {
+    public void sendVictory(String playerName) {
 		
 	}
 
-	@Override
-    public void sendWin(String playerName) {
-		
-	}
-
-	@Override
-    public void sendLose(String playerName) {
-		;
-	}
 
     @Override
 	public boolean containsPlayer(String sessionId) {
