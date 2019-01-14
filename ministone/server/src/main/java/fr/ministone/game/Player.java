@@ -7,9 +7,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-/*import org.springframework.beans.factory.annotation.Autowired;
-import fr.ministone.repository.CardMinionRepository;
-import fr.ministone.repository.CardSpellRepository;*/
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+
+import fr.ministone.repository.*;
 
 import fr.ministone.game.hero.*;
 import fr.ministone.JSONeur;
@@ -18,6 +18,10 @@ import fr.ministone.game.card.*;
 public class Player implements IPlayer {
 	private String name;
 	private String sessionId;
+	private String gameId;
+
+	private SimpMessagingTemplate template;
+
 	private Set<Card> deck = new HashSet<>();
 	private Map<String, Card> hand = new HashMap<>();
 	private Map<String, CardMinion> board = new HashMap<>();
@@ -27,14 +31,43 @@ public class Player implements IPlayer {
 	
 	private Hero hero;
 	private IPlayer opponent;
-
-	// @Autowired private CardMinionRepository cardMinionRepository;
-	// @Autowired private CardSpellRepository cardSpellRepository;
 	
+	public Player(String name, String sessionId, String gameId, String heroType, CardMinionRepository cardMinionRepository, CardSpellRepository cardSpellRepository) {
+		this.name = name;
+		this.sessionId = sessionId;
+		this.gameId = gameId;
+		
+		for(Iterator<CardMinion> i = cardMinionRepository.findAllByDeck("shared").iterator(); i.hasNext();)
+			this.deck.add(i.next());
+		for(Iterator<CardSpell> i = cardSpellRepository.findAllByDeck("shared").iterator(); i.hasNext();)
+			this.deck.add(i.next());
+
+		if("warrior".equals(heroType)) {
+			this.hero = new HeroWarrior();
+			for(Iterator<CardMinion> i = cardMinionRepository.findAllByDeck("warrior").iterator(); i.hasNext();)
+				this.deck.add(i.next());
+			for(Iterator<CardSpell> i = cardSpellRepository.findAllByDeck("warrior").iterator(); i.hasNext();)
+				this.deck.add(i.next());
+		} else if("paladin".equals(heroType)) {
+			this.hero = new HeroPaladin();
+			for(Iterator<CardMinion> i = cardMinionRepository.findAllByDeck("paladin").iterator(); i.hasNext();)
+				this.deck.add(i.next());
+			for(Iterator<CardSpell> i = cardSpellRepository.findAllByDeck("paladin").iterator(); i.hasNext();)
+				this.deck.add(i.next());
+		} else if("mage".equals(heroType)) {
+			this.hero = new HeroMage();
+			for(Iterator<CardMinion> i = cardMinionRepository.findAllByDeck("mage").iterator(); i.hasNext();)
+				this.deck.add(i.next());
+			for(Iterator<CardSpell> i = cardSpellRepository.findAllByDeck("mage").iterator(); i.hasNext();)
+				this.deck.add(i.next());
+		}
+		this.hero.setPlayer(this);
+	}
+
 	public Player(String name, String sessionId, String heroType) {
 		this.name = name;
 		this.sessionId = sessionId;
-
+		
 		if("warrior".equals(heroType)) {
 			this.hero = new HeroWarrior();
 		} else if("paladin".equals(heroType)) {
@@ -62,6 +95,7 @@ public class Player implements IPlayer {
 			mana -= manaCost;
 			board.put(minionId, minion);
 			hand.remove(minionId);
+			sendSummonMinion(minionId);;
 		} else {
 			// Si on a le temps: faire un message de type "notEnoughMana" et l'envoyer
 		}
@@ -76,23 +110,26 @@ public class Player implements IPlayer {
 			minion.attack(opponent.getBoard().get(targetId));
 		}
 		checkDead();
+		sendAttack(cardId, targetId); // J'ai un doute sur l'ordre mdr
 	}
 	
 	@Override
-	public String drawCard() {
+	public Card drawCard(boolean send) {
 		Card cardDrawn = (Card)deck.toArray()[(int)(Math.random() * deck.size())];
-		String identif = UUID.randomUUID().toString();
+		String cId = UUID.randomUUID().toString();
 
 		Card carte = cardDrawn.copy();
-		carte.setId(identif);
-		hand.put(identif, carte);
+		carte.setId(cId);
+		hand.put(cId, carte);
+		if(send)
+			sendDrawCard(carte.getName(), cId, carte instanceof CardMinion ? "minion" : "spell");
 
-		return identif;
+		return cardDrawn;
 	}
 
 	@Override
-	public void castSpell(boolean own, String cardId, String targetId) { // À terminer
-		CardSpell spell = (CardSpell)hand.get(cardId);
+	public void castSpell(boolean own, String spellId, String targetId) { // À terminer
+		CardSpell spell = (CardSpell)hand.get(spellId);
 		IEntity victim;
 		if("hero".equals(targetId)) {
 			victim = (own ? this : opponent).getHero();
@@ -101,13 +138,15 @@ public class Player implements IPlayer {
 		}
 		spell.play(victim);
 		hand.remove(spell.getId());
+		sendCastTargetedSpell(own, spellId, targetId);
 	}
 
 	@Override
-	public void castSpell(String cardId) {
-		CardSpell spell = (CardSpell)hand.get(cardId);
+	public void castSpell(String spellId) {
+		CardSpell spell = (CardSpell)hand.get(spellId);
 		spell.play();
 		hand.remove(spell.getId());
+		sendCastUntargetedSpell(spellId);
 	}
 	
 	@Override
@@ -120,11 +159,13 @@ public class Player implements IPlayer {
 		}
 		
 		hero.special(victim);
+		sendHeroTargetedSpecial(own, targetId);
 	}
 
 	@Override
 	public void heroSpecial() {
 		hero.special();
+		sendHeroUntargetedSpecial();
 	}
 
 
@@ -132,7 +173,8 @@ public class Player implements IPlayer {
 	public void nextTurn() {
 		manaMax++;
 		mana = manaMax;
-		drawCard();
+		Card drawn = drawCard(false);
+		sendNextTurn(drawn.getName(), drawn.getId(), drawn instanceof CardMinion ? "minion" : "spell");
 	}
 
 	
@@ -181,21 +223,6 @@ public class Player implements IPlayer {
 		return mana;
 	}
 
-	/*@Override
-	public void setHero(String heroType) {
-		if("warrior".equals(heroType)) {
-			hero = new HeroWarrior();
-		} else if("paladin".equals(heroType)){
-			hero = new HeroPaladin();
-		} else if("mage".equals(heroType)){
-			hero = new HeroMage();
-		} else {
-			// TODO: À enlever
-			System.out.println("Va te faire foutre, cordialement");
-		}
-		hero.setPlayer(this);
-	}*/
-
 	@Override
 	public void checkDead() {
 		Iterator<Map.Entry<String,CardMinion>> i = this.board.entrySet().iterator();
@@ -205,7 +232,97 @@ public class Player implements IPlayer {
 				i.remove();
 			}
 		}
+
+		if(getOpponent().getHero().getHealth() <= 0) {
+			// TODO: WIN
+		}
 	}
+
+
+	@Override
+	public void sendSummonMinion(String minionId) {
+		Map<String,String> send = new HashMap<>();
+		send.put("playerName", name);
+		send.put("cardId", minionId);
+		template.convertAndSend("/topic/game/" + gameId + "/summonMinion", JSONeur.toJSON(send));
+	}
+
+	@Override
+	public void sendAttack(String cardId, String targetId) {
+		Map<String,String> send = new HashMap<>();
+		send.put("playerName", name);
+		send.put("cardId", cardId);
+		send.put("targetId", targetId);
+		template.convertAndSend("/topic/game/" + gameId + "/attack", JSONeur.toJSON(send));
+	}
+
+	@Override
+	public void sendCastTargetedSpell(boolean own, String spellId, String targetId) {
+		Map<String,String> send = new HashMap<>();
+		send.put("playerName", name);
+		send.put("cardId", spellId);
+		send.put("targetId", targetId);
+		send.put("own", own ? "true" : "false");
+		template.convertAndSend("/topic/game/" + gameId + "/castTargetedSpell", JSONeur.toJSON(send));
+	}
+
+	@Override
+	public void sendCastUntargetedSpell(String spellId) {
+		Map<String,String> send = new HashMap<>();
+		send.put("playerName", name);
+		send.put("cardId", spellId);
+		template.convertAndSend("/topic/game/" + gameId + "/castUntargetedSpell", JSONeur.toJSON(send));
+	}
+
+	@Override
+	public void sendHeroTargetedSpecial(boolean own, String targetId) {
+		Map<String,String> send = new HashMap<>();
+		send.put("playerName", name);
+		send.put("own", own ? "true" : "false");
+		send.put("targetId", targetId);
+		template.convertAndSend("/topic/game/" + gameId + "/targetedSpecial", JSONeur.toJSON(send));
+	}
+
+	@Override
+	public void sendHeroUntargetedSpecial() {
+		Map<String,String> send = new HashMap<>();
+		send.put("playerName", name);
+		template.convertAndSend("/topic/game/" + gameId + "/untargetedSpecial", JSONeur.toJSON(send));
+	}
+
+	@Override
+	public void sendNextTurn(String cardName, String cardId, String cardType) {
+		Map<String,String> send = new HashMap<>();
+		send.put("playerName", getOpponent().getName());
+		send.put("cardName", cardName);
+		send.put("cardId", cardId);
+		template.convertAndSend("/topic/game/" + gameId + "/nextTurn", JSONeur.toJSON(send));
+	}
+
+	@Override
+	public void sendTimeout() {
+		Map<String,String> send = new HashMap<>();
+		send.put("playerName", name);
+		template.convertAndSend("/topic/game/" + gameId + "/timeout", JSONeur.toJSON(send));
+	}
+
+	@Override
+	public void sendDrawCard(String cardName, String cardId, String cardType) {
+		Map<String,String> send = new HashMap<>();
+		send.put("playerName", name);
+		send.put("cardName", cardName);
+		send.put("cardId", cardId);
+		send.put("cardType", cardType);
+		template.convertAndSend("/topic/game/" + gameId + "/drawCard", JSONeur.toJSON(send));
+	}
+
+	@Override
+	public void sendVictory() {
+		Map<String,String> send = new HashMap<>();
+		send.put("playerName", name);
+		template.convertAndSend("/topic/game/" + gameId + "/victory", JSONeur.toJSON(send));
+	}
+
 
 	@Override
 	public String toString() {

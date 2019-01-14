@@ -20,6 +20,7 @@ import fr.ministone.game.IPlayer;
 import fr.ministone.message.*;
 import java.util.Map;
 import java.util.HashMap;
+import fr.ministone.repository.*;
 
 @Controller
 @CrossOrigin(origins = "http://localhost:4200")
@@ -29,9 +30,14 @@ public class GameController {
 	// Liste des parties en cours
 	private Map<String, IGame> games = new HashMap<>();
 
+	private CardMinionRepository cardMinionRepository;
+	private CardSpellRepository cardSpellRepository;
+
 	@Autowired
-	public GameController(SimpMessagingTemplate template) {
+	public GameController(SimpMessagingTemplate template, CardMinionRepository cardMinionRepository, CardSpellRepository cardSpellRepository) {
 		this.template = template;
+		this.cardMinionRepository = cardMinionRepository;
+		this.cardSpellRepository = cardSpellRepository;
 	}
 
 	// SITE DE LA VIE: https://www.programcreek.com/java-api-examples/?api=org.springframework.messaging.handler.annotation.MessageMapping
@@ -154,7 +160,7 @@ public class GameController {
 	}
 
 	public void createGame(String gameId, User player1, User player2) {
-		Game g = new Game(gameId, template, player1, player2);
+		Game g = new Game(gameId, template, player1, player2, cardMinionRepository, cardSpellRepository);
 		games.put(gameId, g);
 		
 		System.out.println("create game with " + player1.getName() + " and " + player2.getName());

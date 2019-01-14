@@ -81,7 +81,8 @@ public abstract class Hero implements IEntity {
 	public void die() {
 		if(isDead()) {
 			//TODO : faire gagner l'adversaire
-			System.out.println(player.getName() + " a gagné !");
+			System.out.println(player.getName() + " a perdu !");
+			// Normalement, ne rien faire, l'adversaire d'occupe de dire qu'il a gagné, normalement
 		}
 	}
 

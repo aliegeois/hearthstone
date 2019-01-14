@@ -11,6 +11,6 @@ public class DrawRandom extends GlobalEffect {
 	@Override
 	public void play() {
 		for(int i = 0; i < numberCardsDrawn ; i++)
-			card.getOwner().drawCard();
+			card.getOwner().drawCard(true);
 	}
 }

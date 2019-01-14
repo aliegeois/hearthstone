@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import fr.ministone.game.card.*;
-import fr.ministone.repository.CardMinionRepository;
-import fr.ministone.repository.CardSpellRepository;
+import fr.ministone.repository.*;
 
 @Controller
 @RequestMapping(path="/cards")

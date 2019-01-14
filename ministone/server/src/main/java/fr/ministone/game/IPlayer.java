@@ -6,13 +6,13 @@ import java.util.Set;
 import fr.ministone.game.card.*;
 import fr.ministone.game.hero.Hero;
 
-public interface IPlayer {
+public interface IPlayer extends IPlayerMessageSender {
     public void setOpponent(IPlayer p);
 
     public void summonMinion(String minionId);
     public void attack(String cardId, String targetId);
 
-    public String drawCard();
+    public Card drawCard(boolean send);
 
     public void castSpell(boolean own, String cardId, String targetId);
     public void castSpell(String cardId);

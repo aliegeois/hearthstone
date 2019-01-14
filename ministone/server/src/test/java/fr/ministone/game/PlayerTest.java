@@ -17,8 +17,8 @@ import fr.ministone.game.effect.*;
 
 public class PlayerTest{
 
-    private IPlayer player1 = new PlayerMock("Billy","E", "warrior");
-    private IPlayer player2 = new PlayerMock("Bob", "F", "mage");
+    private IPlayer player1 = new Player("Billy","E", "warrior");
+    private IPlayer player2 = new Player("Bob", "F", "mage");
     private Set<String> cap1 = new HashSet<String>();
     private Set<String> cap2 = new HashSet<String>();
     
@@ -45,7 +45,7 @@ public class PlayerTest{
     }
 
     @Test 
-    public void testInit(){
+    public void testInit() {
         assertFalse(player1.getHero() == null);
         assertFalse(player2.getHero() == null);
     }
@@ -57,9 +57,9 @@ public class PlayerTest{
     }
 
     @Test
-    public void testPlayMinion(){
+    public void testPlayMinion() {
         String idCard = player1.drawCard();
-        assertTrue(player1.getHand().size() == 1);
+        assertEquals(1, player1.getHand().size());
         assertEquals(1, player1.getBoard().size());
 
         player1.summonMinion(idCard);
