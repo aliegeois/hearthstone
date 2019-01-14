@@ -91,7 +91,7 @@ public class Game implements IGame {
 	}
 
 
-	
+	/* Pour la postérité
 	@Override
 	public void sendSetHero(String playerName, String heroType) {
 		Map<String,String> send = new HashMap<>();
@@ -106,8 +106,9 @@ public class Game implements IGame {
 		send.put("playerName", playerName);
 		send.put("heroType", heroType);
 		template.convertAndSend("/topic/game/" + id + "/setOpponentHero", JSONeur.toJSON(send));
-	}
+	}*/
 
+	// TODO : receive coté client
 	@Override
 	public void sendIsStarting(String playerName) {
 		Map<String,String> send = new HashMap<>();
@@ -116,6 +117,7 @@ public class Game implements IGame {
 		template.convertAndSend("/topic/game/" + id + "/isStarting", JSONeur.toJSON(send));
 	}
 
+	// Done
 	@Override
     public void sendSummonMinion(String playerName, String cardId) {
 		Map<String,String> send = new HashMap<>();
@@ -139,6 +141,7 @@ public class Game implements IGame {
 		send.put("playerName", playerName);
 		send.put("cardId", cardId);
 		send.put("targetId", targetId);
+		send.put("own", own ? "true" : "false");
 		template.convertAndSend("/topic/game/" + id + "/castTargetedSpell", JSONeur.toJSON(send));
 	}
 

@@ -43,7 +43,6 @@ export class LobbyComponent implements OnInit {
   }
 
   onConnect() {
-    console.log('wesh t\'es connecté bro');
     console.log("[LobbyComponent.onConnect] SessionId : " + AppComponent.sessionId);
 		// Confirmation du nom
 		AppComponent.stompClient.subscribe(`/topic/lobby/${AppComponent.sessionId}/confirmName`, data => {

@@ -6,6 +6,7 @@ import { SingleTargetEffect, MultipleTargetEffect, GlobalEffect, Transform } fro
 // import { HeroMage, HeroPaladin, HeroWarrior } from './heroes.service';
 import { ConstantesService } from './constantes.service';
 import { TouchSequence } from 'selenium-webdriver';
+import { UUID } from 'angular2-uuid';
 
 
 
@@ -63,8 +64,8 @@ export class AppComponent implements OnInit {
 		    console.log(`event: startGame, data: ${data.body}`);
             data = JSON.parse(data.body);
               
-            AppComponent.joueurName = data.joueurName;
-            AppComponent.joueurHero = data.joueurHero;
+            AppComponent.joueurName = data.playerName;
+            AppComponent.joueurHero = data.playerHero;
             AppComponent.opponentName = data.opponentName;
             AppComponent.opponentHero = data.opponentHero;
             AppComponent.gameId = data.gameId;
@@ -92,7 +93,6 @@ export class AppComponent implements OnInit {
       this.sendMessage('testMessage');
     });*/
 
-    this.testNePasToucher();
   }
 
   change() {
@@ -113,11 +113,6 @@ export class AppComponent implements OnInit {
 
   
 
-  testNePasToucher() {
-    let minion: CardMinion = new CardMinion(54, "Test", 4, 2, 3, new Set<String>(), new Map<String, number>());;
-    let transformEffect = new Transform(minion);
-    
-  }
 
 }
 
@@ -134,82 +129,178 @@ export class AppComponent implements OnInit {
 //------------------------------------------ TS Logic
 
 export class Player {
-  name: String;
-  deck: Set<Card>;
-  hand: Map<number, Card>;
-  board: Map<number, CardMinion>;
+    name: String;
+    deck: Set<Card>;
+    hand: Map<string, Card>;
+    board: Map<string, CardMinion>;
 
-  manaMax: number;
-  mana: number;
+    manaMax: number;
+    mana: number;
 
-  hero: Hero;
-  opponent: Player;
+    hero: Hero;
+    opponent: Player;
 
 
-  constructor(name: String, heroType: String) {
-      this.name = name;
-      switch (heroType) {
-          case 'mage':
-              this.hero = new HeroMage();
-              break;
-          case 'paladin':
-              this.hero = new HeroPaladin();
-              break;
-          case 'warrior':
-              this.hero = new HeroWarrior();
-              break;
-      }
-      this.deck = new Set<Card>();
-      this.hand = new Map<number, Card>();
-      this.board = new Map<number, CardMinion>();
+    constructor(name: String, heroType: String) {
+        this.name = name;
+        switch (heroType) {
+            case 'mage':
+                this.hero = new HeroMage(this);
+                break;
+            case 'paladin':
+                this.hero = new HeroPaladin(this);
+                break;
+            case 'warrior':
+                this.hero = new HeroWarrior(this);
+                break;
+        }
+        this.deck = new Set<Card>();
+        this.hand = new Map<string, Card>();
+        this.board = new Map<string, CardMinion>();
 
-      this.manaMax = 0;
-      this.mana = this.manaMax;
-  }
-
-  setOpponent(p: Player): void {
-      this.opponent = p;
-  }
+        this.manaMax = 0;
+        this.mana = this.manaMax;
+    }
 
 
 
-  getName(): String {
-      return this.name;
-  }
 
-  getDeck(): Set<Card> {
-      return this.deck;
-  }
+    summon(cardId: string) {
+        let card: CardMinion = this.hand.get(cardId) as CardMinion;
+        this.mana = this.mana - card.manaCost;
+        this.hand.delete(cardId);
+        this.board.set(cardId, card);
+    }
+    
+    attack(cardId: string, targetId: string) {
+        let card: CardMinion = this.hand.get(cardId) as CardMinion;
+        let target: Entity;
 
-  getHand(): Map<number, Card> {
-      return this.hand;
-  }
+        if(targetId == "hero") {
+            target = this.opponent.hero;
+        } else {
+            target = this.opponent.hand.get(cardId) as CardMinion;
+        }
+        card.attack(target);
+    }
 
-  getBoard(): Map<number, CardMinion> {
-      return this.board;
-  }
+    castTargetedSpell(cardId: string, targetId: string, own: string) {
+        let card: CardSpell = this.hand.get(cardId) as CardSpell;
+        this.mana = this.mana - card.manaCost;
+        let target: Entity = this.foundTarget(targetId, own);
 
-  getHero(): Hero {
-      return this.hero;
-  }
+        card.play(target);
+    }
 
-  getOpponent(): Player {
-      return this.opponent;
-  }
+    castUntargetedSpell(cardId: string) {
+        let card: CardSpell = this.hand.get(cardId) as CardSpell;
+        this.mana = this.mana - card.manaCost;
+        card.play();
+    }
 
-  getManaMax(): number {
-      return this.manaMax;
-  }
+    castTargetedSpecial(targetId: string, own: string) {
+        this.mana = this.mana - ConstantesService.HEROPOWERMANACOST;
+        let target: Entity = this.foundTarget(targetId, own);
+        this.hero.special(target);
+    }
 
-  getMana(): number {
-      return this.mana;
-  }
+    castUntargetedSpecial() {
+        this.mana = this.mana - ConstantesService.HEROPOWERMANACOST;
+        this.hero.special();
+    }
 
+    beginTurn() {
+        this.manaMax = Math.min(this.manaMax++, ConstantesService.MANAMAX); // Incrémentation de manaMax de 1
+        this.mana = this.manaMax;
+        //this.drawCard();
+    }
+
+    drawCard(): UUID {
+        let cardDrawn: Card = Array.from(this.deck)[Math.random() * this.deck.size];
+        let identif: string = ConstantesService.generateUUID();
+
+        let card = cardDrawn.clone();
+		card.setId(identif);
+		this.hand.set(identif, card);
+
+		return identif;
+    }
+
+
+    
+
+    setOpponent(p: Player): void {
+        this.opponent = p;
+    }
+
+
+
+    getName(): String {
+        return this.name;
+    }
+
+    getDeck(): Set<Card> {
+        return this.deck;
+    }
+
+    getHand(): Map<string, Card> {
+        return this.hand;
+    }
+
+    getBoard(): Map<string, CardMinion> {
+        return this.board;
+    }
+
+    getHero(): Hero {
+        return this.hero;
+    }
+
+    getOpponent(): Player {
+        return this.opponent;
+    }
+
+    getManaMax(): number {
+        return this.manaMax;
+    }
+
+    getMana(): number {
+        return this.mana;
+    }
+
+
+
+    foundTarget(targetId: string, own: String): Entity {
+        let target: Entity;
+
+        if(own == "true") { //Own indique si l'entité visée est du coté du joueur
+            if(targetId == "hero") {
+                target = this.hero;
+            } else {
+                target = this.hand.get(targetId) as CardMinion;
+            }
+        } else if(own == "false") {
+            if(targetId == "hero") {
+                target = this.opponent.hero;
+            } else {
+                target = this.opponent.hand.get(targetId) as CardMinion;
+            }
+        } else {
+            console.log("Own not defined");
+        }
+
+        return target;
+    }
 }
 
 export interface Entity {
-  isProvoking(): void;
-  isDead(): boolean;
+    boostHealth(quantity: number);
+    heal(quantity: number);
+    takeDamage(quantity: number);
+    getDamage(): number;
+    isProvoking(): void;
+    isDead(): boolean;
+
+    getOwner(): Player;
 }
 
 
@@ -226,40 +317,77 @@ export interface Entity {
 
 
 export abstract class Hero implements Entity {
-  health: number;
-  healthMax: number;
-  armor: number;
-  taunt: boolean;
+    health: number;
+    healthMax: number;
+    armor: number;
+    taunt: boolean;
 
-  name: String;
-  portrait: String;
-
-
-  constructor(name: String, portrait: String) {
-      this.health = ConstantesService.HEROMAXHEALTH;
-      console.log("VIEDUHERO : " + this.health);
-      this.healthMax = ConstantesService.HEROMAXHEALTH;
-      this.armor = 0;
-      this.taunt = false;
-
-      this.name = name;
-      this.portrait = portrait;
-  }
+    name: String;
+    portrait: String;
+    
+    owner: Player;
 
 
+    constructor(name: String, portrait: String, owner: Player) {
+        this.health = ConstantesService.HEROMAXHEALTH;
+        console.log("VIEDUHERO : " + this.health);
+        this.healthMax = ConstantesService.HEROMAXHEALTH;
+        this.armor = 0;
+        this.taunt = false;
+
+        this.name = name;
+        this.portrait = portrait;
+
+        this.owner = owner;
+    }
 
 
-  isProvoking(): boolean {
-      return this.taunt;
-  }
+    takeDamage(quantity: number): void {
+        this.armor = this.armor - quantity;
+        if(this.armor < 0) { //Si on a cassé toute l'armure
+            this.health += this.armor;
+            this.armor = 0;
+        }
+    }
 
-  isDead(): boolean {
-      return (this.health <= 0);
-  }
+    boostHealth(quantity: number) {
+        this.health = this.health + quantity;
+        this.healthMax = this.health + quantity;
+    }
 
-  normalMode() {}
+    boostArmor(quantity: number) {
+        this.armor = this.armor + quantity;
+    }
 
-  alternativMode() {}
+    heal(quantity: number) {
+        if(this.health + quantity > this.healthMax) {
+            this.health = this.healthMax;
+        } else {
+            this.health = this.health + quantity;
+        }
+    }
+
+    getDamage(): number {
+        return 0;
+    }
+
+    isProvoking(): boolean {
+        return this.taunt;
+    }
+
+    isDead(): boolean {
+        return (this.health <= 0);
+    }
+
+    getOwner(): Player {
+        return this.owner;
+    }
+
+    special(e?: Entity) {}
+
+    normalMode() {}
+
+    alternativMode() {}
 }
 
 
@@ -273,19 +401,21 @@ export abstract class Hero implements Entity {
 
 
 export abstract class Card {
-  id: number;
-  name: String;
-  manaCost: number;
+    id: UUID;
+    name: String;
+    manaCost: number;
+    owner: Player;
 
-  constructor(id: number, name: String, manaCost: number) {
+  constructor(id: UUID, name: String, manaCost: number, owner: Player) {
       this.id = id;
       this.name = name;
       this.manaCost = manaCost;
+      this.owner = owner;
   }
 
-  play(): void {}
+  play(e?: Entity): void {}
 
-  getId(): number {
+  getId(): UUID {
       return this.id;
   }
 
@@ -297,6 +427,18 @@ export abstract class Card {
   getManaCost(): number {
       return this.manaCost;
   }
+
+  clone(): any {
+    var cloneObj = new (<any>this.constructor());
+    for (var attribut in this) {
+        if (typeof this[attribut] === "object") {
+            cloneObj[attribut] = this.clone();
+        } else {
+            cloneObj[attribut] = this[attribut];
+        }
+    }
+    return cloneObj;
+}
 }
 
 
@@ -322,15 +464,16 @@ export class CardMinion extends Card implements Entity {
   ready: boolean;
   provocation: boolean; // We will often nedd these, so we made them variables instead of having to search capacities everytime
 
-  constructor(id: number,
+  constructor(id: UUID,
               name: String,
               mana: number,
               damage: number,
               health: number,
               capacities: Set<String>,
-              boosts: Map<String, number>) {
+              boosts: Map<String, number>,
+              owner: Player) {
 
-      super(id, name, mana);
+      super(id, name, mana, owner);
 
       this.damageBase = damage;
       this.damage = damage;
@@ -346,46 +489,78 @@ export class CardMinion extends Card implements Entity {
       this.provocation = capacities.has('provocation');
   }
 
+    attack(target: Entity): void {
+        this.takeDamage(target.getDamage());
+        target.takeDamage(this.getDamage());
+    }
 
-  getDamage(): number {
-      return this.damage;
-  }
+    takeDamage(quantity: number) {
+        this.health = this.health - quantity;
+    }
 
-  getDamageBase(): number {
-      return this.damageBase;
-  }
+    boostDamage(quantity: number) {
+        this.damage = this.damage + quantity;
+        this.damageBoosted = this.damageBoosted + quantity;
+    }
 
-  getDamageBoosted(): number {
-      return this.damageBoosted;
-  }
+    boostHealth(quantity: number) {
+        this.health = this.health + quantity;
+        this.healthMax = this.health + quantity;
+        this.healthBoosted = this.healthBoosted + quantity;
+    }
 
-  getHealth(): number {
-      return this.health;
-  }
+    heal(quantity: number) {
+        if(this.health + quantity > this.healthMax) {
+            this.health = this.healthMax;
+        } else {
+            this.health = this.health + quantity;
+        }
+    }
 
-  getHealthMax(): number {
-      return this.healthMax;
-  }
 
-  getHealthBoosted(): number {
-      return this.healthBoosted;
-  }
+    getDamage(): number {
+        return this.damage;
+    }
 
-  getCapacities(): Set<String> {
-      return this.capacities;
-  }
+    getDamageBase(): number {
+        return this.damageBase;
+    }
 
-  isReady(): boolean {
-      return this.ready;
-  }
+    getDamageBoosted(): number {
+        return this.damageBoosted;
+    }
 
-  isProvoking(): boolean {
-      return this.provocation;
-  }
+    getHealth(): number {
+        return this.health;
+    }
 
-  isDead(): boolean {
-      return (this.health <= 0);
-  }
+    getHealthMax(): number {
+        return this.healthMax;
+    }
+
+    getHealthBoosted(): number {
+        return this.healthBoosted;
+    }
+
+    getCapacities(): Set<String> {
+        return this.capacities;
+    }
+
+    isReady(): boolean {
+        return this.ready;
+    }
+
+    isProvoking(): boolean {
+        return this.provocation;
+    }
+
+    isDead(): boolean {
+        return (this.health <= 0);
+    }
+    
+    getOwner(): Player {
+        return this.owner;
+    }
 }
 
 
@@ -407,13 +582,31 @@ export class CardSpell extends Card {
               mana: number,
               singleEffects: Set<SingleTargetEffect>,
               multipleEffects: Set<MultipleTargetEffect>,
-              globalEffects: Set<GlobalEffect>) {
-      super(id, name, mana);
+              globalEffects: Set<GlobalEffect>,
+              owner: Player) {
+      super(id, name, mana, owner);
       this.singleEffects = singleEffects;
       this.multipleEffects = multipleEffects;
       this.globalEffects = globalEffects;
   }
 
+  play(e?: Entity) {
+        let player = this.owner;
+        let opponent = this.owner.opponent;
+
+        if(e != null) {
+            this.singleEffects.forEach( effect => {
+                effect.cast(e);
+            });
+        }
+        this.multipleEffects.forEach( effect => {
+            effect.cast(player.hero, player.board, opponent.hero, opponent.board);
+
+        });
+        this.globalEffects.forEach( effect => {
+            effect.cast(player.hero, player.deck, player.hand, player.board, opponent.hero, opponent.deck, opponent.hand, opponent.board);
+        });
+  }
 }
 
 
@@ -427,57 +620,72 @@ export class CardSpell extends Card {
 
 export class HeroMage extends Hero {
 
-  constructor() {
-    super("Jaina", "../../assets/images/portrait/Jaina_portrait.png");
-  }
+    constructor(owner: Player) {
+        super("Jaina", "../../assets/images/portrait/Jaina_portrait.png", owner);
+    }
 
-  normalMode(): void {
-      console.log('normal mage');
-      this.name = "Jaina";
-      this.portrait = "../../assets/images/portrait/Jaina_portrait.png";
-  }
-  alternativMode(): void {
-      console.log('pasmage')
-      this.name = "Pasmage";
-      this.portrait = "../../assets/images/portrait/Jaina_portrait_alternativ.png";
-  }
+    special(e: Entity) {
+        e.takeDamage(1);
+    }
+
+    normalMode(): void {
+        console.log('normal mage');
+        this.name = "Jaina";
+        this.portrait = "../../assets/images/portrait/Jaina_portrait.png";
+    }
+    alternativMode(): void {
+        console.log('pasmage')
+        this.name = "Pasmage";
+        this.portrait = "../../assets/images/portrait/Jaina_portrait_alternativ.png";
+    }
 }
+
 
 export class HeroPaladin extends Hero {
 
-  constructor() {
-    super("Uther", "../../assets/images/portrait/Uther_portrait.png");
-  }
+    constructor(owner: Player) {
+        super("Uther", "../../assets/images/portrait/Uther_portrait.png", owner);
+    }
 
-  normalMode(): void {
-      console.log("uther normal");
-    this.name = "Uther";
-    this.portrait = "../../assets/images/portrait/Uther_portrait.png";
-}
-alternativMode(): void {
-    console.log("uther slidesbringer");
-    this.name = "Uther Slidesbringer";
-    this.portrait = "../../assets/images/portrait/Uther_portrait_alternativ.png";
-}
+    special() {
+        let uuid = ConstantesService.generateUUID();
+        let minion: CardMinion = new CardMinion(uuid, "Silverhand Recruit", 1, 1, 1, new Set<String>(), new Map<String, number>(), this.owner);
+        this.owner.board.set(uuid, minion);
+    }
+
+    normalMode(): void {
+        console.log("uther normal");
+        this.name = "Uther";
+        this.portrait = "../../assets/images/portrait/Uther_portrait.png";
+    }
+    alternativMode(): void {
+        console.log("uther slidesbringer");
+        this.name = "Uther Slidesbringer";
+        this.portrait = "../../assets/images/portrait/Uther_portrait_alternativ.png";
+    }
 
 }
 
 export class HeroWarrior extends Hero {
 
-  constructor() {
-    super("Garrosh", "../../assets/images/portrait/Garrosh_portrait.png");
-  }
+    constructor(owner: Player) {
+        super("Garrosh", "../../assets/images/portrait/Garrosh_portrait.png", owner);
+    }
 
-  normalMode(): void {
-      console.log("garrosh normal");
-    this.name = "Garrosh";
-    this.portrait = "../../assets/images/portrait/Garrosh_portrait.png";
-}
-alternativMode(): void {
-    console.log("chantosh");
-    this.name = "Chantosh";
-    this.portrait = "../../assets/images/portrait/Garrosh_portrait_alternativ.png";
-}
+    special() {
+        this.boostArmor(2);
+    }
+
+    normalMode(): void {
+        console.log("garrosh normal");
+        this.name = "Garrosh";
+        this.portrait = "../../assets/images/portrait/Garrosh_portrait.png";
+    }
+    alternativMode(): void {
+        console.log("chantosh");
+        this.name = "Chantosh";
+        this.portrait = "../../assets/images/portrait/Garrosh_portrait_alternativ.png";
+    }
 
 }
 

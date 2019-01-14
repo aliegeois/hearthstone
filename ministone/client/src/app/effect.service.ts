@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { CardSpell, CardMinion, Entity } from './app.component';
+import { CardSpell, CardMinion, Entity, Card, Hero } from './app.component';
 
 @Injectable({
   providedIn: 'root'
 })
 
 
+/* On ne peut pas avoir de référence vers Player à cause des dépendences circulaires non supportées, l'on doit donc mettre énormement de paramètres pour chaque cast() */
 export abstract class EffectService {
 
     constructor() { }
@@ -20,6 +21,7 @@ export abstract class GlobalEffect extends EffectService {
         super();
      }
 
+     cast(player: Hero, playerDeck: Set<Card>, playerHand: Map<string, Card>, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentDeck: Set<Card>, opponentHand: Map<string, Card>, opponentBoard: Map<string, Card>) {}
 }
 
 export abstract class MultipleTargetEffect extends EffectService {
@@ -51,6 +53,8 @@ export abstract class MultipleTargetEffect extends EffectService {
     getOpponentHero(): boolean {
         return this.opponentHero;
     }
+
+    cast(player: Hero, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentBoard: Map<string, CardMinion>) {}
 }
 
 export abstract class SingleTargetEffect extends EffectService {
@@ -59,6 +63,7 @@ export abstract class SingleTargetEffect extends EffectService {
         super();
     }
 
+    cast(e: Entity) {}
 }
 
 export class MultiTargetBuff extends MultipleTargetEffect {
@@ -71,6 +76,29 @@ export class MultiTargetBuff extends MultipleTargetEffect {
         this.attack = attack;
     }
 
+    cast(player: Hero, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentBoard: Map<string, CardMinion>) {
+        if(this.ownHero) {
+            player.boostHealth(this.life);
+        }
+        if(this.opponentHero) {
+            opponent.boostHealth(this.life);
+        }
+
+        if(this.ownBoard) {
+            playerBoard.forEach( card => {
+                card.boostHealth(this.life);
+                card.boostDamage(this.attack);
+            });
+        }
+
+        if(this.opponentBoard) {
+            opponentBoard.forEach( card => {
+                card.boostHealth(this.life);
+                card.boostDamage(this.attack);
+            });
+        }
+        
+    }
 }
 
 
@@ -82,6 +110,27 @@ export class MultiTargetDamage extends MultipleTargetEffect {
         this.quantity = quantity;
     }
 
+    cast(player: Hero, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentBoard: Map<string, CardMinion>) {
+        if(this.ownHero) {
+            player.takeDamage(this.quantity);
+        }
+        if(this.opponentHero) {
+            opponent.takeDamage(this.quantity);
+        }
+
+        if(this.ownBoard) {
+            playerBoard.forEach( card => {
+                card.takeDamage(this.quantity);
+            });
+        }
+
+        if(this.opponentBoard) {
+            opponentBoard.forEach( card => {
+                card.takeDamage(this.quantity);
+            });
+        }
+        
+    }  
 }
 
 export class MultiTargetHeal extends MultipleTargetEffect {
@@ -92,6 +141,27 @@ export class MultiTargetHeal extends MultipleTargetEffect {
         this.amount = amount;
     }
 
+    cast(player: Hero, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentBoard: Map<string, CardMinion>) {
+        if(this.ownHero) {
+            player.heal(this.amount);
+        }
+        if(this.opponentHero) {
+            opponent.heal(this.amount);
+        }
+
+        if(this.ownBoard) {
+            playerBoard.forEach( card => {
+                card.heal(this.amount);
+            });
+        }
+
+        if(this.opponentBoard) {
+            opponentBoard.forEach( card => {
+                card.heal(this.amount);
+            });
+        }
+        
+    }  
 }
 
 
@@ -103,6 +173,9 @@ export class SingleTargetDamageBuff extends SingleTargetEffect {
         this.attack = attack;
     }
 
+    cast(e: CardMinion) {
+        e.boostDamage(this.attack);
+    }
 }
 
 export class SingleTargetLifeBuff extends SingleTargetEffect {
@@ -113,6 +186,9 @@ export class SingleTargetLifeBuff extends SingleTargetEffect {
         this.life = life;
     }
 
+    cast(e: Entity) {
+        e.boostHealth(this.life);
+    }
 }
 
 
@@ -124,6 +200,9 @@ export class SingleTargetDamage extends SingleTargetEffect {
         this.damage = damage;
     }
 
+    cast(e: Entity) {
+        e.takeDamage(this.damage);
+    }
 }
 
 export class SingleTargetHeal extends SingleTargetEffect {
@@ -134,6 +213,9 @@ export class SingleTargetHeal extends SingleTargetEffect {
         this.amount = amount;
     }
 
+    cast(e: Entity) {
+        e.heal(this.amount);
+    }
 }
 
 
@@ -145,14 +227,24 @@ export class Transform extends SingleTargetEffect {
         this.into = into;
     }
 
+    cast(e: Entity) {
+        e = this.into;
+    }
+
 }
 
-export class DrawRandom extends EffectService {
+export class DrawRandom extends GlobalEffect {
     cardNumber: number;
 
     constructor(cardNumber: number) {
         super();
         this.cardNumber = cardNumber;
+    }
+
+    cast(player: Hero, playerDeck: Set<Card>, playerHand: Map<string, Card>, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentDeck: Set<Card>, opponentHand: Map<string, Card>, opponentBoard: Map<string, Card>) {
+        for(let i = 0 ; i <= this.cardNumber ; i++) {
+            // TODO : appeler la méthode AppComponent.stomp.client.send pour piocher une carte
+        }
     }
 
 }
