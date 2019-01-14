@@ -26,6 +26,7 @@ public class Game implements IGame {
 		player1.setOpponent(player2);
 		this.players.put(user1.getName(), player1);
 		this.players.put(user2.getName(), player2);
+		start();
 	}
 
 	public Game(String id, SimpMessagingTemplate template, User user1, User user2) {
@@ -36,6 +37,7 @@ public class Game implements IGame {
 		player1.setOpponent(player2);
 		this.players.put(user1.getName(), player1);
 		this.players.put(user2.getName(), player2);
+		start();
 	}
 
 
@@ -105,14 +107,14 @@ public class Game implements IGame {
 	}
 
 
-	// TODO : receive coté client
+	/*// TODO : receive coté client
 	@Override
 	public void sendIsStarting(String playerName) {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", playerName);
 		// Vérifier que les reçeveurs côté client on la même URL
 		template.convertAndSend("/topic/game/" + id + "/isStarting", JSONeur.toJSON(send));
-	}
+	}*/
 
 	/*
 	@Override
@@ -218,8 +220,6 @@ public class Game implements IGame {
 		}
 		playing.getOpponent().drawCard(true);
 		playing.nextTurn();
-		//sendNextTurn(playing.getName());
-		//sendIsStarting(playing.getName());
 	}
 
 	@Override
