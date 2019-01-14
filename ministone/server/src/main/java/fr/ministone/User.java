@@ -2,23 +2,28 @@ package fr.ministone;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 @Entity
 public class User {
 	// Nom de l'utilisateur (unique)
 	@Id
 	private String name;
-	// ignore
+	
+	@Transient
 	private String sessionId;
 	// Nombre de victoires et de défaites
 	private int nbWins, nbLoses;
 	// Niveau (novice, regular, expert)
 	private String level;
 	// Type de héro (paladin, mage, warrior)
+	@Transient
 	private String heroType;
 	
+	@Transient
 	private String temporaryGameId;
 
+	@Transient
 	private User opponent;
 
 	public User(String name, String sessionId) {
