@@ -99,7 +99,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 			mana -= manaCost;
 			board.put(minionId, minion);
 			hand.remove(minionId);
-			sendSummonMinion(minionId);;
+			sendSummonMinion(minionId);
 		} else {
 			// Si on a le temps: faire un message de type "notEnoughMana" et l'envoyer
 		}
@@ -107,11 +107,15 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	
 	@Override
 	public void attack(String cardId, String targetId) { // Plus de vérifications (genre opponent card existe ou pas) ??
-		CardMinion minion = (CardMinion)hand.get(cardId);
+		CardMinion minion = (CardMinion)board.get(cardId);
 		if(targetId.equals("hero")) {
 			minion.attack(opponent.getHero());
 		} else {
-			minion.attack(opponent.getBoard().get(targetId));
+			IPlayer opp = opponent;
+			Map<String, CardMinion> oppBoard = opp.getBoard();
+			CardMinion tar = oppBoard.get(targetId);
+			minion.attack(tar);
+			//minion.attack(getOpponent().getBoard().get(targetId));
 		}
 		checkDead();
 		sendAttack(cardId, targetId); // J'ai un doute sur l'ordre mdr
@@ -237,7 +241,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 			}
 		}
 
-		if(getOpponent().getHero().getHealth() <= 0) {
+		if(opponent.getHero().getHealth() <= 0) {
 			// TODO: WIN
 		}
 	}
@@ -297,7 +301,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	@Override
 	public void sendNextTurn(String cardName, String cardId, String cardType) {
 		Map<String,String> send = new HashMap<>();
-		send.put("playerName", getOpponent().getName());
+		send.put("playerName", opponent.getName());
 		send.put("cardName", cardName);
 		send.put("cardId", cardId);
 		template.convertAndSend("/topic/game/" + gameId + "/nextTurn", JSONeur.toJSON(send));

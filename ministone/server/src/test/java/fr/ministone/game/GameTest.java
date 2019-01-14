@@ -14,7 +14,7 @@ import fr.ministone.game.*;
 import fr.ministone.game.card.*;
 import fr.ministone.game.hero.*;
 
-public class GameTest{
+public class GameTest {
 
     private IGame game1, game2;
     private PlayerMock player1, player2;
@@ -25,7 +25,7 @@ public class GameTest{
 
 
     @BeforeEach
-    public void Init(){
+    public void init() {
 
         player1 = new PlayerMock("Billy","E", "warrior");
         player2 = new PlayerMock("Bob", "F", "paladin");
