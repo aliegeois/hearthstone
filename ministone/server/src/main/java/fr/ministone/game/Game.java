@@ -83,7 +83,7 @@ public class Game implements IGame {
 	public void receiveEndTurn(String playerName) {
 		if(playerName.equals(playing.getName())) {
 			IPlayer opponent = playing.getOpponent();
-			sendEndTurn(playing.getName());
+			//sendEndTurn(playing.getName());
 			opponent.nextTurn();
 			sendNextTurn(opponent.getName());
 			playing = opponent;
@@ -168,12 +168,12 @@ public class Game implements IGame {
 		template.convertAndSend("/topic/game/" + id + "/untargetedSpecial", JSONeur.toJSON(send));
 	}
 
-	@Override
+	/*@Override
 	public void sendEndTurn(String playerName) {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", playerName);
 		template.convertAndSend("/topic/game/" + id + "/endTurn", JSONeur.toJSON(send));
-	}
+	}*/
 
 	@Override
 	public void sendNextTurn(String playerName) {
@@ -190,34 +190,21 @@ public class Game implements IGame {
 	}
 
 	@Override
-    public void sendDrawCard(String playerName, String cardName) {
+    public void sendDrawCard(String playerName, String cardName, String uuid) {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", playerName);
 		send.put("cardName", cardName);
+		send.put("uuid", uuid);
 		template.convertAndSend("/topic/game/" + id + "/drawCard", JSONeur.toJSON(send));
 	}
 
 	@Override
-    public void sendOpponentDrawCard(String playerName, String cardName) {
+    public void sendVictory(String playerName) {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", playerName);
-		send.put("cardName", cardName);
-		template.convertAndSend("/topic/game/" + id + "/opponentDrawCard", JSONeur.toJSON(send));
+		template.convertAndSend("/topic/game/" + id + "/victory", JSONeur.toJSON(send));
 	}
 
-	@Override
-    public void sendWin(String playerName) {
-		Map<String,String> send = new HashMap<>();
-		send.put("playerName", playerName);
-		template.convertAndSend("/topic/game/" + id + "/win", JSONeur.toJSON(send));
-	}
-
-	@Override
-    public void sendLose(String playerName) {
-		Map<String,String> send = new HashMap<>();
-		send.put("playerName", playerName);
-		template.convertAndSend("/topic/game/" + id + "/lose", JSONeur.toJSON(send));
-	}
 
 
 

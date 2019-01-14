@@ -19,12 +19,12 @@ export class GameComponent implements OnInit {
 
   secretMode: boolean; // False : normal heroes ; True : alternativ heroes (Pascal, Sunye, Chantal)
   gameId: string;
-  errorLog: string;
+  infoLog: string;
 
   constructor() {
     this.secretMode = false;
     this.gameId = AppComponent.gameId;
-    this.errorLog = "";
+    this.infoLog = "";
 
     this.init();
 
@@ -123,9 +123,9 @@ export class GameComponent implements OnInit {
       let concernedPlayer : Player = this.getPlayer(msg.playerName);
 
       if(concernedPlayer == this.joueur) {
-        this.errorLog = "Votre tour est terminé";
+        this.infoLog = "Votre tour est terminé";
       } else {
-        this.errorLog = "Le tour adverse est terminé";
+        this.infoLog = "Le tour adverse est terminé";
       }
       
       AppComponent.stompClient.send(`/game/${this.gameId}/endTurn`, {}, JSON.stringify({playerName: concernedPlayer.name}));
@@ -147,19 +147,17 @@ export class GameComponent implements OnInit {
     });
 
     // On reçoit la victoire d'un joueur
-    AppComponent.stompClient.subscribe(`/topic/game/${this.gameId}/win`, data => {
+    AppComponent.stompClient.subscribe(`/topic/game/${this.gameId}/victory`, data => {
       console.log(`event: win, data: ${data.body}`);
       let msg = JSON.parse(data.body);
 
       let concernedPlayer : Player = this.getPlayer(msg.playerName);
 
       if(concernedPlayer == this.joueur) {
-        this.errorLog = "Vous avez gagné !";
+        this.infoLog = "Vous avez gagné !";
       } else {
-        this.errorLog = "Vous avez perdu :/";
+        this.infoLog = "Vous avez perdu :/";
       }
-      
-      AppComponent.stompClient.send(`/game/${this.gameId}/endTurn`, {}, JSON.stringify({playerName: concernedPlayer.name}));
     });
 
   }

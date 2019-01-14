@@ -27,13 +27,11 @@ public interface IGameMessageSender {
     public void sendHeroTargetedSpecial(String playerName, boolean own, String targetId);
     public void sendHeroUntargetedSpecial(String playerName);
 
-    public void sendEndTurn(String playerName);
+    //public void sendEndTurn(String playerName);
     public void sendNextTurn(String playerName);
     public void sendTimeout(String playerName);
 
-    public void sendDrawCard(String playerName, String cardName);
-    public void sendOpponentDrawCard(String playerName, String cardName);
+    public void sendDrawCard(String playerName, String cardName, String uuid);
 
-    public void sendWin(String playerName);
-    public void sendLose(String playerName);
+    public void sendVictory(String playerName);
 }
