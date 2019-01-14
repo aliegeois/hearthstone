@@ -302,6 +302,7 @@ export interface Entity {
     isProvoking(): void;
     isDead(): boolean;
     getOwner(): Player;
+    isTargetable(): boolean; // Usefull for the html, do not delete
 }
 
 
@@ -328,6 +329,7 @@ export abstract class Hero implements Entity {
     
     owner: Player;
 
+    targetable: boolean; // For html
 
     constructor(name: String, portrait: String, owner: Player) {
         this.health = ConstantesService.HEROMAXHEALTH;
@@ -340,6 +342,8 @@ export abstract class Hero implements Entity {
         this.portrait = portrait;
 
         this.owner = owner;
+
+        this.targetable = true;
     }
 
 
@@ -382,6 +386,10 @@ export abstract class Hero implements Entity {
 
     getOwner(): Player {
         return this.owner;
+    }
+
+    isTargetable() {
+        return this.targetable;
     }
 
     special(e?: Entity) {}
@@ -456,6 +464,8 @@ export class CardMinion extends Card implements Entity {
   ready: boolean;
   provocation: boolean; // We will often nedd these, so we made them variables instead of having to search capacities everytime
 
+  targetable: boolean; // For html
+
   constructor(id: UUID,
               name: String,
               mana: number,
@@ -479,6 +489,8 @@ export class CardMinion extends Card implements Entity {
       this.boosts = boosts;
       this.ready = capacities.has('charge');
       this.provocation = capacities.has('provocation');
+
+      this.targetable = true;
   }
 
     attack(target: Entity): void {
@@ -554,7 +566,10 @@ export class CardMinion extends Card implements Entity {
         return this.owner;
     }
 
-
+    isTargetable(): boolean {
+        return this.targetable;
+    }
+    
     clone(): CardMinion {
         let card: CardMinion = new CardMinion(this.id, this.name, this.manaCost, this.damage, this.health, this.capacities, this.boosts, this.owner);
         return card;
