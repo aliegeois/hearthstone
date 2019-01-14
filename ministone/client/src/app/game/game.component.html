@@ -57,8 +57,9 @@
 			</ul>
 		</div>
 
-		<button id="endTurn_button" (click)="endTurn()" disabled="{{ buttonEndTurnDisabled }}">
-			END TURN
+		<button id="endTurn_button" (click)="endTurn()" disabled="{{ joueur != playing }}">
+			<span *ngIf="{{ joueur == playing }}">END TURN</span>
+			<span *ngIf="{{ joueur != playing }}">OPPONENT TURN</span>
 		</button>
 
 
