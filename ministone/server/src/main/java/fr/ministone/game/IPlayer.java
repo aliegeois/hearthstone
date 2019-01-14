@@ -6,7 +6,7 @@ import java.util.Set;
 import fr.ministone.game.card.*;
 import fr.ministone.game.hero.Hero;
 
-public interface IPlayer extends IPlayerMessageSender {
+public interface IPlayer {
     public void setOpponent(IPlayer p);
 
     public void summonMinion(String minionId);

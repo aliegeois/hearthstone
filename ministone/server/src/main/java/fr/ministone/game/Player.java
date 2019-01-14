@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.core.AbstractMessageSendingTemplate;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import fr.ministone.repository.*;
@@ -15,27 +17,29 @@ import fr.ministone.game.hero.*;
 import fr.ministone.JSONeur;
 import fr.ministone.game.card.*;
 
-public class Player implements IPlayer {
-	private String name;
-	private String sessionId;
-	private String gameId;
+public class Player implements IPlayer, IPlayerMessageSender {
+	protected String name;
+	protected String sessionId;
+	protected String gameId;
 
-	private SimpMessagingTemplate template;
+	@Autowired
+	protected AbstractMessageSendingTemplate<String> template;
 
-	private Set<Card> deck = new HashSet<>();
-	private Map<String, Card> hand = new HashMap<>();
-	private Map<String, CardMinion> board = new HashMap<>();
+	protected Set<Card> deck = new HashSet<>();
+	protected Map<String, Card> hand = new HashMap<>();
+	protected Map<String, CardMinion> board = new HashMap<>();
 	
-	private int manaMax = 0;
-	private int mana = 0;
+	protected int manaMax = 0;
+	protected int mana = 0;
 	
-	private Hero hero;
-	private IPlayer opponent;
+	protected Hero hero;
+	protected IPlayer opponent;
 	
-	public Player(String name, String sessionId, String gameId, String heroType, CardMinionRepository cardMinionRepository, CardSpellRepository cardSpellRepository) {
+	public Player(String name, String sessionId, String gameId, String heroType, SimpMessagingTemplate template, CardMinionRepository cardMinionRepository, CardSpellRepository cardSpellRepository) {
 		this.name = name;
 		this.sessionId = sessionId;
 		this.gameId = gameId;
+		this.template = template;
 		
 		for(Iterator<CardMinion> i = cardMinionRepository.findAllByDeck("shared").iterator(); i.hasNext();)
 			this.deck.add(i.next());
@@ -115,14 +119,14 @@ public class Player implements IPlayer {
 	
 	@Override
 	public Card drawCard(boolean send) {
-		Card cardDrawn = (Card)deck.toArray()[(int)(Math.random() * deck.size())];
+		Card card = (Card)deck.toArray()[(int)(Math.random() * deck.size())];
 		String cId = UUID.randomUUID().toString();
 
-		Card carte = cardDrawn.copy();
-		carte.setId(cId);
-		hand.put(cId, carte);
+		Card cardDrawn = card.copy();
+		cardDrawn.setId(cId);
+		hand.put(cId, cardDrawn);
 		if(send)
-			sendDrawCard(carte.getName(), cId, carte instanceof CardMinion ? "minion" : "spell");
+			sendDrawCard(cardDrawn.getName(), cId, cardDrawn instanceof CardMinion ? "minion" : "spell");
 
 		return cardDrawn;
 	}

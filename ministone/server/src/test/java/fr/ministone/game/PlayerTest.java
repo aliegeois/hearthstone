@@ -16,22 +16,31 @@ import fr.ministone.game.Constants;
 import fr.ministone.game.IPlayer;
 import fr.ministone.game.effect.*;
 
-public class PlayerTest{
+public class PlayerTest {
 
-    private IPlayer player1 = new Player("Billy","E", "warrior");
+    private IPlayer player1 = new Player("Billy", "E", "warrior");
     private IPlayer player2 = new Player("Bob", "F", "mage");
+    private IPlayer player3;
+    private IPlayer player4;
     private Set<String> cap1 = new HashSet<String>();
     private Set<String> cap2 = new HashSet<String>();
     
-    private CardMinion carte1, carte2;
+    private CardMinion carte1, carte2, carte4;
     private CardSpell carte3;
 
 
     @BeforeEach
-    public void Init(){
+    public void init() {
+        player3 = new MPlayer("paladin");
+        player4 = new MPlayer("mage");
+        player3.setOpponent(player4);
+
+        carte4 = new CardMinion("4", "paladin", player3, "Carte 4", 1, 1, 1, new HashSet<String>(), new HashMap<String, Integer>());
+        player3.getDeck().add(carte4);
+
 
         player1.setOpponent(player2);
-        this.cap1.add("ready");
+        this.cap1.add("charge");
         this.cap2.add("provocation");
         this.carte1 = new CardMinion("1", "shared", player1, "carte1", 1, 1, 10, cap1, new HashMap<String,Integer>());
         this.carte2 = new CardMinion("2", "shared", player2, "carte2", 1, 1, 10, cap2, new HashMap<String,Integer>());
@@ -47,11 +56,11 @@ public class PlayerTest{
 
     @Test 
     public void testInit() {
-        assertFalse(player1.getHero() == null);
-        assertFalse(player2.getHero() == null);
+        assertNotEquals(null, player1.getHero());
+        assertNotEquals(null, player2.getHero());
     }
     @Test
-    public void testDrawCard(){
+    public void testDrawCard() {
         assertEquals(0, player1.getHand().size());
         player1.drawCard(false);
         assertEquals(1, player1.getHand().size());
@@ -59,17 +68,26 @@ public class PlayerTest{
 
     @Test
     public void testPlayMinion() {
-        Card card = player1.drawCard(false);
+        /*player1.nextTurn();
+        Card cardDrawn = player1.drawCard(false);
         assertEquals(1, player1.getHand().size());
         assertEquals(1, player1.getBoard().size());
 
-        player1.summonMinion(card.getId());
+        player1.summonMinion(cardDrawn.getId());
         assertEquals(0, player1.getHand().size());
-        assertEquals(2, player1.getBoard().size());
+        assertEquals(2, player1.getBoard().size());*/
+
+        Card cardDrawn = player3.drawCard(false);
+        assertEquals(1, player3.getHand().size());
+        assertEquals(0, player3.getBoard().size());
+
+        player3.summonMinion(cardDrawn.getId());
+        assertEquals(0, player3.getHand().size());
+        assertEquals(1, player3.getBoard().size());
     }
 
     @Test
-    public void testPlaySpell(){
+    public void testPlaySpell() {
         assertEquals(0, player1.getHand().size());
         player1.getHand().put(carte3.getId(), carte3);
         assertEquals(1, player1.getHand().size());
@@ -80,7 +98,7 @@ public class PlayerTest{
     }
 
     @Test
-    public void testHeroSpecial(){
+    public void testHeroSpecial() {
         assertEquals(0, player1.getHero().getArmor());
         player1.heroSpecial();
         assertEquals(2, player1.getHero().getArmor());
@@ -91,7 +109,7 @@ public class PlayerTest{
     }
 
     @Test
-    public void testSetOpponent(){
+    public void testSetOpponent() {
         player1.setOpponent(player2);
 
         assertEquals(player2, player1.getOpponent());
@@ -99,7 +117,7 @@ public class PlayerTest{
     }
 
     @Test 
-    public void testAttackMinion(){
+    public void testAttackMinion() {
         assertEquals(10, carte1.getHealth());
         assertEquals(10, carte2.getHealth());
         player1.attack(carte1.getId(), carte2.getId());
@@ -109,7 +127,7 @@ public class PlayerTest{
     }
 
     @Test
-    public void testAttackHero(){
+    public void testAttackHero() {
         assertEquals(Constants.HEROHEALTHMAX, player2.getHero().getHealth());
 
         player1.attack(carte1.getId(), "hero");

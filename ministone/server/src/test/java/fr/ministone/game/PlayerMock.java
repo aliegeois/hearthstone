@@ -13,7 +13,7 @@ import fr.ministone.game.IPlayer;
 import fr.ministone.game.card.*;
 import fr.ministone.game.hero.*;
 
-public class PlayerMock implements IPlayer{
+public class PlayerMock implements IPlayer {
 
     private String name;
 	private Set<Card> deck = new HashSet<>();
@@ -28,7 +28,7 @@ public class PlayerMock implements IPlayer{
 	private Hero hero;
     private IPlayer opponent;
     
-    public PlayerMock(String name, String sessionId, String heroType){
+    public PlayerMock(String name, String sessionId, String heroType) {
 		this.name = name;
 		this.sessionId = sessionId;
 		if("warrior".equals(heroType)) {
@@ -203,55 +203,5 @@ public class PlayerMock implements IPlayer{
 		me.put("opponent", opponent.getName());
 
 		return JSONeur.toJSON(me);
-	}
-
-	@Override
-	public void sendSummonMinion(String minionId) {
-
-	}
-
-	@Override
-	public void sendAttack(String cardId, String targetId) {
-
-	}
-
-	@Override
-	public void sendCastTargetedSpell(boolean own, String spellId, String targetId) {
-
-	}
-
-	@Override
-	public void sendCastUntargetedSpell(String spellId) {
-
-	}
-
-	@Override
-	public void sendHeroTargetedSpecial(boolean own, String targetId) {
-
-	}
-
-	@Override
-	public void sendHeroUntargetedSpecial() {
-
-	}
-
-	@Override
-	public void sendNextTurn(String cardName, String cardId, String cardType) {
-
-	}
-
-	@Override
-	public void sendTimeout() {
-
-	}
-
-	@Override
-	public void sendDrawCard(String cardName, String cardId, String cardType) {
-
-	}
-
-	@Override
-	public void sendVictory() {
-
 	}
 }

@@ -56,8 +56,8 @@ public class CardMinion extends Card implements IEntity {
 		this.taunt = capacities.contains("provocation");
 		this.lifesteal = capacities.contains("lifesteal");
 		
-		this.boostHealth = boosts.get("health");
-		this.boostDamage = boosts.get("damage");
+		this.boostHealth = boosts.containsKey("health") ? boosts.get("health") : 0;
+		this.boostDamage = boosts.containsKey("damage") ? boosts.get("damage") : 0;
 
 		this.ready = this.charge;
 	}
