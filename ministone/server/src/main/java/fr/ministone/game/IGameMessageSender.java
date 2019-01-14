@@ -31,7 +31,7 @@ public interface IGameMessageSender {
     public void sendNextTurn(String playerName);
     public void sendTimeout(String playerName);
 
-    public void sendDrawCard(String playerName, String cardName, String uuid);
+    public void sendDrawCard(String playerName, String cardName, String cardId, String cardType);
 
     public void sendVictory(String playerName);
 }
