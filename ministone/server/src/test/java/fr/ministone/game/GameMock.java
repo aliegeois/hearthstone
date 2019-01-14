@@ -7,10 +7,10 @@ import fr.ministone.game.IPlayer;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GameMock implements IGame{
+public class GameMock implements IGame {
 	private Map<String, IPlayer> players = new HashMap<>();
 	private IPlayer playing;
-	private int turn;
+	//private int turn;
 	
 	public GameMock(User user1, User user2){
 		IPlayer player1 = new PlayerMock(user1.getName(), "E", "warrior");
@@ -18,7 +18,7 @@ public class GameMock implements IGame{
 		player1.setOpponent(player2);
 		this.players.put(user1.getName(), player1);
 		this.players.put(user2.getName(), player2);
-		this.turn = 0;
+		//this.turn = 0;
 	}
     
     @Override
@@ -78,7 +78,7 @@ public class GameMock implements IGame{
 		
 	}
 	
-	@Override
+	/*@Override
 	public void sendSetHero(String playerName, String heroType) {
 	
 	}
@@ -86,7 +86,7 @@ public class GameMock implements IGame{
 	@Override
     public void sendSetOpponentHero(String playerName, String heroType) {
 		
-	}
+	}*/
 
 	@Override
 	public void sendIsStarting(String playerName) {
