@@ -57,9 +57,9 @@
 			</ul>
 		</div>
 
-		<div id="endTurn_button" (click)="endTurn()">
+		<button id="endTurn_button" (click)="endTurn()" disabled="{{ buttonEndTurnDisabled }}">
 			END TURN
-		</div>
+		</button>
 
 
 
@@ -80,6 +80,6 @@
 
 
 
-		<div id="secret_mode" [class.inlined]="secretMode == true" (click)="enter_secretMode()">Enter secret mode</div>
+		<button id="secret_mode" [class.inlined]="secretMode == true" (click)="enter_secretMode()">Enter secret mode</button>
 	</body>
 </html>

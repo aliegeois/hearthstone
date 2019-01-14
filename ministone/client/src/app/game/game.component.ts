@@ -21,13 +21,17 @@ export class GameComponent implements OnInit {
   gameId: string;
   infoLog: string;
 
+  buttonEndTurnDisabled: boolean;
+
   constructor() {
     this.secretMode = false;
     this.gameId = AppComponent.gameId;
     this.infoLog = "";
+    
 
     this.init();
 
+    this.playing = this.getPlayer(AppComponent.playing);
     AppComponent.addListener(this);
   }
 
