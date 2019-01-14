@@ -27,9 +27,7 @@ import java.util.HashMap;
 @Controller
 @CrossOrigin(origins = "http://localhost:4200")
 public class LobbyController {
-
 	private class TemporaryGame {
-
 		private Map<String, User> users = new HashMap<>();
 		private Map<String, Boolean> accept = new HashMap<>();
 
@@ -62,7 +60,9 @@ public class LobbyController {
 		}
 	}
 
+	@Autowired
 	private SimpMessagingTemplate template;
+	@Autowired
 	private GameController gameController;
 
 	// <userName, user>

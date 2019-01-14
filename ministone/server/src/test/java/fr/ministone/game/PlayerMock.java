@@ -178,6 +178,15 @@ public class PlayerMock implements IPlayer {
 	}
 
 	@Override
+	public boolean looseMana(int quantity) {
+		if(mana >= quantity) {
+			mana -= quantity;
+			return true;
+		}
+		return false;
+	}
+
+	@Override
 	public void checkDead() {
 		Iterator<Map.Entry<String,CardMinion>> i = this.board.entrySet().iterator();
 
@@ -203,5 +212,15 @@ public class PlayerMock implements IPlayer {
 		me.put("opponent", opponent.getName());
 
 		return JSONeur.toJSON(me);
+	}
+
+	@Override
+	public Card drawCard(Card card, boolean send) {
+		return null;
+	}
+
+	@Override
+	public void summonMinion(CardMinion minion) {
+
 	}
 }

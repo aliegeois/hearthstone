@@ -1,10 +1,11 @@
 package fr.ministone.game;
 
 public class MPlayer extends Player {
-    public MPlayer(String heroType) {
+    public MPlayer(String heroType, int mana) {
         super("", "", heroType);
-        this.manaMax = 10;
-        this.mana = 10;
+
+        this.manaMax = mana;
+        this.mana = mana;
         this.template = new MSimpMessagingTemplate();
     }
 }

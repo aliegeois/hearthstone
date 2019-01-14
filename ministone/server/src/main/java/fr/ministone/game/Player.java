@@ -35,7 +35,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	protected Hero hero;
 	protected IPlayer opponent;
 	
-	public Player(String name, String sessionId, String gameId, String heroType, SimpMessagingTemplate template, CardMinionRepository cardMinionRepository, CardSpellRepository cardSpellRepository) {
+	public Player(String name, String sessionId, String gameId, String heroType, AbstractMessageSendingTemplate<String> template, CardMinionRepository cardMinionRepository, CardSpellRepository cardSpellRepository) {
 		this.name = name;
 		this.sessionId = sessionId;
 		this.gameId = gameId;
@@ -93,13 +93,16 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	@Override
 	public void summonMinion(String minionId) {
 		CardMinion minion = (CardMinion)hand.get(minionId);
-		int manaCost = minion.getManaCost();
-		if(mana >= manaCost) {
+		summonMinion(minion);
+	}
+
+	@Override
+	public void summonMinion(CardMinion minion) {
+		if(looseMana(minion.getManaCost())) {
 			minion.play();
-			mana -= manaCost;
-			board.put(minionId, minion);
-			hand.remove(minionId);
-			sendSummonMinion(minionId);;
+			board.put(minion.getId(), minion);
+			hand.remove(minion.getId());
+			sendSummonMinion(minion.getId());
 		} else {
 			// Si on a le temps: faire un message de type "notEnoughMana" et l'envoyer
 		}
@@ -107,11 +110,15 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	
 	@Override
 	public void attack(String cardId, String targetId) { // Plus de vérifications (genre opponent card existe ou pas) ??
-		CardMinion minion = (CardMinion)hand.get(cardId);
+		CardMinion minion = (CardMinion)board.get(cardId);
 		if(targetId.equals("hero")) {
 			minion.attack(opponent.getHero());
 		} else {
-			minion.attack(opponent.getBoard().get(targetId));
+			IPlayer opp = opponent;
+			Map<String, CardMinion> oppBoard = opp.getBoard();
+			CardMinion tar = oppBoard.get(targetId);
+			minion.attack(tar);
+			//minion.attack(getOpponent().getBoard().get(targetId));
 		}
 		checkDead();
 		sendAttack(cardId, targetId); // J'ai un doute sur l'ordre mdr
@@ -120,19 +127,25 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	@Override
 	public Card drawCard(boolean send) {
 		Card card = (Card)deck.toArray()[(int)(Math.random() * deck.size())];
+		
+		return drawCard(card, send);
+	}
+
+	@Override
+	public Card drawCard(Card card, boolean send) {
+		Card cardDrawn = card.copy();
 		String cId = UUID.randomUUID().toString();
 
-		Card cardDrawn = card.copy();
 		cardDrawn.setId(cId);
 		hand.put(cId, cardDrawn);
 		if(send)
 			sendDrawCard(cardDrawn.getName(), cId, cardDrawn instanceof CardMinion ? "minion" : "spell");
-
+		
 		return cardDrawn;
 	}
 
 	@Override
-	public void castSpell(boolean own, String spellId, String targetId) { // À terminer
+	public void castSpell(boolean own, String spellId, String targetId) { // À terminer (je crois ?)
 		CardSpell spell = (CardSpell)hand.get(spellId);
 		IEntity victim;
 		if("hero".equals(targetId)) {
@@ -228,6 +241,15 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	}
 
 	@Override
+	public boolean looseMana(int quantity) {
+		if(mana >= quantity) {
+			mana -= quantity;
+			return true;
+		}
+		return false;
+	}
+
+	@Override
 	public void checkDead() {
 		Iterator<Map.Entry<String,CardMinion>> i = this.board.entrySet().iterator();
 
@@ -237,7 +259,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 			}
 		}
 
-		if(getOpponent().getHero().getHealth() <= 0) {
+		if(opponent.getHero().getHealth() <= 0) {
 			// TODO: WIN
 		}
 	}
@@ -297,7 +319,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	@Override
 	public void sendNextTurn(String cardName, String cardId, String cardType) {
 		Map<String,String> send = new HashMap<>();
-		send.put("playerName", getOpponent().getName());
+		send.put("playerName", opponent.getName());
 		send.put("cardName", cardName);
 		send.put("cardId", cardId);
 		template.convertAndSend("/topic/game/" + gameId + "/nextTurn", JSONeur.toJSON(send));

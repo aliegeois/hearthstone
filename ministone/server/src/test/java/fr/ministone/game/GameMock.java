@@ -7,12 +7,12 @@ import fr.ministone.game.IPlayer;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GameMock implements IGame {
+public class GameMock implements IGame, IGameMessageReceiver, IGameMessageSender {
 	private Map<String, IPlayer> players = new HashMap<>();
 	private IPlayer playing;
 	//private int turn;
 	
-	public GameMock(User user1, User user2){
+	public GameMock(User user1, User user2) {
 		IPlayer player1 = new PlayerMock(user1.getName(), "E", "warrior");
 		IPlayer player2 = new PlayerMock(user2.getName(), "F", "paladin");
 		player1.setOpponent(player2);

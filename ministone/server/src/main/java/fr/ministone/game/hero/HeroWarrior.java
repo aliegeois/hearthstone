@@ -3,13 +3,10 @@ package fr.ministone.game.hero;
 import fr.ministone.game.IEntity;
 
 public class HeroWarrior extends Hero {
-	public HeroWarrior() {
-		super();
-	}
-	
 	@Override
 	public void special() {
-		buffArmor(2);
+		if(player.looseMana(1))
+			buffArmor(2);
 	}
 
 	@Override
