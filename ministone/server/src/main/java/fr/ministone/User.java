@@ -1,7 +1,12 @@
 package fr.ministone;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class User {
 	// Nom de l'utilisateur (unique)
+	@Id
 	private String name;
 	// ignore
 	private String sessionId;
