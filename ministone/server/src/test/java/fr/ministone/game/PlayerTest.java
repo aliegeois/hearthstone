@@ -9,6 +9,7 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import fr.ministone.game.card.Card;
 import fr.ministone.game.card.CardMinion;
 import fr.ministone.game.card.CardSpell;
 import fr.ministone.game.Constants;
@@ -52,17 +53,17 @@ public class PlayerTest{
     @Test
     public void testDrawCard(){
         assertEquals(0, player1.getHand().size());
-        player1.drawCard();
+        player1.drawCard(false);
         assertEquals(1, player1.getHand().size());
     }
 
     @Test
     public void testPlayMinion() {
-        String idCard = player1.drawCard();
+        Card card = player1.drawCard(false);
         assertEquals(1, player1.getHand().size());
         assertEquals(1, player1.getBoard().size());
 
-        player1.summonMinion(idCard);
+        player1.summonMinion(card.getId());
         assertEquals(0, player1.getHand().size());
         assertEquals(2, player1.getBoard().size());
     }

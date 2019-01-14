@@ -75,15 +75,15 @@ public class PlayerMock implements IPlayer{
 	}
 	
 	@Override
-	public String drawCard() {
+	public Card drawCard(boolean send) {
 		Card cardDrawn = (Card)deck.toArray()[(int)(Math.random() * deck.size())];
-		String identif = UUID.randomUUID().toString();
+		String cId = UUID.randomUUID().toString();
 
 		Card carte = cardDrawn.copy();
-		carte.setId(identif);
-		hand.put(identif, carte);
+		carte.setId(cId);
+		hand.put(cId, carte);
 
-		return identif;
+		return cardDrawn;
 	}
 
 	@Override
@@ -128,7 +128,7 @@ public class PlayerMock implements IPlayer{
 	public void nextTurn() {
 		manaMax++;
 		mana = manaMax;
-		drawCard();
+		drawCard(false);
 	}
 
 	
@@ -205,4 +205,53 @@ public class PlayerMock implements IPlayer{
 		return JSONeur.toJSON(me);
 	}
 
+	@Override
+	public void sendSummonMinion(String minionId) {
+
+	}
+
+	@Override
+	public void sendAttack(String cardId, String targetId) {
+
+	}
+
+	@Override
+	public void sendCastTargetedSpell(boolean own, String spellId, String targetId) {
+
+	}
+
+	@Override
+	public void sendCastUntargetedSpell(String spellId) {
+
+	}
+
+	@Override
+	public void sendHeroTargetedSpecial(boolean own, String targetId) {
+
+	}
+
+	@Override
+	public void sendHeroUntargetedSpecial() {
+
+	}
+
+	@Override
+	public void sendNextTurn(String cardName, String cardId, String cardType) {
+
+	}
+
+	@Override
+	public void sendTimeout() {
+
+	}
+
+	@Override
+	public void sendDrawCard(String cardName, String cardId, String cardType) {
+
+	}
+
+	@Override
+	public void sendVictory() {
+
+	}
 }

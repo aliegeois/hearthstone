@@ -34,13 +34,13 @@ public class GameMock implements IGame {
 
 		playing = p1;
 		for(int i = 0; i < 3; i++) {
-			playing.drawCard();
-			playing.getOpponent().drawCard();
+			playing.drawCard(false);
+			playing.getOpponent().drawCard(false);
 		}
-		playing.getOpponent().drawCard();
+		playing.getOpponent().drawCard(false);
 		playing.nextTurn();
-		sendNextTurn(playing.getName());
-		sendIsStarting(playing.getName());
+		//sendNextTurn(playing.getName());
+		//sendIsStarting(playing.getName());
 	}
 
 	@Override
@@ -86,62 +86,12 @@ public class GameMock implements IGame {
 	@Override
     public void sendSetOpponentHero(String playerName, String heroType) {
 		
-	}*/
+	}
 
 	@Override
 	public void sendIsStarting(String playerName) {
 		
-	}
-
-	@Override
-    public void sendSummonMinion(String playerName, String cardId) {
-		
-	}
-
-	@Override
-    public void sendAttack(String playerName, String cardId, String targetId) {
-		
-	}
-
-	@Override
-	public void sendCastTargetedSpell(String playerName, boolean own, String cardId, String targetId) {
-		
-	}
-
-	@Override
-    public void sendCastUntargetedSpell(String playerName, String cardId) {
-	
-	}
-
-	@Override
-	public void sendHeroTargetedSpecial(String playerName, boolean own, String targetId) {
-		
-	}
-
-	@Override
-    public void sendHeroUntargetedSpecial(String playerName) {
-		
-	}
-
-	/*@Override
-	public void sendEndTurn(String playerName) {
-		
 	}*/
-
-	@Override
-	public void sendNextTurn(String playerName) {
-		
-	}
-
-	@Override
-    public void sendTimeout(String playerName) {
-		
-	}
-
-	@Override
-    public void sendDrawCard(String playerName, String cardName, String uuid) {
-		
-	}
 
 	@Override
     public void sendVictory(String playerName) {
