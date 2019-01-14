@@ -1,32 +1,19 @@
 package fr.ministone.game;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import fr.ministone.repository.CardMinionRepository;
+import fr.ministone.repository.CardSpellRepository;
+
 public abstract class Constants {
 	public static final int HEROHEALTHMAX = 30;
 	public static final int NBPOSSIBLEHEROES = 3;
+
+	@Autowired public final CardMinionRepository cardMinionRepository;
+	@Autowired public final CardSpellRepository cardSpellRepository;
 	
-	//private Constants() {}
-	
-	/*public static String getAleatoireHero() {
-		int min = 1;
-		int max = Constants.NBPOSSIBLEHEROES;
-		int nbHeroChoosed = min + (int)(Math.random() * ((max - min) + 1));
-		String heroChoosed;
-		
-		switch(nbHeroChoosed) {
-		case 1:
-			heroChoosed = "paladin";
-			break;
-		case 2:
-			heroChoosed = "warrior";
-			break;
-		case 3:
-			heroChoosed = "mage";
-			break;
-		default:
-			heroChoosed = "casParDefaut";
-			break;
-		}
-		
-		return heroChoosed;
-	}*/
+	public Constants(CardMinionRepository cardMinionRepository, CardSpellRepository cardSpellRepository) {
+		this.cardMinionRepository = cardMinionRepository;
+		this.cardSpellRepository = cardSpellRepository;
+	}
 }

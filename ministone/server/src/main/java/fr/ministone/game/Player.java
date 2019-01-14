@@ -7,9 +7,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
+/*import org.springframework.beans.factory.annotation.Autowired;
 import fr.ministone.repository.CardMinionRepository;
-import fr.ministone.repository.CardSpellRepository;
+import fr.ministone.repository.CardSpellRepository;*/
 
 import fr.ministone.game.hero.*;
 import fr.ministone.JSONeur;
@@ -28,10 +28,8 @@ public class Player implements IPlayer {
 	private Hero hero;
 	private IPlayer opponent;
 
-	@Autowired
-	private CardMinionRepository cardMinionRepository;
-	@Autowired
-    private CardSpellRepository cardSpellRepository;
+	// @Autowired private CardMinionRepository cardMinionRepository;
+	// @Autowired private CardSpellRepository cardSpellRepository;
 	
 	public Player(String name, String sessionId, String heroType) {
 		this.name = name;
