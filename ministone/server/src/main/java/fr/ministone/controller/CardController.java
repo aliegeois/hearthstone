@@ -16,7 +16,7 @@ public class CardController {
 	@Autowired
 	private CardMinionRepository cardMinionRepository;
 	@Autowired
-    private CardSpellRepository cardSpellRepository;
+	private CardSpellRepository cardSpellRepository;
 
     @GetMapping(path="/getMinion") // Map ONLY GET Requests
 	public @ResponseBody CardMinion getCardMinionByName (@RequestParam String name) {

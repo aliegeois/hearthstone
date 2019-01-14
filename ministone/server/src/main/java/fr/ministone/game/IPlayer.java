@@ -9,10 +9,12 @@ import fr.ministone.game.hero.Hero;
 public interface IPlayer {
     public void setOpponent(IPlayer p);
 
-    public void summonMinion(String minionId);
+	public void summonMinion(String minionId);
+	public void summonMinion(CardMinion minion);
     public void attack(String cardId, String targetId);
 
-    public Card drawCard(boolean send);
+	public Card drawCard(boolean send);
+	public Card drawCard(Card card, boolean send);
 
     public void castSpell(boolean own, String cardId, String targetId);
     public void castSpell(String cardId);

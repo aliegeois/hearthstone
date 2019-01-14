@@ -35,7 +35,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	protected Hero hero;
 	protected IPlayer opponent;
 	
-	public Player(String name, String sessionId, String gameId, String heroType, SimpMessagingTemplate template, CardMinionRepository cardMinionRepository, CardSpellRepository cardSpellRepository) {
+	public Player(String name, String sessionId, String gameId, String heroType, AbstractMessageSendingTemplate<String> template, CardMinionRepository cardMinionRepository, CardSpellRepository cardSpellRepository) {
 		this.name = name;
 		this.sessionId = sessionId;
 		this.gameId = gameId;
@@ -93,13 +93,16 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	@Override
 	public void summonMinion(String minionId) {
 		CardMinion minion = (CardMinion)hand.get(minionId);
-		int manaCost = minion.getManaCost();
-		if(mana >= manaCost) {
+		summonMinion(minion);
+	}
+
+	@Override
+	public void summonMinion(CardMinion minion) {
+		if(looseMana(minion.getManaCost())) {
 			minion.play();
-			mana -= manaCost;
-			board.put(minionId, minion);
-			hand.remove(minionId);
-			sendSummonMinion(minionId);
+			board.put(minion.getId(), minion);
+			hand.remove(minion.getId());
+			sendSummonMinion(minion.getId());
 		} else {
 			// Si on a le temps: faire un message de type "notEnoughMana" et l'envoyer
 		}
@@ -124,19 +127,25 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	@Override
 	public Card drawCard(boolean send) {
 		Card card = (Card)deck.toArray()[(int)(Math.random() * deck.size())];
+		
+		return drawCard(card, send);
+	}
+
+	@Override
+	public Card drawCard(Card card, boolean send) {
+		Card cardDrawn = card.copy();
 		String cId = UUID.randomUUID().toString();
 
-		Card cardDrawn = card.copy();
 		cardDrawn.setId(cId);
 		hand.put(cId, cardDrawn);
 		if(send)
 			sendDrawCard(cardDrawn.getName(), cId, cardDrawn instanceof CardMinion ? "minion" : "spell");
-
+		
 		return cardDrawn;
 	}
 
 	@Override
-	public void castSpell(boolean own, String spellId, String targetId) { // À terminer
+	public void castSpell(boolean own, String spellId, String targetId) { // À terminer (je crois ?)
 		CardSpell spell = (CardSpell)hand.get(spellId);
 		IEntity victim;
 		if("hero".equals(targetId)) {

@@ -7,18 +7,17 @@ import fr.ministone.repository.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.core.AbstractMessageSendingTemplate;
 
 public class Game implements IGame {
-	private String id;
+	protected String id;
 	
-	private SimpMessagingTemplate template;
+	protected AbstractMessageSendingTemplate<String> template;
 
-	private Map<String, IPlayer> players = new HashMap<>();
-	private IPlayer playing;
-	
+	protected Map<String, IPlayer> players = new HashMap<>();
+	protected IPlayer playing;
 
-	public Game(String id, SimpMessagingTemplate template, User user1, User user2, CardMinionRepository cardMinionRepository, CardSpellRepository cardSpellRepository) {
+	public Game(String id, AbstractMessageSendingTemplate<String> template, User user1, User user2, CardMinionRepository cardMinionRepository, CardSpellRepository cardSpellRepository) {
 		this.id = id;
 		this.template = template;
 		IPlayer player1 = new Player(user1.getName(), user1.getSessionId(), id, user1.getHeroType(), template, cardMinionRepository, cardSpellRepository);
@@ -29,7 +28,7 @@ public class Game implements IGame {
 		start();
 	}
 
-	public Game(String id, SimpMessagingTemplate template, User user1, User user2) {
+	public Game(String id, AbstractMessageSendingTemplate<String> template, User user1, User user2) {
 		this.id = id;
 		this.template = template;
 		IPlayer player1 = new Player(user1.getName(), user1.getSessionId(), user1.getHeroType());
@@ -198,8 +197,6 @@ public class Game implements IGame {
 		send.put("playerName", playerName);
 		template.convertAndSend("/topic/game/" + id + "/victory", JSONeur.toJSON(send));
 	}
-
-
 
 
 	@Override

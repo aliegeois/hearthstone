@@ -213,4 +213,14 @@ public class PlayerMock implements IPlayer {
 
 		return JSONeur.toJSON(me);
 	}
+
+	@Override
+	public Card drawCard(Card card, boolean send) {
+		return null;
+	}
+
+	@Override
+	public void summonMinion(CardMinion minion) {
+
+	}
 }
