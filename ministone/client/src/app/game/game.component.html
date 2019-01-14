@@ -5,7 +5,7 @@
 
 		<title>MiniStone</title>
 	</head>
-	<body>
+	<body (click)="console.log('test')">
 		<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being enabled. Please enable Javascript and reload this page!</h2></noscript>
 
 	
@@ -20,7 +20,7 @@
 
 		<div id="main_joueur">
 			<ul>
-				<li *ngFor="let card of joueur.hand | keyvalue" id="card">
+				<li *ngFor="let card of joueur.hand | keyvalue" id="card" [class.nonTargetable]="!card.isTargetable()" (click)="selectCardHand(card)">
 					<div>
 						<span id="cardName">{{ card.value.name }}</span>
 						<span id="cardManaCost">{{ card.value.manaCost }}</span>
@@ -33,7 +33,7 @@
 
 		<div id="board_joueur">
 			<ul>
-				<li *ngFor="let card of joueur.board | keyvalue" id="card">
+				<li *ngFor="let card of joueur.board | keyvalue" id="card" id="card" [class.nonTargetable]="!card.isTargetable()" (click)="selectCardPlayerBoard(card)">
 					<div>
 						<span id="cardName">{{ card.value.name }}</span>
 						<span id="cardManaCost">{{ card.value.manaCost }}</span>
@@ -46,7 +46,7 @@
 
 		<div id="board_opponent">
 			<ul>
-				<li *ngFor="let card of opponent.board | keyvalue" id="card">
+				<li *ngFor="let card of opponent.board | keyvalue" id="card" [class.nonTargetable]="!card.isTargetable()" (click)="selectCardPlayerBoard(card)">
 					<div>
 						<span id="cardName">{{ card.value.name }}</span>
 						<span id="cardManaCost">{{ card.value.manaCost }}</span>
