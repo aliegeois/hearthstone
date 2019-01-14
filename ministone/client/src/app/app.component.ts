@@ -45,6 +45,7 @@ export class AppComponent implements OnInit {
   static joueurHero: string;
   static opponentName: string;
   static opponentHero: string;
+  static playing: string;
   static gameId: string;
 
   initializeWebSocketConnection() {
@@ -68,6 +69,7 @@ export class AppComponent implements OnInit {
             AppComponent.joueurHero = data.playerHero;
             AppComponent.opponentName = data.opponentName;
             AppComponent.opponentHero = data.opponentHero;
+            AppComponent.playing = data.playing;
             AppComponent.gameId = data.gameId;
 
             this.currentPage = 'game';
