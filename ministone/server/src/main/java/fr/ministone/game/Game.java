@@ -13,7 +13,7 @@ public class Game implements IGame {
 	private Map<String, IPlayer> players = new HashMap<>();
 	private IPlayer playing;
 	private String id;
-	
+
 	public Game(String id, SimpMessagingTemplate template, User user1, User user2) {
 		this.id = id;
 		this.template = template;
@@ -23,8 +23,8 @@ public class Game implements IGame {
 		this.players.put(user1.getName(), player1);
 		this.players.put(user2.getName(), player2);
 	}
-	
-	
+
+
 	@Override
 	public void receiveSummonMinion(String playerName, String cardId) {
 		IPlayer p = players.get(playerName);
@@ -90,8 +90,7 @@ public class Game implements IGame {
 		}
 	}
 
-
-	/* Pour la postérité
+	/*
 	@Override
 	public void sendSetHero(String playerName, String heroType) {
 		Map<String,String> send = new HashMap<>();
@@ -256,7 +255,7 @@ public class Game implements IGame {
 				return p;
 		return null;
 	}
-	
+
 	@Override
 	public IPlayer getPlaying() {
 		return playing;

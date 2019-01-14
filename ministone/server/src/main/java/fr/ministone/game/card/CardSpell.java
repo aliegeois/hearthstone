@@ -21,8 +21,8 @@ public class CardSpell extends Card {
 	@Transient
 	protected Set<GlobalEffect> globalEffects;
 	
-	public CardSpell(String id, IPlayer owner, String name, int mana, Set<SingleTargetEffect> singleEffects, Set<MultipleTargetEffect> multipleEffects, Set<GlobalEffect> globalEffects) {
-		super(id, owner, name, mana);
+	public CardSpell(String id, String deck, IPlayer owner, String name, int mana, Set<SingleTargetEffect> singleEffects, Set<MultipleTargetEffect> multipleEffects, Set<GlobalEffect> globalEffects) {
+		super(id, deck, owner, name, mana);
 		this.singleEffects = singleEffects;
 		this.multipleEffects = multipleEffects;
 		this.globalEffects = globalEffects;
@@ -87,6 +87,6 @@ public class CardSpell extends Card {
 
 	@Override
 	public Card copy() {
-		return new CardSpell(UUID.randomUUID().toString(), owner, name, manaCost, singleEffects, multipleEffects, globalEffects);
+		return new CardSpell(UUID.randomUUID().toString(), deck, owner, name, manaCost, singleEffects, multipleEffects, globalEffects);
 	}
 }

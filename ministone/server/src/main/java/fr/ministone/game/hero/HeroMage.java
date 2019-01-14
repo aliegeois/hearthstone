@@ -3,9 +3,9 @@ package fr.ministone.game.hero;
 import fr.ministone.game.IEntity;
 
 public class HeroMage extends Hero {
-	/*public HeroMage() {
+	public HeroMage() {
 		super();
-	}*/
+	}
 	
 	@Override
 	public void special(IEntity e) {
