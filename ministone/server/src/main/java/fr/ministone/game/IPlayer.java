@@ -32,5 +32,7 @@ public interface IPlayer {
     public int getManaMax();
     public int getMana();
 
+    public boolean looseMana(int quantity);
+
     public void checkDead();
 }

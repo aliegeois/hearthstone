@@ -9,9 +9,7 @@ public abstract class Hero implements IEntity {
 	protected int health = Constants.HEROHEALTHMAX;
 	protected int healthMax = Constants.HEROHEALTHMAX;
 	protected int armor = 0;
-	//protected boolean provocation = false;
-	
-	//public Hero() {}
+	protected boolean alreadyUsed = false;
 	
 	public abstract void special(IEntity e);
 	public abstract void special();

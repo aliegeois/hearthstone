@@ -14,11 +14,12 @@ import fr.ministone.game.hero.HeroPaladin;
 import fr.ministone.game.hero.HeroWarrior;
 import fr.ministone.game.card.CardMinion;
 import fr.ministone.game.Constants;
+import fr.ministone.game.IPlayer;
 
 public class HeroTest {
-	private Player player1;
-	private Player player2;
-	private Player player3;
+	private IPlayer player1;
+	private IPlayer player2;
+	private IPlayer player3;
 	private HeroWarrior hero1;
 	private HeroMage hero2;
 	private HeroPaladin hero3;

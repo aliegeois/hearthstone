@@ -3,13 +3,10 @@ package fr.ministone.game.hero;
 import fr.ministone.game.IEntity;
 
 public class HeroMage extends Hero {
-	public HeroMage() {
-		super();
-	}
-	
 	@Override
 	public void special(IEntity e) {
-		e.takeDamage(2);
+		if(player.looseMana(1))
+			e.takeDamage(2);
 	}
 
 	@Override

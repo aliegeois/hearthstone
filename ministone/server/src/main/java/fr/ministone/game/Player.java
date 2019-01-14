@@ -232,6 +232,15 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	}
 
 	@Override
+	public boolean looseMana(int quantity) {
+		if(mana >= quantity) {
+			mana -= quantity;
+			return true;
+		}
+		return false;
+	}
+
+	@Override
 	public void checkDead() {
 		Iterator<Map.Entry<String,CardMinion>> i = this.board.entrySet().iterator();
 
