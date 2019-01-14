@@ -1,5 +1,8 @@
 package fr.ministone.game.effect;
 
+import javax.persistence.Entity;
+
+@Entity
 public class DrawRandom extends GlobalEffect {
 	private int numberCardsDrawn;
 	
