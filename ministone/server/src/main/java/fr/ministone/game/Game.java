@@ -181,11 +181,12 @@ public class Game implements IGame {
 	}
 
 	@Override
-    public void sendDrawCard(String playerName, String cardName, String uuid) {
+    public void sendDrawCard(String playerName, String cardName, String cardId, String cardType) {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", playerName);
 		send.put("cardName", cardName);
-		send.put("uuid", uuid);
+		send.put("cardId", cardId);
+		send.put("cardType", cardType);
 		template.convertAndSend("/topic/game/" + id + "/drawCard", JSONeur.toJSON(send));
 	}*/
 

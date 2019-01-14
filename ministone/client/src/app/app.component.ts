@@ -45,6 +45,7 @@ export class AppComponent implements OnInit {
   static joueurHero: string;
   static opponentName: string;
   static opponentHero: string;
+  static playing: string;
   static gameId: string;
 
   initializeWebSocketConnection() {
@@ -68,6 +69,7 @@ export class AppComponent implements OnInit {
             AppComponent.joueurHero = data.playerHero;
             AppComponent.opponentName = data.opponentName;
             AppComponent.opponentHero = data.opponentHero;
+            AppComponent.playing = data.playing;
             AppComponent.gameId = data.gameId;
 
             this.currentPage = 'game';
@@ -220,7 +222,7 @@ export class Player {
         let identif: string = ConstantesService.generateUUID();
 
         let card = cardDrawn.clone();
-		card.setId(identif);
+		card.id = identif;
 		this.hand.set(identif, card);
 
 		return identif;
@@ -299,7 +301,6 @@ export interface Entity {
     getDamage(): number;
     isProvoking(): void;
     isDead(): boolean;
-
     getOwner(): Player;
 }
 
@@ -428,17 +429,7 @@ export abstract class Card {
       return this.manaCost;
   }
 
-  clone(): any {
-    var cloneObj = new (<any>this.constructor());
-    for (var attribut in this) {
-        if (typeof this[attribut] === "object") {
-            cloneObj[attribut] = this.clone();
-        } else {
-            cloneObj[attribut] = this[attribut];
-        }
-    }
-    return cloneObj;
-}
+  abstract clone();
 }
 
 
@@ -460,6 +451,7 @@ export class CardMinion extends Card implements Entity {
   healthBoosted: number;
 
   capacities: Set<String>; // Taunt, charge, lifesteal...
+  
   boosts: Map<String, number>;
   ready: boolean;
   provocation: boolean; // We will often nedd these, so we made them variables instead of having to search capacities everytime
@@ -561,6 +553,12 @@ export class CardMinion extends Card implements Entity {
     getOwner(): Player {
         return this.owner;
     }
+
+
+    clone(): CardMinion {
+        let card: CardMinion = new CardMinion(this.id, this.name, this.manaCost, this.damage, this.health, this.capacities, this.boosts, this.owner);
+        return card;
+    }
 }
 
 
@@ -577,7 +575,7 @@ export class CardSpell extends Card {
   multipleEffects: Set<MultipleTargetEffect>;
   globalEffects: Set<GlobalEffect>;
 
-  constructor(id: number,
+  constructor(id: UUID,
               name: String,
               mana: number,
               singleEffects: Set<SingleTargetEffect>,
@@ -607,6 +605,11 @@ export class CardSpell extends Card {
             effect.cast(player.hero, player.deck, player.hand, player.board, opponent.hero, opponent.deck, opponent.hand, opponent.board);
         });
   }
+
+  clone(): CardSpell {
+    let card: CardSpell = new CardSpell(this.id, this.name, this.manaCost, this.singleEffects, this.multipleEffects, this.globalEffects, this.owner);
+    return card;
+}
 }
 
 

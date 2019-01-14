@@ -1,5 +1,7 @@
 package fr.ministone.game.card;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -28,17 +30,18 @@ public class CardMinion extends Card implements IEntity {
 	@Transient
 	private int healthBoosted;
 
-	@Transient
-	private Set<String> capacities;
+	private boolean charge;
 
-	@Transient
-	private Map<String, Integer> boosts;
+	private boolean taunt;
+
+	private boolean lifesteal;
+
+	private int boostHealth;
+
+	private int boostDamage;
 
 	@Transient
 	private boolean ready;
-
-	@Transient
-	private boolean provocation;
 	
 	public CardMinion(String id, String deck, IPlayer owner, String name, int mana, int damage, int health, Set<String> capacities, Map<String, Integer> boosts) {
 		super(id, deck, owner, name, mana);
@@ -48,25 +51,26 @@ public class CardMinion extends Card implements IEntity {
 		this.healthMax = health;
 		this.health = health;
 		this.healthBoosted = 0;
-		this.capacities = capacities;
-		this.boosts = boosts;
-		this.ready = capacities.contains("charge");
-		this.provocation = capacities.contains("provocation");
+
+		this.charge = capacities.contains("charge");
+		this.taunt = capacities.contains("provocation");
+		this.lifesteal = capacities.contains("lifesteal");
+		
+		this.boostHealth = boosts.get("health");
+		this.boostDamage = boosts.get("damage");
+
+		this.ready = this.charge;
 	}
 	
 	@Override
 	public void play() {
+		// TODO : modifer pour faire en sorte que le bost ne soit actif que tant que le minion est en vie (attribut boost dans chaque carte avec référence vers la classe qui buff, et trigger lors de la méthode die())
 		//Si le minion a été boosté alors qu'il était dans la main, on lui applique les boosts à son arrivée en jeu
-		for(Map.Entry<String, Integer> boost : boosts.entrySet()) {
-			for(CardMinion minion : owner.getBoard().values()) {
-				if(!id.equals(minion.id)) {
-					String boostName = boost.getKey();
-					if("damage".equals(boostName)) {
-						minion.buffDamage(boost.getValue());
-					} else if("health".equals(boostName)) {
-						minion.buffHealth(boost.getValue());
-					}
-				}
+
+		for(CardMinion minion : owner.getBoard().values()) {
+			if(!id.equals(minion.id)) {
+				minion.buffDamage(this.boostDamage);
+				minion.buffHealth(this.boostHealth);
 			}
 		}
 	}
@@ -133,20 +137,32 @@ public class CardMinion extends Card implements IEntity {
 		return healthBoosted;
 	}
 	
-	public Set<String> getCapacities() {
-		return capacities;
+	public boolean getTaunt() {
+		return this.taunt;
 	}
 
-	public Map<String,Integer> getBoosts() {
-		return boosts;
+	public boolean getLifesteal() {
+		return this.lifesteal;
 	}
-	
+
+	public boolean getCharge() {
+		return this.charge;
+	}
+
+	public int getBoostHealth() {
+		return this.boostHealth;
+	}
+
+	public int getBoostDamage() {
+		return this.boostDamage;
+	}
+
 	public boolean isReady() {
 		return ready;
 	}
-	
+
 	public boolean isProvoking() {
-		return provocation;
+		return this.taunt;
 	}
 	
 	@Override
@@ -161,6 +177,21 @@ public class CardMinion extends Card implements IEntity {
 
 	@Override
 	public Card copy() {
+		Set<String> capacities = new HashSet<String>();
+		if(this.taunt) {
+			capacities.add("taunt");
+		}
+		if(this.charge) {
+			capacities.add("add");
+		}
+		if(this.lifesteal) {
+			capacities.add("lifesteal");
+		}
+
+		Map<String, Integer> boosts = new HashMap<String, Integer>();
+		boosts.put("health", this.boostHealth);
+		boosts.put("damage", this.boostDamage);
+
 		return new CardMinion(UUID.randomUUID().toString(), deck, owner, name, manaCost, damage, health, capacities, boosts);
 	}
 
@@ -171,7 +202,9 @@ public class CardMinion extends Card implements IEntity {
 			name = into.name;
 			health = into.health;
 			manaCost = into.manaCost;
-			provocation = into.provocation;
+			taunt = into.taunt;
+			charge = into.charge;
+			lifesteal = into.lifesteal;
 			ready = into.ready; // Pas sûr qu'on le change
 			damage = into.damage;
 			// Si la carte donne des boosts on fait quoi ?

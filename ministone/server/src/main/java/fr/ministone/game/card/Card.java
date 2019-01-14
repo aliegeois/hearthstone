@@ -10,11 +10,12 @@ import fr.ministone.game.IEntity;
 
 @MappedSuperclass
 public abstract class Card {
-	@Id
+	@Transient
 	protected String id;
 
 	protected String deck;
 	
+	@Id
 	protected String name;
 
 	@Transient

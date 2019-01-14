@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import fr.ministone.message.*;
 import fr.ministone.User;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -209,12 +210,14 @@ public class LobbyController {
 		User user2 = user1.getOpponent();
 
 		if(tg.hasAccepted(user2)) { // L'adversaire a déjà accepté
+
 			System.out.println("Les deux joueurs ont accepté");
 			String sendUser1 = new ObjectMapper().writeValueAsString(new Object() {
 				@JsonProperty private String playerName = user1.getName();
 				@JsonProperty private String playerHero = user1.getHeroType();
 				@JsonProperty private String opponentName = user2.getName();
 				@JsonProperty private String opponentHero = user2.getHeroType();
+				@JsonProperty private String playing = user2.getName(); // On considère que le premier a avoir cliqué commence
 				@JsonProperty private String gameId = gId;
 			});
 			String sendUser2 = new ObjectMapper().writeValueAsString(new Object() {
@@ -222,6 +225,7 @@ public class LobbyController {
 				@JsonProperty private String playerHero = user2.getHeroType();
 				@JsonProperty private String opponentName = user1.getName();
 				@JsonProperty private String opponentHero = user1.getHeroType();
+				@JsonProperty private String playing = user2.getName();
 				@JsonProperty private String gameId = gId;
 			});
 
