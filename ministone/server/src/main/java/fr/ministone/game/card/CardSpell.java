@@ -4,7 +4,8 @@ import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
+//import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import fr.ministone.game.effect.*;
 import fr.ministone.game.IPlayer;
@@ -12,13 +13,13 @@ import fr.ministone.game.IEntity;
 
 @Entity
 public class CardSpell extends Card {
-	@ManyToMany
+	@OneToMany
 	protected Set<SingleTargetEffect> singleEffects;
 
-	@ManyToMany
+	@OneToMany
 	protected Set<MultipleTargetEffect> multipleEffects;
 
-	@ManyToMany
+	@OneToMany
 	protected Set<GlobalEffect> globalEffects;
 	
 	public CardSpell(String id, String deck, IPlayer owner, String name, int mana, Set<SingleTargetEffect> singleEffects, Set<MultipleTargetEffect> multipleEffects, Set<GlobalEffect> globalEffects) {

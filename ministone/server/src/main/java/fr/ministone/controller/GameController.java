@@ -151,10 +151,32 @@ public class GameController {
 		System.out.println("onDisconnect (game): " + headers.getSessionId());
 	}
 
-	public void createGame(String gameId, User player1, User player2) {
-		Game g = new Game(gameId, template, player1, player2);
-		games.put(gameId, g);
+	public void createGame(String gId, User user1, User user2) throws Exception {
+		Game g = new Game(gId, template, user1, user2, cardMinionRepository, cardSpellRepository);
+		games.put(gId, g);
+
+		System.out.println("Les deux joueurs ont accepté");
+		String sendUser1 = new ObjectMapper().writeValueAsString(new Object() {
+			@JsonProperty private String playerName = user1.getName();
+			@JsonProperty private String playerHero = user1.getHeroType();
+			@JsonProperty private String opponentName = user2.getName();
+			@JsonProperty private String opponentHero = user2.getHeroType();
+			@JsonProperty private String playing = g.getPlaying().getName(); // On considère que le premier a avoir cliqué commence
+			@JsonProperty private String gameId = gId;
+		});
+		String sendUser2 = new ObjectMapper().writeValueAsString(new Object() {
+			@JsonProperty private String playerName = user2.getName();
+			@JsonProperty private String playerHero = user2.getHeroType();
+			@JsonProperty private String opponentName = user1.getName();
+			@JsonProperty private String opponentHero = user1.getHeroType();
+			@JsonProperty private String playing = g.getPlaying().getName();
+			@JsonProperty private String gameId = gId;
+		});
+
+		// User1 est celui qui a envoyer le acceptMatch
+		template.convertAndSend("/topic/lobby/" + user1.getSessionId() + "/startGame", sendUser1);
+		template.convertAndSend("/topic/lobby/" + user2.getSessionId() + "/startGame", sendUser2);
 		
-		System.out.println("create game with " + player1.getName() + " and " + player2.getName());
+		System.out.println("create game with " + user1.getName() + " and " + user2.getName());
 	}
 }

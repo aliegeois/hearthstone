@@ -36,5 +36,7 @@ public interface IPlayer {
 
     public boolean looseMana(int quantity);
 
-    public void checkDead();
+	public void checkDead();
+
+	public CardMinion findMinionByName(String name);
 }

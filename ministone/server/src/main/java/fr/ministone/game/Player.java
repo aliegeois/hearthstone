@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.core.AbstractMessageSendingTemplate;
 
 import fr.ministone.repository.*;
@@ -21,8 +21,9 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	protected String sessionId;
 	protected String gameId;
 
-	@Autowired
 	protected AbstractMessageSendingTemplate<String> template;
+	protected CardMinionRepository cardMinionRepository;
+	protected CardSpellRepository cardSpellRepository;
 
 	protected Set<Card> deck = new HashSet<>();
 	protected Map<String, Card> hand = new HashMap<>();
@@ -39,6 +40,8 @@ public class Player implements IPlayer, IPlayerMessageSender {
 		this.sessionId = sessionId;
 		this.gameId = gameId;
 		this.template = template;
+		this.cardMinionRepository = cardMinionRepository;
+		this.cardSpellRepository = cardSpellRepository;
 		
 		System.out.println("HEROTYPE recu : " + heroType);
 		for(Iterator<CardMinion> i = cardMinionRepository.findAllByDeck("shared").iterator(); i.hasNext();)
@@ -264,6 +267,11 @@ public class Player implements IPlayer, IPlayerMessageSender {
 		if(opponent.getHero().getHealth() <= 0) {
 			// TODO: WIN
 		}
+	}
+
+	@Override
+	public CardMinion findMinionByName(String name) {
+		return cardMinionRepository.findByName(name);
 	}
 
 

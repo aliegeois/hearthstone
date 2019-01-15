@@ -1,5 +1,7 @@
 package fr.ministone.game;
 
+import fr.ministone.game.card.CardMinion;
+
 public interface IEntity {
 	public void takeDamage(int quantity);
 	public int getDamage();
@@ -15,5 +17,5 @@ public interface IEntity {
 	public boolean isDead();
 	public void die();
 
-	public void transform(IEntity e);
+	public void transform(CardMinion into);
 }
