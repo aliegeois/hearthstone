@@ -75,7 +75,6 @@ public class LobbyController {
 	public LobbyController(SimpMessagingTemplate template, GameController gameController) {
 		this.template = template;
 		this.gameController = gameController;
-		this.users.put("Billy", new User("Billy", "_"));
 
 		this.waiting = new HashMap<String, User>();
 	}
@@ -153,34 +152,29 @@ public class LobbyController {
 		User user1 = getBySessionId(sessionId); //
 		String user1Level = user1.getLevel(); //
 
-		System.out.println("Flag a level du joueur qui vient de rechercher une game : " + user1Level);
+		System.out.println("Level du joueur qui vient de rechercher une game : " + user1Level);
 		// Si le joueur est le premier à se mettre en file d'attente
 		if(waiting.get(user1Level) == null) {
-			System.out.println("Flag b");
 			waiting.put(user1Level, users.get(user1.getName()));
 			//waiting = users.get(user1.getName());
 			System.out.println("Premier joueur en attente");
 
 		// Si le joueur est déjà en attente
 		} else if(waiting.get(user1Level).getName().equals(user1.getName())) {
-			System.out.println("Flag c");
 			// Grosse erreur de cohérence
 			System.out.println("Même joueur deux fois dans la file d'attente");
 		// S'il y a déjà un joueur en attente
 		} else {
-			System.out.println("Flag d");
 			System.out.println("Deuxième joueur en attente");
 			User user2 = waiting.get(user1Level);
 			//users.remove(user1.getName());
 			waiting.put(user1Level, null);
-			System.out.println("Flag e");
 			TemporaryGame tg = new TemporaryGame(user1, user2);
 			String gameId = UUID.randomUUID().toString();
 			temporaryGames.put(gameId, tg);
 			user1.setTemporaryGameId(gameId);
 			user2.setTemporaryGameId(gameId);
 
-			System.out.println("Flag f");
 			String sendUser1 = new ObjectMapper().writeValueAsString(new Object() {
 				@JsonProperty private String opponent = user2.getName();
 				@JsonProperty private String id = gameId.toString();
@@ -189,10 +183,8 @@ public class LobbyController {
 				@JsonProperty private String opponent = user1.getName();
 				@JsonProperty private String id = gameId.toString();
 			});
-			System.out.println("Flag g");
 			template.convertAndSend("/topic/lobby/" + user1.getSessionId() + "/matchFound", sendUser1);
 			template.convertAndSend("/topic/lobby/" + user2.getSessionId() + "/matchFound", sendUser2);
-			System.out.println("Flag h");
 		}
 	}
 
