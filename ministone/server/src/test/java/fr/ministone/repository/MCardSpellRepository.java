@@ -11,7 +11,8 @@ public class MCardSpellRepository implements CardSpellRepository {
 
 	@Override
 	public <S extends CardSpell> S save(S entity) {
-		return null;
+		cards.put(entity.getName(), entity);
+		return entity;
 	}
 
 	@Override

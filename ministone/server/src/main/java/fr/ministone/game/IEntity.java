@@ -11,8 +11,6 @@ public interface IEntity {
 
 	public void buffDamage(int quantity);
 	public void buffHealth(int quantity);
-	
-	//public boolean isProvoking();
 
 	public boolean isDead();
 	public void die();

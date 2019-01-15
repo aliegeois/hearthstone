@@ -1,14 +1,18 @@
 package fr.ministone.repository;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import fr.ministone.game.card.CardMinion;
 
 public class MCardMinionRepository implements CardMinionRepository {
+	private Map<String, CardMinion> cards = new HashMap<>();
 
 	@Override
 	public <S extends CardMinion> S save(S entity) {
-		return null;
+		cards.put(entity.getName(), entity);
+		return entity;
 	}
 
 	@Override
@@ -18,7 +22,7 @@ public class MCardMinionRepository implements CardMinionRepository {
 
 	@Override
 	public Optional<CardMinion> findById(String id) {
-		return null;
+		return Optional.ofNullable(cards.get(id));
 	}
 
 	@Override
@@ -28,7 +32,7 @@ public class MCardMinionRepository implements CardMinionRepository {
 
 	@Override
 	public Iterable<CardMinion> findAll() {
-		return null;
+		return cards.values();
 	}
 
 	@Override
@@ -38,17 +42,17 @@ public class MCardMinionRepository implements CardMinionRepository {
 
 	@Override
 	public long count() {
-		return 0;
+		return cards.size();
 	}
 
 	@Override
 	public void deleteById(String id) {
-
+		cards.remove(id);
 	}
 
 	@Override
 	public void delete(CardMinion entity) {
-
+		cards.remove(entity.getName());
 	}
 
 	@Override
@@ -58,12 +62,12 @@ public class MCardMinionRepository implements CardMinionRepository {
 
 	@Override
 	public void deleteAll() {
-
+		cards.clear();
 	}
 
 	@Override
 	public CardMinion findByName(String name) {
-		return null;
+		return cards.get(name);
 	}
 
 	@Override
