@@ -25,7 +25,7 @@ public class GameTest {
     private AbstractMessageSendingTemplate<String> template;
 
 
-    /*@BeforeEach
+    @BeforeEach
     public void init() {
 
         user1 = new User("Pat", "E", "1", "warrior");
@@ -45,13 +45,13 @@ public class GameTest {
 
     }
 
-    @Test
+    /*@Test
     public void testHand() {
 
         assertEquals(3, game.getPlaying().getHand().size());
         assertEquals(4, game.getPlaying().getOpponent().getHand().size());
 
-    }
+    }*/
 
     @Test
     public void testContainsPlayer() {
@@ -70,7 +70,7 @@ public class GameTest {
 
         assertTrue(game.checkBoard());
         
-    }*/
+    }
 
 
 
