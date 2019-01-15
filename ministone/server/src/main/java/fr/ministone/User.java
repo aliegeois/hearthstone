@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class User {
 	
@@ -12,6 +14,7 @@ public class User {
 	private String name;
 	
 	@Transient
+	@JsonIgnore
 	private String sessionId;
 	// Nombre de victoires et de défaites
 	private int nbWins, nbLoses;
@@ -19,12 +22,15 @@ public class User {
 	private String level;
 	// Type de héro (paladin, mage, warrior)
 	@Transient
+	@JsonIgnore
 	private String heroType;
 	
 	@Transient
+	@JsonIgnore
 	private String temporaryGameId;
 
 	@Transient
+	@JsonIgnore
 	private User opponent;
 
 	public User() {}

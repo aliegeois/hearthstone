@@ -11,15 +11,15 @@ public interface IPlayer {
 
 	public void summonMinion(Long minionId);
 	public void summonMinion(CardMinion minion);
-    public void attack(boolean isHero, Long cardId, Long targetId);
+    public void attack(boolean hero, Long cardId, Long targetId);
 
 	public Card drawCard(boolean send);
 	public Card drawCard(Card card, boolean send);
 
-    public void castSpell(boolean own, boolean isHero, Long cardId, Long targetId);
+    public void castSpell(boolean own, boolean hero, Long cardId, Long targetId);
     public void castSpell(Long cardId);
 
-    public void heroSpecial(boolean own, boolean isHero, Long targetId);
+    public void heroSpecial(boolean own, boolean hero, Long targetId);
     public void heroSpecial();
 
     public void nextTurn();
@@ -39,5 +39,4 @@ public interface IPlayer {
 	public boolean checkDead();
 
 	public CardMinion findMinionByName(String name);
-	public CardMinion findMinionById(Long minionId);
 }

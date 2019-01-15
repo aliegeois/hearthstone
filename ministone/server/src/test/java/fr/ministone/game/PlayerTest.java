@@ -133,7 +133,7 @@ public class PlayerTest {
 		assertEquals(29, player2.getHero().getHealth());
 	}
 
-	@Test
+	/*@Test
 	public void testNextTurn(){
 		IPlayer player3 = new PlayerMock("mage", 1);
 		assertEquals(1, player3.getMana());
@@ -141,5 +141,5 @@ public class PlayerTest {
 		player3.nextTurn();
 
 		assertEquals(2, player3.getMana());
-	}
+	}*/
 }
