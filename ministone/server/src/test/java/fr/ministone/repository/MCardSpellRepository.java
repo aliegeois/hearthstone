@@ -1,13 +1,13 @@
 package fr.ministone.repository;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import fr.ministone.game.card.CardSpell;
 
 public class MCardSpellRepository implements CardSpellRepository {
-	private List<CardSpell> cards = new ArrayList<>();
+	private Map<String, CardSpell> cards = new HashMap<>();
 
 	@Override
 	public <S extends CardSpell> S save(S entity) {
@@ -21,7 +21,9 @@ public class MCardSpellRepository implements CardSpellRepository {
 
 	@Override
 	public Optional<CardSpell> findById(String id) {
-		return null;
+		return Optional.ofNullable(cards.get(id));
+		
+		//return null;
 	}
 
 	@Override
@@ -31,7 +33,7 @@ public class MCardSpellRepository implements CardSpellRepository {
 
 	@Override
 	public Iterable<CardSpell> findAll() {
-		return null;
+		return cards.values();
 	}
 
 	@Override
@@ -41,17 +43,17 @@ public class MCardSpellRepository implements CardSpellRepository {
 
 	@Override
 	public long count() {
-		return 0;
+		return cards.size();
 	}
 
 	@Override
 	public void deleteById(String id) {
-
+		cards.remove(id);
 	}
 
 	@Override
 	public void delete(CardSpell entity) {
-
+		cards.remove(entity.getName());
 	}
 
 	@Override
@@ -61,12 +63,12 @@ public class MCardSpellRepository implements CardSpellRepository {
 
 	@Override
 	public void deleteAll() {
-
+		cards.clear();
 	}
 
 	@Override
 	public CardSpell findByName(String name) {
-		return null;
+		return cards.get(name);
 	}
 
 	@Override

@@ -21,7 +21,11 @@ public abstract class Effect {
 	@JsonIgnore
 	protected CardSpell card;
 
-	public Effect() {}
+	protected final String type;
+
+	public Effect() {
+		this.type = this.getClass().getSimpleName();
+	}
 
 	public void setCard(CardSpell spell) {
 		card = spell;
@@ -29,6 +33,10 @@ public abstract class Effect {
 
 	public CardSpell getCard() {
 		return card;
+	}
+
+	public String getType() {
+		return type;
 	}
 	
 	public abstract void play();

@@ -2,12 +2,12 @@ package fr.ministone.game.effect;
 
 import javax.persistence.Entity;
 
-//import fr.ministone.game.card.CardMinion;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 @Entity
 public class SummonSpecific extends GlobalEffect {
-	//private CardMinion card;
-	String minionName;
+	@JsonInclude
+	private String minionName;
 	
 	public SummonSpecific() {
 		super();

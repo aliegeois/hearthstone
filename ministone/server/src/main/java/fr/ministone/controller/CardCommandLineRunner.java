@@ -109,18 +109,18 @@ public class CardCommandLineRunner implements CommandLineRunner {
 		for(CardSpell s : spells)
 			spellRepository.save(s);
 
-		/*System.out.println("spells:");
+		System.out.println("spells:");
 		spellRepository.findAll().forEach(spell -> {
 			System.out.println("Spell " + spell.getName());
 			System.out.println("ge: ");
 			for(GlobalEffect ge : spell.getGE())
-				System.out.println("Class: " + ge.getClass().getName());
+				System.out.println("Class: " + ge.getType());
 			System.out.println("mte: ");
 			for(MultipleTargetEffect mte : spell.getMTE())
-				System.out.println("Class: " + mte.getClass().getName());
+				System.out.println("Class: " + mte.getType());
 			System.out.println("ste: ");
 			for(SingleTargetEffect ste : spell.getSTE())
-				System.out.println("Class: " + ste.getClass().getName());
-		});*/
+				System.out.println("Class: " + ste.getType());
+		});
     }
 }
