@@ -255,22 +255,22 @@ export class GameComponent implements OnInit {
 
 
     let cardTest1: CardMinion = new CardMinion(1,"Recrue de la main d'argent", 1, 1, 1, new Set<String>(), new Map<String, number>(), this.joueur);
-    let cardTest2: CardMinion = new CardMinion(2, "Consécration", 3, 4, 2, new Set<String>(), new Map<String, number>(), this.joueur);
+    let cardTest2: CardMinion = new CardMinion(2, "Champion Frisselame", 3, 4, 2, new Set<String>().add("charge"), new Map<String, number>(), this.joueur);
     let cardTest3: CardSpell = new CardSpell(3, "Métamorphose", 4, new Set<SingleTargetEffect>(), new Set<MultipleTargetEffect>(), new Set<GlobalEffect>(), this.joueur)
 
     this.joueur.hand.set(0, cardTest1);
-    //this.joueur.hand.set(1, cardTest2);
-    //this.joueur.hand.set(2, cardTest3);
+    this.joueur.hand.set(1, cardTest2);
+    this.joueur.hand.set(2, cardTest3);
 
-    //this.joueur.board.set(0, cardTest1);
-    //this.joueur.board.set(1, cardTest2);
+    this.joueur.board.set(0, cardTest1);
+    this.joueur.board.set(1, cardTest2);
 
-    /*this.opponent.hand.set("0", cardTest2);
-    this.opponent.hand.set("1", cardTest2);
+    this.opponent.hand.set(0, cardTest2);
+    this.opponent.hand.set(1, cardTest2);
   
-    this.opponent.board.set("0", cardTest2);
-    this.opponent.board.set("1", cardTest1);
-    this.opponent.board.set("2", cardTest2);*/
+    this.opponent.board.set(0, cardTest2);
+    this.opponent.board.set(1, cardTest1);
+    this.opponent.board.set(2, cardTest2);
     
 
   }
