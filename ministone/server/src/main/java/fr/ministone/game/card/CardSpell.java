@@ -20,20 +20,20 @@ import fr.ministone.game.IEntity;
 
 @Entity
 public class CardSpell extends Card {
-	//@OneToMany(fetch = FetchType.EAGER, /*mappedBy = "id", */cascade = {CascadeType.ALL})
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER, /*mappedBy = "id", */cascade = {CascadeType.ALL})
+	//@OneToMany
 	//@JoinColumn(name = "id")
 	//@ElementCollection
 	protected Set<SingleTargetEffect> singleEffects;
 
-	//@OneToMany(fetch = FetchType.EAGER, /*mappedBy = "id", */cascade = {CascadeType.ALL})
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER, /*mappedBy = "id", */cascade = {CascadeType.ALL})
+	//@OneToMany
 	//@JoinColumn(name = "id")
 	//@ElementCollection
 	protected Set<MultipleTargetEffect> multipleEffects;
 
-	//@OneToMany(fetch = FetchType.EAGER, /*mappedBy = "id", */cascade = {CascadeType.ALL})
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER, /*mappedBy = "id", */cascade = {CascadeType.ALL})
+	//@OneToMany
 	//@JoinColumn(name = "id")
 	//@ElementCollection
 	protected Set<GlobalEffect> globalEffects;

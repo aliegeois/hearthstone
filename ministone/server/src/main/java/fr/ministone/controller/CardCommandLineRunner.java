@@ -44,11 +44,11 @@ public class CardCommandLineRunner implements CommandLineRunner {
 		CardSpell imageMiroir = new CardSpell(2l, "mage", null, "Image miroir", 1, new HashSet<SingleTargetEffect>(), new HashSet<MultipleTargetEffect>(), gte2);
 		spellRepository.save(imageMiroir);
 
-		/*Set<String> capacities4 = new HashSet<>();
+		Set<String> capacities4 = new HashSet<>();
 		capacities4.add("charge");
 		capacities4.add("lifesteal");
 		CardMinion championFrisselame = new CardMinion(4l, "paladin", null, "Champion frisselame", 4, 3, 2, capacities4, new HashMap<String, Integer>());
-		minionRepository.save(championFrisselame);*/
+		minionRepository.save(championFrisselame);
 
 		Set<MultipleTargetEffect> mte5 = new HashSet<>();
 		mte5.add(new MultipleTargetDamage(true, true, false, false, 1));
@@ -59,7 +59,7 @@ public class CardCommandLineRunner implements CommandLineRunner {
                 repository.save(new User(name))
         );*/
 
-		/*System.out.println("spells:");
+		System.out.println("spells:");
 		spellRepository.findAll().forEach(spell -> {
 			System.out.println("Spell " + spell.getName());
 			System.out.println("ge: ");
@@ -71,6 +71,6 @@ public class CardCommandLineRunner implements CommandLineRunner {
 			System.out.println("ste: ");
 			for(SingleTargetEffect ste : spell.getSTE())
 				System.out.println("Class: " + ste.getClass().getName());
-		});*/
+		});
     }
 }
