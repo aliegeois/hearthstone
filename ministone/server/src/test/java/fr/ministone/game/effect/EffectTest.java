@@ -17,14 +17,14 @@ public class EffectTest {
 	private IPlayer player1, player2;
 	private CardMinion card1, card2, card3, card4;
 
-	private Set<SingleTargetEffect> ste = new HashSet<SingleTargetEffect>();
-	private Set<MultipleTargetEffect> mte = new HashSet<MultipleTargetEffect>();
-	private Set<GlobalEffect> gte = new HashSet<GlobalEffect>();
+	private Set<SingleTargetEffect> ste;
+	private Set<MultipleTargetEffect> mte;
+	private Set<GlobalEffect> gte;
 
 	@BeforeEach
 	public void init() {
-		player1 = new MPlayer("warrior", 10);
-		player2 = new MPlayer("mage", 10);
+		player1 = new MPlayer("warrior");
+		player2 = new MPlayer("mage");
 		player1.setOpponent(player2);
 
 		card1 = new CardMinion("1", "shared", player1, "Card Minion 1", 1, 1, 1, new HashSet<String>(), new HashMap<String, Integer>());
@@ -36,11 +36,14 @@ public class EffectTest {
 		player1.getDeck().add(card2);
 		player2.getDeck().add(card3);
 		player2.getDeck().add(card4);
+
+		ste = new HashSet<SingleTargetEffect>();
+		mte = new HashSet<MultipleTargetEffect>();
+		gte = new HashSet<GlobalEffect>();
 	}
 
 	@Test
 	void testDrawRandom() {
-		Set<GlobalEffect> gte = new HashSet<GlobalEffect>();
 		DrawRandom effect = new DrawRandom(2);
 		gte.add(effect);
 		CardSpell card = new CardSpell("0", "shared", player1, "Sprint", 7, ste, mte, gte);
@@ -60,7 +63,6 @@ public class EffectTest {
 
 	@Test
 	void testMultTarBuffOwnBoard() {
-		Set<MultipleTargetEffect> mte = new HashSet<MultipleTargetEffect>();
 		MultipleTargetBuff effect = new MultipleTargetBuff(true, false, false, false, 2, 0);
 		mte.add(effect);
 		CardSpell card = new CardSpell("0", "shared", player1, "Sprint", 7, ste, mte, gte);
@@ -77,7 +79,6 @@ public class EffectTest {
 
 	@Test
 	void testMultTarBuffOpponentBoard() {
-		Set<MultipleTargetEffect> mte = new HashSet<MultipleTargetEffect>();
 		MultipleTargetBuff effect = new MultipleTargetBuff(false, true, false, false, 0, 2);
 		mte.add(effect);
 		CardSpell card = new CardSpell("0", "shared", player1, "Sprint", 7, ste, mte, gte);
@@ -95,7 +96,6 @@ public class EffectTest {
 
 	@Test
 	void testMultTarDamageAll() {
-		Set<MultipleTargetEffect> mte = new HashSet<MultipleTargetEffect>();
 		MultipleTargetDamage effect = new MultipleTargetDamage(true, true, true, true, 2);
 		mte.add(effect);
 		CardSpell card = new CardSpell("0", "shared", player1, "Sprint", 7, ste, mte, gte);
@@ -125,7 +125,6 @@ public class EffectTest {
 
 	@Test 
 	void testMultTarHealBothHeroes() {
-		Set<MultipleTargetEffect> mte = new HashSet<MultipleTargetEffect>();
 		MultipleTargetHeal effect = new MultipleTargetHeal(false, false, true, true, 5);
 		mte.add(effect);
 		CardSpell card = new CardSpell("0", "shared", player1, "Sprint", 7, ste, mte, gte);
@@ -145,7 +144,6 @@ public class EffectTest {
 
 	@Test
 	void testSinglTarDamBuff() {
-		Set<SingleTargetEffect> ste = new HashSet<SingleTargetEffect>();
 		SingleTargetDamageBuff effect = new SingleTargetDamageBuff(1);
 		ste.add(effect);
 		CardSpell card = new CardSpell("0", "shared", player1, "Sprint", 7, ste, mte, gte);
@@ -162,7 +160,6 @@ public class EffectTest {
 
 	@Test
 	void testSinglTarHealthBuff() {
-		Set<SingleTargetEffect> ste = new HashSet<SingleTargetEffect>();
 		SingleTargetLifeBuff effect = new SingleTargetLifeBuff(1);
 		ste.add(effect);
 		CardSpell card = new CardSpell("0", "shared", player1, "Sprint", 7, ste, mte, gte);
@@ -179,7 +176,6 @@ public class EffectTest {
 
 	@Test
 	void testSinglTargDamage() {
-		Set<SingleTargetEffect> ste = new HashSet<SingleTargetEffect>();
 		SingleTargetDamage effect = new SingleTargetDamage(10);
 		ste.add(effect);
 		CardSpell card = new CardSpell("0", "shared", player1, "Sprint", 7, ste, mte, gte);
@@ -195,7 +191,6 @@ public class EffectTest {
 
 	@Test
 	void testTransform() {
-		Set<SingleTargetEffect> ste = new HashSet<SingleTargetEffect>();
 		CardMinion mouton = new CardMinion(card3.getId(), "shared", player2, "mouton", 0, 0, 1, new HashSet<String>(), new HashMap<String, Integer>()); // Doute sur card3.getId()
 		Transform effect = new Transform(mouton);
 		ste.add(effect);
@@ -207,5 +202,9 @@ public class EffectTest {
 		player1.castSpell(false, card.getId(), card3.getId());
 
 		assertEquals("mouton", player2.getBoard().get("3").getName());
+	}
+
+	void testDrawSpecific() {
+		// TODO
 	}
 }
