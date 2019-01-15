@@ -45,13 +45,13 @@ public class GameTest {
 
     }
 
-    /*@Test
+    @Test
     public void testHand() {
 
         assertEquals(3, game.getPlaying().getHand().size());
         assertEquals(4, game.getPlaying().getOpponent().getHand().size());
 
-    }*/
+    }
 
     @Test
     public void testContainsPlayer() {
