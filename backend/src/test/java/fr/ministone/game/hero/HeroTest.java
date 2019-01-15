@@ -12,7 +12,6 @@ import fr.ministone.game.card.CardMinion;
 import fr.ministone.repository.CardMinionRepository;
 import fr.ministone.repository.MCardMinionRepository;
 import fr.ministone.game.Constants;
-import fr.ministone.game.IEntity;
 import fr.ministone.game.IPlayer;
 import fr.ministone.game.PlayerMock;
 

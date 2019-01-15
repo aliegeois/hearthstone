@@ -1,6 +1,7 @@
 package fr.ministone.game;
 
 import fr.ministone.repository.CardMinionRepository;
+import fr.ministone.repository.CardSpellRepository;
 import fr.ministone.repository.MCardMinionRepository;
 import fr.ministone.repository.MCardSpellRepository;
 
@@ -25,5 +26,9 @@ public class PlayerMock extends Player {
     
     public void setCardMinionRepository(CardMinionRepository repository) {
         cardMinionRepository = repository;
+    }
+
+    public void setCardSpellRepository(CardSpellRepository repository) {
+        cardSpellRepository = repository;
     }
 }

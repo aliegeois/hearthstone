@@ -5,12 +5,10 @@ Réalisé par Arthur Liégeois (aliegeois) ; Ronan Gueguen (Karides) ; Antoine G
 
 ## Comment lancer le(s) serveur(s)
 
-### Compiler le serveur la première fois :
-mvn clean install
-### Les fois d'après :
+### Compiler le serveur :
 mvn clean install
 ### Lancer le serveur :
-java -jar target/ministone-0.0.1-SNAPSHOT.jar
+mvn spring-boot:run
 
 ### Installer les packages nodejs la première fois (dans /client) :
 npm i
