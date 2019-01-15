@@ -14,7 +14,7 @@ import org.springframework.messaging.core.AbstractMessageSendingTemplate;
 import fr.ministone.repository.*;
 
 import fr.ministone.game.hero.*;
-import fr.ministone.JSONeur;
+import fr.ministone.JsonUtil;
 import fr.ministone.game.card.*;
 
 public class Player implements IPlayer, IPlayerMessageSender {
@@ -288,7 +288,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", name);
 		send.put("cardId", minionId.toString());
-		template.convertAndSend("/topic/game/" + gameId + "/summonMinion", JSONeur.toJSON(send));
+		template.convertAndSend("/topic/game/" + gameId + "/summonMinion", JsonUtil.toJSON(send));
 	}
 
 	@Override
@@ -297,7 +297,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 		send.put("playerName", name);
 		send.put("cardId", cardId.toString());
 		send.put("targetId", targetId.toString());
-		template.convertAndSend("/topic/game/" + gameId + "/attack", JSONeur.toJSON(send));
+		template.convertAndSend("/topic/game/" + gameId + "/attack", JsonUtil.toJSON(send));
 	}
 
 	@Override
@@ -307,7 +307,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 		send.put("cardId", spellId.toString());
 		send.put("targetId", targetId.toString());
 		send.put("own", own ? "true" : "false");
-		template.convertAndSend("/topic/game/" + gameId + "/castTargetedSpell", JSONeur.toJSON(send));
+		template.convertAndSend("/topic/game/" + gameId + "/castTargetedSpell", JsonUtil.toJSON(send));
 	}
 
 	@Override
@@ -315,7 +315,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", name);
 		send.put("cardId", spellId.toString());
-		template.convertAndSend("/topic/game/" + gameId + "/castUntargetedSpell", JSONeur.toJSON(send));
+		template.convertAndSend("/topic/game/" + gameId + "/castUntargetedSpell", JsonUtil.toJSON(send));
 	}
 
 	@Override
@@ -324,14 +324,14 @@ public class Player implements IPlayer, IPlayerMessageSender {
 		send.put("playerName", name);
 		send.put("own", own ? "true" : "false");
 		send.put("targetId", targetId.toString());
-		template.convertAndSend("/topic/game/" + gameId + "/targetedSpecial", JSONeur.toJSON(send));
+		template.convertAndSend("/topic/game/" + gameId + "/targetedSpecial", JsonUtil.toJSON(send));
 	}
 
 	@Override
 	public void sendHeroUntargetedSpecial() {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", name);
-		template.convertAndSend("/topic/game/" + gameId + "/untargetedSpecial", JSONeur.toJSON(send));
+		template.convertAndSend("/topic/game/" + gameId + "/untargetedSpecial", JsonUtil.toJSON(send));
 	}
 
 	@Override
@@ -340,14 +340,14 @@ public class Player implements IPlayer, IPlayerMessageSender {
 		send.put("playerName", opponent.getName());
 		send.put("cardName", cardName);
 		send.put("cardId", cardId.toString());
-		template.convertAndSend("/topic/game/" + gameId + "/nextTurn", JSONeur.toJSON(send));
+		template.convertAndSend("/topic/game/" + gameId + "/nextTurn", JsonUtil.toJSON(send));
 	}
 
 	@Override
 	public void sendTimeout() {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", name);
-		template.convertAndSend("/topic/game/" + gameId + "/timeout", JSONeur.toJSON(send));
+		template.convertAndSend("/topic/game/" + gameId + "/timeout", JsonUtil.toJSON(send));
 	}
 
 	@Override
@@ -357,14 +357,14 @@ public class Player implements IPlayer, IPlayerMessageSender {
 		send.put("cardName", cardName);
 		send.put("cardId", cardId.toString());
 		send.put("cardType", cardType);
-		template.convertAndSend("/topic/game/" + gameId + "/drawCard", JSONeur.toJSON(send));
+		template.convertAndSend("/topic/game/" + gameId + "/drawCard", JsonUtil.toJSON(send));
 	}
 
 	@Override
 	public void sendVictory() {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", name);
-		template.convertAndSend("/topic/game/" + gameId + "/victory", JSONeur.toJSON(send));
+		template.convertAndSend("/topic/game/" + gameId + "/victory", JsonUtil.toJSON(send));
 	}
 
 
@@ -382,6 +382,6 @@ public class Player implements IPlayer, IPlayerMessageSender {
 		me.put("hero", hero.toString());
 		me.put("opponent", opponent.getName());
 
-		return JSONeur.toJSON(me);
+		return JsonUtil.toJSON(me);
 	}
 }
