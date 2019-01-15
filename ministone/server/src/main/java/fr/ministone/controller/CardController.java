@@ -39,4 +39,14 @@ public class CardController {
 		// This returns a JSON or XML with the users
 		return cardSpellRepository.findAll();
 	}
+
+	@GetMapping(path="/deckMinion")
+	public @ResponseBody Iterable<CardMinion> getMinionByDeck(@RequestParam String deck) {
+		return cardMinionRepository.findAllByDeck(deck);
+	}
+
+	@GetMapping(path="/deckSpell")
+	public @ResponseBody Iterable<CardSpell> getSpellByDeck(@RequestParam String deck) {
+		return cardSpellRepository.findAllByDeck(deck);
+	}
 }
