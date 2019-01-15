@@ -73,18 +73,6 @@ public class CardSpell extends Card {
 		}
 	}
 
-	/*public void addEffect(SingleTargetEffect ste) {
-		singleEffects.add(ste);
-	}
-
-	public void addEffect(MultipleTargetEffect mte) {
-		multipleEffects.add(mte);
-	}
-
-	public void addEffect(GlobalEffect ge) {
-		globalEffects.add(ge);
-	}*/
-
 	public Set<SingleTargetEffect> getSTE() {
 		return singleEffects;
 	}
