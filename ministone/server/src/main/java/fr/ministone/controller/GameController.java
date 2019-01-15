@@ -70,7 +70,7 @@ public class GameController {
 		if(p == null)
 			return;
 		
-		g.receiveAttack(p.getName(), message.getCardId(), message.getTargetId());
+		g.receiveAttack(p.getName(), message.isHero(), message.getCardId(), message.getTargetId());
 	}
 
 	@MessageMapping("/game/{gameId}/castUntargetedSpell")
@@ -96,7 +96,7 @@ public class GameController {
 		if(p == null)
 			return;
 		
-		g.receiveCastSpell(p.getName(), message.isOwn(), message.getCardId(), message.getTargetId());
+		g.receiveCastSpell(p.getName(), message.isOwn(), message.isHero(), message.getCardId(), message.getTargetId());
 	}
 
 	@MessageMapping("/game/{gameId}/heroUntargetedSpecial")
@@ -122,7 +122,7 @@ public class GameController {
 		if(p == null)
 			return;
 		
-		g.receiveHeroSpecial(p.getName(), message.isOwn(), message.getTargetId());
+		g.receiveHeroSpecial(p.getName(), message.isOwn(), message.isHero(), message.getTargetId());
 	}
 
 	@MessageMapping("/game/{gameId}/endTurn")

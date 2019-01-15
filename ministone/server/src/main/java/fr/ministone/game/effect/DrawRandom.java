@@ -5,6 +5,10 @@ import javax.persistence.Entity;
 @Entity
 public class DrawRandom extends GlobalEffect {
 	private int numberCardsDrawn;
+
+	public DrawRandom() {
+		super();
+	}
 	
 	public DrawRandom(int numberCardsDrawn) {
 		super();

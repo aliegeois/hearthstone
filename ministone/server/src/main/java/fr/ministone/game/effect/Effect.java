@@ -11,13 +11,14 @@ import fr.ministone.game.IEntity;
 
 @MappedSuperclass
 public abstract class Effect {
-
 	@Id
 	@GeneratedValue
 	private String id;
 
 	@Transient
 	protected CardSpell card;
+
+	public Effect() {}
 
 	public void setCard(CardSpell spell) {
 		card = spell;

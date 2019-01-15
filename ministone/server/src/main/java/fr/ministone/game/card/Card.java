@@ -2,6 +2,8 @@ package fr.ministone.game.card;
 
 import fr.ministone.game.IPlayer;
 
+//import javax.persistence.GeneratedValue;
+//import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
@@ -10,20 +12,22 @@ import fr.ministone.game.IEntity;
 
 @MappedSuperclass
 public abstract class Card {
-	@Transient
-	protected String id;
+	@Id
+	//@GeneratedValue(strategy = GenerationType.AUTO) `A REMETTRE
+	protected Long id;
 
 	protected String deck;
 	
-	@Id
 	protected String name;
 
 	@Transient
 	protected IPlayer owner;
 	
 	protected int manaCost;
+
+	public Card() {}
 	
-	public Card(String id, String deck, IPlayer owner, String name, int manaCost) {
+	public Card(Long id, String deck, IPlayer owner, String name, int manaCost) {
 		this.id = id;
 		this.deck = deck;
 		this.owner = owner;
@@ -37,7 +41,7 @@ public abstract class Card {
 	public abstract Card copy();
 	
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 	public String getName() {
@@ -52,7 +56,7 @@ public abstract class Card {
 		return manaCost;
 	}
 
-	public void setId(String identif) {
-		this.id = identif;
+	public void setId(Long newId) {
+		this.id = newId;
 	}
 }

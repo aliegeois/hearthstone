@@ -8,6 +8,10 @@ import fr.ministone.game.IEntity;
 public class SingleTargetLifeBuff extends SingleTargetEffect {
 	private int life;
 	
+	public SingleTargetLifeBuff() {
+		super();
+	}
+
 	public SingleTargetLifeBuff(int life) {
 		super();
 		this.life = life;

@@ -11,6 +11,10 @@ import fr.ministone.game.IEntity;
 public abstract class MultipleTargetEffect extends Effect {
 	protected boolean ownBoard, opponentBoard, ownHero, opponentHero;
 	
+	public MultipleTargetEffect() {
+		super();
+	}
+
 	public MultipleTargetEffect(boolean ownBoard, boolean opponentBoard, boolean ownHero, boolean opponentHero) {
 		super();
 		this.ownBoard = ownBoard;

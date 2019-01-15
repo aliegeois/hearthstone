@@ -46,16 +46,16 @@ public class Game implements IGame {
 	public void receiveSummonMinion(String playerName, String cardId) {
 		IPlayer p = players.get(playerName);
 		if(playerName.equals(playing.getName())) {
-			p.summonMinion(cardId);
+			p.summonMinion(Long.parseLong(cardId));
 			//sendSummonMinion(playerName, cardId);
 		}
 	}
 
 	@Override
-	public void receiveAttack(String playerName, String cardId, String targetId) {
+	public void receiveAttack(String playerName, boolean isHero, String cardId, String targetId) {
 		IPlayer p = players.get(playerName);
 		if(playerName.equals(playing.getName())) {
-			p.attack(cardId, targetId);
+			p.attack(isHero, Long.parseLong(cardId), Long.parseLong(targetId));
 			//sendAttack(playerName, cardId, targetId);
 		}
 	}
@@ -64,16 +64,16 @@ public class Game implements IGame {
 	public void receiveCastSpell(String playerName, String cardId) {
 		IPlayer p = players.get(playerName);
 		if(playerName.equals(playing.getName())) {
-			p.castSpell(cardId);
+			p.castSpell(Long.parseLong(cardId));
 			//sendCastUntargetedSpell(playerName, cardId);
 		}
 	}
 
 	@Override
-	public void receiveCastSpell(String playerName, boolean own, String cardId, String targetId) {
+	public void receiveCastSpell(String playerName, boolean own, boolean isHero, String cardId, String targetId) {
 		IPlayer p = players.get(playerName);
 		if(playerName.equals(playing.getName())) {
-			p.castSpell(own, cardId, targetId);
+			p.castSpell(own, isHero, Long.parseLong(cardId), Long.parseLong(targetId));
 			//sendCastTargetedSpell(playerName, own, cardId, targetId);
 		}
 	}
@@ -88,10 +88,10 @@ public class Game implements IGame {
 	}
 
 	@Override
-	public void receiveHeroSpecial(String playerName, boolean own, String targetId) {
+	public void receiveHeroSpecial(String playerName, boolean own, boolean isHero, String targetId) {
 		IPlayer p = players.get(playerName);
 		if(playerName.equals(playing.getName())) {
-			p.heroSpecial(own, targetId);
+			p.heroSpecial(own, isHero, Long.parseLong(targetId));
 			//sendHeroTargetedSpecial(playerName, own, targetId);
 		}
 	}

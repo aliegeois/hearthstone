@@ -3,6 +3,7 @@ package fr.ministone.game.card;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 //import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -13,16 +14,20 @@ import fr.ministone.game.IEntity;
 
 @Entity
 public class CardSpell extends Card {
-	@OneToMany
+	@OneToMany(cascade = {CascadeType.ALL})
 	protected Set<SingleTargetEffect> singleEffects;
 
-	@OneToMany
+	@OneToMany(cascade = {CascadeType.ALL})
 	protected Set<MultipleTargetEffect> multipleEffects;
 
-	@OneToMany
+	@OneToMany(cascade = {CascadeType.ALL})
 	protected Set<GlobalEffect> globalEffects;
+
+	public CardSpell() {
+		super();
+	}
 	
-	public CardSpell(String id, String deck, IPlayer owner, String name, int mana, Set<SingleTargetEffect> singleEffects, Set<MultipleTargetEffect> multipleEffects, Set<GlobalEffect> globalEffects) {
+	public CardSpell(Long id, String deck, IPlayer owner, String name, int mana, Set<SingleTargetEffect> singleEffects, Set<MultipleTargetEffect> multipleEffects, Set<GlobalEffect> globalEffects) {
 		super(id, deck, owner, name, mana);
 		this.singleEffects = singleEffects;
 		this.multipleEffects = multipleEffects;
@@ -88,6 +93,6 @@ public class CardSpell extends Card {
 
 	@Override
 	public Card copy() {
-		return new CardSpell(UUID.randomUUID().toString(), deck, owner, name, manaCost, singleEffects, multipleEffects, globalEffects);
+		return new CardSpell(UUID.randomUUID().getLeastSignificantBits(), deck, owner, name, manaCost, singleEffects, multipleEffects, globalEffects);
 	}
 }

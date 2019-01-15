@@ -26,6 +26,8 @@ public class User {
 	@Transient
 	private User opponent;
 
+	public User() {}
+
 	public User(String name, String sessionId) {
 		this.name = name == null ? "" : name; // Putain de bordel de merde
 		this.sessionId = sessionId;

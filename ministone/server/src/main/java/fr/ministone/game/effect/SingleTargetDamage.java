@@ -8,6 +8,10 @@ import fr.ministone.game.IEntity;
 public class SingleTargetDamage extends SingleTargetEffect {
 	private int damage;
 	
+	public SingleTargetDamage() {
+		super();
+	}
+
 	public SingleTargetDamage(int damage) {
 		super();
 		this.damage = damage;

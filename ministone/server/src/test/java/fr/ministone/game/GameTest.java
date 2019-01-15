@@ -27,8 +27,8 @@ public class GameTest {
     @BeforeEach
     public void init() {
 
-        player1 = new PlayerMock("Billy","E", "warrior");
-        player2 = new PlayerMock("Bob", "F", "paladin");
+        player1 = new MPlayer("warrior");
+        player2 = new MPlayer("paladin");
 
         this.hero1.setPlayer(player1);
         this.hero2.setPlayer(player2);

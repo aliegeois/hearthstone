@@ -9,6 +9,10 @@ public class SummonSpecific extends GlobalEffect {
 	//private CardMinion card;
 	String minionName;
 	
+	public SummonSpecific() {
+		super();
+	}
+
 	public SummonSpecific(String minionName) {
 		super();
 		this.minionName = minionName;

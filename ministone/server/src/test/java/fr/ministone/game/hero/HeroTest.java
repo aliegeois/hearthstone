@@ -28,7 +28,7 @@ public class HeroTest {
 		player2 = new MPlayer("mage");
 		player3 = new MPlayer("paladin");
 		
-		card = new CardMinion("1", "shared", null, "Card Minion 1", 1, 0, 3, new HashSet<String>(), new HashMap<String, Integer>());
+		card = new CardMinion(1l, "shared", null, "Card Minion 1", 1, 0, 3, new HashSet<String>(), new HashMap<String, Integer>());
 
 		hero1 = (HeroWarrior)player1.getHero();
 		hero2 = (HeroMage)player2.getHero();

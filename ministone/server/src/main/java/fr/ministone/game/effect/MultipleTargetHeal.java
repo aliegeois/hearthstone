@@ -8,6 +8,10 @@ import fr.ministone.game.card.CardMinion;
 public class MultipleTargetHeal extends MultipleTargetEffect {
 	private int quantity;
 	
+	public MultipleTargetHeal() {
+		super();
+	}
+
 	public MultipleTargetHeal(boolean ownBoard, boolean opponentBoard, boolean ownHero, boolean opponentHero, int amount) {
 		super(ownBoard, opponentBoard, ownHero, opponentHero);
 		this.quantity = amount;
