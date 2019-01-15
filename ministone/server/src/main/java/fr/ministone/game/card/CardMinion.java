@@ -9,25 +9,31 @@ import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import fr.ministone.game.IPlayer;
 import fr.ministone.game.IEntity;
 
 @Entity
 public class CardMinion extends Card implements IEntity {
-	private int damageBase;
+	private final int damageBase;
 
 	@Transient
+	@JsonIgnore
 	private int damage;
 
 	@Transient
+	@JsonIgnore
 	private int damageBoosted;
 
 	private final int healthMax;
 
 	@Transient
+	@JsonIgnore
 	private int health;
 
 	@Transient
+	@JsonIgnore
 	private int healthBoosted;
 
 	private boolean charge;
@@ -41,10 +47,12 @@ public class CardMinion extends Card implements IEntity {
 	private int boostDamage;
 
 	@Transient
+	@JsonIgnore
 	private boolean ready;
 
 	public CardMinion() {
 		super();
+		damageBase = 0;
 		healthMax = 0;
 	}
 	
