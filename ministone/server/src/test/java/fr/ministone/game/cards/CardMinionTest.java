@@ -4,125 +4,136 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import fr.ministone.game.card.CardMinion;
-import fr.ministone.game.Player;
+import fr.ministone.game.IPlayer;
+import fr.ministone.game.MPlayer;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CardMinionTest {
-
-	private Player player1 = new Player("Billy","E", "warrior");
-	private Player player2 = new Player("Bob","F", "paladin");
-	private Set<String> cap1 = new HashSet<String>();
-	private Set<String> cap2 = new HashSet<String>();
-	private String prov = "provocation";
-	private String ready = "charge";
-	private Map<String,Integer> boost = new HashMap<String, Integer>();
-
-	private CardMinion carte1, carte2;
+	private IPlayer player1, player2;
+	private CardMinion card1, card2;
 
 	@BeforeEach
-	public void Init(){
-		this.cap1.add(ready);
-		this.cap2.add(prov);
-		this.carte1 = new CardMinion("1", "shared", player1, "Carte1", 2, 7, 4, cap1, boost);
-		this.carte2 = new CardMinion("2", "shared", player2, "Carte2", 1, 2, 10, cap2, boost);
+	public void init() {
+		player1 = new MPlayer("warrior");
+		player2 = new MPlayer("paladin");
 		player1.setOpponent(player2);
+
+		Set<String> capacities1 = new HashSet<String>();
+		Set<String> capacities2 = new HashSet<String>();
+		capacities1.add("charge");
+		capacities2.add("provocation");
+		card1 = new CardMinion("1", "shared", player1, "Card Minion 1", 2, 7, 4, capacities1, new HashMap<String, Integer>());
+		card2 = new CardMinion("2", "shared", player2, "Card Minion 2", 1, 2, 10, capacities2, new HashMap<String, Integer>());
 	}
 
 	@Test
-	void testTakeDamage(){
-		assertEquals(carte1.getHealth(),4);
-		carte1.takeDamage(2);
-		assertEquals(carte1.getHealth(), 2);
+	void testTakeDamage() {
+		assertEquals(card1.getHealth(), 4);
+
+		card1.takeDamage(2);
+
+		assertEquals(card1.getHealth(), 2);
 	}
 
 	@Test
-	void testIsDead(){
-		assertFalse(carte1.isDead());
-		carte1.takeDamage(4);
-		assertTrue(carte1.isDead());
+	void testIsDead() {
+		assertFalse(card1.isDead());
+
+		card1.takeDamage(4);
+
+		assertTrue(card1.isDead());
 	}
 
 	@Test
-	void testAttack(){
-		assertEquals(carte2.getHealth(), 10);
-		carte1.attack(carte2);
-		assertEquals(carte2.getHealth(), 3);
+	void testAttack() {
+		assertEquals(card2.getHealth(), 10);
+
+		card1.attack(card2);
+
+		assertEquals(card2.getHealth(), 3);
 	}
 
 	@Test
-	void testHeal(){
-		assertEquals(carte1.getHealth(), 4);
-		carte1.takeDamage(3);
-		assertEquals(carte1.getHealth(), 1);
-		carte1.heal(2);
-		assertEquals(carte1.getHealth(), 3);
+	void testHeal() {
+		assertEquals(card1.getHealth(), 4);
 
-		carte1.heal(2);
-		assertEquals(carte1.getHealth(), 4);
+		card1.takeDamage(3);
+
+		assertEquals(card1.getHealth(), 1);
+
+		card1.heal(2);
+
+		assertEquals(card1.getHealth(), 3);
+
+		card1.heal(2);
+
+		assertEquals(card1.getHealth(), 4);
 	}
 
 	@Test
-	void testBoostDamage(){
-		assertEquals(carte1.getDamage(), 7);
-		carte1.buffDamage(10);
-		assertEquals(carte1.getDamage(), 17);
+	void testBoostDamage() {
+		assertEquals(card1.getDamage(), 7);
 
-		carte1.buffDamage(-10);
-		assertEquals(carte1.getDamage(), 7);
+		card1.buffDamage(10);
+
+		assertEquals(card1.getDamage(), 17);
+
+		card1.buffDamage(-10);
+
+		assertEquals(card1.getDamage(), 7);
 	}
 
 	@Test
-	void testBoostHealth(){
-		assertEquals(carte1.getHealth(), 4);
-		assertEquals(carte1.getHealthMax(), 4);
-		assertEquals(carte1.getHealthBoosted(), 0);
+	void testBoostHealth() {
+		assertEquals(card1.getHealth(), 4);
+		assertEquals(card1.getHealthMax(), 4);
+		assertEquals(card1.getHealthBoosted(), 0);
 
-		carte1.buffHealth(2);
+		card1.buffHealth(2);
 		
-		assertEquals(carte1.getHealth(), 6);
-		assertEquals(carte1.getHealthMax(), 4);
-		assertEquals(carte1.getHealthBoosted(), 2);
+		assertEquals(card1.getHealth(), 6);
+		assertEquals(card1.getHealthMax(), 4);
+		assertEquals(card1.getHealthBoosted(), 2);
 
-		carte1.takeDamage(4);
+		card1.takeDamage(4);
 
-		assertFalse(carte1.isDead());
+		assertFalse(card1.isDead());
 
-		carte1.heal(4);
+		card1.heal(4);
 
-		assertEquals(carte1.getHealth(), carte1.getHealthMax());
+		assertEquals(card1.getHealth(), card1.getHealthMax());
 	}
 
 	@Test
 	void testDie() {
 		assertTrue(player1.getBoard().isEmpty());
 
-		player1.getBoard().put("1", carte1);
-		carte1.takeDamage(3);
+		player1.getBoard().put("1", card1);
+		card1.takeDamage(3);
 
-		assertEquals(carte1.getHealth(), 1);
+		assertEquals(card1.getHealth(), 1);
 
-		carte2.attack(carte1);
-		carte1.getOwner().checkDead();
+		card2.attack(card1);
+		card1.getOwner().checkDead();
 		
-		assertTrue(carte1.isDead());
+		assertTrue(card1.isDead());
 		assertTrue(player1.getBoard().isEmpty());
 	}
 
 	@Test
-	void testIsReady(){
-		assertTrue(carte1.isReady());
-		assertFalse(carte2.isReady());
+	void testIsReady() {
+		assertTrue(card1.isReady());
+		assertFalse(card2.isReady());
 	}
 
 	@Test
-	void testIsProvoking(){
-		assertFalse(carte1.isProvoking());
-		assertTrue(carte2.isProvoking());
+	void testIsProvoking() {
+		assertFalse(card1.isProvoking());
+		assertTrue(card2.isProvoking());
 	}
 }

@@ -56,9 +56,9 @@ public class EffectTest {
 
 		assertEquals(1, player1.getHand().size());
 
-		player1.castSpell(card.getId());
+		effect.play();
 
-		assertEquals(2, player1.getHand().size());
+		assertEquals(3, player1.getHand().size());
 	}
 
 	@Test
@@ -71,7 +71,7 @@ public class EffectTest {
 		player1.getBoard().put(card1.getId(), card1);
 		player1.getBoard().put(card2.getId(), card2);
 
-		player1.castSpell(card.getId());
+		effect.play();
 	 
 		assertEquals(3, card1.getHealth());
 		assertEquals(5, card2.getHealth());
@@ -87,8 +87,7 @@ public class EffectTest {
 		player2.getBoard().put(card3.getId(), card3);
 		player2.getBoard().put(card4.getId(), card4);
 
-		//card.play();
-		player1.castSpell(card.getId());
+		effect.play();
 
 		assertEquals(3, card3.getDamage());
 		assertEquals(3, card4.getDamage());
@@ -112,7 +111,7 @@ public class EffectTest {
 		assertEquals(2, player1.getBoard().size());
 		assertEquals(2, player2.getBoard().size());
 
-		player1.castSpell(card.getId());
+		effect.play();
 		player1.checkDead();
 		player2.checkDead();
 		
@@ -136,7 +135,7 @@ public class EffectTest {
 		assertEquals(28, player1.getHero().getHealth());
 		assertEquals(22, player2.getHero().getHealth());
 
-		player1.castSpell(card.getId());
+		effect.play();
 
 		assertEquals(Constants.HEROHEALTHMAX, player1.getHero().getHealth());
 		assertEquals(27, player2.getHero().getHealth());
@@ -153,7 +152,7 @@ public class EffectTest {
 
 		assertEquals(1, card1.getDamage());
 
-		player1.castSpell(true, card.getId(), card1.getId());
+		effect.play(card1);
 
 		assertEquals(2, card1.getDamage());
 	}
@@ -169,7 +168,7 @@ public class EffectTest {
 
 		assertEquals(1, card3.getHealth());
 
-		player1.castSpell(true, card.getId(), card3.getId());
+		effect.play(card3);
 
 		assertEquals(2, card3.getHealth());
 	}
@@ -177,29 +176,22 @@ public class EffectTest {
 	@Test
 	void testSinglTargDamage() {
 		SingleTargetDamage effect = new SingleTargetDamage(10);
-		ste.add(effect);
-		CardSpell card = new CardSpell("0", "shared", player1, "Sprint", 7, ste, mte, gte);
-
-		player1.getHand().put(card.getId(), card);
-
+		
 		assertEquals(Constants.HEROHEALTHMAX, player1.getHero().getHealth());
 
-		player1.castSpell(true, card.getId(), "hero");
+		effect.play(player2.getHero());
 
-		assertEquals(Constants.HEROHEALTHMAX - 10, player1.getHero().getHealth());
+		assertEquals(Constants.HEROHEALTHMAX - 10, player2.getHero().getHealth());
 	}
 
 	@Test
 	void testTransform() {
 		CardMinion mouton = new CardMinion(card3.getId(), "shared", player2, "mouton", 0, 0, 1, new HashSet<String>(), new HashMap<String, Integer>()); // Doute sur card3.getId()
 		Transform effect = new Transform(mouton);
-		ste.add(effect);
-		CardSpell card = new CardSpell("0", "shared", player1, "test", 7, ste, mte, gte);
-
-		player1.getHand().put(card.getId(), card);
+		
 		player2.getBoard().put(card3.getId(), card3);
 
-		player1.castSpell(false, card.getId(), card3.getId());
+		effect.play(card3);
 
 		assertEquals("mouton", player2.getBoard().get("3").getName());
 	}

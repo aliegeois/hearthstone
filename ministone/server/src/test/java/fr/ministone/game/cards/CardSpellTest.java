@@ -62,7 +62,8 @@ public class CardSpellTest {
 		assertEquals(2, player1.getBoard().size());
 		assertEquals(2, player2.getBoard().size());
 
-		player1.castSpell(false, card.getId(), "hero");
+		card.play(player2.getHero());
+
 		player1.checkDead();
 		player2.checkDead();
 
@@ -85,7 +86,7 @@ public class CardSpellTest {
 		assertEquals(26, player1.getHero().getHealth());
 		assertEquals(1, card2.getHealth());
 
-		player1.castSpell(true, card.getId(), "hero");
+		card.play(player1.getHero());
 
 		assertEquals(29, player1.getHero().getHealth());
 		assertEquals(1, card1.getHealth());
@@ -104,7 +105,7 @@ public class CardSpellTest {
 
 		assertEquals("Card Minion 1", card1.getName());
 
-		player1.castSpell(true, card.getId(), card1.getId());
+		card.play(card1);
 
 		assertEquals("mouton", card1.getName());
 	}
@@ -119,8 +120,8 @@ public class CardSpellTest {
 		
 		assertEquals(1, player1.getHand().size());
 
-		player1.castSpell(card.getId());
+		card.play();
 
-		assertEquals(2, player1.getHand().size());
+		assertEquals(3, player1.getHand().size());
 	}
 }
