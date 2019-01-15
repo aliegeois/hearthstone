@@ -25,7 +25,7 @@
 				<ul>
 					<li *ngFor="let card of joueur.hand | keyvalue" id="card" [class.nonTargetable]="!card.isTargetable()" (click)="selectCardHand(card)">
 						<div>
-							<img src="../../assets/images/cards/{{ card.name }}.png" alt="{{ card.name }}" />
+							<img src="{{getImgUrl(card)}}" alt="{{ card.name }}" />
 							<span id="cardManaCost">{{ card.value.manaCost }}</span>
 							<span id="cardDamage">{{ card.value.damage }}</span>
 							<span id="cardHealth">{{ card.value.health }}</span>
@@ -38,7 +38,7 @@
 				<ul>
 					<li *ngFor="let card of joueur.board | keyvalue" id="card" id="card" [class.nonTargetable]="!card.isTargetable()" (click)="selectCardPlayerBoard(card)">
 						<div>
-							<img src="../../assets/images/cards/{{ card.name }}.png" alt="{{ card.name }}" />
+							<img src="{{getImgUrl(card)}}" alt="{{ card.name }}" />
 							<span id="cardManaCost">{{ card.value.manaCost }}</span>
 							<span id="cardDamage">{{ card.value.damage }}</span>
 							<span id="cardHealth">{{ card.value.health }}</span>
@@ -51,7 +51,7 @@
 				<ul>
 					<li *ngFor="let card of opponent.board | keyvalue" id="card" [class.nonTargetable]="!card.isTargetable()" (click)="selectCardOpponentBoard(card)">
 						<div>
-							<img src="../../assets/images/cards/{{ card.name }}.png" alt="{{ card.name }}" />
+							<img src="{{getImgUrl(card)}}" alt="{{ card.name }}" />
 							<span id="cardManaCost">{{ card.value.manaCost }}</span>
 							<span id="cardDamage">{{ card.value.damage }}</span>
 							<span id="cardHealth">{{ card.value.health }}</span>

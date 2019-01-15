@@ -377,19 +377,11 @@ export class GameComponent implements OnInit {
 
     getImgUrl(card: Card) {
       let name = card.name;
-      name.replace(/\s/g, "");
-      name.replace(/'/g, "");
-
-      var re = /apples/gi; 
-var str = "Apples are round, and apples are juicy.";
-var newstr = str.replace(re, "oranges"); 
-console.log(newstr)
-      var re = / /gi; 
-      "hello world".replace(/\s/g, "");
-      var str = "Apples are round, and apples are juicy.";
-      var newstr = str.replace(re, "oranges"); 
-      console.log(newstr)
-      return "../../assets/images/cards/" + card.getName
+      name.replace(/\s/g, ""); //On vire les espaces
+      name.replace(/'/g, ""); //On vire les '
+      let url = '../../assets/images/cards/' + name.toLocaleLowerCase() + '.png';
+      console.log('URLIMG : ' + url);
+      return url;
     }
 
 
