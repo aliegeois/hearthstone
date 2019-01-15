@@ -1,10 +1,13 @@
 package fr.ministone.repository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import fr.ministone.game.card.CardSpell;
 
 public class MCardSpellRepository implements CardSpellRepository {
+	private List<CardSpell> cards = new ArrayList<>();
 
 	@Override
 	public <S extends CardSpell> S save(S entity) {
