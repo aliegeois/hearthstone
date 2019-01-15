@@ -11,127 +11,117 @@ import org.junit.jupiter.api.Test;
 
 import fr.ministone.game.effect.*;
 import fr.ministone.game.card.*;
-import fr.ministone.User;
 import fr.ministone.game.*;
 
-public class CardSpellTest{
+public class CardSpellTest {
+	private CardSpell card;
 
-    private IGame game;
-    private CardSpell carte;
+	private IPlayer player1, player2;
+	private CardMinion card1, card2, card3, card4;
 
-    private IPlayer player1;
-    private IPlayer player2;
-    private User user1, user2;
-    private CardMinion carteMin1, carteMin2, carteMin3, carteMin4;
+	private Set<SingleTargetEffect> ste;
+	private Set<MultipleTargetEffect> mte;
+	private Set<GlobalEffect> gte;
 
-    private Set<SingleTargetEffect> ste;
-    private Set<MultipleTargetEffect> mte;
-    private Set<GlobalEffect> gte;
+	@BeforeEach
+	private void init() {
+		player1 = new MPlayer("mage");
+		player2 = new MPlayer("paladin");
+		player1.setOpponent(player2);
 
-    @BeforeEach
-    private void Init(){
+		card1 = new CardMinion("1", "shared", player1, "Card Minion 1", 1, 1, 1, new HashSet<String>(), new HashMap<String, Integer>());
+		card2 = new CardMinion("2", "shared", player1, "Card Minion 2", 1, 1, 3, new HashSet<String>(), new HashMap<String, Integer>());
+		card3 = new CardMinion("3", "shared", player2, "Card Minion 3", 1, 1, 1, new HashSet<String>(), new HashMap<String, Integer>());
+		card4 = new CardMinion("4", "shared", player2, "Card Minion 4", 1, 1, 3, new HashSet<String>(), new HashMap<String, Integer>());
 
-        this.user1 = new User("Billy", "E");
-        this.user2 = new User("Bob", "F");
+		player1.getDeck().add(card1);
+		player1.getDeck().add(card2);
+		player2.getDeck().add(card3);
+		player2.getDeck().add(card4);
 
-        game = new GameMock(user1,user2); 
+		player1.getBoard().put(card1.getId(), card1);
+		player1.getBoard().put(card2.getId(), card2);
+		player2.getBoard().put(card3.getId(), card3);
+		player2.getBoard().put(card4.getId(), card4);
 
-        this.player1 = this.game.getPlayer("E");
-        this.player2 = this.game.getPlayer("F");    
+		ste = new HashSet<SingleTargetEffect>();
+		mte = new HashSet<MultipleTargetEffect>();
+		gte = new HashSet<GlobalEffect>();
+	}
 
-        this.carteMin1 = new CardMinion("1", "shared", this.player1, "carteMin1", 1, 1, 1, new HashSet<String>(), new HashMap<String, Integer>());
-        this.carteMin2 = new CardMinion("2", "shared", this.player1, "carteMin2", 1, 1, 3, new HashSet<String>(), new HashMap<String, Integer>());
-        this.carteMin3 = new CardMinion("3", "shared", this.player2, "carteMin3", 1, 1, 1, new HashSet<String>(), new HashMap<String, Integer>());
-        this.carteMin4 = new CardMinion("4", "shared", this.player2, "carteMin4", 1, 1, 3, new HashSet<String>(), new HashMap<String, Integer>());
+	@Test
+	public void testCardSpellDamage() {
+		SingleTargetDamage effect1 = new SingleTargetDamage(3);
+		MultipleTargetDamage effect2 = new MultipleTargetDamage(true, true, false, false, 1);
+		ste.add(effect1);
+		mte.add(effect2);
+		card = new CardSpell("0", "shared", player1, "Test", 1, ste, mte, gte);
 
-        this.player1.getDeck().add(carteMin1);
-        this.player1.getDeck().add(carteMin2);
-        this.player2.getDeck().add(carteMin3);
-        this.player2.getDeck().add(carteMin4);
+		player1.getHand().put(card.getId(), card);
 
-        this.player1.getBoard().put(carteMin1.getId(), carteMin1);
-        this.player1.getBoard().put(carteMin2.getId(), carteMin2);
-        this.player2.getBoard().put(carteMin3.getId(), carteMin3);
-        this.player2.getBoard().put(carteMin4.getId(), carteMin4);
+		assertEquals(2, player1.getBoard().size());
+		assertEquals(2, player2.getBoard().size());
 
-        this.ste = new HashSet<SingleTargetEffect>();
-        this.mte = new HashSet<MultipleTargetEffect>();
-        this.gte = new HashSet<GlobalEffect>();
-    }
+		card.play(player2.getHero());
 
-    @Test
-    public void testCardSpellDamage(){
+		player1.checkDead();
+		player2.checkDead();
 
-        SingleTargetEffect effet1 = new SingleTargetDamage(3);
-        MultipleTargetEffect effet2 = new MultipleTargetDamage(true, true, false, false,1);
+		assertEquals(27, player2.getHero().getHealth());
+		assertEquals(1, player1.getBoard().size());
+		assertEquals(1, player2.getBoard().size());
+	}
 
-        this.ste.add(effet1);
-        this.mte.add(effet2);
+	@Test
+	public void testCardSpellHeal() {
+		SingleTargetHeal effect1 = new SingleTargetHeal(3);
+		MultipleTargetHeal effect2 = new MultipleTargetHeal(true, true, false, false, 1);
+		ste.add(effect1);
+		mte.add(effect2);
+		card = new CardSpell("0", "shared", player1, "test", 1, ste, mte, gte);
 
-        carte = new CardSpell("0", "shared", this.player1, "test", 1, ste, mte, gte);
+		player1.getHand().put(card.getId(), card);
+		player1.getHero().takeDamage(4);
+		card2.takeDamage(2);
+		assertEquals(26, player1.getHero().getHealth());
+		assertEquals(1, card2.getHealth());
 
-        assertEquals(2, this.player1.getBoard().size());
-        assertEquals(2, this.player2.getBoard().size());
+		card.play(player1.getHero());
 
-        carte.play(player2.getHero());
-        game.checkBoard();
+		assertEquals(29, player1.getHero().getHealth());
+		assertEquals(1, card1.getHealth());
+		assertEquals(2, card2.getHealth());
+	}
 
-        assertEquals(27, this.player2.getHero().getHealth());
-        assertEquals(1, this.player1.getBoard().size());
-        assertEquals(1, this.player2.getBoard().size());
+	@Test 
+	public void testCardSpellTransform() {
+		CardMinion mouton = new CardMinion(card3.getId(), "shared", card1.getOwner(), "mouton", 0, 0, 1, new HashSet<String>(), new HashMap<String, Integer>());
+		Transform effect = new Transform(mouton);
+		ste.add(effect);
+		card = new CardSpell("0", "shared", player1, "test", 1, ste, mte, gte);
 
-    }
+		player1.getHand().put(card.getId(), card);
+		player1.getBoard().put(card1.getId(), card1);
 
-    @Test
-    public void testCardSpellHeal(){
-        
-        SingleTargetEffect effet1 = new SingleTargetHeal(3);
-        MultipleTargetEffect effet2 = new MultipleTargetHeal(true, true, false, false, 1);
+		assertEquals("Card Minion 1", card1.getName());
 
-        this.ste.add(effet1);
-        this.mte.add(effet2);
+		card.play(card1);
 
-        carte = new CardSpell("0", "shared", this.player1, "test", 1, ste, mte, gte);
+		assertEquals("mouton", card1.getName());
+	}
 
-        player1.getHero().takeDamage(4);
-        carteMin2.takeDamage(2);
-        assertEquals(26, this.player1.getHero().getHealth());
-        assertEquals(1, carteMin2.getHealth());
+	@Test
+	public void testDraw() {
+		DrawRandom effect = new DrawRandom(2);
+		gte.add(effect);
+		card = new CardSpell("0", "shared", player1, "test", 1, ste, mte, gte);
 
-        carte.play(this.player1.getHero());
+		player1.getHand().put(card.getId(), card);
+		
+		assertEquals(1, player1.getHand().size());
 
-        assertEquals(29, this.player1.getHero().getHealth());
-        assertEquals(1, carteMin1.getHealth());
-        assertEquals(2, carteMin2.getHealth());
+		card.play();
 
-    }
-
-    @Test 
-    public void testCardSpellTransform() {
-        IEntity mouton = new CardMinion(carteMin3.getId(), "shared", carteMin1.getOwner(), "mouton", 0, 0, 1, new HashSet<String>(), new HashMap<String, Integer>());
-        SingleTargetEffect effet1 = new Transform(mouton);
-
-        this.ste.add(effet1);
-
-        carte = new CardSpell("0", "shared", this.player1, "test", 1, ste, mte, gte);
-
-        assertEquals("carteMin1", carteMin1.getName());
-        carte.play(carteMin1);
-        assertEquals("mouton", carteMin1.getName());
-    }
-
-    @Test
-    public void testDraw(){
-        GlobalEffect effet = new DrawRandom(2);
-
-        this.gte.add(effet);
-
-        carte = new CardSpell("0", "shared", this.player1, "test", 1, ste, mte, gte);
-        
-        assertEquals(0, this.player1.getHand().size());
-
-        carte.play();
-
-        assertEquals(2, this.player1.getHand().size());
-    }
+		assertEquals(3, player1.getHand().size());
+	}
 }

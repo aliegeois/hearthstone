@@ -17,7 +17,7 @@ import fr.ministone.game.hero.*;
 public class GameTest {
 
     private IGame game1, game2;
-    private PlayerMock player1, player2;
+    private IPlayer player1, player2;
     private User user1, user2;
     private Hero hero1, hero2;
     private CardMinion carte1, carte2;

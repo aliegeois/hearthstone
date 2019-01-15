@@ -8,37 +8,31 @@ import java.util.HashSet;
 
 import org.junit.jupiter.api.BeforeEach;
 
-import fr.ministone.game.Player;
-import fr.ministone.game.hero.HeroMage;
-import fr.ministone.game.hero.HeroPaladin;
-import fr.ministone.game.hero.HeroWarrior;
 import fr.ministone.game.card.CardMinion;
 import fr.ministone.game.Constants;
 import fr.ministone.game.IPlayer;
+import fr.ministone.game.MPlayer;
 
 public class HeroTest {
-	private IPlayer player1;
-	private IPlayer player2;
-	private IPlayer player3;
+	private IPlayer player1, player2, player3;
+
 	private HeroWarrior hero1;
 	private HeroMage hero2;
 	private HeroPaladin hero3;
-	private CardMinion card1;
+
+	private CardMinion card;
 
 	@BeforeEach
 	public void init() {
-		player1 = new Player("Billy", "E", "warrior");
-		player2 = new Player("Bob", "F", "mage");
-		player3 = new Player("Tiburs", "G", "paladin");
+		player1 = new MPlayer("warrior");
+		player2 = new MPlayer("mage");
+		player3 = new MPlayer("paladin");
 		
-		card1 = new CardMinion("1", "shared", player1, "carte1", 1, 0, 3, new HashSet<String>(), new HashMap<String, Integer>());
+		card = new CardMinion("1", "shared", null, "Card Minion 1", 1, 0, 3, new HashSet<String>(), new HashMap<String, Integer>());
 
-		hero1 = new HeroWarrior();
-		hero2 = new HeroMage();
-		hero3 = new HeroPaladin();
-
-		hero3.setPlayer(player3);
-
+		hero1 = (HeroWarrior)player1.getHero();
+		hero2 = (HeroMage)player2.getHero();
+		hero3 = (HeroPaladin)player3.getHero();
 	}
 
 	@Test
@@ -51,18 +45,16 @@ public class HeroTest {
 	}
 
 	@Test
-
 	void testSpecialHero2() {
-		assertEquals(3, card1.getHealth());
+		assertEquals(3, card.getHealth());
 
-		hero2.special(card1);
+		hero2.special(card);
 
-		assertEquals(1, card1.getHealth());
+		assertEquals(1, card.getHealth());
 	}
 
 	@Test
 	void testSpecialHero3() {
-		//Test hero3
 		assertTrue(player3.getBoard().isEmpty());
 		assertTrue(player3.getHand().isEmpty());
 
@@ -74,7 +66,7 @@ public class HeroTest {
 
 	@Test
 	void testTakeDamage() {
-		hero1.special();
+		player1.heroSpecial();
 
 		assertEquals(Constants.HEROHEALTHMAX, hero1.getHealth());
 		assertEquals(Constants.HEROHEALTHMAX, hero2.getHealth());

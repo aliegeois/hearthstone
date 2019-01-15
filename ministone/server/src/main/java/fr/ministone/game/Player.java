@@ -9,7 +9,6 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.core.AbstractMessageSendingTemplate;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import fr.ministone.repository.*;
 
@@ -68,9 +67,10 @@ public class Player implements IPlayer, IPlayerMessageSender {
 		this.hero.setPlayer(this);
 	}
 
-	public Player(String name, String sessionId, String heroType) {
+	public Player(String name, String sessionId, String gameId, String heroType) {
 		this.name = name;
 		this.sessionId = sessionId;
+		this.gameId = gameId;
 		
 		if("warrior".equals(heroType)) {
 			this.hero = new HeroWarrior();
@@ -167,7 +167,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	}
 	
 	@Override
-	public void heroSpecial(boolean own, String targetId) { // À terminer
+	public void heroSpecial(boolean own, String targetId) {
 		IEntity victim;
 		if("hero".equals(targetId)) {
 			victim = (own ? this : opponent).getHero();

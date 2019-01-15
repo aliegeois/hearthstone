@@ -9,20 +9,12 @@ import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 
-import fr.ministone.User;
 import fr.ministone.game.*;
-import fr.ministone.game.hero.*;
-import fr.ministone.game.card.CardMinion;
-import fr.ministone.game.card.CardSpell;
+import fr.ministone.game.card.*;
 import fr.ministone.game.Constants;
 
 public class EffectTest {
-	private IGame game;
-	//private CardSpell card;
-
 	private IPlayer player1, player2;
-	private Hero hero1, hero2;
-	private User user1, user2;
 	private CardMinion card1, card2, card3, card4;
 
 	private Set<SingleTargetEffect> ste;
@@ -31,13 +23,9 @@ public class EffectTest {
 
 	@BeforeEach
 	public void init() {
-		user1 = new User("Billy", "E");
-		user2 = new User("Bob", "E");
-		
-		game = new GameMock(user1, user2);
-		
-		player1 = game.getPlayer("E");
-		player2 = game.getPlayer("F");
+		player1 = new MPlayer("warrior");
+		player2 = new MPlayer("mage");
+		player1.setOpponent(player2);
 
 		card1 = new CardMinion("1", "shared", player1, "Card Minion 1", 1, 1, 1, new HashSet<String>(), new HashMap<String, Integer>());
 		card2 = new CardMinion("2", "shared", player1, "Card Minion 2", 1, 1, 3, new HashSet<String>(), new HashMap<String, Integer>());
@@ -52,12 +40,11 @@ public class EffectTest {
 		ste = new HashSet<SingleTargetEffect>();
 		mte = new HashSet<MultipleTargetEffect>();
 		gte = new HashSet<GlobalEffect>();
-
 	}
 
 	@Test
 	void testDrawRandom() {
-		GlobalEffect effect = new DrawRandom(2);
+		DrawRandom effect = new DrawRandom(2);
 		gte.add(effect);
 		CardSpell card = new CardSpell("0", "shared", player1, "Sprint", 7, ste, mte, gte);
 		
@@ -76,15 +63,15 @@ public class EffectTest {
 
 	@Test
 	void testMultTarBuffOwnBoard() {
-		MultipleTargetEffect effect = new MultipleTargetBuff(true, false, false, false, 2, 0);
+		MultipleTargetBuff effect = new MultipleTargetBuff(true, false, false, false, 2, 0);
 		mte.add(effect);
 		CardSpell card = new CardSpell("0", "shared", player1, "Sprint", 7, ste, mte, gte);
 
+		player1.getHand().put(card.getId(), card);
 		player1.getBoard().put(card1.getId(), card1);
 		player1.getBoard().put(card2.getId(), card2);
 
-		//effect.play();
-		card.play();
+		effect.play();
 	 
 		assertEquals(3, card1.getHealth());
 		assertEquals(5, card2.getHealth());
@@ -92,34 +79,41 @@ public class EffectTest {
 
 	@Test
 	void testMultTarBuffOpponentBoard() {
-		MultipleTargetEffect effect = new MultipleTargetBuff(false, true, false, false, 0, 2);
+		MultipleTargetBuff effect = new MultipleTargetBuff(false, true, false, false, 0, 2);
 		mte.add(effect);
 		CardSpell card = new CardSpell("0", "shared", player1, "Sprint", 7, ste, mte, gte);
 
+		player1.getHand().put(card.getId(), card);
 		player2.getBoard().put(card3.getId(), card3);
 		player2.getBoard().put(card4.getId(), card4);
 
-		//effect.play();
-		card.play();
-	 
+		effect.play();
+
 		assertEquals(3, card3.getDamage());
 		assertEquals(3, card4.getDamage());
 	}
 
 	@Test
 	void testMultTarDamageAll() {
-		MultipleTargetEffect effect = new MultipleTargetDamage(true, true, true, true, 2);
+		MultipleTargetDamage effect = new MultipleTargetDamage(true, true, true, true, 2);
 		mte.add(effect);
 		CardSpell card = new CardSpell("0", "shared", player1, "Sprint", 7, ste, mte, gte);
 
+		assertEquals(0, player1.getBoard().size());
+		assertEquals(0, player2.getBoard().size());
+
+		player1.getHand().put(card.getId(), card);
 		player1.getBoard().put(card1.getId(), card1);
 		player1.getBoard().put(card2.getId(), card2);
 		player2.getBoard().put(card3.getId(), card3);
 		player2.getBoard().put(card4.getId(), card4);
 
-		//effect.play();
-		card.play();
-		game.checkBoard();
+		assertEquals(2, player1.getBoard().size());
+		assertEquals(2, player2.getBoard().size());
+
+		effect.play();
+		player1.checkDead();
+		player2.checkDead();
 		
 		assertEquals(Constants.HEROHEALTHMAX - 2, player1.getHero().getHealth());
 		assertEquals(Constants.HEROHEALTHMAX - 2, player1.getHero().getHealth());
@@ -130,78 +124,79 @@ public class EffectTest {
 
 	@Test 
 	void testMultTarHealBothHeroes() {
-		MultipleTargetEffect effect = new MultipleTargetHeal(false, false, true, true, 5);
+		MultipleTargetHeal effect = new MultipleTargetHeal(false, false, true, true, 5);
 		mte.add(effect);
 		CardSpell card = new CardSpell("0", "shared", player1, "Sprint", 7, ste, mte, gte);
 
+		player1.getHand().put(card.getId(), card);
 		player1.getHero().takeDamage(2);
 		player2.getHero().takeDamage(8);
 
 		assertEquals(28, player1.getHero().getHealth());
 		assertEquals(22, player2.getHero().getHealth());
 
-		//effect.play();
-		card.play();
+		effect.play();
 
 		assertEquals(Constants.HEROHEALTHMAX, player1.getHero().getHealth());
 		assertEquals(27, player2.getHero().getHealth());
-		
 	}
 
 	@Test
 	void testSinglTarDamBuff() {
-		SingleTargetEffect effect = new SingleTargetDamageBuff(1);
+		SingleTargetDamageBuff effect = new SingleTargetDamageBuff(1);
 		ste.add(effect);
 		CardSpell card = new CardSpell("0", "shared", player1, "Sprint", 7, ste, mte, gte);
 
+		player1.getHand().put(card.getId(), card);
+		player1.getBoard().put(card1.getId(), card1);
+
 		assertEquals(1, card1.getDamage());
 
-		//effect.play(card1);
-		card.play(card1);
+		effect.play(card1);
 
 		assertEquals(2, card1.getDamage());
 	}
 
 	@Test
 	void testSinglTarHealthBuff() {
-		SingleTargetEffect effect = new SingleTargetLifeBuff(1);
+		SingleTargetLifeBuff effect = new SingleTargetLifeBuff(1);
 		ste.add(effect);
 		CardSpell card = new CardSpell("0", "shared", player1, "Sprint", 7, ste, mte, gte);
 
+		player1.getHand().put(card.getId(), card);
+		player1.getBoard().put(card3.getId(), card3);
+
 		assertEquals(1, card3.getHealth());
 
-		//effect.play(card3);
-		card.play(card3);
+		effect.play(card3);
 
 		assertEquals(2, card3.getHealth());
 	}
 
 	@Test
 	void testSinglTargDamage() {
-		SingleTargetEffect effect = new SingleTargetDamage(10);
-		ste.add(effect);
-		CardSpell card = new CardSpell("0", "shared", player1, "Sprint", 7, ste, mte, gte);
-
+		SingleTargetDamage effect = new SingleTargetDamage(10);
+		
 		assertEquals(Constants.HEROHEALTHMAX, player1.getHero().getHealth());
 
-		//effect.play(this.player1.getHero());
-		card.play(player1.getHero());
+		effect.play(player2.getHero());
 
-		assertEquals(20, player1.getHero().getHealth());
+		assertEquals(Constants.HEROHEALTHMAX - 10, player2.getHero().getHealth());
 	}
 
 	@Test
 	void testTransform() {
 		CardMinion mouton = new CardMinion(card3.getId(), "shared", player2, "mouton", 0, 0, 1, new HashSet<String>(), new HashMap<String, Integer>()); // Doute sur card3.getId()
-		SingleTargetEffect effect = new Transform(mouton);
-		ste.add(effect);
-		CardSpell card = new CardSpell("0", "shared", player1, "test", 7, ste, mte, gte);
-
+		Transform effect = new Transform(mouton);
+		
 		player2.getBoard().put(card3.getId(), card3);
 
-		//effect.play(card3);
-		card.play(card3);
+		effect.play(card3);
 
 		assertEquals("mouton", player2.getBoard().get("3").getName());
+	}
+
+	void testDrawSpecific() {
+		// TODO
 	}
 }
