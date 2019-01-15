@@ -17,12 +17,12 @@ public class MCardSpellRepository implements CardSpellRepository {
 	}
 
 	@Override
-	public Optional<CardSpell> findById(Long id) {
+	public Optional<CardSpell> findById(String id) {
 		return null;
 	}
 
 	@Override
-	public boolean existsById(Long id) {
+	public boolean existsById(String id) {
 		return false;
 	}
 
@@ -32,7 +32,7 @@ public class MCardSpellRepository implements CardSpellRepository {
 	}
 
 	@Override
-	public Iterable<CardSpell> findAllById(Iterable<Long> ids) {
+	public Iterable<CardSpell> findAllById(Iterable<String> ids) {
 		return null;
 	}
 
@@ -42,7 +42,7 @@ public class MCardSpellRepository implements CardSpellRepository {
 	}
 
 	@Override
-	public void deleteById(Long id) {
+	public void deleteById(String id) {
 
 	}
 

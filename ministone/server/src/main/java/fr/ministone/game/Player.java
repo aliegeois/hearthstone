@@ -127,7 +127,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 			minion.attack(tar);
 			//minion.attack(getOpponent().getBoard().get(targetId));
 		}
-		sendAttack(cardId, targetId); // J'ai un doute sur l'ordre mdr
+		sendAttack(isHero, cardId, targetId); // J'ai un doute sur l'ordre mdr
 	}
 	
 	@Override
@@ -162,7 +162,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 		}
 		spell.play(victim);
 		hand.remove(spell.getId());
-		sendCastTargetedSpell(own, spellId, targetId);
+		sendCastTargetedSpell(own, isHero, spellId, targetId);
 	}
 
 	@Override
@@ -183,7 +183,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 		}
 		
 		hero.special(victim);
-		sendHeroTargetedSpecial(own, targetId);
+		sendHeroTargetedSpecial(own, isHero, targetId);
 	}
 
 	@Override
@@ -274,11 +274,6 @@ public class Player implements IPlayer, IPlayerMessageSender {
 		return cardMinionRepository.findByName(name);
 	}
 
-	@Override
-	public CardMinion findMinionById(Long minionId) {
-		return cardMinionRepository.findById(minionId).get();
-	}
-
 
 	@Override
 	public void sendSummonMinion(Long minionId) {
@@ -289,21 +284,23 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	}
 
 	@Override
-	public void sendAttack(Long cardId, Long targetId) {
+	public void sendAttack(boolean hero, Long cardId, Long targetId) {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", name);
+		send.put("hero", hero ? "true" : "false");
 		send.put("cardId", cardId.toString());
 		send.put("targetId", targetId.toString());
 		template.convertAndSend("/topic/game/" + gameId + "/attack", JsonUtil.toJSON(send));
 	}
 
 	@Override
-	public void sendCastTargetedSpell(boolean own, Long spellId, Long targetId) {
+	public void sendCastTargetedSpell(boolean own, boolean hero, Long spellId, Long targetId) {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", name);
+		send.put("own", own ? "true" : "false");
+		send.put("hero", hero ? "true" : "false");
 		send.put("cardId", spellId.toString());
 		send.put("targetId", targetId.toString());
-		send.put("own", own ? "true" : "false");
 		template.convertAndSend("/topic/game/" + gameId + "/castTargetedSpell", JsonUtil.toJSON(send));
 	}
 
@@ -316,10 +313,11 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	}
 
 	@Override
-	public void sendHeroTargetedSpecial(boolean own, Long targetId) {
+	public void sendHeroTargetedSpecial(boolean own, boolean hero, Long targetId) {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", name);
 		send.put("own", own ? "true" : "false");
+		send.put("hero", hero ? "true" : "false");
 		send.put("targetId", targetId.toString());
 		template.convertAndSend("/topic/game/" + gameId + "/targetedSpecial", JsonUtil.toJSON(send));
 	}

@@ -6,11 +6,14 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import fr.ministone.game.IEntity;
 
 @MappedSuperclass
 public abstract class Card {
 	@Transient
+	@JsonIgnore
 	protected Long id;
 
 	protected String deck;
@@ -19,6 +22,7 @@ public abstract class Card {
 	protected String name;
 
 	@Transient
+	@JsonIgnore
 	protected IPlayer owner;
 	
 	protected int manaCost;

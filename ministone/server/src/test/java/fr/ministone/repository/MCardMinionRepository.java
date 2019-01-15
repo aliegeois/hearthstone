@@ -17,12 +17,12 @@ public class MCardMinionRepository implements CardMinionRepository {
 	}
 
 	@Override
-	public Optional<CardMinion> findById(Long id) {
+	public Optional<CardMinion> findById(String id) {
 		return null;
 	}
 
 	@Override
-	public boolean existsById(Long id) {
+	public boolean existsById(String id) {
 		return false;
 	}
 
@@ -32,7 +32,7 @@ public class MCardMinionRepository implements CardMinionRepository {
 	}
 
 	@Override
-	public Iterable<CardMinion> findAllById(Iterable<Long> ids) {
+	public Iterable<CardMinion> findAllById(Iterable<String> ids) {
 		return null;
 	}
 
@@ -42,7 +42,7 @@ public class MCardMinionRepository implements CardMinionRepository {
 	}
 
 	@Override
-	public void deleteById(Long id) {
+	public void deleteById(String id) {
 
 	}
 

@@ -147,23 +147,23 @@ public class CardMinion extends Card implements IEntity {
 	}
 	
 	public boolean getTaunt() {
-		return this.taunt;
+		return taunt;
 	}
 
 	public boolean getLifesteal() {
-		return this.lifesteal;
+		return lifesteal;
 	}
 
 	public boolean getCharge() {
-		return this.charge;
+		return charge;
 	}
 
 	public int getBoostHealth() {
-		return this.boostHealth;
+		return boostHealth;
 	}
 
 	public int getBoostDamage() {
-		return this.boostDamage;
+		return boostDamage;
 	}
 
 	public boolean isReady() {
@@ -171,7 +171,7 @@ public class CardMinion extends Card implements IEntity {
 	}
 
 	public boolean isProvoking() {
-		return this.taunt;
+		return taunt;
 	}
 	
 	@Override
@@ -181,7 +181,7 @@ public class CardMinion extends Card implements IEntity {
 	
 	@Override
 	public void die() {
-		owner.getBoard().remove(this.getId());
+		owner.getBoard().remove(id);
 	}
 
 	@Override

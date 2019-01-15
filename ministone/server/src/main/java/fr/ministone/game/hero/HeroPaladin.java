@@ -11,10 +11,12 @@ public class HeroPaladin extends Hero {
 	@Override
 	public void special() {
 		if(player.looseMana(1)) {
-			Long cardId = UUID.randomUUID().getLeastSignificantBits(); // Valeur temporaire
+			/*Long cardId = UUID.randomUUID().getLeastSignificantBits(); // Valeur temporaire
 			CardMinion minion = new CardMinion(cardId, "paladin", player, "SilverHand recruit", 1, 1, 1, new HashSet<String>(), new HashMap<String,Integer>());
 
-			player.getBoard().put(cardId, minion);
+			player.getBoard().put(cardId, minion);*/
+
+			player.summonMinion(new CardMinion(UUID.randomUUID().getLeastSignificantBits(), "paladin", player, "Recrue de la Main d'argent", 1, 1, 1, new HashSet<>(), new HashMap<>()));
 		}
 	}
 
