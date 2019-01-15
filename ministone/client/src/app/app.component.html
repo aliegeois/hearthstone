@@ -1,11 +1,18 @@
+<div id="home">
+	<a href="/">
+		<img src="../favicon.ico" alt="home"/> <br />
+		<span>HOME</span>
+	</a>
+</div>
 
+<!--
 <div *ngIf="currentPage == 'home'">
 	<div id="appComponent">
 		<h1 id="title"><a href="/">
-			<img src="../favicon.ico" id="icon" />
 			MiniStone
 		</a></h1>
-		<button (click)="change()">Lobby</button>
+		<hr />
+		<img src="../assets/images/aubergiste.png" (click)="change()" alt="Enter" id="icon" />
 	</div>
 </div>
 <div *ngIf="currentPage == 'lobby'">
@@ -13,5 +20,7 @@
 </div>
 <div *ngIf="currentPage == 'game'">
 	<app-game></app-game>
-</div>
+</div>-->
+
+<app-game></app-game>
 

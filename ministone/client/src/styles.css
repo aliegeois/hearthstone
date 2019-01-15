@@ -1,1 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
+#background {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 1;
+      
+    display: block;
+      
+    -webkit-filter: blur(10px);
+    -moz-filter: blur(10px);
+    -o-filter: blur(10px);
+    -ms-filter: blur(10px);
+    filter: blur(10px);
+}
+
+app-root {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+}
