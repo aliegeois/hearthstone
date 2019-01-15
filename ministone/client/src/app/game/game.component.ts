@@ -242,9 +242,9 @@ export class GameComponent implements OnInit {
     console.log('Initialisation');
     this.joueur = new Player(AppComponent.joueurName, AppComponent.joueurHero);
     this.opponent = new Player(AppComponent.opponentName, AppComponent.opponentHero);
-    /*let cardTest1: CardMinion = new CardMinion(1,"recrue", 1, 1, 1, new Set<String>(), new Map<String, number>(), this.joueur);
-    let cardTest2: CardMinion = new CardMinion(2, "murloc", 3, 4, 2, new Set<String>(), new Map<String, number>());
-    let cardTest3: CardSpell = new CardSpell(3, "Métamorphose", 4, new Set<SingleTargetEffect>(), new Set<MultipleTargetEffect>(), new Set<GlobalEffect>())
+    let cardTest1: CardMinion = new CardMinion(1,"recrue", 1, 1, 1, new Set<String>(), new Map<String, number>(), this.joueur);
+    let cardTest2: CardMinion = new CardMinion(2, "murloc", 3, 4, 2, new Set<String>(), new Map<String, number>(), this.joueur);
+    let cardTest3: CardSpell = new CardSpell(3, "Métamorphose", 4, new Set<SingleTargetEffect>(), new Set<MultipleTargetEffect>(), new Set<GlobalEffect>(), this.joueur)
 
     this.joueur.hand.set("0", cardTest1);
     this.joueur.hand.set("1", cardTest2);
@@ -253,13 +253,13 @@ export class GameComponent implements OnInit {
     this.joueur.board.set("0", cardTest1);
     this.joueur.board.set("1", cardTest2);
 
-    this.opponent.hand.set("0", cardTest2);
+    /*this.opponent.hand.set("0", cardTest2);
     this.opponent.hand.set("1", cardTest2);
   
     this.opponent.board.set("0", cardTest2);
     this.opponent.board.set("1", cardTest1);
-    this.opponent.board.set("2", cardTest2);
-    */
+    this.opponent.board.set("2", cardTest2);*/
+    
 
   }
 
@@ -316,7 +316,7 @@ export class GameComponent implements OnInit {
     // Si on avait déjà choisi une carte sur le board, on lance une attaque sur card
     if(this.selectedAttacking != null) {
       console.log('Envoi de attack sur ' + card.name);
-      AppComponent.stompClient.send(`/game/${this.id}/attack`, {}, JSON.stringify({cardId: this.selectedAttacking.id, targetId: card.id}));
+      AppComponent.stompClient.send(`/game/${this.id}/attack`, {}, JSON.stringify({isHero: false, cardId: this.selectedAttacking.id, targetId: card.id}));
       this.selectedAttacking = null;
     }
     // Sinon, si on avait déjà choisit une carte dans la main, on la joue avec pour cible card
@@ -336,7 +336,7 @@ export class GameComponent implements OnInit {
     // Si on avait déjà choisi une carte sur le board, on lance une attaque sur card
     if(this.selectedAttacking != null) {
       console.log('Envoi de attack sur le hero');
-      AppComponent.stompClient.send(`/game/${this.id}/attack`, {}, JSON.stringify({cardId: this.selectedAttacking.id, targetId: "hero"}));
+      AppComponent.stompClient.send(`/game/${this.id}/attack`, {}, JSON.stringify({isHero: true, cardId: this.selectedAttacking.id, targetId: null}));
       this.selectedAttacking = null;
     }
     // Sinon, si on avait déjà choisit une carte dans la main, on la joue avec pour cible le héros adverse
@@ -375,7 +375,22 @@ export class GameComponent implements OnInit {
 
 
 
+    getImgUrl(card: Card) {
+      let name = card.name;
+      name.replace(/\s/g, "");
+      name.replace(/'/g, "");
 
+      var re = /apples/gi; 
+var str = "Apples are round, and apples are juicy.";
+var newstr = str.replace(re, "oranges"); 
+console.log(newstr)
+      var re = / /gi; 
+      "hello world".replace(/\s/g, "");
+      var str = "Apples are round, and apples are juicy.";
+      var newstr = str.replace(re, "oranges"); 
+      console.log(newstr)
+      return "../../assets/images/cards/" + card.getName
+    }
 
 
 
