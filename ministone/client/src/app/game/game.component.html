@@ -32,12 +32,10 @@
 		<div id="board_joueur">
 			<ul>
 				<li *ngFor="let card of joueur.board | keyvalue" id="card">
-					<div>
-						<img [src]="getImgUrl(card.value)" alt="{{ card.value.name }}" />
-						<span id="cardManaCost">{{ card.value.manaCost }}</span>
-						<span id="cardDamage">{{ card.value.damage }}</span>
-						<span id="cardHealth">{{ card.value.health }}</span>
-					</div>
+					<img [src]="getImgUrl(card.value)" alt="{{ card.value.name }}" />
+					<span id="cardManaCost">{{ card.value.manaCost }}</span>
+					<span id="cardDamage">{{ card.value.damage }}</span>
+					<span id="cardHealth">{{ card.value.health }}</span>
 				</li>
 			</ul>
 		</div>
@@ -45,12 +43,10 @@
 		<div id="board_opponent">
 			<ul>
 				<li *ngFor="let card of opponent.board | keyvalue" id="card">
-					<div>
-						<img [src]="getImgUrl(card.value)" alt="{{ card.value.name }}" />
-						<span id="cardManaCost">{{ card.value.manaCost }}</span>
-						<span id="cardDamage">{{ card.value.damage }}</span>
-						<span id="cardHealth">{{ card.value.health }}</span>
-					</div>
+					<img [src]="getImgUrl(card.value)" alt="{{ card.value.name }}" />
+					<span id="cardManaCost">{{ card.value.manaCost }}</span>
+					<span id="cardDamage">{{ card.value.damage }}</span>
+					<span id="cardHealth">{{ card.value.health }}</span>
 				</li>
 			</ul>
 		</div>
