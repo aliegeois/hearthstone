@@ -103,6 +103,10 @@ public class CardCommandLineRunner implements CommandLineRunner {
 
 
 
+		minions.add(new CardMinion("special", "Recrue de la Main d'argent", 1, 1, 1, new HashSet<>(), new HashMap<>()));
+
+
+
 		for(CardMinion m : minions)
 			minionRepository.save(m);
 

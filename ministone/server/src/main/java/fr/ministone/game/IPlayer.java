@@ -11,6 +11,7 @@ public interface IPlayer {
 
 	public void summonMinion(Long minionId);
 	public void summonMinion(CardMinion minion);
+	public void summonMinion(String minionName);
     public void attack(boolean hero, Long cardId, Long targetId);
 
 	public Card drawCard(boolean send);

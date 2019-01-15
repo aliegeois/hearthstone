@@ -114,6 +114,12 @@ public class Player implements IPlayer, IPlayerMessageSender {
 			// Si on a le temps: faire un message de type "notEnoughMana" et l'envoyer
 		}
 	}
+
+	@Override
+	public void summonMinion(String minionName) {
+		CardMinion minion = cardMinionRepository.findByName(minionName);
+		summonMinion(minion);
+	}
 	
 	@Override
 	public void attack(boolean isHero, Long cardId, Long targetId) { // Plus de vérifications (genre opponent card existe ou pas) ??
@@ -121,11 +127,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 		if(isHero) {
 			minion.attack(opponent.getHero());
 		} else {
-			IPlayer opp = opponent;
-			Map<Long, CardMinion> oppBoard = opp.getBoard();
-			CardMinion tar = oppBoard.get(targetId);
-			minion.attack(tar);
-			//minion.attack(getOpponent().getBoard().get(targetId));
+			minion.attack(opponent.getBoard().get(targetId));
 		}
 		sendAttack(isHero, cardId, targetId); // J'ai un doute sur l'ordre mdr
 	}
