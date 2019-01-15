@@ -74,7 +74,7 @@ public class CardSpellTest{
         assertEquals(2, this.player2.getBoard().size());
 
         carte.play(player2.getHero());
-        game.checkBoard();
+        game.checkDead();
 
         assertEquals(27, this.player2.getHero().getHealth());
         assertEquals(1, this.player1.getBoard().size());

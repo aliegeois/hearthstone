@@ -238,7 +238,7 @@ public class Game implements IGame {
 	}
 
 	@Override
-	public void checkBoard() {
+	public void checkDead() {
 		for(IPlayer p : players.values()) {
 			p.checkDead();
 		}

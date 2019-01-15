@@ -51,7 +51,6 @@ public class HeroTest {
 	}
 
 	@Test
-
 	void testSpecialHero2() {
 		assertEquals(3, card1.getHealth());
 

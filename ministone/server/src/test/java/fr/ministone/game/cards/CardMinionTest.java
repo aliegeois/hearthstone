@@ -34,9 +34,7 @@ public class CardMinionTest {
 		player1.setOpponent(player2);
 	}
 
-
 	@Test
-
 	void testTakeDamage(){
 		assertEquals(carte1.getHealth(),4);
 		carte1.takeDamage(2);
@@ -44,7 +42,6 @@ public class CardMinionTest {
 	}
 
 	@Test
-
 	void testIsDead(){
 		assertFalse(carte1.isDead());
 		carte1.takeDamage(4);
@@ -52,15 +49,13 @@ public class CardMinionTest {
 	}
 
 	@Test
-
 	void testAttack(){
 		assertEquals(carte2.getHealth(), 10);
 		carte1.attack(carte2);
 		assertEquals(carte2.getHealth(), 3);
 	}
 
-	@Test 
-
+	@Test
 	void testHeal(){
 		assertEquals(carte1.getHealth(), 4);
 		carte1.takeDamage(3);
@@ -73,7 +68,6 @@ public class CardMinionTest {
 	}
 
 	@Test
-
 	void testBoostDamage(){
 		assertEquals(carte1.getDamage(), 7);
 		carte1.buffDamage(10);
@@ -84,7 +78,6 @@ public class CardMinionTest {
 	}
 
 	@Test
-
 	void testBoostHealth(){
 		assertEquals(carte1.getHealth(), 4);
 		assertEquals(carte1.getHealthMax(), 4);
@@ -106,8 +99,7 @@ public class CardMinionTest {
 	}
 
 	@Test
-
-	void testDie(){
+	void testDie() {
 		assertTrue(player1.getBoard().isEmpty());
 
 		player1.getBoard().put("1", carte1);
@@ -123,14 +115,12 @@ public class CardMinionTest {
 	}
 
 	@Test
-
 	void testIsReady(){
 		assertTrue(carte1.isReady());
 		assertFalse(carte2.isReady());
 	}
 
 	@Test
-
 	void testIsProvoking(){
 		assertFalse(carte1.isProvoking());
 		assertTrue(carte2.isProvoking());
