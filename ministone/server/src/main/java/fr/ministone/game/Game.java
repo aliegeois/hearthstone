@@ -20,6 +20,7 @@ public class Game implements IGame {
 	public Game(String id, AbstractMessageSendingTemplate<String> template, User user1, User user2, CardMinionRepository cardMinionRepository, CardSpellRepository cardSpellRepository) {
 		this.id = id;
 		this.template = template;
+		System.out.println("Nouvelle game (1)");
 		IPlayer player1 = new Player(user1.getName(), user1.getSessionId(), id, user1.getHeroType(), template, cardMinionRepository, cardSpellRepository);
 		IPlayer player2 = new Player(user2.getName(), user2.getSessionId(), id, user2.getHeroType(), template, cardMinionRepository, cardSpellRepository);
 		player1.setOpponent(player2);
@@ -31,6 +32,7 @@ public class Game implements IGame {
 	public Game(String id, AbstractMessageSendingTemplate<String> template, User user1, User user2) {
 		this.id = id;
 		this.template = template;
+		System.out.println("Nouvelle game (2)");
 		IPlayer player1 = new Player(user1.getName(), user1.getSessionId(), id, user1.getHeroType());
 		IPlayer player2 = new Player(user2.getName(), user2.getSessionId(), id, user2.getHeroType());
 		player1.setOpponent(player2);

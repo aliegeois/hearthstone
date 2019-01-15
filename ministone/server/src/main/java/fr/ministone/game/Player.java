@@ -40,6 +40,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 		this.gameId = gameId;
 		this.template = template;
 		
+		System.out.println("HEROTYPE recu : " + heroType);
 		for(Iterator<CardMinion> i = cardMinionRepository.findAllByDeck("shared").iterator(); i.hasNext();)
 			this.deck.add(i.next());
 		for(Iterator<CardSpell> i = cardSpellRepository.findAllByDeck("shared").iterator(); i.hasNext();)
@@ -126,6 +127,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	
 	@Override
 	public Card drawCard(boolean send) {
+		System.out.println("Draw card : " + deck.size());
 		Card card = (Card)deck.toArray()[(int)(Math.random() * deck.size())];
 		
 		return drawCard(card, send);
