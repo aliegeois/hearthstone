@@ -40,8 +40,8 @@ public class GameTest {
     @Test
     public void testPlayerSet() {
      
-        assertFalse(game.getPlaying() == null);
-        assertFalse(game.getPlaying().getOpponent() == null);
+        assertNotEquals(game.getPlaying(), null);
+        assertNotEquals(game.getPlaying().getOpponent(), null);
 
     }
 
