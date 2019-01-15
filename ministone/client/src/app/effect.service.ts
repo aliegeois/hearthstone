@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CardSpell, CardMinion, Entity, Card, Hero } from './app.component';
+import { CardMinion, Entity, Card, Hero } from './app.component';
 
 @Injectable({
   providedIn: 'root'
@@ -69,8 +69,9 @@ export abstract class SingleTargetEffect extends EffectService {
 export class MultiTargetBuff extends MultipleTargetEffect {
     life: number;
     attack: number;
+    armor: number;
 
-    constructor(ownBoard: boolean, opponentBoard: boolean, ownHero: boolean, opponentHero: boolean, life: number, attack: number) {
+    constructor(ownBoard: boolean, opponentBoard: boolean, ownHero: boolean, opponentHero: boolean, life: number, attack: number, armor: number) {
         super(ownBoard, opponentBoard, ownHero, opponentHero);
         this.life = life;
         this.attack = attack;
@@ -79,9 +80,11 @@ export class MultiTargetBuff extends MultipleTargetEffect {
     cast(player: Hero, playerBoard: Map<number, CardMinion>, opponent: Hero, opponentBoard: Map<number, CardMinion>) {
         if(this.ownHero) {
             player.boostHealth(this.life);
+            player.boostArmor(this.armor);
         }
         if(this.opponentHero) {
             opponent.boostHealth(this.life);
+            player.boostArmor(this.armor);
         }
 
         if(this.ownBoard) {
@@ -242,9 +245,21 @@ export class DrawRandom extends GlobalEffect {
     }
 
     cast(player: Hero, playerDeck: Set<Card>, playerHand: Map<number, Card>, playerBoard: Map<number, CardMinion>, opponent: Hero, opponentDeck: Set<Card>, opponentHand: Map<number, Card>, opponentBoard: Map<number, Card>) {
-        for(let i = 0 ; i <= this.cardNumber ; i++) {
-            // TODO : appeler la méthode AppComponent.stomp.client.send pour piocher une carte
-        }
+        // Nothing to do, the server send a message to /draw
+    }
+
+}
+
+export class SummonSpecific extends GlobalEffect {
+    minionName: string;
+
+    constructor(minionName: string) {
+        super();
+        this.minionName = minionName;
+    }
+
+    cast(player: Hero, playerDeck: Set<Card>, playerHand: Map<number, Card>, playerBoard: Map<number, CardMinion>, opponent: Hero, opponentDeck: Set<Card>, opponentHand: Map<number, Card>, opponentBoard: Map<number, Card>) {
+        // Nothing to do, the server send a message to /summon
     }
 
 }

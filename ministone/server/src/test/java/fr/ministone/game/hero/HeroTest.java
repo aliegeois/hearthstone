@@ -9,30 +9,43 @@ import java.util.HashSet;
 import org.junit.jupiter.api.BeforeEach;
 
 import fr.ministone.game.card.CardMinion;
+import fr.ministone.repository.CardMinionRepository;
+import fr.ministone.repository.MCardMinionRepository;
 import fr.ministone.game.Constants;
+import fr.ministone.game.IEntity;
 import fr.ministone.game.IPlayer;
 import fr.ministone.game.PlayerMock;
 
 public class HeroTest {
-	private IPlayer player1, player2, player3;
+	private IPlayer player1, player2;
+	private PlayerMock player3;
 
 	private HeroWarrior hero1;
 	private HeroMage hero2;
 	private HeroPaladin hero3;
 
 	private CardMinion card;
+	private CardMinionRepository minionRepository = new MCardMinionRepository();
+	
 
 	@BeforeEach
 	public void init() {
 		player1 = new PlayerMock("warrior");
 		player2 = new PlayerMock("mage");
 		player3 = new PlayerMock("paladin");
+
+		CardMinion recrue = new CardMinion(8l, "paladin", player3, "Recrue de la Main d'argent", 1, 1, 1, new HashSet<String>(), new HashMap<String, Integer>());
+
+		minionRepository.save(recrue);
+
+		player3.setCardMinionRepository(minionRepository);
 		
 		card = new CardMinion(1l, "shared", null, "Card Minion 1", 1, 0, 3, new HashSet<String>(), new HashMap<String, Integer>());
 
 		hero1 = (HeroWarrior)player1.getHero();
 		hero2 = (HeroMage)player2.getHero();
 		hero3 = (HeroPaladin)player3.getHero();
+
 	}
 
 	@Test

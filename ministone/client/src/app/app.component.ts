@@ -285,6 +285,7 @@ export class Player {
 
 export interface Entity {
     boostHealth(quantity: number);
+    boostArmor(quantity: number);
     heal(quantity: number);
     takeDamage(quantity: number);
     getDamage(): number;
@@ -510,6 +511,10 @@ export class CardMinion extends Card implements Entity {
         this.health = this.health + quantity;
         this.healthMax = this.health + quantity;
         this.healthBoosted = this.healthBoosted + quantity;
+    }
+
+    boostArmor(quantity: number): TypeError {
+        throw new TypeError("BoostArmor on minion");
     }
 
     heal(quantity: number) {

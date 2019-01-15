@@ -253,10 +253,12 @@ export class GameComponent implements OnInit {
     this.joueur.setOpponent(this.opponent);
     this.opponent.setOpponent(this.joueur);
 
+    this.loadDecks();
 
     let cardTest1: CardMinion = new CardMinion(1,"Recrue de la main d'argent", 1, 1, 1, new Set<String>(), new Map<String, number>(), this.joueur);
     let cardTest2: CardMinion = new CardMinion(2, "Champion Frisselame", 3, 4, 2, new Set<String>().add("charge"), new Map<String, number>(), this.joueur);
-    let cardTest3: CardSpell = new CardSpell(3, "Métamorphose", 4, new Set<SingleTargetEffect>(), new Set<MultipleTargetEffect>(), new Set<GlobalEffect>(), this.joueur)
+    let cardTest3: CardSpell = new CardSpell(3, "Métamorphose", 4, new Set<SingleTargetEffect>(), new Set<MultipleTargetEffect>(), new Set<GlobalEffect>(), this.joueur);
+    let cardTest4: CardMinion = new CardMinion(4, "Soldat du Comté de l'or", 1, 1, 2, new Set<String>().add("taunt"), new Map<String, number>(), this.joueur)
 
     this.joueur.hand.set(0, cardTest1);
     this.joueur.hand.set(1, cardTest2);
@@ -271,22 +273,105 @@ export class GameComponent implements OnInit {
     this.opponent.board.set(0, cardTest2);
     this.opponent.board.set(1, cardTest1);
     this.opponent.board.set(2, cardTest2);
+    this.opponent.board.set(4, cardTest4);
     
 
   }
 
-  loadDeck() {
 
-    //On charge toutes les cartes du type du hero du joueur :
-    fetch('http://localhost:8080/cards/getMinion?name=' )
+
+
+
+
+
+  loadDecks() {
+
+    //On charge toutes les cartes neutre :
+    fetch('http://localhost:8080/cards/deckMinion?deck=shared')
       .then( response => {
         return response.json();
       })
       .then( response => {
+        for(let i = 0 ; i < response.length ; i++) {
 
+          let capacities = new Set();
+          if(response.charge) {
+            capacities.add("charge");
+          }
+          if(response.lifesteal) {
+            capacities.add("lifesteal");
+          }
+          if(response.taunt) {
+            capacities.add("taunt");
+          }
+
+          let boosts = new Map<string, number>();
+          boosts.set("health", response.boostHealth);
+          boosts.set("damage", response.boostDamage);
+    
+    
+          let cardJoueur: CardMinion = new CardMinion(i, response.name, response.manaCost, response.damageBase, response.healthMax, capacities, boosts, this.joueur)
+          this.joueur.deck.add(cardJoueur);
+        }
       });
 
+
+
+    //On charge tout les minions spécifiques au héros :
+    fetch('http://localhost:8080/cards/deckMinion?deck=' + AppComponent.joueurHero)
+    .then( response => {
+      return response.json();
+    })
+    .then( response => {
+      for(let i = 0 ; i < response.length ; i++) {
+
+        let capacities = new Set();
+        if(response.charge) {
+          capacities.add("charge");
+        }
+        if(response.lifesteal) {
+          capacities.add("lifesteal");
+        }
+        if(response.taunt) {
+          capacities.add("taunt");
+        }
+
+        let boosts = new Map<string, number>();
+        boosts.set("health", response.boostHealth);
+        boosts.set("damage", response.boostDamage);
+  
+  
+        let cardJoueur: CardMinion = new CardMinion(i, response.name, response.manaCost, response.damageBase, response.healthMax, capacities, boosts, this.joueur)
+        this.joueur.deck.add(cardJoueur);
+      }
+    });
+
+    //On charge tout les spells spécifique au héros :
+    fetch('http://localhost:8080/cards/deckSpell?deck=' + AppComponent.joueurHero)
+    .then( response => {
+      return response.json();
+    })
+    .then( response => {
+      for(let i = 0 ; i < response.length ; i++) {
+  
+        let cardJoueur: CardSpell = new CardSpell(i, response.name, response.manaCost, response.ste, response.mte, response.ge, this.joueur)
+        this.joueur.deck.add(cardJoueur);
+      }
+    });
+
   }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   selectCardHand(card: Card): void {
