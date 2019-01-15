@@ -5,5 +5,5 @@ public interface IGame extends IGameMessageReceiver, IGameMessageSender {
     public boolean containsPlayer(String sessionId);
     public IPlayer getPlayer(String sessionId);
     public IPlayer getPlaying();
-    public void checkDead();
+    public boolean checkBoard();
 }

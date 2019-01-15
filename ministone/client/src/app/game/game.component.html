@@ -6,91 +6,80 @@
 		<title>MiniStone</title>
 	</head>
 	<body>
-		
-
-		<div id="gameComponent">
-			<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being enabled. Please enable Javascript and reload this page!</h2></noscript>
-
-		
-
-			<div id="main_opponent">
-				<ul>
-					<li *ngFor="let card of opponent.hand | keyvalue">
-						<img src="../../assets/images/cardback.png" alt="Une carte" />
-					</li>
-				</ul>
-			</div>
-
-			<div id="main_joueur">
-				<ul>
-					<li *ngFor="let card of joueur.hand | keyvalue" id="card" [class.nonTargetable]="!card.isTargetable()" (click)="selectCardHand(card)">
-						<div>
-							<img src="../../assets/images/cards/{{ card.name }}.png" alt="{{ card.name }}" />
-							<span id="cardManaCost">{{ card.value.manaCost }}</span>
-							<span id="cardDamage">{{ card.value.damage }}</span>
-							<span id="cardHealth">{{ card.value.health }}</span>
-						</div>
-					</li>
-				</ul>
-			</div>
-
-			<div id="board_joueur">
-				<ul>
-					<li *ngFor="let card of joueur.board | keyvalue" id="card" id="card" [class.nonTargetable]="!card.isTargetable()" (click)="selectCardPlayerBoard(card)">
-						<div>
-							<img src="../../assets/images/cards/{{ card.name }}.png" alt="{{ card.name }}" />
-							<span id="cardManaCost">{{ card.value.manaCost }}</span>
-							<span id="cardDamage">{{ card.value.damage }}</span>
-							<span id="cardHealth">{{ card.value.health }}</span>
-						</div>
-					</li>
-				</ul>
-			</div>
-
-			<div id="board_opponent">
-				<ul>
-					<li *ngFor="let card of opponent.board | keyvalue" id="card" [class.nonTargetable]="!card.isTargetable()" (click)="selectCardOpponentBoard(card)">
-						<div>
-							<img src="../../assets/images/cards/{{ card.name }}.png" alt="{{ card.name }}" />
-							<span id="cardManaCost">{{ card.value.manaCost }}</span>
-							<span id="cardDamage">{{ card.value.damage }}</span>
-							<span id="cardHealth">{{ card.value.health }}</span>
-						</div>
-					</li>
-				</ul>
-			</div>
-
-			<button id="endTurn_button" (click)="endTurn()" disabled="{{ joueur != playing }}">
-				<div *ngIf="joueur == playing">END TURN</div>
-				<div *ngIf="joueur != playing">OPPONENT TURN</div>
-			</button>
-
-
-
-			<div id="joueur" (click)="selectHero()">
-				<img src="{{ joueur.hero.portrait }}" alt="Portrait de {{ joueur.hero.name }}" />
-					<div id="name">{{ joueur.name }}</div>
-					<span id="health">{{ joueur.hero.health }}</span>
-					<button id="special" (click)="special()">Special</button>
-			</div>
-
-			<div id="opponent" (click)="selectOpponent()">
-				<img src="{{ opponent.hero.portrait }}" alt="Portrait de {{ opponent.hero.name }}" />
-					<span id="name">{{ joueur.name }}</span>
-					<span id="health">{{ opponent.hero.health }}</span>
-			</div>
-
-
-			<img src="{{ opponent.hero.portrait }}" alt="" id="imgtest" />
-
-			<button id="secret_mode" [class.inlined]="secretMode == true" (click)="enter_secretMode()">Enter secret mode</button>
+		<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being enabled. Please enable Javascript and reload this page!</h2></noscript>
 
 	
 
-
-
+		<div id="main_opponent">
+			<ul>
+				<li *ngFor="let card of opponent.hand | keyvalue">
+					<img src="../../assets/images/cardback.png" alt="Une carte" />
+				</li>
+			</ul>
 		</div>
 
-		<img src="../../assets/images/backgrounds/board.png" alt="Background" id="backgroundBoard" />
+		<div id="main_joueur">
+			<ul>
+				<li *ngFor="let card of joueur.hand | keyvalue" id="card">
+					<div>
+						<span id="cardName">{{ card.value.name }}</span>
+						<span id="cardManaCost">{{ card.value.manaCost }}</span>
+						<span id="cardDamage">{{ card.value.damage }}</span>
+						<span id="cardHealth">{{ card.value.health }}</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<div id="board_joueur">
+			<ul>
+				<li *ngFor="let card of joueur.board | keyvalue" id="card">
+					<div>
+						<span id="cardName">{{ card.value.name }}</span>
+						<span id="cardManaCost">{{ card.value.manaCost }}</span>
+						<span id="cardDamage">{{ card.value.damage }}</span>
+						<span id="cardHealth">{{ card.value.health }}</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<div id="board_opponent">
+			<ul>
+				<li *ngFor="let card of opponent.board | keyvalue" id="card">
+					<div>
+						<span id="cardName">{{ card.value.name }}</span>
+						<span id="cardManaCost">{{ card.value.manaCost }}</span>
+						<span id="cardDamage">{{ card.value.damage }}</span>
+						<span id="cardHealth">{{ card.value.health }}</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<button id="endTurn_button" (click)="endTurn()" disabled="{{ buttonEndTurnDisabled }}">
+			END TURN
+		</button>
+
+
+
+		<div id="joueur">
+			<img src="{{ joueur.hero.portrait }}" alt="Portrait de {{ joueur.hero.name }}" />
+				<br />
+				<p id="name">{{ joueur.name }}</p>
+				<p id="health">{{ joueur.hero.health }}</p>
+		</div>
+
+		<div id="opponent">
+			<img src="{{ opponent.hero.portrait }}" alt="Portrait de {{ opponent.hero.name }}" />
+				<br />
+				<p id="name">{{ opponent.name }}</p>
+				<p id="health">{{ opponent.hero.health }}</p>
+		</div>
+
+
+
+
+		<button id="secret_mode" [class.inlined]="secretMode == true" (click)="enter_secretMode()">Enter secret mode</button>
 	</body>
 </html>

@@ -240,9 +240,12 @@ public class Game implements IGame {
 	}
 
 	@Override
-	public void checkDead() {
+	public boolean checkBoard() {
 		for(IPlayer p : players.values()) {
-			p.checkDead();
+			if(p.checkDead()){
+				return true; 
+			}
 		}
+		return false;
 	}
 }

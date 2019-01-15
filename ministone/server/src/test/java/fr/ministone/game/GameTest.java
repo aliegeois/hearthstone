@@ -25,7 +25,7 @@ public class GameTest {
     private AbstractMessageSendingTemplate<String> template;
 
 
-    @BeforeEach
+    /*@BeforeEach
     public void init() {
 
         user1 = new User("Pat", "E", "1", "warrior");
@@ -33,16 +33,44 @@ public class GameTest {
 
         template = new MSimpMessagingTemplate();
 
+        game = new Game("game", template, user1, user2);
+
     }
 
     @Test
-    public void testStart(){
-
-        game = new Game("game", template, user1, user2);
+    public void testPlayerSet() {
      
         assertFalse(game.getPlaying() == null);
         assertFalse(game.getPlaying().getOpponent() == null);
+
     }
+
+    @Test
+    public void testHand() {
+
+        assertEquals(3, game.getPlaying().getHand().size());
+        assertEquals(4, game.getPlaying().getOpponent().getHand().size());
+
+    }
+
+    @Test
+    public void testContainsPlayer() {
+
+        assertTrue(game.containsPlayer("E"));
+        assertTrue(game.containsPlayer("F"));
+
+    }
+
+    @Test
+    public void testCheck() {
+
+        assertFalse(game.checkBoard());
+
+        game.getPlayer("E").getHero().takeDamage(Constants.HEROHEALTHMAX);
+
+        assertTrue(game.checkBoard());
+        
+    }*/
 
 
 

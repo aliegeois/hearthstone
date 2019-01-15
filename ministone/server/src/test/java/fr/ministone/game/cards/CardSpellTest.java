@@ -25,8 +25,8 @@ public class CardSpellTest {
 
 	@BeforeEach
 	private void init() {
-		player1 = new MPlayer("mage");
-		player2 = new MPlayer("paladin");
+		player1 = new PlayerMock("mage");
+		player2 = new PlayerMock("paladin");
 		player1.setOpponent(player2);
 
 		card1 = new CardMinion(1l, "shared", player1, "Card Minion 1", 1, 1, 1, new HashSet<String>(), new HashMap<String, Integer>());
