@@ -31,8 +31,8 @@ public class Game implements IGame {
 	public Game(String id, AbstractMessageSendingTemplate<String> template, User user1, User user2) {
 		this.id = id;
 		this.template = template;
-		IPlayer player1 = new Player(user1.getName(), user1.getSessionId(), user1.getHeroType());
-		IPlayer player2 = new Player(user2.getName(), user2.getSessionId(), user2.getHeroType());
+		IPlayer player1 = new Player(user1.getName(), user1.getSessionId(), id, user1.getHeroType());
+		IPlayer player2 = new Player(user2.getName(), user2.getSessionId(), id, user2.getHeroType());
 		player1.setOpponent(player2);
 		this.players.put(user1.getName(), player1);
 		this.players.put(user2.getName(), player2);

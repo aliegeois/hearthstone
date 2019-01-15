@@ -17,48 +17,22 @@ import fr.ministone.game.IPlayer;
 import fr.ministone.game.effect.*;
 
 public class PlayerTest {
-	private IPlayer player1;
-	private IPlayer player2;
+	private IPlayer player1, player2;
 	
 	private CardMinion card1, card2;
 	private CardSpell card3;
 
 	@BeforeEach
 	public void init() {
-		/*player3 = new MPlayer("paladin");
-		player4 = new MPlayer("mage");
-		player3.setOpponent(player4);
-
-		card4 = new CardMinion("4", "paladin", player3, "Carte 4", 1, 1, 1, new HashSet<String>(), new HashMap<String, Integer>());
-		player3.getDeck().add(card4);
-
-
-		player1.setOpponent(player2);
-		this.capacities1.add("charge");
-		this.capacities2.add("provocation");
-		this.card1 = new CardMinion("1", "shared", player1, "carte1", 1, 1, 10, capacities1, new HashMap<String,Integer>());
-		this.card2 = new CardMinion("2", "shared", player2, "carte2", 1, 1, 10, capacities2, new HashMap<String,Integer>());
-		this.card3 = new CardSpell("3", "shared", player1, "carte3", 1, new HashSet<SingleTargetEffect>(), new HashSet<MultipleTargetEffect>(), new HashSet<GlobalEffect>());
-
-		this.player1.getDeck().add(card1);
-		this.player2.getDeck().add(card2);
-
-		this.player1.getBoard().put("1", card1);
-		this.player2.getBoard().put("2", card2);*/
-
-		// ---
-
 		Set<String> capacities1;
 		Set<String> capacities2;
 
 		player1 = new MPlayer("warrior", 10);
 		player2 = new MPlayer("mage", 10);
+		player1.setOpponent(player2);
 
 		capacities1 = new HashSet<String>();
 		capacities2 = new HashSet<String>();
-
-		player1.setOpponent(player2);
-
 		capacities1.add("charge");
 		capacities2.add("provocation");
 

@@ -67,9 +67,10 @@ public class Player implements IPlayer, IPlayerMessageSender {
 		this.hero.setPlayer(this);
 	}
 
-	public Player(String name, String sessionId, String heroType) {
+	public Player(String name, String sessionId, String gameId, String heroType) {
 		this.name = name;
 		this.sessionId = sessionId;
+		this.gameId = gameId;
 		
 		if("warrior".equals(heroType)) {
 			this.hero = new HeroWarrior();
