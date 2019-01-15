@@ -160,36 +160,48 @@ public class Player implements IPlayer, IPlayerMessageSender {
 		} else {
 			victim = (own ? this : opponent).getBoard().get(targetId);
 		}
-		spell.play(victim);
-		hand.remove(spell.getId());
-		sendCastTargetedSpell(own, spellId, targetId);
+		if(looseMana(spell.getManaCost())){
+			spell.play(victim);
+			hand.remove(spell.getId());
+			sendCastTargetedSpell(own, spellId, targetId);
+		}
+		
 	}
 
 	@Override
 	public void castSpell(Long spellId) {
 		CardSpell spell = (CardSpell)hand.get(spellId);
-		spell.play();
-		hand.remove(spell.getId());
-		sendCastUntargetedSpell(spellId);
+		
+		if(looseMana(spell.getManaCost())){
+			spell.play();
+			hand.remove(spell.getId());
+			sendCastUntargetedSpell(spellId);
+		}
+		
 	}
 	
 	@Override
 	public void heroSpecial(boolean own, boolean isHero, Long targetId) {
 		IEntity victim;
-		if(isHero) {
-			victim = (own ? this : opponent).getHero();
-		} else {
-			victim = (own ? this : opponent).getBoard().get(targetId);
+		if(looseMana(Constants.COSTSPECIAL)){
+			if(isHero) {
+				victim = (own ? this : opponent).getHero();
+			} else {
+				victim = (own ? this : opponent).getBoard().get(targetId);
+			}
+			
+			hero.special(victim);
+			sendHeroTargetedSpecial(own, targetId);
 		}
 		
-		hero.special(victim);
-		sendHeroTargetedSpecial(own, targetId);
 	}
 
 	@Override
 	public void heroSpecial() {
-		hero.special();
-		sendHeroUntargetedSpecial();
+		if(looseMana(Constants.COSTSPECIAL)){
+			hero.special();
+			sendHeroUntargetedSpecial();
+		}
 	}
 
 
