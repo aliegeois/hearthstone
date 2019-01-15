@@ -128,6 +128,11 @@ public class CardMinion extends Card implements IEntity {
 		damage += quantity;
 		damageBoosted += quantity;
 	}
+
+	@Override
+	public void buffArmor(int quantity) {
+		throw new UnsupportedOperationException();
+	}
 	
 	public int getDamageBase() {
 		return damageBase;

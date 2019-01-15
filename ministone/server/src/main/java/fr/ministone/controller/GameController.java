@@ -176,6 +176,8 @@ public class GameController {
 		// User1 est celui qui a envoyer le acceptMatch
 		template.convertAndSend("/topic/lobby/" + user1.getSessionId() + "/startGame", sendUser1);
 		template.convertAndSend("/topic/lobby/" + user2.getSessionId() + "/startGame", sendUser2);
+
+		g.start();
 		
 		System.out.println("create game with " + user1.getName() + " and " + user2.getName());
 	}

@@ -1,5 +1,6 @@
 package fr.ministone.game.effect;
 
+//import fr.ministone.game.card.CardMinion;
 import fr.ministone.game.card.CardSpell;
 
 import javax.persistence.GeneratedValue;
@@ -43,4 +44,6 @@ public abstract class Effect {
 	
 	public abstract void play();
 	public abstract void play(IEntity e);
+	/*public abstract void play(CardMinion minion);
+	public abstract void play(CardSpell spell);*/ // Snif mon idée géniale...
 }

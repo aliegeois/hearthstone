@@ -26,7 +26,8 @@ public class Game implements IGame {
 		player1.setOpponent(player2);
 		this.players.put(user1.getName(), player1);
 		this.players.put(user2.getName(), player2);
-		start();
+
+		playing = Math.random() > .5 ? player1 : player2;
 	}
 
 	public Game(String id, AbstractMessageSendingTemplate<String> template, User user1, User user2) {
@@ -38,7 +39,8 @@ public class Game implements IGame {
 		player1.setOpponent(player2);
 		this.players.put(user1.getName(), player1);
 		this.players.put(user2.getName(), player2);
-		start();
+		
+		playing = Math.random() > .5 ? player1 : player2;
 	}
 
 
@@ -203,16 +205,6 @@ public class Game implements IGame {
 
 	@Override
 	public void start() {
-		IPlayer p1 = null, p2 = null;
-
-		for(IPlayer p : players.values()) { // Je sais, c'est sale
-			if(p1 == null)
-				p1 = p;
-			else
-				p2 = p;
-		}
-
-		playing = Math.random() > .5 ? p1 : p2;
 		for(int i = 0; i < 3; i++) {
 			playing.drawCard(true);
 			playing.getOpponent().drawCard(true);

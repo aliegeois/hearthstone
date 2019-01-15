@@ -58,14 +58,10 @@ public abstract class Hero implements IEntity {
 		health += quantity;
 	}
 	
+	@Override
 	public void buffArmor(int quantity) {
 		armor += quantity;
 	}
-	
-	/*@Override
-	public boolean isProvoking() {
-		throw new UnsupportedOperationException();
-	}*/
 	
 	@Override
 	public boolean isDead() {

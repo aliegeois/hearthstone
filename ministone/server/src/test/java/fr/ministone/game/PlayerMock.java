@@ -19,7 +19,7 @@ public class PlayerMock extends Player {
 		this(heroType, 10);
     }
     
-    public void setMana(int quantity){
+    public void setMana(int quantity) {
         this.mana = quantity;
     }
     
