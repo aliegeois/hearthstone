@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.messaging.core.AbstractMessageSendingTemplate;
 
 import fr.ministone.User;
 import fr.ministone.game.*;
@@ -16,26 +17,33 @@ import fr.ministone.game.hero.*;
 
 public class GameTest {
 
-    private IGame game1, game2;
-    private IPlayer player1, player2;
+    private IGame game;
     private User user1, user2;
-    private Hero hero1, hero2;
     private CardMinion carte1, carte2;
     private CardSpell carte3;
+
+    private AbstractMessageSendingTemplate<String> template;
 
 
     @BeforeEach
     public void init() {
 
-        player1 = new PlayerMock("Billy","E", "warrior");
-        player2 = new PlayerMock("Bob", "F", "paladin");
+        user1 = new User("Pat", "E", "1", "warrior");
+        user2 = new User("Bob", "F", "1", "mage");
 
-        this.hero1.setPlayer(player1);
-        this.hero2.setPlayer(player2);
-
-        user1 = new User("Pat", "E");
-        user2 = new User("Bob", "F");
+        template = new MSimpMessagingTemplate();
 
     }
+
+    @Test
+    public void testStart(){
+
+        game = new Game("game", template, user1, user2);
+     
+        assertFalse(game.getPlaying() == null);
+        assertFalse(game.getPlaying().getOpponent() == null);
+    }
+
+
 
 }
