@@ -670,10 +670,10 @@ export class CardSpell extends Card {
             // Il faut envoyer si l'entité est de notre coté du plateau
             if(e == this.owner.hero) {
                 console.log("Envoi de castTargetedSpell sur notre hero");
-                AppComponent.stompClient.send(`/game/${gameId}/castTargetedSpell`, {}, JSON.stringify({own: true, cardId: this.id, targetId: "hero"}));
+                AppComponent.stompClient.send(`/game/${gameId}/castTargetedSpell`, {}, JSON.stringify({own: true, isHero: true, cardId: this.id, targetId: null}));
             } else if(e == this.owner.opponent.hero) {
                 console.log("Envoi de castTargetedSpell sur le hero adverse");
-                AppComponent.stompClient.send(`/game/${gameId}/castTargetedSpell`, {}, JSON.stringify({own: false, cardId: this.id, targetId: "hero"}));
+                AppComponent.stompClient.send(`/game/${gameId}/castTargetedSpell`, {}, JSON.stringify({own: false, isHero: true, cardId: this.id, targetId: null}));
             } else {
 
                 // Sinon, on cherche la cible sur le plateau
@@ -681,10 +681,10 @@ export class CardSpell extends Card {
                     let targetId: string = (e as CardMinion).id as string; // Work because we only get their if e is not a hero
                     if(this.owner.board.get(targetId)) {
                         console.log("Envoi de castTargetedSpell de " + this.name + " sur notre board");
-                        AppComponent.stompClient.send(`/game/${gameId}/castTargetedSpell`, {}, JSON.stringify({own: true, cardId: this.id, targetId: targetId}));
+                        AppComponent.stompClient.send(`/game/${gameId}/castTargetedSpell`, {}, JSON.stringify({own: true, isHero: false, cardId: this.id, targetId: targetId}));
                     } else if(this.owner.opponent.board.get(targetId)) {
                         console.log("Envoi de castTargetedSpell de " + this.name + " sur le board adverse");
-                        AppComponent.stompClient.send(`/game/${gameId}/castTargetedSpell`, {}, JSON.stringify({own: false, cardId: this.id, targetId: targetId}));
+                        AppComponent.stompClient.send(`/game/${gameId}/castTargetedSpell`, {}, JSON.stringify({own: false, isHero: false, cardId: this.id, targetId: targetId}));
                     } else {
                         console.log("Carte cible non trouvée");
                     }
@@ -729,10 +729,10 @@ export class HeroMage extends Hero {
         // Il faut envoyer si l'entité est de notre coté du plateau
         if(e == this.owner.hero) {
             console.log("Envoi de castTargetedSpecial sur notre hero");
-            AppComponent.stompClient.send(`/game/${gameId}/castTargetedSpecial`, {}, JSON.stringify({own: true, targetId: "hero"}));
+            AppComponent.stompClient.send(`/game/${gameId}/castTargetedSpecial`, {}, JSON.stringify({own: true, isHero: true, targetId: null}));
         } else if(e == this.owner.opponent.hero) {
             console.log("Envoi de castTargetedSpecial sur le hero adverse");
-            AppComponent.stompClient.send(`/game/${gameId}/castTargetedSpecial`, {}, JSON.stringify({own: false, targetId: "hero"}));
+            AppComponent.stompClient.send(`/game/${gameId}/castTargetedSpecial`, {}, JSON.stringify({own: false, isHero: true, targetId: null}));
         } else {
 
             // Sinon, on cherche la cible sur le plateau
@@ -740,10 +740,10 @@ export class HeroMage extends Hero {
                 let targetId: string = (e as CardMinion).id as string; // Work because we only get their if e is not a hero
                 if(this.owner.board.get(targetId)) {
                     console.log("Envoi de castTargetedSpecial de mage sur notre board");
-                    AppComponent.stompClient.send(`/game/${gameId}/castTargetedSpecial`, {}, JSON.stringify({own: true, targetId: targetId}));
+                    AppComponent.stompClient.send(`/game/${gameId}/castTargetedSpecial`, {}, JSON.stringify({own: true, isHero: false, targetId: targetId}));
                 } else if(this.owner.opponent.board.get(targetId)) {
                     console.log("Envoi de castTargetedSpecial de mage sur le board adverse");
-                    AppComponent.stompClient.send(`/game/${gameId}/castTargetedSpecial`, {}, JSON.stringify({own: false, targetId: targetId}));
+                    AppComponent.stompClient.send(`/game/${gameId}/castTargetedSpecial`, {}, JSON.stringify({own: false, isHero: false, targetId: targetId}));
                 } else {
                     console.log("Carte cible non trouvée");
                 }
