@@ -223,4 +223,9 @@ public class PlayerMock implements IPlayer {
 	public void summonMinion(CardMinion minion) {
 
 	}
+
+	@Override
+	public CardMinion findMinionByName(String name) {
+		return null;
+	}
 }

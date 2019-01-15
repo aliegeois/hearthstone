@@ -3,6 +3,7 @@ package fr.ministone.game.hero;
 import fr.ministone.game.Constants;
 import fr.ministone.game.IEntity;
 import fr.ministone.game.IPlayer;
+import fr.ministone.game.card.CardMinion;
 
 public abstract class Hero implements IEntity {
 	protected IPlayer player;
@@ -85,7 +86,7 @@ public abstract class Hero implements IEntity {
 	}
 
 	@Override
-	public void transform(IEntity e) {
+	public void transform(CardMinion into) {
 		throw new UnsupportedOperationException();
 	}
 	

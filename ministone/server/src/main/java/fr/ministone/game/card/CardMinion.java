@@ -195,21 +195,16 @@ public class CardMinion extends Card implements IEntity {
 		return new CardMinion(UUID.randomUUID().toString(), deck, owner, name, manaCost, damage, health, capacities, boosts);
 	}
 
-	//@Override
-	public void transform(IEntity e) {
-		if(e instanceof CardMinion) {
-			CardMinion into = (CardMinion)e;
-			name = into.name;
-			health = into.health;
-			manaCost = into.manaCost;
-			taunt = into.taunt;
-			charge = into.charge;
-			lifesteal = into.lifesteal;
-			ready = into.ready; // Pas sûr qu'on le change
-			damage = into.damage;
-			// Si la carte donne des boosts on fait quoi ?
-		} else {
-			// TODO: ???
-		}
+	@Override
+	public void transform(CardMinion into) {
+		name = into.name;
+		health = into.health;
+		manaCost = into.manaCost;
+		taunt = into.taunt;
+		charge = into.charge;
+		lifesteal = into.lifesteal;
+		ready = into.ready; // Pas sûr qu'on le change
+		damage = into.damage;
+		// Si la carte donne des boosts on fait quoi ?
 	}
 }
