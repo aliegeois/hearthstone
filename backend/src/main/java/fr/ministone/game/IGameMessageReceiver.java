@@ -1,6 +1,8 @@
 package fr.ministone.game;
 
 public interface IGameMessageReceiver {
+	public void receiveConfirmStart(String playerName);
+
 	public void receiveSummonMinion(String playerName, String cardId);
 	public void receiveAttack(String playerName, boolean isHero, String cardId, String targetId);
 

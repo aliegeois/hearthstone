@@ -7,7 +7,8 @@ import fr.ministone.game.card.*;
 import fr.ministone.game.hero.Hero;
 
 public interface IPlayer {
-    public void setOpponent(IPlayer p);
+	public void setOpponent(IPlayer p);
+	public void readyToStart();
 
 	public void summonMinion(Long minionId);
 	public void summonMinion(CardMinion minion);
@@ -33,7 +34,9 @@ public interface IPlayer {
     public Hero getHero();
     public IPlayer getOpponent();
     public int getManaMax();
-    public int getMana();
+	public int getMana();
+	
+	public boolean isReady();
 
     public boolean looseMana(int quantity);
 

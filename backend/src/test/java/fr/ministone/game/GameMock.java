@@ -140,5 +140,10 @@ public class GameMock implements IGame, IGameMessageReceiver, IGameMessageSender
 
 	}
 
+	@Override
+	public void receiveConfirmStart(String playerName) {
+
+	}
+
 
 }
