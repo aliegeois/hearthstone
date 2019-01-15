@@ -1,14 +1,21 @@
 package fr.ministone;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
 @Entity
 public class User {
-	// Nom de l'utilisateur (unique)
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	
+	// Nom de l'utilisateur (unique)
+	
 	private String name;
+	
 	
 	@Transient
 	private String sessionId;

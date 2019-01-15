@@ -4,7 +4,11 @@ import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 //import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
@@ -12,15 +16,26 @@ import fr.ministone.game.effect.*;
 import fr.ministone.game.IPlayer;
 import fr.ministone.game.IEntity;
 
+// Essayer ça: https://stackoverflow.com/questions/3774198/org-hibernate-mappingexception-could-not-determine-type-for-java-util-list-at
+
 @Entity
 public class CardSpell extends Card {
-	@OneToMany(cascade = {CascadeType.ALL})
+	//@OneToMany(fetch = FetchType.EAGER, /*mappedBy = "id", */cascade = {CascadeType.ALL})
+	@OneToMany
+	//@JoinColumn(name = "id")
+	//@ElementCollection
 	protected Set<SingleTargetEffect> singleEffects;
 
-	@OneToMany(cascade = {CascadeType.ALL})
+	//@OneToMany(fetch = FetchType.EAGER, /*mappedBy = "id", */cascade = {CascadeType.ALL})
+	@OneToMany
+	//@JoinColumn(name = "id")
+	//@ElementCollection
 	protected Set<MultipleTargetEffect> multipleEffects;
 
-	@OneToMany(cascade = {CascadeType.ALL})
+	//@OneToMany(fetch = FetchType.EAGER, /*mappedBy = "id", */cascade = {CascadeType.ALL})
+	@OneToMany
+	//@JoinColumn(name = "id")
+	//@ElementCollection
 	protected Set<GlobalEffect> globalEffects;
 
 	public CardSpell() {
@@ -77,7 +92,7 @@ public class CardSpell extends Card {
 
 	public void addEffect(GlobalEffect ge) {
 		globalEffects.add(ge);
-	}
+	}*/
 
 	public Set<SingleTargetEffect> getSTE() {
 		return singleEffects;
@@ -89,7 +104,7 @@ public class CardSpell extends Card {
 
 	public Set<GlobalEffect> getGE() {
 		return globalEffects;
-	}*/
+	}
 
 	@Override
 	public Card copy() {
