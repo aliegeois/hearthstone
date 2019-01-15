@@ -536,5 +536,8 @@ export class GameComponent implements OnInit {
   }
 
 
-  
+  test() {
+    console.log("Envoi draw");
+    AppComponent.stompClient.send(`/game/${this.gameId}/drawCard`, {}, JSON.stringify({playerName: this.joueur.name}));
+  }
 }
