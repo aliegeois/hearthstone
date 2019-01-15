@@ -213,6 +213,7 @@ public class Game implements IGame {
 
 	@Override
 	public void start() {
+		System.out.println("Starting baby");
 		for(int i = 0; i < 3; i++) {
 			playing.drawCard(true);
 			playing.getOpponent().drawCard(true);
