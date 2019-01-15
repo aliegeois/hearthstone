@@ -47,6 +47,19 @@ public class GameController {
 
 	// SITE DE LA VIE: https://www.programcreek.com/java-api-examples/?api=org.springframework.messaging.handler.annotation.MessageMapping
 
+	@MessageMapping("/game/{gameId}/confirmStart")
+	public void confirmStart(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId) {
+		IGame g = games.get(gameId);
+		if(g == null)
+			return;
+		
+		IPlayer p = g.getPlayer(sessionId);
+		if(p == null)
+			return;
+		
+		g.receiveConfirmStart(p.getName());
+	}
+
 	@MessageMapping("/game/{gameId}/summonMinion")
 	public void summonMinion(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageSummonMinion message) {
 		IGame g = games.get(gameId);
@@ -177,7 +190,7 @@ public class GameController {
 		template.convertAndSend("/topic/lobby/" + user1.getSessionId() + "/startGame", sendUser1);
 		template.convertAndSend("/topic/lobby/" + user2.getSessionId() + "/startGame", sendUser2);
 
-		g.start();
+		//g.start();
 		
 		System.out.println("create game with " + user1.getName() + " and " + user2.getName());
 	}

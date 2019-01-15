@@ -43,6 +43,14 @@ public class Game implements IGame {
 		playing = Math.random() > .5 ? player1 : player2;
 	}
 
+	@Override
+	public void receiveConfirmStart(String playerName) {
+		IPlayer p = players.get(playerName);
+		p.readyToStart();
+		if(p.getOpponent().isReady())
+			start();
+	}
+
 
 	@Override
 	public void receiveSummonMinion(String playerName, String cardId) {

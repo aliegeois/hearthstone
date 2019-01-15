@@ -32,6 +32,8 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	
 	protected int manaMax = 0;
 	protected int mana = 0;
+
+	protected boolean ready = false;
 	
 	protected Hero hero;
 	protected IPlayer opponent;
@@ -96,6 +98,11 @@ public class Player implements IPlayer, IPlayerMessageSender {
 			p.setOpponent(this);
 		}
 	}
+
+	@Override
+	public void readyToStart() {
+		ready = true;
+	}
 	
 	@Override
 	public void summonMinion(Long minionId) {
@@ -134,7 +141,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	
 	@Override
 	public Card drawCard(boolean send) {
-		System.out.println("Draw card : " + deck.size());
+		System.out.println("Draw card " + name + " : " + deck.size());
 		Card card = (Card)deck.toArray()[(int)(Math.random() * deck.size())];
 		
 		return drawCard(card, send);
@@ -259,6 +266,11 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	@Override
 	public int getMana() {
 		return mana;
+	}
+
+	@Override
+	public boolean isReady() {
+		return ready;
 	}
 
 	@Override

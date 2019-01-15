@@ -41,7 +41,7 @@ export class GameComponent implements OnInit {
 
     this.playing = this.getPlayer(AppComponent.playing);
     AppComponent.addListener(this);
-
+    AppComponent.stompClient.send(`/game/${this.gameId}/confirmGame`, {});
 
   }
 
