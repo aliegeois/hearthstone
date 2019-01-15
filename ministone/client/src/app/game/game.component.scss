@@ -3,28 +3,7 @@ body {
     width: 100%;
     padding: 0;
 
-    #backgroundBoard {
-        position: fixed;
-        display: block;
 
-        left: -5%;
-        top: -5%;
-        width: 110%;
-        z-index: 2;
-      
-    display: block;
-      
-    -webkit-filter: blur(5px);
-    -moz-filter: blur(5px);
-    -o-filter: blur(5px);
-    -ms-filter: blur(5px);
-    filter: blur(5px);
-    }
-
-    #gameComponent {
-
-        position: fixed;
-        z-index: 9999;
 
         #joueur {
             position: fixed;
@@ -32,29 +11,26 @@ body {
             left: 5%;
     
             height: 25%;
-    
             img {
                 height: 100%;
                 position: relative;
             }
             #name {
                 font-weight: bold;
-                position: absolute;
-                bottom: 17%;
-                right: 17%;
-                width: 80%;
+                position: relative;
+                width: 100%;
+                bottom: 37%;
                 text-align: center;
             }
             #health {
                 position: absolute;
                 position: relative;
-                bottom: 29%;
-                right: 20%;
                 font-weight: bold;
-            }
-            #special {
-                display: block;
-                height: 2%;
+                width: 95%;
+                text-align: right;
+                bottom: 65%;
+                right: 5%;
+                color: white;
             }
         }
         
@@ -65,25 +41,26 @@ body {
             left: 5%;
     
             height: 25%;
-    
             img {
                 height: 100%;
                 position: relative;
             }
             #name {
                 font-weight: bold;
-                position: absolute;
-                bottom: 17%;
-                right: 17%;
-                width: 80%;
+                position: relative;
+                width: 100%;
+                bottom: 37%;
                 text-align: center;
             }
             #health {
                 position: absolute;
                 position: relative;
-                bottom: 29%;
-                right: 20%;
                 font-weight: bold;
+                width: 95%;
+                text-align: right;
+                bottom: 65%;
+                right: 5%;
+                color: white;
             }
         }
     
@@ -207,8 +184,5 @@ body {
             border-top: 2px solid black;
             background-color: #8ec743;
         }
-    }
     
 }
-
-

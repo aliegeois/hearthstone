@@ -28,19 +28,26 @@ export class GameComponent implements OnInit {
 
 
   constructor() {
+
     this.secretMode = false;
     this.gameId = AppComponent.gameId;
-    this.infoLog = "";
+    this.infoLog = "zuefyzeiueoizqgc";
     
     this.selectedHand = null;
     this.selectedAttacking = null;
     this.selectedHeroPower = false;
 
-
     this.init();
+
+    console.log("APPname" + AppComponent.joueurName + " / client : " + this.joueur.name);
+    console.log("APPnameopp" + AppComponent.opponentName + " / client : " + this.joueur.opponent.name);
+    console.log("APPname" + AppComponent.joueurHero + " / client : " + this.joueur.hero.portrait);
+    console.log("APPnameopp" + AppComponent.opponentName + " / client : " + this.joueur.opponent.hero.portrait);
 
     this.playing = this.getPlayer(AppComponent.playing);
     AppComponent.addListener(this);
+
+
   }
 
   ngOnInit() {
@@ -242,8 +249,12 @@ export class GameComponent implements OnInit {
     console.log('Initialisation');
     this.joueur = new Player(AppComponent.joueurName, AppComponent.joueurHero);
     this.opponent = new Player(AppComponent.opponentName, AppComponent.opponentHero);
-    let cardTest1: CardMinion = new CardMinion(1,"recrue", 1, 1, 1, new Set<String>(), new Map<String, number>(), this.joueur);
-    let cardTest2: CardMinion = new CardMinion(2, "murloc", 3, 4, 2, new Set<String>(), new Map<String, number>(), this.joueur);
+    this.joueur.setOpponent(this.opponent);
+    this.opponent.setOpponent(this.joueur);
+
+
+    let cardTest1: CardMinion = new CardMinion(1,"Recrue de la main d'argent", 1, 1, 1, new Set<String>(), new Map<String, number>(), this.joueur);
+    let cardTest2: CardMinion = new CardMinion(2, "Consécration", 3, 4, 2, new Set<String>(), new Map<String, number>(), this.joueur);
     let cardTest3: CardSpell = new CardSpell(3, "Métamorphose", 4, new Set<SingleTargetEffect>(), new Set<MultipleTargetEffect>(), new Set<GlobalEffect>(), this.joueur)
 
     this.joueur.hand.set("0", cardTest1);
@@ -394,7 +405,10 @@ export class GameComponent implements OnInit {
 
 
 
-
+    isTargetable(card: Card) {
+      console.log('Check is targetable');
+      return card.isTargetable();
+    }
 
 
   enter_secretMode() {

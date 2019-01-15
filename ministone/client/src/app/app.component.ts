@@ -155,6 +155,7 @@ export class Player {
 
         this.manaMax = 0;
         this.mana = this.manaMax;
+
     }
 
 
