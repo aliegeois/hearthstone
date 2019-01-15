@@ -12,10 +12,9 @@ public class Transform extends SingleTargetEffect {
 	//private IEntity into;
 	private String minionName;
 	
-	/*public Transform(IEntity into) {
-		super();
-		this.into = into;		
-	}*/
+	public Transform() {
+		super();	
+	}
 
 	public Transform(String minionName) {
 		super();

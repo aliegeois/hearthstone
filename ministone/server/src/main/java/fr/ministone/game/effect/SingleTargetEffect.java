@@ -5,8 +5,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
 @Entity
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-public abstract class SingleTargetEffect extends Effect{
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+public abstract class SingleTargetEffect extends Effect {
 	public SingleTargetEffect() {
 		super();
 	}

@@ -13,8 +13,8 @@ public class GameMock implements IGame, IGameMessageReceiver, IGameMessageSender
 	//private int turn;
 	
 	public GameMock(User user1, User user2) {
-		IPlayer player1 = new PlayerMock(user1.getName(), "E", "warrior");
-		IPlayer player2 = new PlayerMock(user2.getName(), "F", "paladin");
+		IPlayer player1 = new MPlayer("warrior");
+		IPlayer player2 = new MPlayer("paladin");
 		player1.setOpponent(player2);
 		this.players.put(user1.getName(), player1);
 		this.players.put(user2.getName(), player2);
@@ -48,7 +48,7 @@ public class GameMock implements IGame, IGameMessageReceiver, IGameMessageSender
 		
 	}
 
-	@Override
+	//@Override
 	public void receiveAttack(String playerName, String cardId, String targetId) {
 		
 	}
@@ -58,7 +58,7 @@ public class GameMock implements IGame, IGameMessageReceiver, IGameMessageSender
 		
 	}
 
-	@Override
+	//@Override
 	public void receiveCastSpell(String playerName, boolean own, String cardId, String targetId) {
 		
 	}
@@ -68,7 +68,7 @@ public class GameMock implements IGame, IGameMessageReceiver, IGameMessageSender
 	
 	}
 
-	@Override
+	//@Override
 	public void receiveHeroSpecial(String playerName, boolean own, String targetId) {
 	
 	}
@@ -122,5 +122,20 @@ public class GameMock implements IGame, IGameMessageReceiver, IGameMessageSender
 		for(IPlayer p : players.values()) {
 			p.checkDead();
 		}
+	}
+
+	@Override
+	public void receiveAttack(String playerName, boolean isHero, String cardId, String targetId) {
+
+	}
+
+	@Override
+	public void receiveCastSpell(String playerName, boolean own, boolean isHero, String cardId, String targetId) {
+
+	}
+
+	@Override
+	public void receiveHeroSpecial(String playerName, boolean own, boolean isHero, String targetId) {
+
 	}
 }
