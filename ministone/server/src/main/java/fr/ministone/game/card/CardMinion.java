@@ -66,6 +66,10 @@ public class CardMinion extends Card implements IEntity {
 
 		this.ready = this.charge;
 	}
+
+	public CardMinion(String deck, String name, int mana, int damage, int health, Set<String> capacities, Map<String, Integer> boosts) {
+		this(null, deck, null, name, mana, damage, health, capacities, boosts);
+	}
 	
 	@Override
 	public void play() {

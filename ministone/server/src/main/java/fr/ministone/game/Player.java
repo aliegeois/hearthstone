@@ -127,7 +127,6 @@ public class Player implements IPlayer, IPlayerMessageSender {
 			minion.attack(tar);
 			//minion.attack(getOpponent().getBoard().get(targetId));
 		}
-		checkDead();
 		sendAttack(cardId, targetId); // J'ai un doute sur l'ordre mdr
 	}
 	

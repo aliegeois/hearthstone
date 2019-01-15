@@ -10,8 +10,11 @@ import fr.ministone.repository.CardMinionRepository;
 import fr.ministone.repository.CardSpellRepository;
 import fr.ministone.game.effect.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 //import java.util.stream.Stream;
 import java.util.Set;
 
@@ -30,36 +33,83 @@ public class CardCommandLineRunner implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
-		CardMinion sanglier = new CardMinion(1l, "shared", null, "Sanglier brocheroc", 1, 1, 1, new HashSet<String>(), new HashMap<String, Integer>());
-		minionRepository.save(sanglier);
+		Collection<CardMinion> minions = new ArrayList<>();
+		Collection<CardSpell> spells = new ArrayList<>();
 
-		Set<String> capacities3 = new HashSet<>();
-		capacities3.add("provocation");
-		CardMinion invocation = new CardMinion(3l, "mage", null, "Image miroir_token", 0, 2, 0, capacities3, new HashMap<String, Integer>());
-		minionRepository.save(invocation);
-		Set<GlobalEffect> gte2 = new HashSet<>();
-		SummonSpecific effect31 = new SummonSpecific(invocation.getName());
+		minions.add(new CardMinion("shared", "Sanglier brocheroc", 1, 1, 1, new HashSet<>(), new HashMap<>()));
+
+		Set<String> capacities02 = new HashSet<>();
+		capacities02.add("provocation");
+		minions.add(new CardMinion("shared", "Soldat du comté-de-l'or", 1, 1, 2, capacities02, new HashMap<>()));
+
+		Set<String> capacities03 = new HashSet<>();
+		minions.add(new CardMinion("shared", "Chevaucheur de loup", 3, 3, 1, capacities03, new HashMap<>()));
+
+		Map<String, Integer> boosts04 = new HashMap<>();
+		boosts04.put("damage", 1);
+		minions.add(new CardMinion("shared", "Chef de raid", 3, 2, 2, new HashSet<>(), boosts04));
+
+		minions.add(new CardMinion("shared", "Yéti noroit", 4, 4, 5, new HashSet<>(), new HashMap<>()));
+
+
 		
-		gte2.add(effect31);
-		CardSpell imageMiroir = new CardSpell(2l, "mage", null, "Image miroir", 1, new HashSet<SingleTargetEffect>(), new HashSet<MultipleTargetEffect>(), gte2);
-		spellRepository.save(imageMiroir);
+		Set<String> capacities11 = new HashSet<>();
+		capacities11.add("provocation");
+		CardMinion invocation = new CardMinion("special", "Image miroir_token", 0, 2, 0, capacities11, new HashMap<>());
+		Set<GlobalEffect> gte11 = new HashSet<>();
+		SummonSpecific effect11 = new SummonSpecific(invocation.getName());
+		minions.add(invocation);
+		gte11.add(effect11);
+		spells.add(new CardSpell("mage", "Image miroir", 1, new HashSet<>(), new HashSet<>(), gte11));
+		
+		Set<MultipleTargetEffect> mte12 = new HashSet<>();
+		mte12.add(new MultipleTargetDamage(false, false, false, true, 1));
+		spells.add(new CardSpell("mage", "Explosion des arcanes", 2, new HashSet<>(), mte12, new HashSet<>()));
 
-		Set<String> capacities4 = new HashSet<>();
-		capacities4.add("charge");
-		capacities4.add("lifesteal");
-		CardMinion championFrisselame = new CardMinion(4l, "paladin", null, "Champion frisselame", 4, 3, 2, capacities4, new HashMap<String, Integer>());
-		minionRepository.save(championFrisselame);
+		CardMinion mouton = new CardMinion("special", "Métamorphose_token", 0, 1, 1, new HashSet<>(), new HashMap<>());
+		minions.add(mouton);
+		Set<SingleTargetEffect> ste13 = new HashSet<>();
+		ste13.add(new Transform(mouton.getName()));
+		spells.add(new CardSpell("mage", "Métamorphose", 4, ste13, new HashSet<>(), new HashSet<>()));
 
-		Set<MultipleTargetEffect> mte5 = new HashSet<>();
-		mte5.add(new MultipleTargetDamage(true, true, false, false, 1));
-		CardSpell tourbillon = new CardSpell(5l, "warrior", null, "Tourbillon", 1, new HashSet<SingleTargetEffect>(), mte5, new HashSet<GlobalEffect>());
-		spellRepository.save(tourbillon);
 
-        /*Stream.of("Nero", "Claudius", "Dorō, monsutā cādo !").forEach(name ->
-                repository.save(new User(name))
-        );*/
 
-		System.out.println("spells:");
+		Set<String> capacities21 = new HashSet<>();
+		capacities21.add("charge");
+		capacities21.add("lifesteal");
+		minions.add(new CardMinion("paladin", "Champion frisselame", 4, 3, 2, capacities21, new HashMap<>()));
+
+		Set<SingleTargetEffect> ste22 = new HashSet<>();
+		ste22.add(new SingleTargetDamageBuff(3));
+		spells.add(new CardSpell("paladin", "Bénédiction de puissance", 1, ste22, new HashSet<>(), new HashSet<>()));
+
+		Set<MultipleTargetEffect> mte23 = new HashSet<>();
+		mte23.add(new MultipleTargetDamage(false, false, true, true, 2));
+		spells.add(new CardSpell("paladin", "Consécration", 4, new HashSet<>(), mte23, new HashSet<>()));
+
+
+
+		Set<MultipleTargetEffect> mte31 = new HashSet<>();
+		mte31.add(new MultipleTargetDamage(true, true, true, true, 1));
+		spellRepository.save(new CardSpell("warrior", "Tourbillon", 1, new HashSet<SingleTargetEffect>(), mte31, new HashSet<GlobalEffect>()));
+
+		Set<String> capacities32 = new HashSet<>();
+		capacities32.add("provocation");
+		minions.add(new CardMinion("warrior", "Avocat commis d'office", 2, 0, 7, capacities32, new HashMap<>()));
+
+		/*Set<SingleTargetEffect> ste33 = new HashSet<>();
+		ste33.add
+		spells.add(new CardSpell("warrior", "Maîtrise du blocage", 3, singleEffects, multipleEffects, globalEffects))*/
+
+
+
+		for(CardMinion m : minions)
+			minionRepository.save(m);
+
+		for(CardSpell s : spells)
+			spellRepository.save(s);
+
+		/*System.out.println("spells:");
 		spellRepository.findAll().forEach(spell -> {
 			System.out.println("Spell " + spell.getName());
 			System.out.println("ge: ");
@@ -71,6 +121,6 @@ public class CardCommandLineRunner implements CommandLineRunner {
 			System.out.println("ste: ");
 			for(SingleTargetEffect ste : spell.getSTE())
 				System.out.println("Class: " + ste.getClass().getName());
-		});
+		});*/
     }
 }

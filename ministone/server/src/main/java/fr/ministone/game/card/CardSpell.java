@@ -4,11 +4,8 @@ import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 //import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
@@ -20,22 +17,13 @@ import fr.ministone.game.IEntity;
 
 @Entity
 public class CardSpell extends Card {
-	@OneToMany(fetch = FetchType.EAGER, /*mappedBy = "id", */cascade = {CascadeType.ALL})
-	//@OneToMany
-	//@JoinColumn(name = "id")
-	//@ElementCollection
+	@OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
 	protected Set<SingleTargetEffect> singleEffects;
 
-	@OneToMany(fetch = FetchType.EAGER, /*mappedBy = "id", */cascade = {CascadeType.ALL})
-	//@OneToMany
-	//@JoinColumn(name = "id")
-	//@ElementCollection
+	@OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
 	protected Set<MultipleTargetEffect> multipleEffects;
 
-	@OneToMany(fetch = FetchType.EAGER, /*mappedBy = "id", */cascade = {CascadeType.ALL})
-	//@OneToMany
-	//@JoinColumn(name = "id")
-	//@ElementCollection
+	@OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
 	protected Set<GlobalEffect> globalEffects;
 
 	public CardSpell() {
@@ -54,6 +42,10 @@ public class CardSpell extends Card {
 			e.setCard(this);
 		for(GlobalEffect e : this.globalEffects)
 			e.setCard(this);
+	}
+
+	public CardSpell(String deck, String name, int mana, Set<SingleTargetEffect> singleEffects, Set<MultipleTargetEffect> multipleEffects, Set<GlobalEffect> globalEffects) {
+		this(null, deck, null, name, mana, singleEffects, multipleEffects, globalEffects);
 	}
 	
 	@Override
