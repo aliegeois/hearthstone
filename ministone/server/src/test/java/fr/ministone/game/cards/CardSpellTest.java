@@ -29,10 +29,10 @@ public class CardSpellTest {
 		player2 = new MPlayer("paladin");
 		player1.setOpponent(player2);
 
-		card1 = new CardMinion("1", "shared", player1, "Card Minion 1", 1, 1, 1, new HashSet<String>(), new HashMap<String, Integer>());
-		card2 = new CardMinion("2", "shared", player1, "Card Minion 2", 1, 1, 3, new HashSet<String>(), new HashMap<String, Integer>());
-		card3 = new CardMinion("3", "shared", player2, "Card Minion 3", 1, 1, 1, new HashSet<String>(), new HashMap<String, Integer>());
-		card4 = new CardMinion("4", "shared", player2, "Card Minion 4", 1, 1, 3, new HashSet<String>(), new HashMap<String, Integer>());
+		card1 = new CardMinion(1l, "shared", player1, "Card Minion 1", 1, 1, 1, new HashSet<String>(), new HashMap<String, Integer>());
+		card2 = new CardMinion(2l, "shared", player1, "Card Minion 2", 1, 1, 3, new HashSet<String>(), new HashMap<String, Integer>());
+		card3 = new CardMinion(3l, "shared", player2, "Card Minion 3", 1, 1, 1, new HashSet<String>(), new HashMap<String, Integer>());
+		card4 = new CardMinion(4l, "shared", player2, "Card Minion 4", 1, 1, 3, new HashSet<String>(), new HashMap<String, Integer>());
 
 		player1.getDeck().add(card1);
 		player1.getDeck().add(card2);
@@ -55,7 +55,7 @@ public class CardSpellTest {
 		MultipleTargetDamage effect2 = new MultipleTargetDamage(true, true, false, false, 1);
 		ste.add(effect1);
 		mte.add(effect2);
-		card = new CardSpell("0", "shared", player1, "Test", 1, ste, mte, gte);
+		card = new CardSpell(0l, "shared", player1, "Test", 1, ste, mte, gte);
 
 		player1.getHand().put(card.getId(), card);
 
@@ -78,7 +78,7 @@ public class CardSpellTest {
 		MultipleTargetHeal effect2 = new MultipleTargetHeal(true, true, false, false, 1);
 		ste.add(effect1);
 		mte.add(effect2);
-		card = new CardSpell("0", "shared", player1, "test", 1, ste, mte, gte);
+		card = new CardSpell(0l, "shared", player1, "test", 1, ste, mte, gte);
 
 		player1.getHand().put(card.getId(), card);
 		player1.getHero().takeDamage(4);
@@ -114,7 +114,7 @@ public class CardSpellTest {
 	public void testDraw() {
 		DrawRandom effect = new DrawRandom(2);
 		gte.add(effect);
-		card = new CardSpell("0", "shared", player1, "test", 1, ste, mte, gte);
+		card = new CardSpell(0l, "shared", player1, "test", 1, ste, mte, gte);
 
 		player1.getHand().put(card.getId(), card);
 		

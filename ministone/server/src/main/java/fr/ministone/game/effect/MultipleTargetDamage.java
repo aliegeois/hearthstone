@@ -8,6 +8,10 @@ import fr.ministone.game.card.CardMinion;
 public class MultipleTargetDamage extends MultipleTargetEffect {
 	private int quantity;
 	
+	public MultipleTargetDamage() {
+		super();
+	}
+
 	public MultipleTargetDamage(boolean ownBoard, boolean opponentBoard, boolean ownHero, boolean opponentHero, int damage) {
 		super(ownBoard, opponentBoard, ownHero, opponentHero);
 		this.quantity = damage;

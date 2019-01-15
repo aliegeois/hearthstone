@@ -42,8 +42,13 @@ public class CardMinion extends Card implements IEntity {
 
 	@Transient
 	private boolean ready;
+
+	public CardMinion() {
+		super();
+		healthMax = 0;
+	}
 	
-	public CardMinion(String id, String deck, IPlayer owner, String name, int mana, int damage, int health, Set<String> capacities, Map<String, Integer> boosts) {
+	public CardMinion(Long id, String deck, IPlayer owner, String name, int mana, int damage, int health, Set<String> capacities, Map<String, Integer> boosts) {
 		super(id, deck, owner, name, mana);
 		this.damageBase = damage;
 		this.damage = damage;
@@ -192,7 +197,7 @@ public class CardMinion extends Card implements IEntity {
 		boosts.put("health", this.boostHealth);
 		boosts.put("damage", this.boostDamage);
 
-		return new CardMinion(UUID.randomUUID().toString(), deck, owner, name, manaCost, damage, health, capacities, boosts);
+		return new CardMinion(UUID.randomUUID().getLeastSignificantBits(), deck, owner, name, manaCost, damage, health, capacities, boosts);
 	}
 
 	@Override

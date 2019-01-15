@@ -7,7 +7,7 @@ import fr.ministone.game.card.CardMinion;
 // This will be AUTO IMPLEMENTED by Spring into a Bean called userRepository
 // CRUD refers Create, Read, Update, Delete
 
-public interface CardMinionRepository extends CrudRepository<CardMinion, Integer> {
+public interface CardMinionRepository extends CrudRepository<CardMinion, Long> {
     CardMinion findByName(String name);
     Iterable<CardMinion> findAllByDeck(String deck);
 }

@@ -8,6 +8,10 @@ import fr.ministone.game.IEntity;
 public class SingleTargetHeal extends SingleTargetEffect {
 	private int amount;
 	
+	public SingleTargetHeal() {
+		super();
+	}
+
 	public SingleTargetHeal(int amount) {
 		super();
 		this.amount = amount;

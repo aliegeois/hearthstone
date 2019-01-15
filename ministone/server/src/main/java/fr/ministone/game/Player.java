@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+//import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -26,8 +27,8 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	protected CardSpellRepository cardSpellRepository;
 
 	protected Set<Card> deck = new HashSet<>();
-	protected Map<String, Card> hand = new HashMap<>();
-	protected Map<String, CardMinion> board = new HashMap<>();
+	protected Map<Long, Card> hand = new HashMap<>();
+	protected Map<Long, CardMinion> board = new HashMap<>();
 	
 	protected int manaMax = 0;
 	protected int mana = 0;
@@ -69,6 +70,8 @@ public class Player implements IPlayer, IPlayerMessageSender {
 				this.deck.add(i.next());
 		}
 		this.hero.setPlayer(this);
+
+		//new UUID().getLeastSignificantBits()
 	}
 
 	public Player(String name, String sessionId, String gameId, String heroType) {
@@ -95,7 +98,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	}
 	
 	@Override
-	public void summonMinion(String minionId) {
+	public void summonMinion(Long minionId) {
 		CardMinion minion = (CardMinion)hand.get(minionId);
 		summonMinion(minion);
 	}
@@ -113,13 +116,13 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	}
 	
 	@Override
-	public void attack(String cardId, String targetId) { // Plus de vérifications (genre opponent card existe ou pas) ??
+	public void attack(boolean isHero, Long cardId, Long targetId) { // Plus de vérifications (genre opponent card existe ou pas) ??
 		CardMinion minion = (CardMinion)board.get(cardId);
-		if(targetId.equals("hero")) {
+		if(isHero) {
 			minion.attack(opponent.getHero());
 		} else {
 			IPlayer opp = opponent;
-			Map<String, CardMinion> oppBoard = opp.getBoard();
+			Map<Long, CardMinion> oppBoard = opp.getBoard();
 			CardMinion tar = oppBoard.get(targetId);
 			minion.attack(tar);
 			//minion.attack(getOpponent().getBoard().get(targetId));
@@ -139,7 +142,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	@Override
 	public Card drawCard(Card card, boolean send) {
 		Card cardDrawn = card.copy();
-		String cId = UUID.randomUUID().toString();
+		Long cId = UUID.randomUUID().getLeastSignificantBits();
 
 		cardDrawn.setId(cId);
 		hand.put(cId, cardDrawn);
@@ -150,10 +153,10 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	}
 
 	@Override
-	public void castSpell(boolean own, String spellId, String targetId) { // À terminer (je crois ?)
+	public void castSpell(boolean own, boolean isHero, Long spellId, Long targetId) { // À terminer (je crois ?)
 		CardSpell spell = (CardSpell)hand.get(spellId);
 		IEntity victim;
-		if("hero".equals(targetId)) {
+		if(isHero) {
 			victim = (own ? this : opponent).getHero();
 		} else {
 			victim = (own ? this : opponent).getBoard().get(targetId);
@@ -164,7 +167,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	}
 
 	@Override
-	public void castSpell(String spellId) {
+	public void castSpell(Long spellId) {
 		CardSpell spell = (CardSpell)hand.get(spellId);
 		spell.play();
 		hand.remove(spell.getId());
@@ -172,9 +175,9 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	}
 	
 	@Override
-	public void heroSpecial(boolean own, String targetId) {
+	public void heroSpecial(boolean own, boolean isHero, Long targetId) {
 		IEntity victim;
-		if("hero".equals(targetId)) {
+		if(isHero) {
 			victim = (own ? this : opponent).getHero();
 		} else {
 			victim = (own ? this : opponent).getBoard().get(targetId);
@@ -216,12 +219,12 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	}
 	
 	@Override
-	public Map<String, Card> getHand() {
+	public Map<Long, Card> getHand() {
 		return hand;
 	}
 	
 	@Override
-	public Map<String, CardMinion> getBoard() {
+	public Map<Long, CardMinion> getBoard() {
 		return board;
 	}
 	
@@ -256,7 +259,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 
 	@Override
 	public void checkDead() {
-		Iterator<Map.Entry<String,CardMinion>> i = this.board.entrySet().iterator();
+		Iterator<Map.Entry<Long,CardMinion>> i = this.board.entrySet().iterator();
 
 		while(i.hasNext()) {
 			if(i.next().getValue().isDead()) {
@@ -274,48 +277,53 @@ public class Player implements IPlayer, IPlayerMessageSender {
 		return cardMinionRepository.findByName(name);
 	}
 
+	@Override
+	public CardMinion findMinionById(Long minionId) {
+		return cardMinionRepository.findById(minionId).get();
+	}
+
 
 	@Override
-	public void sendSummonMinion(String minionId) {
+	public void sendSummonMinion(Long minionId) {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", name);
-		send.put("cardId", minionId);
+		send.put("cardId", minionId.toString());
 		template.convertAndSend("/topic/game/" + gameId + "/summonMinion", JSONeur.toJSON(send));
 	}
 
 	@Override
-	public void sendAttack(String cardId, String targetId) {
+	public void sendAttack(Long cardId, Long targetId) {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", name);
-		send.put("cardId", cardId);
-		send.put("targetId", targetId);
+		send.put("cardId", cardId.toString());
+		send.put("targetId", targetId.toString());
 		template.convertAndSend("/topic/game/" + gameId + "/attack", JSONeur.toJSON(send));
 	}
 
 	@Override
-	public void sendCastTargetedSpell(boolean own, String spellId, String targetId) {
+	public void sendCastTargetedSpell(boolean own, Long spellId, Long targetId) {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", name);
-		send.put("cardId", spellId);
-		send.put("targetId", targetId);
+		send.put("cardId", spellId.toString());
+		send.put("targetId", targetId.toString());
 		send.put("own", own ? "true" : "false");
 		template.convertAndSend("/topic/game/" + gameId + "/castTargetedSpell", JSONeur.toJSON(send));
 	}
 
 	@Override
-	public void sendCastUntargetedSpell(String spellId) {
+	public void sendCastUntargetedSpell(Long spellId) {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", name);
-		send.put("cardId", spellId);
+		send.put("cardId", spellId.toString());
 		template.convertAndSend("/topic/game/" + gameId + "/castUntargetedSpell", JSONeur.toJSON(send));
 	}
 
 	@Override
-	public void sendHeroTargetedSpecial(boolean own, String targetId) {
+	public void sendHeroTargetedSpecial(boolean own, Long targetId) {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", name);
 		send.put("own", own ? "true" : "false");
-		send.put("targetId", targetId);
+		send.put("targetId", targetId.toString());
 		template.convertAndSend("/topic/game/" + gameId + "/targetedSpecial", JSONeur.toJSON(send));
 	}
 
@@ -327,11 +335,11 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	}
 
 	@Override
-	public void sendNextTurn(String cardName, String cardId, String cardType) {
+	public void sendNextTurn(String cardName, Long cardId, String cardType) {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", opponent.getName());
 		send.put("cardName", cardName);
-		send.put("cardId", cardId);
+		send.put("cardId", cardId.toString());
 		template.convertAndSend("/topic/game/" + gameId + "/nextTurn", JSONeur.toJSON(send));
 	}
 
@@ -343,11 +351,11 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	}
 
 	@Override
-	public void sendDrawCard(String cardName, String cardId, String cardType) {
+	public void sendDrawCard(String cardName, Long cardId, String cardType) {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", name);
 		send.put("cardName", cardName);
-		send.put("cardId", cardId);
+		send.put("cardId", cardId.toString());
 		send.put("cardType", cardType);
 		template.convertAndSend("/topic/game/" + gameId + "/drawCard", JSONeur.toJSON(send));
 	}

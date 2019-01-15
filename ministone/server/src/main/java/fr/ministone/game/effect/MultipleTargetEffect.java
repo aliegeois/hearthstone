@@ -7,10 +7,14 @@ import javax.persistence.InheritanceType;
 import fr.ministone.game.IEntity;
 
 @Entity
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public abstract class MultipleTargetEffect extends Effect {
 	protected boolean ownBoard, opponentBoard, ownHero, opponentHero;
 	
+	public MultipleTargetEffect() {
+		super();
+	}
+
 	public MultipleTargetEffect(boolean ownBoard, boolean opponentBoard, boolean ownHero, boolean opponentHero) {
 		super();
 		this.ownBoard = ownBoard;

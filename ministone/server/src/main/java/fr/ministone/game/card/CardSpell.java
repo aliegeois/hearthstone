@@ -3,7 +3,12 @@ package fr.ministone.game.card;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 //import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
@@ -11,18 +16,33 @@ import fr.ministone.game.effect.*;
 import fr.ministone.game.IPlayer;
 import fr.ministone.game.IEntity;
 
+// Essayer ça: https://stackoverflow.com/questions/3774198/org-hibernate-mappingexception-could-not-determine-type-for-java-util-list-at
+
 @Entity
 public class CardSpell extends Card {
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER, /*mappedBy = "id", */cascade = {CascadeType.ALL})
+	//@OneToMany
+	//@JoinColumn(name = "id")
+	//@ElementCollection
 	protected Set<SingleTargetEffect> singleEffects;
 
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER, /*mappedBy = "id", */cascade = {CascadeType.ALL})
+	//@OneToMany
+	//@JoinColumn(name = "id")
+	//@ElementCollection
 	protected Set<MultipleTargetEffect> multipleEffects;
 
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER, /*mappedBy = "id", */cascade = {CascadeType.ALL})
+	//@OneToMany
+	//@JoinColumn(name = "id")
+	//@ElementCollection
 	protected Set<GlobalEffect> globalEffects;
+
+	public CardSpell() {
+		super();
+	}
 	
-	public CardSpell(String id, String deck, IPlayer owner, String name, int mana, Set<SingleTargetEffect> singleEffects, Set<MultipleTargetEffect> multipleEffects, Set<GlobalEffect> globalEffects) {
+	public CardSpell(Long id, String deck, IPlayer owner, String name, int mana, Set<SingleTargetEffect> singleEffects, Set<MultipleTargetEffect> multipleEffects, Set<GlobalEffect> globalEffects) {
 		super(id, deck, owner, name, mana);
 		this.singleEffects = singleEffects;
 		this.multipleEffects = multipleEffects;
@@ -72,7 +92,7 @@ public class CardSpell extends Card {
 
 	public void addEffect(GlobalEffect ge) {
 		globalEffects.add(ge);
-	}
+	}*/
 
 	public Set<SingleTargetEffect> getSTE() {
 		return singleEffects;
@@ -84,10 +104,10 @@ public class CardSpell extends Card {
 
 	public Set<GlobalEffect> getGE() {
 		return globalEffects;
-	}*/
+	}
 
 	@Override
 	public Card copy() {
-		return new CardSpell(UUID.randomUUID().toString(), deck, owner, name, manaCost, singleEffects, multipleEffects, globalEffects);
+		return new CardSpell(UUID.randomUUID().getLeastSignificantBits(), deck, owner, name, manaCost, singleEffects, multipleEffects, globalEffects);
 	}
 }

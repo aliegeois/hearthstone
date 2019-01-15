@@ -27,10 +27,10 @@ public class EffectTest {
 		player2 = new MPlayer("mage");
 		player1.setOpponent(player2);
 
-		card1 = new CardMinion("1", "shared", player1, "Card Minion 1", 1, 1, 1, new HashSet<String>(), new HashMap<String, Integer>());
-		card2 = new CardMinion("2", "shared", player1, "Card Minion 2", 1, 1, 3, new HashSet<String>(), new HashMap<String, Integer>());
-		card3 = new CardMinion("3", "shared", player2, "Card Minion 3", 1, 1, 1, new HashSet<String>(), new HashMap<String, Integer>());
-		card4 = new CardMinion("4", "shared", player2, "Card Minion 4", 1, 1, 3, new HashSet<String>(), new HashMap<String, Integer>());
+		card1 = new CardMinion(1l, "shared", player1, "Card Minion 1", 1, 1, 1, new HashSet<String>(), new HashMap<String, Integer>());
+		card2 = new CardMinion(2l, "shared", player1, "Card Minion 2", 1, 1, 3, new HashSet<String>(), new HashMap<String, Integer>());
+		card3 = new CardMinion(3l, "shared", player2, "Card Minion 3", 1, 1, 1, new HashSet<String>(), new HashMap<String, Integer>());
+		card4 = new CardMinion(4l, "shared", player2, "Card Minion 4", 1, 1, 3, new HashSet<String>(), new HashMap<String, Integer>());
 
 		player1.getDeck().add(card1);
 		player1.getDeck().add(card2);
@@ -46,7 +46,7 @@ public class EffectTest {
 	void testDrawRandom() {
 		DrawRandom effect = new DrawRandom(2);
 		gte.add(effect);
-		CardSpell card = new CardSpell("0", "shared", player1, "Sprint", 7, ste, mte, gte);
+		CardSpell card = new CardSpell(0l, "shared", player1, "Sprint", 7, ste, mte, gte);
 		
 		assertEquals(0, player1.getHand().size());
 		assertEquals(0, player1.getBoard().size());
@@ -65,7 +65,7 @@ public class EffectTest {
 	void testMultTarBuffOwnBoard() {
 		MultipleTargetBuff effect = new MultipleTargetBuff(true, false, false, false, 2, 0);
 		mte.add(effect);
-		CardSpell card = new CardSpell("0", "shared", player1, "Sprint", 7, ste, mte, gte);
+		CardSpell card = new CardSpell(0l, "shared", player1, "Sprint", 7, ste, mte, gte);
 
 		player1.getHand().put(card.getId(), card);
 		player1.getBoard().put(card1.getId(), card1);
@@ -81,7 +81,7 @@ public class EffectTest {
 	void testMultTarBuffOpponentBoard() {
 		MultipleTargetBuff effect = new MultipleTargetBuff(false, true, false, false, 0, 2);
 		mte.add(effect);
-		CardSpell card = new CardSpell("0", "shared", player1, "Sprint", 7, ste, mte, gte);
+		CardSpell card = new CardSpell(0l, "shared", player1, "Sprint", 7, ste, mte, gte);
 
 		player1.getHand().put(card.getId(), card);
 		player2.getBoard().put(card3.getId(), card3);
@@ -97,7 +97,7 @@ public class EffectTest {
 	void testMultTarDamageAll() {
 		MultipleTargetDamage effect = new MultipleTargetDamage(true, true, true, true, 2);
 		mte.add(effect);
-		CardSpell card = new CardSpell("0", "shared", player1, "Sprint", 7, ste, mte, gte);
+		CardSpell card = new CardSpell(0l, "shared", player1, "Sprint", 7, ste, mte, gte);
 
 		assertEquals(0, player1.getBoard().size());
 		assertEquals(0, player2.getBoard().size());
@@ -126,7 +126,7 @@ public class EffectTest {
 	void testMultTarHealBothHeroes() {
 		MultipleTargetHeal effect = new MultipleTargetHeal(false, false, true, true, 5);
 		mte.add(effect);
-		CardSpell card = new CardSpell("0", "shared", player1, "Sprint", 7, ste, mte, gte);
+		CardSpell card = new CardSpell(0l, "shared", player1, "Sprint", 7, ste, mte, gte);
 
 		player1.getHand().put(card.getId(), card);
 		player1.getHero().takeDamage(2);
@@ -145,7 +145,7 @@ public class EffectTest {
 	void testSinglTarDamBuff() {
 		SingleTargetDamageBuff effect = new SingleTargetDamageBuff(1);
 		ste.add(effect);
-		CardSpell card = new CardSpell("0", "shared", player1, "Sprint", 7, ste, mte, gte);
+		CardSpell card = new CardSpell(0l, "shared", player1, "Sprint", 7, ste, mte, gte);
 
 		player1.getHand().put(card.getId(), card);
 		player1.getBoard().put(card1.getId(), card1);
@@ -161,7 +161,7 @@ public class EffectTest {
 	void testSinglTarHealthBuff() {
 		SingleTargetLifeBuff effect = new SingleTargetLifeBuff(1);
 		ste.add(effect);
-		CardSpell card = new CardSpell("0", "shared", player1, "Sprint", 7, ste, mte, gte);
+		CardSpell card = new CardSpell(0l, "shared", player1, "Sprint", 7, ste, mte, gte);
 
 		player1.getHand().put(card.getId(), card);
 		player1.getBoard().put(card3.getId(), card3);

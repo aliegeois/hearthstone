@@ -27,8 +27,8 @@ public class CardMinionTest {
 		Set<String> capacities2 = new HashSet<String>();
 		capacities1.add("charge");
 		capacities2.add("provocation");
-		card1 = new CardMinion("1", "shared", player1, "Card Minion 1", 2, 7, 4, capacities1, new HashMap<String, Integer>());
-		card2 = new CardMinion("2", "shared", player2, "Card Minion 2", 1, 2, 10, capacities2, new HashMap<String, Integer>());
+		card1 = new CardMinion(1l, "shared", player1, "Card Minion 1", 2, 7, 4, capacities1, new HashMap<String, Integer>());
+		card2 = new CardMinion(2l, "shared", player2, "Card Minion 2", 1, 2, 10, capacities2, new HashMap<String, Integer>());
 	}
 
 	@Test
@@ -113,7 +113,7 @@ public class CardMinionTest {
 	void testDie() {
 		assertTrue(player1.getBoard().isEmpty());
 
-		player1.getBoard().put("1", card1);
+		player1.getBoard().put(card1.getId(), card1);
 		card1.takeDamage(3);
 
 		assertEquals(card1.getHealth(), 1);
