@@ -22,7 +22,7 @@
 			<ul>
 				<li *ngFor="let card of joueur.hand | keyvalue" id="card" [class.nonTargetable]="!card.isTargetable()" (click)="selectCardHand(card)">
 					<div>
-						<span id="cardName">{{ card.value.name }}</span>
+						<img src="../../assets/images/cards/{{ card.name }}.png" alt="{{ card.name }}" />
 						<span id="cardManaCost">{{ card.value.manaCost }}</span>
 						<span id="cardDamage">{{ card.value.damage }}</span>
 						<span id="cardHealth">{{ card.value.health }}</span>
@@ -35,7 +35,7 @@
 			<ul>
 				<li *ngFor="let card of joueur.board | keyvalue" id="card" id="card" [class.nonTargetable]="!card.isTargetable()" (click)="selectCardPlayerBoard(card)">
 					<div>
-						<span id="cardName">{{ card.value.name }}</span>
+						<img src="../../assets/images/cards/{{ card.name }}.png" alt="{{ card.name }}" />
 						<span id="cardManaCost">{{ card.value.manaCost }}</span>
 						<span id="cardDamage">{{ card.value.damage }}</span>
 						<span id="cardHealth">{{ card.value.health }}</span>
@@ -46,9 +46,9 @@
 
 		<div id="board_opponent">
 			<ul>
-				<li *ngFor="let card of opponent.board | keyvalue" id="card" [class.nonTargetable]="!card.isTargetable()" (click)="selectCardPlayerBoard(card)">
+				<li *ngFor="let card of opponent.board | keyvalue" id="card" [class.nonTargetable]="!card.isTargetable()" (click)="selectCardOpponentBoard(card)">
 					<div>
-						<span id="cardName">{{ card.value.name }}</span>
+						<img src="../../assets/images/cards/{{ card.name }}.png" alt="{{ card.name }}" />
 						<span id="cardManaCost">{{ card.value.manaCost }}</span>
 						<span id="cardDamage">{{ card.value.damage }}</span>
 						<span id="cardHealth">{{ card.value.health }}</span>
@@ -64,16 +64,15 @@
 
 
 
-		<div id="joueur">
+		<div id="joueur" (click)="selectHero()">
 			<img src="{{ joueur.hero.portrait }}" alt="Portrait de {{ joueur.hero.name }}" />
-				<br />
-				<p id="name">{{ joueur.name }}</p>
-				<p id="health">Vie : <span  [style.color]="(joueur.hero.health == joueur.hero.healthMax) ? 'green': 'red'">{{ joueur.hero.health }}</span></p>
+				<span id="name">{{ joueur.name }}</span>
+				<span id="health">[style.color]="(joueur.hero.health == joueur.hero.healthMax) ? 'green': 'red'">{{ joueur.hero.health }}</span>
+				<button id="special" (click)="special()">Special</button>
 		</div>
 
-		<div id="opponent">
+		<div id="opponent" (click)="selectOpponent()">
 			<img src="{{ opponent.hero.portrait }}" alt="Portrait de {{ opponent.hero.name }}" />
-				<br />
 				<p id="name">{{ opponent.name }}</p>
 				<p id="health">Vie : <span [style.color]="(opponent.hero.health == opponent.hero.healthMax) ? 'green': 'red'">{{ opponent.hero.health }}</span></p>
 		</div>

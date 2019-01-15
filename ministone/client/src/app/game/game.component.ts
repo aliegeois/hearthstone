@@ -1,5 +1,5 @@
 import { Component, OnInit, Injectable } from '@angular/core';
-import { Player, CardMinion, Card, CardSpell, AppComponent } from '../app.component';
+import { Player, CardMinion, Card, CardSpell, AppComponent, Entity } from '../app.component';
 import { initDomAdapter } from '@angular/platform-browser/src/browser';
 import { SingleTargetEffect, MultipleTargetEffect, GlobalEffect } from '../effect.service';
 import { stringify } from '@angular/core/src/util';
@@ -22,13 +22,20 @@ export class GameComponent implements OnInit {
   gameId: string;
   infoLog: string;
 
-  buttonEndTurnDisabled: boolean;
+  selectedHand: Card;
+  selectedAttacking: CardMinion;
+  selectedHeroPower: boolean;
+
 
   constructor() {
     this.secretMode = false;
     this.gameId = AppComponent.gameId;
     this.infoLog = "";
     
+    this.selectedHand = null;
+    this.selectedAttacking = null;
+    this.selectedHeroPower = false;
+
 
     this.init();
 
@@ -243,6 +250,120 @@ export class GameComponent implements OnInit {
 
   }
 
+
+
+
+  selectCardHand(card: Card): void {
+    this.selectedHand = card;
+
+    // S'il ne possède pas de targetable spell, on le lance direct
+    if(!this.selectedHand.hasTargetedSpell()) {
+      card.playReceived(this.id);
+      
+    } else {
+      this.joueur.hand.forEach((value: Card, key: string) => {
+        value.setTargetable(false);
+      });
+  
+      this.selectedHand.setTargetable(true);
+    }
+
+  }
+
+
+  selectCardPlayerBoard(card: CardMinion): void {
+    this.selectedAttacking = card;
+
+    // On opacifie les autres cartes de notre board
+    this.joueur.board.forEach((value: Card, key: string) => {
+      value.setTargetable(false);
+    });
+
+    card.setTargetable(true);
+
+    // On vérifie s'il y a au moins un taunt
+    let nbTaunt: number = 0;
+    this.opponent.board.forEach((value: CardMinion, key: string) => {
+      if(value.isProvoking()) {
+        nbTaunt++;
+      }
+    });
+
+    // On grise toutes les entités adverses, sauf celles avec taunt, s'il y a au moins un taunt
+    if(nbTaunt > 0) {
+      this.opponent.hero.setTargetable(false);
+      this.opponent.board.forEach((value: CardMinion, key: string) => {
+        value.setTargetable(value.isProvoking());
+      });
+    }
+  }
+
+
+  selectCardOpponentBoard(card: CardMinion): void {
+    // Si on avait déjà choisi une carte sur le board, on lance une attaque sur card
+    if(this.selectedAttacking != null) {
+      console.log('Envoi de attack sur ' + card.name);
+      AppComponent.stompClient.send(`/game/${this.id}/attack`, {}, JSON.stringify({cardId: this.selectedAttacking.id, targetId: card.id}));
+      this.selectedAttacking = null;
+    }
+    // Sinon, si on avait déjà choisit une carte dans la main, on la joue avec pour cible card
+    else if(this.selectedHand != null) {
+      this.selectedHand.playReceived(this.id, card);
+    }
+  }
+
+  selectOpponent(): void {
+    // Si on avait déjà choisi une carte sur le board, on lance une attaque sur card
+    if(this.selectedAttacking != null) {
+      console.log('Envoi de attack sur le hero');
+      AppComponent.stompClient.send(`/game/${this.id}/attack`, {}, JSON.stringify({cardId: this.selectedAttacking.id, targetId: "hero"}));
+      this.selectedAttacking = null;
+    }
+    // Sinon, si on avait déjà choisit une carte dans la main, on la joue avec pour cible le héros adverse
+    else if(this.selectedHand != null) {
+      this.selectedHand.playReceived(this.id, this.opponent.hero);
+    }
+  }
+
+  selectHero(): void {
+    // Si on avait déjà choisit une carte dans la main, on la joue avec pour cible notre héros
+    if(this.selectedHand != null) {
+      this.selectedHand.playReceived(this.id, this.joueur.hero);
+    }
+  }
+
+
+  special(): void {
+    if(AppComponent.joueurHero == "mage") {
+      this.selectedHeroPower = true;
+    } else {
+      this.joueur.specialReceived(this.id);
+    }
+  }
+
+    endTurn(): void {
+      console.log('Envoi de fin du tour');
+      AppComponent.stompClient.send(`/game/${this.id}/endTurn`, {});
+    }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   enter_secretMode() {
     switch(this.secretMode) {
       case true:
@@ -268,4 +389,6 @@ export class GameComponent implements OnInit {
     }
   }
 
+
+  
 }
