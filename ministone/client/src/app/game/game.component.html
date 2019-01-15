@@ -21,12 +21,10 @@
 		<div id="main_joueur">
 			<ul>
 				<li *ngFor="let card of joueur.hand | keyvalue" id="card">
-					<div>
-						<span id="cardName">{{ card.value.name }}</span>
-						<span id="cardManaCost">{{ card.value.manaCost }}</span>
-						<span id="cardDamage">{{ card.value.damage }}</span>
-						<span id="cardHealth">{{ card.value.health }}</span>
-					</div>
+					<img [src]="getImgUrl(card.value)" alt="{{ card.value.name }}" />
+					<span id="cardManaCost">{{ card.value.manaCost }}</span>
+					<span id="cardDamage">{{ card.value.damage }}</span>
+					<span id="cardHealth">{{ card.value.health }}</span>
 				</li>
 			</ul>
 		</div>
@@ -35,7 +33,7 @@
 			<ul>
 				<li *ngFor="let card of joueur.board | keyvalue" id="card">
 					<div>
-						<span id="cardName">{{ card.value.name }}</span>
+						<img [src]="getImgUrl(card.value)" alt="{{ card.value.name }}" />
 						<span id="cardManaCost">{{ card.value.manaCost }}</span>
 						<span id="cardDamage">{{ card.value.damage }}</span>
 						<span id="cardHealth">{{ card.value.health }}</span>
@@ -48,7 +46,7 @@
 			<ul>
 				<li *ngFor="let card of opponent.board | keyvalue" id="card">
 					<div>
-						<span id="cardName">{{ card.value.name }}</span>
+						<img [src]="getImgUrl(card.value)" alt="{{ card.value.name }}" />
 						<span id="cardManaCost">{{ card.value.manaCost }}</span>
 						<span id="cardDamage">{{ card.value.damage }}</span>
 						<span id="cardHealth">{{ card.value.health }}</span>
@@ -57,8 +55,9 @@
 			</ul>
 		</div>
 
-		<button id="endTurn_button" (click)="endTurn()" disabled="{{ buttonEndTurnDisabled }}">
-			END TURN
+		<button id="endTurn_button" (click)="endTurn()" [disabled]="opponent == playing">
+			<div *ngIf="joueur == playing">END TURN</div>
+			<div *ngIf="opponent == playing">OPPONENT TURN</div>
 		</button>
 
 

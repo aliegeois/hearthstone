@@ -138,8 +138,8 @@ body {
         #card {
             display: inline-block;
             margin: 1%;
-                    
-            div {
+            border: 1px solid black;
+
                 background-color: #6b4c19;
                 position: relative;
                 height: 120px;
@@ -164,7 +164,6 @@ body {
                     bottom: 5%;
                     right: 5%;
                 }
-            }
         }
     
         .nonTargetable {

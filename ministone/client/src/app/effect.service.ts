@@ -21,7 +21,7 @@ export abstract class GlobalEffect extends EffectService {
         super();
      }
 
-     cast(player: Hero, playerDeck: Set<Card>, playerHand: Map<string, Card>, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentDeck: Set<Card>, opponentHand: Map<string, Card>, opponentBoard: Map<string, Card>) {}
+     cast(player: Hero, playerDeck: Set<Card>, playerHand: Map<number, Card>, playerBoard: Map<number, CardMinion>, opponent: Hero, opponentDeck: Set<Card>, opponentHand: Map<number, Card>, opponentBoard: Map<number, Card>) {}
 }
 
 export abstract class MultipleTargetEffect extends EffectService {
@@ -54,7 +54,7 @@ export abstract class MultipleTargetEffect extends EffectService {
         return this.opponentHero;
     }
 
-    cast(player: Hero, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentBoard: Map<string, CardMinion>) {}
+    cast(player: Hero, playerBoard: Map<number, CardMinion>, opponent: Hero, opponentBoard: Map<number, CardMinion>) {}
 }
 
 export abstract class SingleTargetEffect extends EffectService {
@@ -76,7 +76,7 @@ export class MultiTargetBuff extends MultipleTargetEffect {
         this.attack = attack;
     }
 
-    cast(player: Hero, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentBoard: Map<string, CardMinion>) {
+    cast(player: Hero, playerBoard: Map<number, CardMinion>, opponent: Hero, opponentBoard: Map<number, CardMinion>) {
         if(this.ownHero) {
             player.boostHealth(this.life);
         }
@@ -110,7 +110,7 @@ export class MultiTargetDamage extends MultipleTargetEffect {
         this.quantity = quantity;
     }
 
-    cast(player: Hero, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentBoard: Map<string, CardMinion>) {
+    cast(player: Hero, playerBoard: Map<number, CardMinion>, opponent: Hero, opponentBoard: Map<number, CardMinion>) {
         if(this.ownHero) {
             player.takeDamage(this.quantity);
         }
@@ -141,7 +141,7 @@ export class MultiTargetHeal extends MultipleTargetEffect {
         this.amount = amount;
     }
 
-    cast(player: Hero, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentBoard: Map<string, CardMinion>) {
+    cast(player: Hero, playerBoard: Map<number, CardMinion>, opponent: Hero, opponentBoard: Map<number, CardMinion>) {
         if(this.ownHero) {
             player.heal(this.amount);
         }
@@ -241,7 +241,7 @@ export class DrawRandom extends GlobalEffect {
         this.cardNumber = cardNumber;
     }
 
-    cast(player: Hero, playerDeck: Set<Card>, playerHand: Map<string, Card>, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentDeck: Set<Card>, opponentHand: Map<string, Card>, opponentBoard: Map<string, Card>) {
+    cast(player: Hero, playerDeck: Set<Card>, playerHand: Map<number, Card>, playerBoard: Map<number, CardMinion>, opponent: Hero, opponentDeck: Set<Card>, opponentHand: Map<number, Card>, opponentBoard: Map<number, Card>) {
         for(let i = 0 ; i <= this.cardNumber ; i++) {
             // TODO : appeler la méthode AppComponent.stomp.client.send pour piocher une carte
         }

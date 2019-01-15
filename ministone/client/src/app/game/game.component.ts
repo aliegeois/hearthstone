@@ -39,11 +39,6 @@ export class GameComponent implements OnInit {
 
     this.init();
 
-    console.log("APPname" + AppComponent.joueurName + " / client : " + this.joueur.name);
-    console.log("APPnameopp" + AppComponent.opponentName + " / client : " + this.joueur.opponent.name);
-    console.log("APPname" + AppComponent.joueurHero + " / client : " + this.joueur.hero.portrait);
-    console.log("APPnameopp" + AppComponent.opponentName + " / client : " + this.joueur.opponent.hero.portrait);
-
     this.playing = this.getPlayer(AppComponent.playing);
     AppComponent.addListener(this);
 
@@ -100,7 +95,7 @@ export class GameComponent implements OnInit {
       let concernedPlayer : Player = this.getPlayer(msg.playerName);
 
       // On fait s'attaquer les deux minions
-      concernedPlayer.attack(msg.cardId, msg.targetId);
+      concernedPlayer.attack(msg.cardId, msg.targetId, msg.hero);
     });
 
     // On reçoit un cast d'un targetedSpell
@@ -111,7 +106,7 @@ export class GameComponent implements OnInit {
       let concernedPlayer : Player = this.getPlayer(msg.playerName);
 
       // On fait cast le spell par le joueur concerné
-      concernedPlayer.castTargetedSpell(msg.cardId, msg.targetId, msg.own);
+      concernedPlayer.castTargetedSpell(msg.cardId, msg.targetId, msg.own, msg.hero);
     });
 
     // On reçoit un cast d'un untargetedSpell
@@ -133,7 +128,7 @@ export class GameComponent implements OnInit {
       let concernedPlayer : Player = this.getPlayer(msg.playerName);
 
       // On fait cast le special par le joueur concerné
-      concernedPlayer.castTargetedSpecial(msg.targetId, msg.own);
+      concernedPlayer.castTargetedSpecial(msg.targetId, msg.own, msg.hero);
     });
 
     // On recoit un specialHero untargeted
@@ -231,9 +226,15 @@ export class GameComponent implements OnInit {
         })
         .then( response => {
 
-          // card = new CardSpell(msg.cardId, response.name, response.manaCost, )
+          let ste: Set<SingleTargetEffect> = response.ste;
+          let mte: Set<MultipleTargetEffect> = response.mte;
+          let ge: Set<GlobalEffect> = response.ge;
+
+          card = new CardSpell(msg.cardId, response.name, response.manaCost, ste, mte, ge, concernedPlayer);
         });
       }
+
+    concernedPlayer.drawSpecific(card);
       
 
     });
@@ -257,12 +258,12 @@ export class GameComponent implements OnInit {
     let cardTest2: CardMinion = new CardMinion(2, "Consécration", 3, 4, 2, new Set<String>(), new Map<String, number>(), this.joueur);
     let cardTest3: CardSpell = new CardSpell(3, "Métamorphose", 4, new Set<SingleTargetEffect>(), new Set<MultipleTargetEffect>(), new Set<GlobalEffect>(), this.joueur)
 
-    this.joueur.hand.set("0", cardTest1);
-    this.joueur.hand.set("1", cardTest2);
-    this.joueur.hand.set("2", cardTest3);
+    this.joueur.hand.set(0, cardTest1);
+    //this.joueur.hand.set(1, cardTest2);
+    //this.joueur.hand.set(2, cardTest3);
 
-    this.joueur.board.set("0", cardTest1);
-    this.joueur.board.set("1", cardTest2);
+    //this.joueur.board.set(0, cardTest1);
+    //this.joueur.board.set(1, cardTest2);
 
     /*this.opponent.hand.set("0", cardTest2);
     this.opponent.hand.set("1", cardTest2);
@@ -274,7 +275,18 @@ export class GameComponent implements OnInit {
 
   }
 
+  loadDeck() {
 
+    //On charge toutes les cartes du type du hero du joueur :
+    fetch('http://localhost:8080/cards/getMinion?name=' )
+      .then( response => {
+        return response.json();
+      })
+      .then( response => {
+
+      });
+
+  }
 
 
   selectCardHand(card: Card): void {
@@ -285,7 +297,7 @@ export class GameComponent implements OnInit {
       card.playReceived(this.id);
       this.selectedHand = null;
     } else {
-      this.joueur.hand.forEach((value: Card, key: string) => {
+      this.joueur.hand.forEach((value: Card, key: number) => {
         value.setTargetable(false);
       });
   
@@ -299,7 +311,7 @@ export class GameComponent implements OnInit {
     this.selectedAttacking = card;
 
     // On opacifie les autres cartes de notre board
-    this.joueur.board.forEach((value: Card, key: string) => {
+    this.joueur.board.forEach((value: Card, key: number) => {
       value.setTargetable(false);
     });
 
@@ -307,7 +319,7 @@ export class GameComponent implements OnInit {
 
     // On vérifie s'il y a au moins un taunt
     let nbTaunt: number = 0;
-    this.opponent.board.forEach((value: CardMinion, key: string) => {
+    this.opponent.board.forEach((value: CardMinion, key: number) => {
       if(value.isProvoking()) {
         nbTaunt++;
       }
@@ -316,7 +328,7 @@ export class GameComponent implements OnInit {
     // On grise toutes les entités adverses, sauf celles avec taunt, s'il y a au moins un taunt
     if(nbTaunt > 0) {
       this.opponent.hero.setTargetable(false);
-      this.opponent.board.forEach((value: CardMinion, key: string) => {
+      this.opponent.board.forEach((value: CardMinion, key: number) => {
         value.setTargetable(value.isProvoking());
       });
     }
@@ -388,8 +400,10 @@ export class GameComponent implements OnInit {
 
     getImgUrl(card: Card) {
       let name = card.name;
-      name.replace(/\s/g, ""); //On vire les espaces
-      name.replace(/'/g, ""); //On vire les '
+      name = name.replace(/ /g,'') //On vire les espaces
+      name = name.replace(/'/g, ''); //On vire les '
+      name = name.replace(/-/g, ''); //On vire les -
+      name = name.replace(/_/g, ''); //On vire les _
       let url = '../../assets/images/cards/' + name.toLocaleLowerCase() + '.png';
       console.log('URLIMG : ' + url);
       return url;
