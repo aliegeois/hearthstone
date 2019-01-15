@@ -1,6 +1,6 @@
 package fr.ministone.game;
 
-import fr.ministone.JSONeur;
+import fr.ministone.JsonUtil;
 import fr.ministone.User;
 import fr.ministone.repository.*;
 
@@ -197,7 +197,7 @@ public class Game implements IGame {
     public void sendVictory(String playerName) {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", playerName);
-		template.convertAndSend("/topic/game/" + id + "/victory", JSONeur.toJSON(send));
+		template.convertAndSend("/topic/game/" + id + "/victory", JsonUtil.toJSON(send));
 	}
 
 
@@ -240,9 +240,12 @@ public class Game implements IGame {
 	}
 
 	@Override
-	public void checkDead() {
+	public boolean checkBoard() {
 		for(IPlayer p : players.values()) {
-			p.checkDead();
+			if(p.checkDead()){
+				return true; 
+			}
 		}
+		return false;
 	}
 }

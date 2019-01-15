@@ -2,7 +2,6 @@ package fr.ministone.game.effect;
 
 import fr.ministone.game.card.CardSpell;
 
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;

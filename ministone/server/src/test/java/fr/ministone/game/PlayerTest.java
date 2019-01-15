@@ -27,8 +27,8 @@ public class PlayerTest {
 		Set<String> capacities1;
 		Set<String> capacities2;
 
-		player1 = new MPlayer("warrior", 10);
-		player2 = new MPlayer("mage", 10);
+		player1 = new PlayerMock("warrior", 10);
+		player2 = new PlayerMock("mage", 10);
 		player1.setOpponent(player2);
 
 		capacities1 = new HashSet<String>();
@@ -68,6 +68,20 @@ public class PlayerTest {
 		player1.summonMinion(cardDrawn.getId());
 		assertEquals(0, player1.getHand().size());
 		assertEquals(2, player1.getBoard().size());
+	}
+
+	@Test
+	public void testUnableSummonMinion(){
+		Card card9 = new CardMinion(9l, "shared", player1, "Card Minion 9", 11, 1, 10, new HashSet<String>(), new HashMap<String,Integer>());
+
+		assertEquals(1, player1.getBoard().size());
+		assertEquals(0, player1.getHand().size());
+
+		player1.getHand().put(card9.getId(), card9);
+		player1.summonMinion(card9.getId());
+
+		assertEquals(1, player1.getBoard().size());
+		assertEquals(1, player1.getHand().size());
 	}
 
 	@Test
@@ -117,5 +131,15 @@ public class PlayerTest {
 		player1.attack(true, card1.getId(), 0l);
 
 		assertEquals(29, player2.getHero().getHealth());
+	}
+
+	@Test
+	public void testNextTurn(){
+		IPlayer player3 = new PlayerMock("mage", 1);
+		assertEquals(1, player3.getMana());
+
+		player3.nextTurn();
+
+		assertEquals(2, player3.getMana());
 	}
 }

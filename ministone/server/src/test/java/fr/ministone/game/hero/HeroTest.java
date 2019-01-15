@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import fr.ministone.game.card.CardMinion;
 import fr.ministone.game.Constants;
 import fr.ministone.game.IPlayer;
-import fr.ministone.game.MPlayer;
+import fr.ministone.game.PlayerMock;
 
 public class HeroTest {
 	private IPlayer player1, player2, player3;
@@ -24,9 +24,9 @@ public class HeroTest {
 
 	@BeforeEach
 	public void init() {
-		player1 = new MPlayer("warrior");
-		player2 = new MPlayer("mage");
-		player3 = new MPlayer("paladin");
+		player1 = new PlayerMock("warrior");
+		player2 = new PlayerMock("mage");
+		player3 = new PlayerMock("paladin");
 		
 		card = new CardMinion(1l, "shared", null, "Card Minion 1", 1, 0, 3, new HashSet<String>(), new HashMap<String, Integer>());
 

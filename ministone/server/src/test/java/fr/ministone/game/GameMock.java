@@ -13,8 +13,8 @@ public class GameMock implements IGame, IGameMessageReceiver, IGameMessageSender
 	//private int turn;
 	
 	public GameMock(User user1, User user2) {
-		IPlayer player1 = new MPlayer("warrior");
-		IPlayer player2 = new MPlayer("paladin");
+		IPlayer player1 = new PlayerMock("warrior");
+		IPlayer player2 = new PlayerMock("paladin");
 		player1.setOpponent(player2);
 		this.players.put(user1.getName(), player1);
 		this.players.put(user2.getName(), player2);
@@ -118,10 +118,11 @@ public class GameMock implements IGame, IGameMessageReceiver, IGameMessageSender
 	}
     
     @Override
-	public void checkDead() {
-		for(IPlayer p : players.values()) {
+	public boolean checkBoard() {
+		/*for(IPlayer p : players.values()) {
 			p.checkDead();
-		}
+		}*/
+		return false;
 	}
 
 	@Override
@@ -138,4 +139,6 @@ public class GameMock implements IGame, IGameMessageReceiver, IGameMessageSender
 	public void receiveHeroSpecial(String playerName, boolean own, boolean isHero, String targetId) {
 
 	}
+
+
 }

@@ -3,7 +3,7 @@ package fr.ministone;
 import java.util.Iterator;
 import java.util.Map;
 
-public class JSONeur {
+public class JsonUtil {
     public static String toJSON(Map<String,String> obj) {
         String result = "{";
 
