@@ -5,7 +5,7 @@
 
 		<title>MiniStone</title>
 	</head>
-	<body (click)="console.log('test')">
+	<body>
 		<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being enabled. Please enable Javascript and reload this page!</h2></noscript>
 
 	
@@ -66,19 +66,19 @@
 
 		<div id="joueur" (click)="selectHero()">
 			<img src="{{ joueur.hero.portrait }}" alt="Portrait de {{ joueur.hero.name }}" />
-				<span id="name">{{ joueur.name }}</span>
-				<span id="health" [style.color]="(joueur.hero.health == joueur.hero.healthMax) ? 'green': 'red'">{{ joueur.hero.health }}</span>
+				<div id="name">{{ joueur.name }}</div>
+				<span id="health">{{ joueur.hero.health }}</span>
 				<button id="special" (click)="special()">Special</button>
 		</div>
 
 		<div id="opponent" (click)="selectOpponent()">
 			<img src="{{ opponent.hero.portrait }}" alt="Portrait de {{ opponent.hero.name }}" />
-				<p id="name">{{ opponent.name }}</p>
-				<span [style.color]="(opponent.hero.health == opponent.hero.healthMax) ? 'green': 'red'">{{ opponent.hero.health }}</span>
+				<span id="name">{{ joueur.name }}</span>
+				<span id="health">{{ opponent.hero.health }}</span>
 		</div>
 
 
-
+		<img src="{{ opponent.hero.portrait }}" alt="" id="imgtest" />
 
 		<button id="secret_mode" [class.inlined]="secretMode == true" (click)="enter_secretMode()">Enter secret mode</button>
 	</body>

@@ -52,8 +52,20 @@ export class GameComponent implements OnInit {
         e.preventDefault();
       });
     }
-    
 
+    
+    document.addEventListener('keyup', (event) => {
+      const keyName = event.key;
+
+      // As the user releases the Ctrl key, the key is no longer active,
+      // so event.ctrlKey is false.
+      if (keyName === 'Escape') {
+        console.log('Escape pressed');
+        this.selectedAttacking = null;
+        this.selectedHand = null;
+        this.selectedHeroPower = false;
+    }}, false);
+    
   }
 
   onConnect() {
@@ -71,6 +83,7 @@ export class GameComponent implements OnInit {
       concernedPlayer.summon(msg.cardId);
     });
 
+    
 
     // On reçoit une attack
     AppComponent.stompClient.subscribe(`/topic/game/${this.gameId}/attack`, data => {
@@ -259,7 +272,7 @@ export class GameComponent implements OnInit {
     // S'il ne possède pas de targetable spell, on le lance direct
     if(!this.selectedHand.hasTargetedSpell()) {
       card.playReceived(this.id);
-      
+      this.selectedHand = null;
     } else {
       this.joueur.hand.forEach((value: Card, key: string) => {
         value.setTargetable(false);
@@ -309,10 +322,17 @@ export class GameComponent implements OnInit {
     // Sinon, si on avait déjà choisit une carte dans la main, on la joue avec pour cible card
     else if(this.selectedHand != null) {
       this.selectedHand.playReceived(this.id, card);
+      this.selectedHand = null;
+    }
+    // Sinon, si on avait déjà cliquer sur le héro power, on le joue avec pour cible card
+    else if(this.selectedHeroPower) {
+      this.joueur.specialReceived(this.id, card);
+      this.selectedHeroPower = false;
     }
   }
 
   selectOpponent(): void {
+    console.log("Click opponent");
     // Si on avait déjà choisi une carte sur le board, on lance une attaque sur card
     if(this.selectedAttacking != null) {
       console.log('Envoi de attack sur le hero');
@@ -323,9 +343,15 @@ export class GameComponent implements OnInit {
     else if(this.selectedHand != null) {
       this.selectedHand.playReceived(this.id, this.opponent.hero);
     }
+    // Sinon, si on avait déjà cliquer sur le héro power, on le joue avec pour cible card
+    else if(this.selectedHeroPower) {
+      this.joueur.specialReceived(this.id, this.opponent.hero);
+      this.selectedHeroPower = false;
+    }
   }
 
   selectHero(): void {
+    console.log("Click hero");
     // Si on avait déjà choisit une carte dans la main, on la joue avec pour cible notre héros
     if(this.selectedHand != null) {
       this.selectedHand.playReceived(this.id, this.joueur.hero);

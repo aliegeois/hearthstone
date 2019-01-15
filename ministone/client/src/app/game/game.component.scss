@@ -9,30 +9,59 @@ body {
         bottom: 5%;
         left: 5%;
 
-        * {
-            text-align: center;
+        height: 25%;
+
+        img {
+            height: 100%;
+            position: relative;
         }
         #name {
             font-weight: bold;
+            position: absolute;
+            bottom: 17%;
+            right: 17%;
+            width: 80%;
+            text-align: center;
         }
         #health {
-            text-align: left;
+            position: absolute;
+            position: relative;
+            bottom: 29%;
+            right: 20%;
+            font-weight: bold;
+        }
+        #special {
+            display: block;
+            height: 2%;
         }
     }
     
+
     #opponent {
         position: fixed;
         top: 5%;
         left: 5%;
 
-        * {
-            text-align: center;
+        height: 25%;
+
+        img {
+            height: 100%;
+            position: relative;
         }
         #name {
             font-weight: bold;
+            position: absolute;
+            bottom: 17%;
+            right: 17%;
+            width: 80%;
+            text-align: center;
         }
         #health {
-            text-align: left;
+            position: absolute;
+            position: relative;
+            bottom: 29%;
+            right: 20%;
+            font-weight: bold;
         }
     }
 
