@@ -89,7 +89,32 @@ public class CardMinionTest {
 	}
 
 	@Test
+	public void testAttackByBoostedDamage() {
+		assertEquals(2, card2.getDamage());
+		card2.buffDamage(1);
+		assertEquals(3, card2.getDamage());
+		
+		card2.attack(card1);
+
+		assertEquals(1,card1.getHealth());
+	}
+
+	@Test
 	void testBoostHealth() {
+		assertEquals(card1.getHealth(), 4);
+		assertEquals(card1.getHealthMax(), 4);
+		assertEquals(card1.getHealthBoosted(), 0);
+
+		card1.buffHealth(2);
+		
+		assertEquals(card1.getHealth(), 6);
+		assertEquals(card1.getHealthMax(), 4);
+		assertEquals(card1.getHealthBoosted(), 2);
+
+	}
+
+	@Test
+	public void testAttackOnBoostedHealth() {
 		assertEquals(card1.getHealth(), 4);
 		assertEquals(card1.getHealthMax(), 4);
 		assertEquals(card1.getHealthBoosted(), 0);
