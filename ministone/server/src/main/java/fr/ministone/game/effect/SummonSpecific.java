@@ -2,11 +2,11 @@ package fr.ministone.game.effect;
 
 import javax.persistence.Entity;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class SummonSpecific extends GlobalEffect {
-	@JsonInclude
+	@JsonProperty
 	private String minionName;
 	
 	public SummonSpecific() {

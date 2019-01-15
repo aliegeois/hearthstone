@@ -8,6 +8,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import fr.ministone.game.IEntity;
 
@@ -21,6 +22,7 @@ public abstract class Effect {
 	@JsonIgnore
 	protected CardSpell card;
 
+	@JsonProperty
 	protected final String type;
 
 	public Effect() {

@@ -2,10 +2,13 @@ package fr.ministone.game.effect;
 
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import fr.ministone.game.card.CardMinion;
 
 @Entity
 public class MultipleTargetDamage extends MultipleTargetEffect {
+	@JsonProperty
 	private int quantity;
 	
 	public MultipleTargetDamage() {

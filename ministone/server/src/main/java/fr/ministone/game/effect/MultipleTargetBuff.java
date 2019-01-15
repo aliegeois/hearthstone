@@ -2,12 +2,14 @@ package fr.ministone.game.effect;
 
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import fr.ministone.game.card.CardMinion;
 
 @Entity
 public class MultipleTargetBuff extends MultipleTargetEffect {
-	private int life;
-	private int attack;
+	@JsonProperty
+	private int life, attack;
 	
 	public MultipleTargetBuff() {
 		super();

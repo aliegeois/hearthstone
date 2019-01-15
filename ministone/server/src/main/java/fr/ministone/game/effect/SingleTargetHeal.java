@@ -2,10 +2,13 @@ package fr.ministone.game.effect;
 
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import fr.ministone.game.IEntity;
 
 @Entity
 public class SingleTargetHeal extends SingleTargetEffect {
+	@JsonProperty
 	private int amount;
 	
 	public SingleTargetHeal() {
