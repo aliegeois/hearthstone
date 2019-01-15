@@ -23,8 +23,8 @@ public class EffectTest {
 
 	@BeforeEach
 	public void init() {
-		player1 = new MPlayer("warrior");
-		player2 = new MPlayer("mage");
+		player1 = new PlayerMock("warrior");
+		player2 = new PlayerMock("mage");
 		player1.setOpponent(player2);
 
 		card1 = new CardMinion(1l, "shared", player1, "Card Minion 1", 1, 1, 1, new HashSet<String>(), new HashMap<String, Integer>());

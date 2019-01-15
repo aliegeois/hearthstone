@@ -258,7 +258,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	}
 
 	@Override
-	public void checkDead() {
+	public boolean checkDead() {
 		Iterator<Map.Entry<Long,CardMinion>> i = this.board.entrySet().iterator();
 
 		while(i.hasNext()) {
@@ -267,9 +267,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 			}
 		}
 
-		if(opponent.getHero().getHealth() <= 0) {
-			// TODO: WIN
-		}
+		return (this.getHero().getHealth() <= 0);
 	}
 
 	@Override

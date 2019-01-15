@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import fr.ministone.game.card.CardMinion;
 import fr.ministone.game.IPlayer;
-import fr.ministone.game.MPlayer;
+import fr.ministone.game.PlayerMock;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,8 +19,8 @@ public class CardMinionTest {
 
 	@BeforeEach
 	public void init() {
-		player1 = new MPlayer("warrior");
-		player2 = new MPlayer("paladin");
+		player1 = new PlayerMock("warrior");
+		player2 = new PlayerMock("paladin");
 		player1.setOpponent(player2);
 
 		Set<String> capacities1 = new HashSet<String>();
