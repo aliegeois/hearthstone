@@ -1,13 +1,13 @@
 package fr.ministone.game.effect;
 
-import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.MappedSuperclass;
 
 import fr.ministone.game.IEntity;
 
-@Entity
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+//@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@MappedSuperclass
 public abstract class MultipleTargetEffect extends Effect {
 	protected boolean ownBoard, opponentBoard, ownHero, opponentHero;
 	

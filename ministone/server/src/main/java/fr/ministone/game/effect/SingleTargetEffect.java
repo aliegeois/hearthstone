@@ -1,11 +1,11 @@
 package fr.ministone.game.effect;
 
-import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.MappedSuperclass;
 
-@Entity
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+//@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@MappedSuperclass
 public abstract class SingleTargetEffect extends Effect{
 	public SingleTargetEffect() {
 		super();
