@@ -28,19 +28,26 @@ export class GameComponent implements OnInit {
 
 
   constructor() {
+
     this.secretMode = false;
     this.gameId = AppComponent.gameId;
-    this.infoLog = "";
+    this.infoLog = "zuefyzeiueoizqgc";
     
     this.selectedHand = null;
     this.selectedAttacking = null;
     this.selectedHeroPower = false;
 
-
     this.init();
+
+    console.log("APPname" + AppComponent.joueurName + " / client : " + this.joueur.name);
+    console.log("APPnameopp" + AppComponent.opponentName + " / client : " + this.joueur.opponent.name);
+    console.log("APPname" + AppComponent.joueurHero + " / client : " + this.joueur.hero.portrait);
+    console.log("APPnameopp" + AppComponent.opponentName + " / client : " + this.joueur.opponent.hero.portrait);
 
     this.playing = this.getPlayer(AppComponent.playing);
     AppComponent.addListener(this);
+
+
   }
 
   ngOnInit() {
@@ -242,8 +249,12 @@ export class GameComponent implements OnInit {
     console.log('Initialisation');
     this.joueur = new Player(AppComponent.joueurName, AppComponent.joueurHero);
     this.opponent = new Player(AppComponent.opponentName, AppComponent.opponentHero);
-    let cardTest1: CardMinion = new CardMinion(1,"recrue", 1, 1, 1, new Set<String>(), new Map<String, number>(), this.joueur);
-    let cardTest2: CardMinion = new CardMinion(2, "murloc", 3, 4, 2, new Set<String>(), new Map<String, number>(), this.joueur);
+    this.joueur.setOpponent(this.opponent);
+    this.opponent.setOpponent(this.joueur);
+
+
+    let cardTest1: CardMinion = new CardMinion(1,"Recrue de la main d'argent", 1, 1, 1, new Set<String>(), new Map<String, number>(), this.joueur);
+    let cardTest2: CardMinion = new CardMinion(2, "Consécration", 3, 4, 2, new Set<String>(), new Map<String, number>(), this.joueur);
     let cardTest3: CardSpell = new CardSpell(3, "Métamorphose", 4, new Set<SingleTargetEffect>(), new Set<MultipleTargetEffect>(), new Set<GlobalEffect>(), this.joueur)
 
     this.joueur.hand.set("0", cardTest1);
@@ -377,19 +388,11 @@ export class GameComponent implements OnInit {
 
     getImgUrl(card: Card) {
       let name = card.name;
-      name.replace(/\s/g, "");
-      name.replace(/'/g, "");
-
-      var re = /apples/gi; 
-var str = "Apples are round, and apples are juicy.";
-var newstr = str.replace(re, "oranges"); 
-console.log(newstr)
-      var re = / /gi; 
-      "hello world".replace(/\s/g, "");
-      var str = "Apples are round, and apples are juicy.";
-      var newstr = str.replace(re, "oranges"); 
-      console.log(newstr)
-      return "../../assets/images/cards/" + card.getName
+      name.replace(/\s/g, ""); //On vire les espaces
+      name.replace(/'/g, ""); //On vire les '
+      let url = '../../assets/images/cards/' + name.toLocaleLowerCase() + '.png';
+      console.log('URLIMG : ' + url);
+      return url;
     }
 
 
@@ -402,7 +405,10 @@ console.log(newstr)
 
 
 
-
+    isTargetable(card: Card) {
+      console.log('Check is targetable');
+      return card.isTargetable();
+    }
 
 
   enter_secretMode() {
