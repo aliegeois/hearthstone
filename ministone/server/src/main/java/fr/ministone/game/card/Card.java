@@ -2,9 +2,6 @@ package fr.ministone.game.card;
 
 import fr.ministone.game.IPlayer;
 
-import javax.persistence.Entity;
-//import javax.persistence.GeneratedValue;
-//import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
@@ -13,12 +10,11 @@ import fr.ministone.game.IEntity;
 
 @MappedSuperclass
 public abstract class Card {
-	@Id
-	//@GeneratedValue(strategy = GenerationType.AUTO) `A REMETTRE
+	@Transient
 	protected Long id;
 
 	protected String deck;
-	
+	@Id
 	protected String name;
 
 	@Transient
