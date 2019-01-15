@@ -63,7 +63,7 @@ public class EffectTest {
 
 	@Test
 	void testMultTarBuffOwnBoard() {
-		MultipleTargetBuff effect = new MultipleTargetBuff(true, false, false, false, 2, 0);
+		MultipleTargetBuff effect = new MultipleTargetBuff(true, false, false, false, 2, 0, 0);
 		mte.add(effect);
 		CardSpell card = new CardSpell(0l, "shared", player1, "Sprint", 7, ste, mte, gte);
 
@@ -79,7 +79,7 @@ public class EffectTest {
 
 	@Test
 	void testMultTarBuffOpponentBoard() {
-		MultipleTargetBuff effect = new MultipleTargetBuff(false, true, false, false, 0, 2);
+		MultipleTargetBuff effect = new MultipleTargetBuff(false, true, false, false, 0, 2, 0);
 		mte.add(effect);
 		CardSpell card = new CardSpell(0l, "shared", player1, "Sprint", 7, ste, mte, gte);
 
