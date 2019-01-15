@@ -28,10 +28,16 @@ public class GameMock implements IGame, IGameMessageReceiver, IGameMessageSender
 		PlayerMock player2 = new PlayerMock("paladin");
 
 		CardMinion carte1 = new CardMinion(1l, "warrior", player1, "nom-test-carte1", 1, 1, 1, new HashSet<String>(), new HashMap<String, Integer>());
+		CardMinion carte3 = new CardMinion(3l, "warrior", player1, "nom-test-carte3", 1, 1, 1, new HashSet<String>(), new HashMap<String, Integer>());
+
 		CardSpell carte2 = new CardSpell(2l, "paladin", player2, "nom-test-carte2", 1, new HashSet<SingleTargetEffect>(), new HashSet<MultipleTargetEffect>(), new HashSet<GlobalEffect>());
+		CardSpell carte4 = new CardSpell(4l, "paladin", player2, "nom-test-carte4", 1, new HashSet<SingleTargetEffect>(), new HashSet<MultipleTargetEffect>(), new HashSet<GlobalEffect>());
+
 
 		minionRepository.save(carte1);
+		minionRepository.save(carte3);
 		spellRepository.save(carte2);
+		spellRepository.save(carte4);
 
 		player1.setCardMinionRepository(minionRepository);
 		player2.setCardSpellRepository(spellRepository);

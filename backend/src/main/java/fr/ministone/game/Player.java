@@ -154,6 +154,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 
 		cardDrawn.setId(cId);
 		hand.put(cId, cardDrawn);
+		System.out.print("nb de carte" + hand.size());
 		if(send)
 			sendDrawCard(cardDrawn.getName(), cId, cardDrawn instanceof CardMinion ? "minion" : "spell");
 		
