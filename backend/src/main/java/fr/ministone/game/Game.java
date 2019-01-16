@@ -70,6 +70,7 @@ public class Game implements IGame {
 		if(playerName.equals(playing.getName())) {
 			System.out.println("ReceiveSummonMinion -b");
 			p.summonMinion(cardId);
+			checkBoard();
 		}
 	}
 
@@ -79,6 +80,7 @@ public class Game implements IGame {
 		IPlayer p = players.get(playerName);
 		if(playerName.equals(playing.getName())) {
 			p.attack(isHero, cardId, targetId);
+			checkBoard();
 		}
 	}
 
@@ -87,6 +89,7 @@ public class Game implements IGame {
 		IPlayer p = players.get(playerName);
 		if(playerName.equals(playing.getName())) {
 			p.castSpell(cardId);
+			checkBoard();
 		}
 	}
 
@@ -95,6 +98,7 @@ public class Game implements IGame {
 		IPlayer p = players.get(playerName);
 		if(playerName.equals(playing.getName())) {
 			p.castSpell(own, isHero, cardId, targetId);
+			checkBoard();
 		}
 	}
 
@@ -103,6 +107,7 @@ public class Game implements IGame {
 		IPlayer p = players.get(playerName);
 		if(playerName.equals(playing.getName())) {
 			p.heroSpecial();
+			checkBoard();
 		}
 	}
 
@@ -111,6 +116,7 @@ public class Game implements IGame {
 		IPlayer p = players.get(playerName);
 		if(playerName.equals(playing.getName())) {
 			p.heroSpecial(own, isHero, targetId);
+			checkBoard();
 		}
 	}
 

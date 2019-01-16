@@ -144,7 +144,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 				minion.attack(opponent.getBoard().get(targetId));
 			}
 			sendAttack(isHero, cardId, targetId); // J'ai un doute sur l'ordre mdr
-			minion.setReady(false);;
+			minion.setReady(false);
 		}
 		
 	}
