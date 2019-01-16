@@ -38,4 +38,4 @@ ng serve
 
 ## Tests du code JAVA
 
-Les tests sont situés dans backend/src/test
+Les tests sont situés dans backend/src/test/java/fr/ministone
