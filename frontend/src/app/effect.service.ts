@@ -120,23 +120,27 @@ export class MultiTargetDamage extends MultipleTargetEffect {
 	}
 	
 	cast(player: Hero, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentBoard: Map<string, CardMinion>) {
+		console.log('Flag a');
 		if(this.ownHero) {
+			console.log('Flag b');
 			player.takeDamage(this.quantity);
 		}
 		if(this.opponentHero) {
+			console.log('Flag c');
 			opponent.takeDamage(this.quantity);
 		}
-		
+		console.log('Flag d');
 		if(this.ownBoard) {
-			playerBoard.forEach( card => {
-				card.takeDamage(this.quantity);
-			});
+			console.log('Flag e');
+			playerBoard.forEach((value: CardMinion, key: string) => {
+				value.takeDamage(this.quantity);
+			})
 		}
 		
 		if(this.opponentBoard) {
-			opponentBoard.forEach( card => {
-				card.takeDamage(this.quantity);
-			});
+			opponentBoard.forEach((value: CardMinion, key: string) => {
+				value.takeDamage(this.quantity);
+			})
 		}
 		
 	}  
