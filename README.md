@@ -13,7 +13,7 @@ Le projet possède une interface web réalisée grâce à Angular (https://angul
 - E16B498D : Charles Bequet-Ermoy (BuildTools)
 
 >Nous savons que des commits ont été effectués après la date de rendu (15/01 à 00h00) mais nous préférons que vous évaluiez la version finale, quitte à perdre des points pour le retard.
->Merci
+>Bisou
 
 ## Comment lancer le(s) serveur(s)
 
