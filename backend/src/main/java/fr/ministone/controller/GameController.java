@@ -73,90 +73,125 @@ public class GameController {
 	public void summonMinion(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageSummonMinion message) {
 		System.out.println("réception de /game/" + gameId + "/summonMinion");
 		IGame g = games.get(gameId);
-		if(g == null)
+		if(g == null) {
+			System.out.println("Game not found");
 			return;
+		}
+			
 		
 		IPlayer p = g.getPlayer(sessionId);
-		if(p == null)
+		if(p == null) {
+			System.out.println("Player non trouvé");
 			return;
+		}
 		
 		g.receiveSummonMinion(p.getName(), message.getCardId());
 	}
 
 	@MessageMapping("/game/{gameId}/attack")
 	public void attack(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageAttack message) {
+		System.out.println("réception de /game/" + gameId + "/attack");
 		IGame g = games.get(gameId);
-		if(g == null)
+		if(g == null) {
+			System.out.println("Game not found");
 			return;
+		}
 		
 		IPlayer p = g.getPlayer(sessionId);
-		if(p == null)
+		if(p == null) {
+			System.out.println("Player non trouvé");
 			return;
+		}
 		
 		g.receiveAttack(p.getName(), message.isHero(), message.getCardId(), message.getTargetId());
 	}
 
 	@MessageMapping("/game/{gameId}/castUntargetedSpell")
 	public void castUntargetedSpell(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageCastUntargetedSpell message) {
+		System.out.println("réception de /game/" + gameId + "/castUntargetedSpell");
 		IGame g = games.get(gameId);
-		if(g == null)
+		if(g == null) {
+			System.out.println("Game not found");
 			return;
+		}
 		
 		IPlayer p = g.getPlayer(sessionId);
-		if(p == null)
+		if(p == null) {
+			System.out.println("Player non trouvé");
 			return;
+		}
 		
 		g.receiveCastSpell(p.getName(), message.getCardId());
 	}
 
 	@MessageMapping("/game/{gameId}/castTargetedSpell")
 	public void castTargetedSpell(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageCastTargetedSpell message) {
+		System.out.println("réception de /game/" + gameId + "/castTargetedSpell");
 		IGame g = games.get(gameId);
-		if(g == null)
+		if(g == null) {
+			System.out.println("Game not found");
 			return;
+		}
 		
 		IPlayer p = g.getPlayer(sessionId);
-		if(p == null)
+		if(p == null) {
+			System.out.println("Player non trouvé");
 			return;
+		}
 		
 		g.receiveCastSpell(p.getName(), message.isOwn(), message.isHero(), message.getCardId(), message.getTargetId());
 	}
 
 	@MessageMapping("/game/{gameId}/heroUntargetedSpecial")
 	public void heroUntargetedSpecial(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId) {
+		System.out.println("réception de /game/" + gameId + "/heroUntargetedSpecial");
 		IGame g = games.get(gameId);
-		if(g == null)
+		if(g == null) {
+			System.out.println("Game not found");
 			return;
+		}
 		
 		IPlayer p = g.getPlayer(sessionId);
-		if(p == null)
+		if(p == null) {
+			System.out.println("Player non trouvé");
 			return;
+		}
 		
 		g.receiveHeroSpecial(p.getName());
 	}
 
 	@MessageMapping("/game/{gameId}/heroTargetedSpecial")
 	public void heroTargetedSpecial(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageHeroTargetedSpecial message) {
+		System.out.println("réception de /game/" + gameId + "/heroTargetedSpecial");
 		IGame g = games.get(gameId);
-		if(g == null)
+		if(g == null) {
+			System.out.println("Game not found");
 			return;
+		}
 		
 		IPlayer p = g.getPlayer(sessionId);
-		if(p == null)
+		if(p == null) {
+			System.out.println("Player non trouvé");
 			return;
+		}
 		
 		g.receiveHeroSpecial(p.getName(), message.isOwn(), message.isHero(), message.getTargetId());
 	}
 
 	@MessageMapping("/game/{gameId}/endTurn")
 	public void endTurn(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId) {
+		System.out.println("réception de /game/" + gameId + "/endTurn");
 		IGame g = games.get(gameId);
-		if(g == null)
+		if(g == null) {
+			System.out.println("Game not found");
 			return;
+		}
 		
 		IPlayer p = g.getPlayer(sessionId);
-		if(p == null)
+		if(p == null) {
+			System.out.println("Player non trouvé");
 			return;
+		}
 		
 		g.receiveEndTurn(p.getName());
 	}
