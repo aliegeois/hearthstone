@@ -26,7 +26,7 @@ export abstract class GlobalEffect extends EffectService {
 		super();
 	}
 	
-	abstract cast(player: Hero, playerDeck: Set<Card>, playerHand: Map<string, Card>, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentDeck: Set<Card>, opponentHand: Map<string, Card>, opponentBoard: Map<string, Card>): void;
+	abstract cast(player: Hero, playerHand: Map<string, Card>, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentHand: Map<string, Card>, opponentBoard: Map<string, Card>): void;
 }
 
 export abstract class MultipleTargetEffect extends EffectService {
@@ -250,7 +250,7 @@ export class DrawRandom extends GlobalEffect {
 		this.cardNumber = cardNumber;
 	}
 	
-	cast(player: Hero, playerDeck: Set<Card>, playerHand: Map<string, Card>, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentDeck: Set<Card>, opponentHand: Map<string, Card>, opponentBoard: Map<string, Card>) {
+	cast(player: Hero, playerHand: Map<string, Card>, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentHand: Map<string, Card>, opponentBoard: Map<string, Card>) {
 		// Nothing to do, the server send a message to /draw
 	}
 	
@@ -266,7 +266,7 @@ export class SummonSpecific extends GlobalEffect {
 		this.quantity = quantity;
 	}
 	
-	cast(player: Hero, playerDeck: Set<Card>, playerHand: Map<string, Card>, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentDeck: Set<Card>, opponentHand: Map<string, Card>, opponentBoard: Map<string, Card>) {
+	cast(player: Hero, playerHand: Map<string, Card>, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentHand: Map<string, Card>, opponentBoard: Map<string, Card>) {
 		// Nothing to do, the server send a message to /summon
 	}
 	

@@ -1,7 +1,5 @@
 import { Component, OnInit, Injectable } from '@angular/core';
 import { Player, CardMinion, Card, CardSpell, AppComponent, Entity } from '../app.component';
-import { initDomAdapter } from '@angular/platform-browser/src/browser';
-import { SingleTargetEffect, MultipleTargetEffect, GlobalEffect, Transform, SingleTargetDamage } from '../effect.service';
 
 @Component({
 	selector: 'app-game',
@@ -282,7 +280,7 @@ export class GameComponent implements OnInit {
 	
 	
 	
-	loadDecks() {
+	/*loadDecks() {
 		
 		
 		//On charge toutes les cartes neutre :
@@ -358,7 +356,7 @@ export class GameComponent implements OnInit {
 			}
 		});
 		
-	}
+	}*/
 	
 	
 	

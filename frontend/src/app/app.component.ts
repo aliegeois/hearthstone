@@ -126,7 +126,7 @@ export class AppComponent implements OnInit {
 
 export class Player {
 	name: String;
-	deck: Set<Card>;
+	//deck: Set<Card>;
 	hand: Map<string, Card>;
 	board: Map<string, CardMinion>;
 	
@@ -150,7 +150,7 @@ export class Player {
 			this.hero = new HeroWarrior(this);
 			break;
 		}
-		this.deck = new Set<Card>();
+		//this.deck = new Set<Card>();
 		this.hand = new Map<string, Card>();
 		this.board = new Map<string, CardMinion>();
 		
@@ -255,9 +255,9 @@ export class Player {
 		return this.name;
 	}
 	
-	getDeck(): Set<Card> {
+	/*getDeck(): Set<Card> {
 		return this.deck;
-	}
+	}*/
 	
 	getHand(): Map<string, Card> {
 		return this.hand;
@@ -796,7 +796,7 @@ export class CardMinion extends Card implements Entity {
 				});
 				this.globalEffects.forEach( effect => {
 					console.log('CCC');
-					effect.cast(player.hero, player.deck, player.hand, player.board, opponent.hero, opponent.deck, opponent.hand, opponent.board);
+					effect.cast(player.hero, player.hand, player.board, opponent.hero, opponent.hand, opponent.board);
 				});
 			}
 			
