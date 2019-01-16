@@ -195,11 +195,11 @@ export class GameComponent implements OnInit {
 
       if(msg.cardType == "minion") {
         fetch('http://localhost:8080/cards/getMinion?name=' + msg.cardName)
-        .then( response => {
+        
+        .then( response => {          
           return response.json();
         })
         .then( response => {
-
           let capacities: Set<String> = new Set<String>();
           if(response.taunt) {
             capacities.add("taunt");
@@ -216,23 +216,24 @@ export class GameComponent implements OnInit {
           boosts.set("damage", response.boostDamage as number);
 
           card = new CardMinion(msg.cardId, response.name, response.manaCost, response.damageBase, response.HealthMax, capacities, boosts, concernedPlayer);
+          concernedPlayer.drawSpecific(card);
         });
       } else if(msg.cardType == "spell") {
+
         fetch('http://localhost:8080/cards/getSpell?name=' + msg.cardName)
         .then( response => {
           return response.json();
         })
         .then( response => {
-
           let ste: Set<SingleTargetEffect> = response.ste;
           let mte: Set<MultipleTargetEffect> = response.mte;
           let ge: Set<GlobalEffect> = response.ge;
 
           card = new CardSpell(msg.cardId, response.name, response.manaCost, ste, mte, ge, concernedPlayer);
+          concernedPlayer.drawSpecific(card);
         });
       }
-
-    concernedPlayer.drawSpecific(card);
+    
       
 
     });
@@ -253,7 +254,7 @@ export class GameComponent implements OnInit {
 
     this.loadDecks();
 
-    let cardTest1: CardMinion = new CardMinion(1,"Recrue de la main d'argent", 1, 1, 1, new Set<String>(), new Map<String, number>(), this.joueur);
+    /*let cardTest1: CardMinion = new CardMinion(1,"Recrue de la main d'argent", 1, 1, 1, new Set<String>(), new Map<String, number>(), this.joueur);
     let cardTest2: CardMinion = new CardMinion(2, "Champion Frisselame", 3, 4, 2, new Set<String>().add("charge"), new Map<String, number>(), this.joueur);
     let cardTest3: CardSpell = new CardSpell(3, "Métamorphose", 4, new Set<SingleTargetEffect>().add(new Transform(cardTest1)), new Set<MultipleTargetEffect>(), new Set<GlobalEffect>(), this.joueur);
     let cardTest4: CardMinion = new CardMinion(4, "Chevaucheur de loup", 1, 1, 2, new Set<String>().add("taunt"), new Map<String, number>(), this.joueur)
@@ -276,7 +277,7 @@ export class GameComponent implements OnInit {
     this.opponent.board.set(0, cardTest5);
     this.opponent.board.set(1, cardTest7);
   
-    this.opponent.hand.set(0, cardTest8);
+    this.opponent.hand.set(0, cardTest8);*/
     
 
   }
@@ -492,6 +493,24 @@ export class GameComponent implements OnInit {
       this.joueur.specialReceived(this.gameId);
     }
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     endTurn(): void {
       console.log('Envoi de fin du tour');
