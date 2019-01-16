@@ -93,7 +93,9 @@ export class GameComponent implements OnInit {
 			let msg = JSON.parse(data.body);
 			
 			let concernedPlayer : Player = this.getPlayer(msg.playerName);
-			
+
+			concernedPlayer.draw(msg.cardName, "minion", msg.cardId, "board");
+			/*
 			// On ajoute le minion au board
 			fetch('http://localhost:8080/cards/getMinion?name=' + msg.cardName)
 			
@@ -118,7 +120,7 @@ export class GameComponent implements OnInit {
 				
 				let card: CardMinion = new CardMinion(msg.cardId, response.name, response.manaCost, response.damageBase, response.healthMax, capacities, boosts, concernedPlayer);
 				concernedPlayer.board.set(msg.cardId, card);
-			});
+			});*/
 		});
 		
 		
@@ -230,7 +232,7 @@ export class GameComponent implements OnInit {
 			let msg = JSON.parse(data.body);
 			
 			let concernedPlayer : Player = this.getPlayer(msg.playerName);
-			concernedPlayer.draw(msg.cardName, msg.cardType, msg.cardId);
+			concernedPlayer.draw(msg.cardName, msg.cardType, msg.cardId, "hand");
 		});
 	}
 	
@@ -404,7 +406,6 @@ export class GameComponent implements OnInit {
 	
 	selectCardOpponentBoard(card: CardMinion): void {
 		console.log("Select cardOpponentBoard " + card.name);
-		
 		// Si on avait déjà choisi une carte sur le board, on lance une attaque sur card
 		if(this.selectedAttacking != null && this.selectedAttacking.canAttack && (!this.tauntInTheWay() || card.isProvoking())) {
 			console.log('Envoi de attack sur ' + card.name);

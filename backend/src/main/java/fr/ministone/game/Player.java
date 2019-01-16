@@ -126,7 +126,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 		if(looseMana(minion.getManaCost())) {
 			board.put(minion.getId(), minion);
 			minion.play();
-			sendSummonMinionGlobal(minionName);
+			sendSummonMinionGlobal(minionName, minion.getId());
 		} else {
 			// Si on a le temps: faire un message de type "notEnoughMana" et l'envoyer
 		}
@@ -330,10 +330,11 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	}
 
 	@Override
-	public void sendSummonMinionGlobal(String minionName) {
+	public void sendSummonMinionGlobal(String minionName, String minionId) {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", name);
 		send.put("cardName", minionName);
+		send.put("cardId", minionId);
 		template.convertAndSend("/topic/game/" + gameId + "/summonMinionGlobal", JsonUtil.toJSON(send));
 	}
 
