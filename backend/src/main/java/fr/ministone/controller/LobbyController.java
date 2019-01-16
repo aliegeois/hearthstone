@@ -170,7 +170,7 @@ public class LobbyController {
 			//users.remove(user1.getName());
 			waiting.put(user1Level, null);
 			TemporaryGame tg = new TemporaryGame(user1, user2);
-			Long gameId = UUID.randomUUID().getLeastSignificantBits();
+			Long gameId = Math.abs(UUID.randomUUID().getLeastSignificantBits());
 			temporaryGames.put(gameId, tg);
 			user1.setTemporaryGameId(gameId);
 			user2.setTemporaryGameId(gameId);
