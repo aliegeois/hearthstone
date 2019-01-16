@@ -432,15 +432,12 @@ export class GameComponent implements OnInit {
       this.selectedHand = null;
       this.joueur.hand.forEach((value: Card, key: string) => {
         console.log("On met la carte " + value.getName() + " a untargetable");
-        value.setTargetable(false);
       });
     } else {
       this.joueur.hand.forEach((value: Card, key: string) => {
         console.log("On met la carte " + value.getName() + " a untargetable");
-        value.setTargetable(false);
       });
   
-      this.selectedHand.setTargetable(true);
     }
 
   }
@@ -452,7 +449,6 @@ export class GameComponent implements OnInit {
 
     this.selectedAttacking = card;
 
-    card.setTargetable(true);
   }
 
 
@@ -556,12 +552,6 @@ export class GameComponent implements OnInit {
 
 
 
-    isTargetable(card: Card) {
-      console.log('Check is targetable');
-      return card.isTargetable();
-    }
-
-
   enter_secretMode() {
     switch(this.secretMode) {
       case true:
@@ -591,19 +581,5 @@ export class GameComponent implements OnInit {
         this.selectedAttacking = null;
         this.selectedHand = null;
         this.selectedHeroPower = false;
-
-        this.joueur.hand.forEach((value: Card, key: string) => {
-          console.log("On met la carte " + value.getName() + " a untargetable");
-          value.setTargetable(true);
-        });
-
-        this.joueur.board.forEach((value: CardMinion, key: string) => {
-          console.log("On met la carte " + value.getName() + " a untargetable");
-          value.setTargetable(true);
-        });
-  }
-
-  test() {
-    console.log("Envoi draw");
   }
 }

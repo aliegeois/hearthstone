@@ -188,13 +188,14 @@ export class Player {
         this.mana = this.mana - card.manaCost;
 		let target: Entity = this.foundTarget(targetId, own, hero);
 		// Supprimer la carte de la main
-
+        this.hand.delete(cardId);
         card.play(target);
     }
 
     castUntargetedSpell(cardId: string) {
         let card: CardSpell = this.hand.get(cardId) as CardSpell;
         this.mana = this.mana - card.manaCost;
+        this.hand.delete(cardId);
 		card.play();
 		// Supprimer la carte de la main
     }
