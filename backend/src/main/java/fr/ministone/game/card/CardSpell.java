@@ -89,6 +89,11 @@ public class CardSpell extends Card {
 
 	@Override
 	public Card copy() {
+		return copy(null);
+	}
+
+	@Override
+	public Card copy(IPlayer owner) {
 		return new CardSpell(UUID.randomUUID().toString(), deck, owner, name, manaCost, singleEffects, multipleEffects, globalEffects);
 	}
 }

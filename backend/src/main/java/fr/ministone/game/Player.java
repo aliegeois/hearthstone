@@ -106,12 +106,14 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	
 	@Override
 	public void summonMinion(String minionId) {
+		System.out.println("Player.summonMinion(" + minionId + ")");
 		CardMinion minion = (CardMinion)hand.get(minionId);
 		summonMinion(minion);
 	}
 
 	@Override
 	public void summonMinion(CardMinion minion) {
+		System.out.println("Player.summonMinion(" + minion + ")");
 		if(looseMana(minion.getManaCost())) {
 			hand.remove(minion.getId());
 			board.put(minion.getId(), minion);
@@ -124,7 +126,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 
 	@Override
 	public void summonMinionByName(String minionName) {
-		CardMinion minion = cardMinionRepository.findByName(minionName);
+		CardMinion minion = (CardMinion)cardMinionRepository.findByName(minionName).copy(this);
 		if(looseMana(minion.getManaCost())) {
 			board.put(minion.getId(), minion);
 			minion.play();
@@ -159,9 +161,8 @@ public class Player implements IPlayer, IPlayerMessageSender {
 
 	@Override
 	public Card drawCard(Card card, boolean send) {
-		Card cardDrawn = card.copy();
+		Card cardDrawn = card.copy(this);
 
-		cardDrawn.setId(cardDrawn.getId());
 		hand.put(cardDrawn.getId(), cardDrawn);
 		System.out.print("nb de carte" + hand.size());
 		if(send)
