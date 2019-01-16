@@ -53,6 +53,10 @@ public abstract class Card {
 	public IPlayer getOwner() {
 		return owner;
 	}
+
+	public String getDeck() {
+		return deck;
+	}
 	
 	public int getManaCost() {
 		return manaCost;
