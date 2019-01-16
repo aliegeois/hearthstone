@@ -42,6 +42,10 @@ export class GameComponent implements OnInit {
     console.log("Envoi de la confirmation de game");
     AppComponent.stompClient.send(`/app/game/${this.gameId}/confirmStart`, {});
 
+    this.playing.manaMax = this.playing.manaMax + 1;
+    this.playing.mana = this.playing.manaMax;
+
+
   }
 
   ngOnInit() {

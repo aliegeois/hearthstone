@@ -21,7 +21,7 @@
 		
 		<div id="main_joueur">
 			<ul>
-				<li *ngFor="let card of joueur.hand | keyvalue" id="card" (click)="selectCardHand(card.value)" [class.nonTargetable]="!card.value.isTargetable()">
+				<li *ngFor="let card of joueur.hand | keyvalue" id="card" (click)="selectCardHand(card.value)">
 					<img [src]="getImgUrl(card.value)" alt="{{ card.value.name }}" />
 					<span id="cardManaCost">{{ card.value.manaCost }}</span>
 					<span id="cardDamage">{{ card.value.damage }}</span>
@@ -33,7 +33,7 @@
 
 		<div id="board_joueur">
 			<ul>
-				<li *ngFor="let card of joueur.board | keyvalue" id="card" (click)="selectCardPlayerBoard(card.value)" [class.nonTargetable]="!card.value.isTargetable()">
+				<li *ngFor="let card of joueur.board | keyvalue" id="card" (click)="selectCardPlayerBoard(card.value)">
 					<img [src]="getImgUrl(card.value)" alt="{{ card.value.name }}" />
 					<span id="cardManaCost">{{ card.value.manaCost }}</span>
 					<span id="cardDamage">{{ card.value.damage }}</span>
@@ -61,13 +61,13 @@
 
 
 
-		<div id="joueur" [class.nonTargetable]="!joueur.hero.isTargetable()">
+		<div id="joueur">
 			<img src="{{ joueur.hero.portrait }}" alt="Portrait de {{ joueur.hero.name }}" />
 				<p id="name">{{ joueur.name }}</p>
 				<span id="health">{{ joueur.hero.health }}</span>
 		</div>
 
-		<div id="opponent" [class.nonTargetable]="!joueur.hero.isTargetable()">
+		<div id="opponent">
 			<img src="{{ opponent.hero.portrait }}" alt="Portrait de {{ opponent.hero.name }}" />
 				<p id="name">{{ opponent.name }}</p>
 				<span id="health">{{ opponent.hero.health }}</span>

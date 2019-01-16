@@ -34,7 +34,12 @@ body {
             }
         }
         
-    
+        #joueur:hover {
+            -moz-box-shadow: 0 0 10px #ccc;
+            -webkit-box-shadow: 0 0 10px #ccc; 
+            box-shadow: 0 0 10px #ccc; 
+        }
+
         #opponent {
             position: fixed;
             top: 5%;
@@ -64,6 +69,12 @@ body {
             }
         }
     
+        #opponent:hover {
+            -moz-box-shadow: 0 0 10px #ccc;
+            -webkit-box-shadow: 0 0 10px #ccc; 
+            box-shadow: 0 0 10px #ccc; 
+        }
+
         #main_opponent {
             background-color: rgba(10, 10, 10, 0.3);
             position: fixed;
@@ -168,6 +179,12 @@ body {
             }
         }
     
+        #card:hover {
+            -moz-box-shadow: 0 0 10px #ccc;
+            -webkit-box-shadow: 0 0 10px #ccc; 
+            box-shadow: 0 0 10px #ccc; 
+        }
+
         .nonTargetable {
             opacity: 0.5;
         }
