@@ -13,11 +13,10 @@ import fr.ministone.game.card.Card;
 import fr.ministone.game.card.CardMinion;
 import fr.ministone.game.card.CardSpell;
 import fr.ministone.game.Constants;
-import fr.ministone.game.IPlayer;
 import fr.ministone.game.effect.*;
 
 public class PlayerTest {
-	private IPlayer player1, player2;
+	private PlayerMock player1, player2;
 	
 	private CardMinion card1, card2;
 	private CardSpell card3;
@@ -97,13 +96,13 @@ public class PlayerTest {
 
 	@Test
 	public void testHeroSpecial() {
-		assertEquals(0, player1.getHero().getArmor());
+		assertEquals(0, player1.hero.getArmor());
 		player1.heroSpecial();
-		assertEquals(2, player1.getHero().getArmor());
+		assertEquals(2, player1.hero.getArmor());
 
 		player2.heroSpecial(false, true, "0");
-		assertEquals(0, player1.getHero().getArmor());
-		assertEquals(Constants.HEROHEALTHMAX, player1.getHero().getHealth());
+		assertEquals(0, player1.hero.getArmor());
+		assertEquals(Constants.HEROHEALTHMAX, player1.hero.getHealth());
 	}
 
 	@Test
