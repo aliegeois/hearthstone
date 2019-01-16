@@ -37,11 +37,17 @@ public class Game implements IGame {
 		System.out.println("Nouvelle game (1)");
 		IPlayer player1 = new Player(user1.getName(), user1.getSessionId(), id, user1.getHeroType(), template, cardMinionRepository, cardSpellRepository);
 		IPlayer player2 = new Player(user2.getName(), user2.getSessionId(), id, user2.getHeroType(), template, cardMinionRepository, cardSpellRepository);
-		player1.setOpponent(player2);
+		
 		this.players.put(user1.getName(), player1);
 		this.players.put(user2.getName(), player2);
 
-		playing = Math.random() > .5 ? player1 : player2;
+		if(Math.random() > .5) {
+			playing = player1;
+			player1.setOpponent(player2);
+		} else {
+			playing = player2;
+			player2.setOpponent(player1);
+		}
 	}
 
 	@Override

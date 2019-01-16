@@ -30,8 +30,8 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	protected Map<String, Card> hand = new HashMap<>();
 	protected Map<String, CardMinion> board = new HashMap<>();
 	
-	protected int manaMax = 1;
-	protected int mana = 1;
+	protected int manaMax = 0;
+	protected int mana = 0;
 
 	protected boolean ready = false;
 	
@@ -72,8 +72,6 @@ public class Player implements IPlayer, IPlayerMessageSender {
 				this.deck.add(i.next());
 		}
 		this.hero.setPlayer(this);
-
-		//new UUID().getLeastSignificantBits()
 	}
 
 	public Player(String name, String sessionId, String gameId, String heroType) {
@@ -95,6 +93,8 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	public void setOpponent(IPlayer p) {
 		opponent = p;
 		if(p.getOpponent() == null) {
+			mana = 1;
+			manaMax = 1;
 			p.setOpponent(this);
 		}
 	}
