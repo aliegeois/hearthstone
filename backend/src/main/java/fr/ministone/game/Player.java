@@ -135,8 +135,9 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	
 	@Override
 	public void attack(boolean isHero, String cardId, String targetId) { // Plus de vérifications (genre opponent card existe ou pas) ??
+		System.out.println("Player.attack(" + isHero + ", " + cardId + ", " + targetId + ")");
 		CardMinion minion = (CardMinion)board.get(cardId);
-		if(minion.isReady()){
+		if(minion.isReady()) {
 			if(isHero) {
 				minion.attack(opponent.getHero());
 			} else {
@@ -161,7 +162,6 @@ public class Player implements IPlayer, IPlayerMessageSender {
 		Card cardDrawn = card.copy(this);
 
 		hand.put(cardDrawn.getId(), cardDrawn);
-		System.out.print("nb de carte" + hand.size());
 		if(send)
 			sendDrawCard(cardDrawn.getName(), cardDrawn.getId(), cardDrawn instanceof CardMinion ? "minion" : "spell");
 		

@@ -75,6 +75,7 @@ public class Game implements IGame {
 
 	@Override
 	public void receiveAttack(String playerName, boolean isHero, String cardId, String targetId) {
+		System.out.println("Game.receiveAttack(" + playerName + ", " + isHero + ", " + cardId + ", " + targetId + ")");
 		IPlayer p = players.get(playerName);
 		if(playerName.equals(playing.getName())) {
 			p.attack(isHero, cardId, targetId);
