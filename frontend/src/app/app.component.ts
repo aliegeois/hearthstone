@@ -336,19 +336,19 @@ export class Player {
 				return response.json();
 			})
 			.then( response => {
-				let mte: Set<MultipleTargetEffect> = new Set();
-				let ste: Set<SingleTargetEffect> = new Set();
-				let ge: Set<GlobalEffect> = new Set();
+				let mte: Set<MultipleTargetEffect> = new Set<MultipleTargetEffect>();
+				let ste: Set<SingleTargetEffect> = new Set<SingleTargetEffect>();
+				let ge: Set<GlobalEffect> = new Set<GlobalEffect>();
 				
 				for(let o of response.ste) {
 					switch(o.type) {
-						case 'MultiTargetBuff':
+						case 'MultipleTargetBuff':
 						mte.add(new MultiTargetBuff(o.ownBoard, o.opponentBoard, o.ownHero, o.opponentHero, o.life, o.attack, o.armor));
 						break;
-						case 'MultiTargetDamage':
+						case 'MultipleTargetDamage':
 						mte.add(new MultiTargetDamage(o.ownBoard, o.opponentBoard, o.ownHero, o.opponentHero, o.quantity));
 						break;
-						case 'MultiTargetHeal':
+						case 'MultipleTargetHeal':
 						mte.add(new MultiTargetHeal(o.ownBoard, o.opponentBoard, o.ownHero, o.opponentHero, o.quantity));
 						break;
 						

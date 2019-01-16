@@ -18,7 +18,15 @@ public class PlayerMock extends Player {
 	
 	public PlayerMock(String heroType) {
 		this(heroType, 10);
-    }
+	}
+
+	@Override
+	public void setOpponent(IPlayer p) {
+		opponent = p;
+		if(p.getOpponent() == null) {
+			p.setOpponent(this);
+		}
+	}
     
     public void setMana(int quantity) {
         this.mana = quantity;

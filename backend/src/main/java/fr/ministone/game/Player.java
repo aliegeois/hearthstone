@@ -195,7 +195,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	
 	@Override
 	public void heroSpecial(boolean own, boolean isHero, String targetId) {
-		if(!(hero.isUsed())) {
+		if(!hero.isAlreadyUsed()) {
 			if(looseMana(Constants.HEROSPECIALCOST)) {
 				IEntity victim;
 
@@ -207,20 +207,19 @@ public class Player implements IPlayer, IPlayerMessageSender {
 				
 				hero.special(victim);
 				sendHeroTargetedSpecial(own, isHero, targetId);
+				hero.setAlreadyUsed(true);
 			}
-			hero.setUsed(true);
 		}
 		
 	}
 
 	@Override
 	public void heroSpecial() {
-		if(!(hero.isUsed())){
+		if(!hero.isAlreadyUsed()) {
 			if(looseMana(Constants.HEROSPECIALCOST)) {
-				System.out.println("BOOOOOOOOM");
 				hero.special();
 				sendHeroUntargetedSpecial();
-				hero.setUsed(true);
+				hero.setAlreadyUsed(true);
 			}
 		}
 			
@@ -232,7 +231,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 		manaMax = Math.min(manaMax + 1, Constants.PLAYERMANAMAX);
 		mana = manaMax;
 		Card drawn = drawCard(false);
-		getHero().setUsed(false);
+		getHero().setAlreadyUsed(false);
 		for(CardMinion card: getBoard().values()){
 			card.setReady(true);
 		}

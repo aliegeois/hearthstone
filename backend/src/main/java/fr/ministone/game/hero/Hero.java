@@ -91,11 +91,11 @@ public abstract class Hero implements IEntity {
 		return player;
 	}
 
-	public boolean isUsed() {
+	public boolean isAlreadyUsed() {
 		return alreadyUsed;
 	}
 
-	public void setUsed(boolean alreadyUsed) {
-		this.alreadyUsed = alreadyUsed;
+	public void setAlreadyUsed(boolean newAlreadyUsed) {
+		this.alreadyUsed = newAlreadyUsed;
 	}
 }
