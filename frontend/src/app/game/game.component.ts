@@ -15,10 +15,9 @@ export class GameComponent implements OnInit {
 
 	playing: Player;
 	turn: number;
-	id: number;
 
   secretMode: boolean; // False : normal heroes ; True : alternativ heroes (Pascal, Sunye, Chantal)
-  gameId: string;
+  gameId: number;
   infoLog: string;
 
   selectedHand: Card;
@@ -467,7 +466,7 @@ export class GameComponent implements OnInit {
     }
     // Sinon, si on avait déjà cliquer sur le héro power, on le joue avec pour cible card
     else if(this.selectedHeroPower) {
-      this.joueur.specialReceived(this.id, card);
+      this.joueur.specialReceived(this.gameId, card);
       this.selectedHeroPower = false;
     }
   }
@@ -486,7 +485,7 @@ export class GameComponent implements OnInit {
     }
     // Sinon, si on avait déjà cliquer sur le héro power, on le joue avec pour cible card
     else if(this.selectedHeroPower) {
-      this.joueur.specialReceived(this.id, this.opponent.hero);
+      this.joueur.specialReceived(this.gameId, this.opponent.hero);
       this.selectedHeroPower = false;
     }
   }
@@ -504,13 +503,13 @@ export class GameComponent implements OnInit {
     if(AppComponent.joueurHero == "mage") {
       this.selectedHeroPower = true;
     } else {
-      this.joueur.specialReceived(this.id);
+      this.joueur.specialReceived(this.gameId);
     }
   }
 
     endTurn(): void {
       console.log('Envoi de fin du tour');
-      AppComponent.stompClient.send(`/game/${this.id}/endTurn`, {});
+      AppComponent.stompClient.send(`/game/${this.gameId}/endTurn`, {});
     }
   
 

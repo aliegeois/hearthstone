@@ -20,7 +20,7 @@ import fr.ministone.game.card.*;
 public class Player implements IPlayer, IPlayerMessageSender {
 	protected String name;
 	protected String sessionId;
-	protected String gameId;
+	protected Long gameId;
 
 	protected AbstractMessageSendingTemplate<String> template;
 	protected CardMinionRepository cardMinionRepository;
@@ -38,7 +38,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	protected Hero hero;
 	protected IPlayer opponent;
 	
-	public Player(String name, String sessionId, String gameId, String heroType, AbstractMessageSendingTemplate<String> template, CardMinionRepository cardMinionRepository, CardSpellRepository cardSpellRepository) {
+	public Player(String name, String sessionId, Long gameId, String heroType, AbstractMessageSendingTemplate<String> template, CardMinionRepository cardMinionRepository, CardSpellRepository cardSpellRepository) {
 		this.name = name;
 		this.sessionId = sessionId;
 		this.gameId = gameId;
@@ -76,7 +76,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 		//new UUID().getLeastSignificantBits()
 	}
 
-	public Player(String name, String sessionId, String gameId, String heroType) {
+	public Player(String name, String sessionId, Long gameId, String heroType) {
 		this.name = name;
 		this.sessionId = sessionId;
 		this.gameId = gameId;
