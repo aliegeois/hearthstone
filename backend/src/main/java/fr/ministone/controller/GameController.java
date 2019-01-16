@@ -54,7 +54,7 @@ public class GameController {
 		for(IGame g : games.values())
 			System.out.println("game " + g.getId());
 
-		IGame g = games.get(Long.parseLong(gameId));
+		IGame g = games.get(gameId);
 		if(g == null) {
 			System.out.println("Game non trouvée");
 			return;
@@ -71,7 +71,7 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/summonMinion")
 	public void summonMinion(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageSummonMinion message) {
-		IGame g = games.get(Long.parseLong(gameId));
+		IGame g = games.get(gameId);
 		if(g == null)
 			return;
 		
@@ -84,7 +84,7 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/attack")
 	public void attack(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageAttack message) {
-		IGame g = games.get(Long.parseLong(gameId));
+		IGame g = games.get(gameId);
 		if(g == null)
 			return;
 		
@@ -97,7 +97,7 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/castUntargetedSpell")
 	public void castUntargetedSpell(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageCastUntargetedSpell message) {
-		IGame g = games.get(Long.parseLong(gameId));
+		IGame g = games.get(gameId);
 		if(g == null)
 			return;
 		
@@ -110,7 +110,7 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/castTargetedSpell")
 	public void castTargetedSpell(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageCastTargetedSpell message) {
-		IGame g = games.get(Long.parseLong(gameId));
+		IGame g = games.get(gameId);
 		if(g == null)
 			return;
 		
@@ -123,7 +123,7 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/heroUntargetedSpecial")
 	public void heroUntargetedSpecial(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId) {
-		IGame g = games.get(Long.parseLong(gameId));
+		IGame g = games.get(gameId);
 		if(g == null)
 			return;
 		
@@ -136,7 +136,7 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/heroTargetedSpecial")
 	public void heroTargetedSpecial(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageHeroTargetedSpecial message) {
-		IGame g = games.get(Long.parseLong(gameId));
+		IGame g = games.get(gameId);
 		if(g == null)
 			return;
 		
@@ -149,7 +149,7 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/endTurn")
 	public void endTurn(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId) {
-		IGame g = games.get(Long.parseLong(gameId));
+		IGame g = games.get(gameId);
 		if(g == null)
 			return;
 		
