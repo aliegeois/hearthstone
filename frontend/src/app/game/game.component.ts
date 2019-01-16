@@ -17,7 +17,7 @@ export class GameComponent implements OnInit {
 	turn: number;
 
   secretMode: boolean; // False : normal heroes ; True : alternativ heroes (Pascal, Sunye, Chantal)
-  gameId: number;
+  gameId: string;
   infoLog: string;
 
   selectedHand: Card;
@@ -57,30 +57,14 @@ export class GameComponent implements OnInit {
     
     document.addEventListener('keyup', (event) => {
       const keyName = event.key;
-
+      console.log('Escape pressed');
       // As the user releases the Ctrl key, the key is no longer active,
       // so event.ctrlKey is false.
       if (keyName === 'Escape') {
         console.log('Escape pressed');
-        this.selectedAttacking = null;
-        this.selectedHand = null;
-        this.selectedHeroPower = false;
-
-        this.joueur.hand.forEach((value: Card, key: number) => {
-          console.log("On met la carte " + value.getName() + " a untargetable");
-          value.setTargetable(true);
-        });
-
-        this.opponent.board.forEach((value: CardMinion, key: number) => {
-          console.log("On met la carte " + value.getName() + " a untargetable");
-          value.setTargetable(true);
-        });
-
-        this.joueur.board.forEach((value: CardMinion, key: number) => {
-          console.log("On met la carte " + value.getName() + " a untargetable");
-          value.setTargetable(true);
-        });
-    }}, false);
+        this.resetSelected();  
+      }
+    }, false);
     
   }
 
@@ -395,10 +379,9 @@ export class GameComponent implements OnInit {
 
   selectCardHand(card: Card): void {
 
+    this.resetSelected();
+
     this.selectedHand = card;
-    this.selectCardOpponentBoard = null;
-    this.selectCardPlayerBoard = null;
-    this.selectedHeroPower = false;
 
     console.log("Select cardHand");
 
@@ -425,6 +408,9 @@ export class GameComponent implements OnInit {
 
 
   selectCardPlayerBoard(card: CardMinion): void {
+
+    this.resetSelected();
+
     this.selectedAttacking = card;
 
     // On opacifie les autres cartes de notre board et de notre main
@@ -566,8 +552,26 @@ export class GameComponent implements OnInit {
   }
 
   resetSelected() {
+        this.selectedAttacking = null;
+        this.selectedHand = null;
+        this.selectedHeroPower = false;
 
+        this.joueur.hand.forEach((value: Card, key: number) => {
+          console.log("On met la carte " + value.getName() + " a untargetable");
+          value.setTargetable(true);
+        });
+
+        this.opponent.board.forEach((value: CardMinion, key: number) => {
+          console.log("On met la carte " + value.getName() + " a untargetable");
+          value.setTargetable(true);
+        });
+
+        this.joueur.board.forEach((value: CardMinion, key: number) => {
+          console.log("On met la carte " + value.getName() + " a untargetable");
+          value.setTargetable(true);
+        });
   }
+
   test() {
     console.log("Envoi draw");
   }

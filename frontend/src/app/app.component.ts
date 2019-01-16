@@ -46,7 +46,7 @@ export class AppComponent implements OnInit {
   static opponentName: string;
   static opponentHero: string;
   static playing: string;
-  static gameId: number;
+  static gameId: string;
 
   initializeWebSocketConnection() {
 
@@ -277,7 +277,7 @@ export class Player {
         return target;
     }
 
-    specialReceived(gameId: number, e?: Entity) {
+    specialReceived(gameId: string, e?: Entity) {
         this.hero.specialReceived(gameId, e);
     }
 
@@ -388,7 +388,7 @@ export abstract class Hero implements Entity {
         this.targetable = bool;
     }
 
-    abstract specialReceived(gameId: number, e?: Entity);
+    abstract specialReceived(gameId: string, e?: Entity);
     abstract normalMode();
     abstract alternativMode();
 }
@@ -435,7 +435,7 @@ export abstract class Card {
   abstract isTargetable(): boolean;
   abstract setTargetable(bool: boolean): void;
   abstract hasTargetedSpell(): boolean;
-  abstract playReceived(gameId: number, target?: Entity): void;
+  abstract playReceived(gameId: string, target?: Entity): void;
 
   abstract clone();
 }
@@ -587,7 +587,7 @@ export class CardMinion extends Card implements Entity {
         return card;
     }
 
-    playReceived(gameId: number): void {
+    playReceived(gameId: string): void {
         console.log("Envoi de summonMinion du minion " + this.attack.name);
         AppComponent.stompClient.send(`/game/${gameId}/summonMinion`, {}, JSON.stringify({cardId: this.id}));
     }
@@ -660,7 +660,7 @@ export class CardSpell extends Card {
     }
 
 
-    playReceived(gameId: number, e?: Entity): void {
+    playReceived(gameId: string, e?: Entity): void {
         // Si on a reçu l'envoi avec une target
         if(e) {
 
@@ -722,7 +722,7 @@ export class HeroMage extends Hero {
     }
 
     // On reçoit depuis le client
-    specialReceived(gameId: number, e: Entity) {
+    specialReceived(gameId: string, e: Entity) {
         // On vérifie d'abord si l'on a trouvé un héro
         // Il faut envoyer si l'entité est de notre coté du plateau
         if(e == this.owner.hero) {
@@ -777,7 +777,7 @@ export class HeroPaladin extends Hero {
     }
 
     // On reçoit depuis le client
-    specialReceived(gameId: number) {
+    specialReceived(gameId: string) {
         console.log("Envoi de castTargetedSpecial de paladin");
         AppComponent.stompClient.send(`/game/${gameId}/castUntargetedSpecial`, {});
     }
@@ -808,7 +808,7 @@ export class HeroWarrior extends Hero {
     }
 
     // On reçoit depuis le client
-    specialReceived(gameId: number) {
+    specialReceived(gameId: string) {
         console.log('Envoi de castUntargetedSpecial pour le warrior');
         AppComponent.stompClient.send(`/game/${gameId}/castUntargetedSpecial`, {});
     }
