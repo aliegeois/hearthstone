@@ -9,19 +9,19 @@ import fr.ministone.game.IEntity;
 @Entity
 public class SingleTargetDamage extends SingleTargetEffect {
 	@JsonProperty
-	private int damage;
+	private int quantity;
 	
 	public SingleTargetDamage() {
 		super();
 	}
 
-	public SingleTargetDamage(int damage) {
+	public SingleTargetDamage(int quantity) {
 		super();
-		this.damage = damage;
+		this.quantity = quantity;
 	}
 	
 	@Override
 	public void play(IEntity e) {
-		e.takeDamage(damage);
+		e.takeDamage(quantity);
 	}
 }

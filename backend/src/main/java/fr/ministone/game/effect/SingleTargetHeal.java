@@ -9,19 +9,19 @@ import fr.ministone.game.IEntity;
 @Entity
 public class SingleTargetHeal extends SingleTargetEffect {
 	@JsonProperty
-	private int amount;
+	private int quantity;
 	
 	public SingleTargetHeal() {
 		super();
 	}
 
-	public SingleTargetHeal(int amount) {
+	public SingleTargetHeal(int quantity) {
 		super();
-		this.amount = amount;
+		this.quantity = quantity;
 	}
 	
 	@Override
 	public void play(IEntity e) {
-		e.heal(amount);
+		e.heal(quantity);
 	}
 }

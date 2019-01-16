@@ -1,6 +1,5 @@
 package fr.ministone.game.effect;
 
-//import fr.ministone.game.card.CardMinion;
 import fr.ministone.game.card.CardSpell;
 
 import javax.persistence.GeneratedValue;

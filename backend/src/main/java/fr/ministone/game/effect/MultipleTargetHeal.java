@@ -15,9 +15,9 @@ public class MultipleTargetHeal extends MultipleTargetEffect {
 		super();
 	}
 
-	public MultipleTargetHeal(boolean ownBoard, boolean opponentBoard, boolean ownHero, boolean opponentHero, int amount) {
+	public MultipleTargetHeal(boolean ownBoard, boolean opponentBoard, boolean ownHero, boolean opponentHero, int quantity) {
 		super(ownBoard, opponentBoard, ownHero, opponentHero);
-		this.quantity = amount;
+		this.quantity = quantity;
 	}
 	
 	@Override

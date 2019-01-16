@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CardMinion, Entity, Card, Hero } from './app.component';
+import { CardMinion, Entity, Card, Hero, CardSpell } from './app.component';
 
 @Injectable({
 	providedIn: 'root'
@@ -8,10 +8,15 @@ import { CardMinion, Entity, Card, Hero } from './app.component';
 
 /* On ne peut pas avoir de référence vers Player à cause des dépendences circulaires non supportées, l'on doit donc mettre énormement de paramètres pour chaque cast() */
 export abstract class EffectService {
+	card: CardSpell;
+
+	setCard(spell: CardSpell) {
+		this.card = spell;
+	}
 	
-	constructor() { }
-	
-	
+	getCard(): CardSpell {
+		return this.card;
+	}
 }
 
 
@@ -21,7 +26,7 @@ export abstract class GlobalEffect extends EffectService {
 		super();
 	}
 	
-	abstract cast(player: Hero, playerDeck: Set<Card>, playerHand: Map<string, Card>, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentDeck: Set<Card>, opponentHand: Map<string, Card>, opponentBoard: Map<string, Card>);
+	abstract cast(player: Hero, playerDeck: Set<Card>, playerHand: Map<string, Card>, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentDeck: Set<Card>, opponentHand: Map<string, Card>, opponentBoard: Map<string, Card>): void;
 }
 
 export abstract class MultipleTargetEffect extends EffectService {
@@ -54,7 +59,7 @@ export abstract class MultipleTargetEffect extends EffectService {
 		return this.opponentHero;
 	}
 	
-	abstract cast(player: Hero, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentBoard: Map<string, CardMinion>);
+	abstract cast(player: Hero, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentBoard: Map<string, CardMinion>): void;
 }
 
 export abstract class SingleTargetEffect extends EffectService {
@@ -63,7 +68,7 @@ export abstract class SingleTargetEffect extends EffectService {
 		super();
 	}
 	
-	abstract cast(e: Entity);
+	abstract cast(e: Entity): void;
 }
 
 export class MultiTargetBuff extends MultipleTargetEffect {
@@ -82,6 +87,7 @@ export class MultiTargetBuff extends MultipleTargetEffect {
 			player.boostHealth(this.life);
 			player.boostArmor(this.armor);
 		}
+		
 		if(this.opponentHero) {
 			opponent.boostHealth(this.life);
 			player.boostArmor(this.armor);
@@ -100,7 +106,6 @@ export class MultiTargetBuff extends MultipleTargetEffect {
 				card.boostDamage(this.attack);
 			});
 		}
-		
 	}
 }
 

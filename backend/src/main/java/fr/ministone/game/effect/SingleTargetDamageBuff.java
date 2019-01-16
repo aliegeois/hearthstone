@@ -9,18 +9,18 @@ import fr.ministone.game.IEntity;
 @Entity
 public class SingleTargetDamageBuff extends SingleTargetEffect {
 	@JsonProperty
-	private int attack;
+	private int quantity;
 	
 	public SingleTargetDamageBuff() {
 		super();
 	}
 
-	public SingleTargetDamageBuff(int attack) {
+	public SingleTargetDamageBuff(int quantity) {
 		super();
-		this.attack = attack;
+		this.quantity = quantity;
 	}
 	
 	public void play(IEntity e) {
-		e.buffDamage(attack);
+		e.buffDamage(quantity);
 	}
 }

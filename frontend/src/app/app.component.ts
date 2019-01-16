@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 
-import { SingleTargetEffect, MultipleTargetEffect, GlobalEffect, Transform } from './effect.service';
+import { GlobalEffect, MultipleTargetEffect, SingleTargetEffect, MultiTargetBuff, MultiTargetDamage, MultiTargetHeal, SingleTargetDamageBuff, SingleTargetLifeBuff, SingleTargetDamage, SingleTargetHeal, Transform, DrawRandom, SummonSpecific } from './effect.service';
 // import { HeroMage, HeroPaladin, HeroWarrior } from './heroes.service';
 import { ConstantesService } from './constantes.service';
 import { TouchSequence } from 'selenium-webdriver';
 import { UUID } from 'angular2-uuid';
+import { Meta } from '@angular/platform-browser';
 
 
 
@@ -140,14 +141,14 @@ export class Player {
 		this.name = name;
 		switch (heroType) {
 			case 'mage':
-			this.hero = new HeroMage(this);
-			break;
+				this.hero = new HeroMage(this);
+				break;
 			case 'paladin':
-			this.hero = new HeroPaladin(this);
-			break;
+				this.hero = new HeroPaladin(this);
+				break;
 			case 'warrior':
-			this.hero = new HeroWarrior(this);
-			break;
+				this.hero = new HeroWarrior(this);
+				break;
 		}
 		this.deck = new Set<Card>();
 		this.hand = new Map<string, Card>();
@@ -157,9 +158,6 @@ export class Player {
 		this.mana = this.manaMax;
 		
 	}
-	
-	
-	
 	
 	summon(cardId: string) {
 		let card: CardMinion = this.hand.get(cardId) as CardMinion;
@@ -265,9 +263,46 @@ export class Player {
 				return response.json();
 			})
 			.then( response => {
-				let ste: Set<SingleTargetEffect> = response.ste;
-				let mte: Set<MultipleTargetEffect> = response.mte;
-				let ge: Set<GlobalEffect> = response.ge;
+				let mte: Set<MultipleTargetEffect> = new Set();
+				let ste: Set<SingleTargetEffect> = new Set();
+				let ge: Set<GlobalEffect> = new Set();
+
+				for(let o of response.ste) {
+					switch(o.type) {
+						case 'MultiTargetBuff':
+							mte.add(new MultiTargetBuff(o.ownBoard, o.opponentBoard, o.ownHero, o.opponentHero, o.life, o.attack, o.armor));
+							break;
+						case 'MultiTargetDamage':
+							mte.add(new MultiTargetDamage(o.ownBoard, o.opponentBoard, o.ownHero, o.opponentHero, o.quantity));
+							break;
+						case 'MultiTargetHeal':
+							mte.add(new MultiTargetHeal(o.ownBoard, o.opponentBoard, o.ownHero, o.opponentHero, o.quantity));
+							break;
+						
+						case 'SingleTargetDamageBuff':
+							ste.add(new SingleTargetDamageBuff(o.quantity));
+							break;
+						case 'SingleTargetLifeBuff':
+							ste.add(new SingleTargetLifeBuff(o.quantity));
+							break;
+						case 'SingleTargetDamage':
+							ste.add(new SingleTargetDamage(o.quantity));
+							break;
+						case 'SingleTargetHeal':
+							ste.add(new SingleTargetHeal(o.quantity));
+							break;
+						case 'Transform':
+							ste.add(new Transform(null)); // AAAAAAAaaaahhhhh
+							break;
+
+						case 'DrawRandom':
+							ge.add(new DrawRandom(o.quantity));
+							break;
+						case 'SummonSpecific':
+							ge.add(new SummonSpecific(o.minionName, o.quantity));
+							break;
+					}
+				}
 				
 				card = new CardSpell(cardId, response.name, response.manaCost, ste, mte, ge, this);
 				this.drawSpecific(card);
@@ -700,6 +735,13 @@ export class CardMinion extends Card implements Entity {
 				this.singleEffects = singleEffects;
 				this.multipleEffects = multipleEffects;
 				this.globalEffects = globalEffects;
+
+				for(let s of this.singleEffects)
+					s.setCard(this);
+				for(let m of this.multipleEffects)
+					m.setCard(this);
+				for(let g of this.globalEffects)
+					g.setCard(this);
 				
 				this.targetable = true;
 			}

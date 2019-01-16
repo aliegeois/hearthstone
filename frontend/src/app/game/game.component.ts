@@ -267,6 +267,8 @@ export class GameComponent implements OnInit {
 					let ste: Set<SingleTargetEffect> = response.ste;
 					let mte: Set<MultipleTargetEffect> = response.mte;
 					let ge: Set<GlobalEffect> = response.ge;
+					console.log("ste");
+					console.log(ste);
 					
 					card = new CardSpell(msg.cardId, response.name, response.manaCost, ste, mte, ge, concernedPlayer);
 					concernedPlayer.drawSpecific(card);

@@ -7,20 +7,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Entity
 public class DrawRandom extends GlobalEffect {
 	@JsonProperty
-	private int numberCardsDrawn;
+	private int quantity;
 
 	public DrawRandom() {
 		super();
 	}
 	
-	public DrawRandom(int numberCardsDrawn) {
+	public DrawRandom(int quantity) {
 		super();
-		this.numberCardsDrawn = numberCardsDrawn;
+		this.quantity = quantity;
 	}
 	
 	@Override
 	public void play() {
-		for(int i = 0; i < numberCardsDrawn ; i++)
+		for(int i = 0; i < quantity ; i++)
 			card.getOwner().drawCard(true);
 	}
 }

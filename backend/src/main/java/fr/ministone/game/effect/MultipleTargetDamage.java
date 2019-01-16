@@ -15,9 +15,9 @@ public class MultipleTargetDamage extends MultipleTargetEffect {
 		super();
 	}
 
-	public MultipleTargetDamage(boolean ownBoard, boolean opponentBoard, boolean ownHero, boolean opponentHero, int damage) {
+	public MultipleTargetDamage(boolean ownBoard, boolean opponentBoard, boolean ownHero, boolean opponentHero, int quantity) {
 		super(ownBoard, opponentBoard, ownHero, opponentHero);
-		this.quantity = damage;
+		this.quantity = quantity;
 	}
 	
 	@Override

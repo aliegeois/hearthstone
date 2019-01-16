@@ -9,18 +9,18 @@ import fr.ministone.game.IEntity;
 @Entity
 public class SingleTargetLifeBuff extends SingleTargetEffect {
 	@JsonProperty
-	private int life;
+	private int quantity;
 	
 	public SingleTargetLifeBuff() {
 		super();
 	}
 
-	public SingleTargetLifeBuff(int life) {
+	public SingleTargetLifeBuff(int quantity) {
 		super();
-		this.life = life;
+		this.quantity = quantity;
 	}
 	
 	public void play(IEntity e) {
-		e.buffHealth(life);
+		e.buffHealth(quantity);
 	}
 }

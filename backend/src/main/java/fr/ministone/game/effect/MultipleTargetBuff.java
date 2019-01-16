@@ -16,7 +16,7 @@ public class MultipleTargetBuff extends MultipleTargetEffect {
 	}
 	
 	public MultipleTargetBuff(boolean ownBoard, boolean opponentBoard, boolean ownHero, boolean opponentHero, int life, int attack, int armor) {
-		super(ownBoard, opponentBoard, ownBoard, opponentBoard);
+		super(ownBoard, opponentBoard, ownHero, opponentHero);
 		this.life = life;
 		this.attack = attack;
 		this.armor = armor;
