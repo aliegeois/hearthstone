@@ -30,19 +30,6 @@ public class Game implements IGame {
 		playing = Math.random() > .5 ? player1 : player2;
 	}
 
-	public Game(String id, AbstractMessageSendingTemplate<String> template, User user1, User user2) {
-		this.id = id;
-		this.template = template;
-		System.out.println("Nouvelle game (2)");
-		IPlayer player1 = new Player(user1.getName(), user1.getSessionId(), id, user1.getHeroType());
-		IPlayer player2 = new Player(user2.getName(), user2.getSessionId(), id, user2.getHeroType());
-		player1.setOpponent(player2);
-		this.players.put(user1.getName(), player1);
-		this.players.put(user2.getName(), player2);
-		
-		playing = Math.random() > .5 ? player1 : player2;
-	}
-
 	@Override
 	public void receiveConfirmStart(String playerName) {
 		IPlayer p = players.get(playerName);

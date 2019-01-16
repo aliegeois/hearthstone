@@ -1,10 +1,15 @@
 package fr.ministone.repository;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 
+import fr.ministone.game.PlayerMock;
 import fr.ministone.game.card.CardMinion;
+import fr.ministone.game.card.CardSpell;
 
 public class MCardMinionRepository implements CardMinionRepository {
 	private Map<String, CardMinion> cards = new HashMap<>();
@@ -72,7 +77,12 @@ public class MCardMinionRepository implements CardMinionRepository {
 
 	@Override
 	public Iterable<CardMinion> findAllByDeck(String deck) {
-		return null;
+		Collection<CardMinion> cards = new ArrayList<>();
+		for(CardMinion m : cards)
+    		if(deck.equals(m.getDeck()))
+        	cards.add(m);
+
+		return cards;
 	}
 
 }
