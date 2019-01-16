@@ -165,7 +165,15 @@ export class Player {
 		this.hand.delete(cardId);
 		
 		// On applique les boosts
-		
+		this.board.forEach((value: CardMinion, key: string) => {
+			if(card.boosts.has("damage")) {
+				value.boostDamage(card.boosts.get("damage"));
+			}
+			if(card.boosts.has("health")) {
+				value.boostDamage(card.boosts.get("health"));
+			}
+		})
+
 		this.board.set(cardId, card);
 	}
 	
