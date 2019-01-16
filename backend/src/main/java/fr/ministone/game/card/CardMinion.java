@@ -73,6 +73,8 @@ public class CardMinion extends Card implements IEntity {
 		this.boostDamage = boosts.containsKey("damage") ? boosts.get("damage") : 0;
 
 		this.ready = this.charge;
+
+		System.out.println("CardMinion(health: " + health + ")");
 	}
 
 	public CardMinion(String deck, String name, int mana, int damage, int health, Set<String> capacities, Map<String, Integer> boosts) {
@@ -105,22 +107,28 @@ public class CardMinion extends Card implements IEntity {
 	
 	@Override
 	public void takeDamage(int quantity) {
+		System.out.println("CardMinion.takeDamage(" + quantity + ", health avant: " + health + ")");
 		health -= quantity;
+		System.out.println("health après: " + health);
 	}
 	
 	@Override
 	public void heal(int quantity) {
+		System.out.println("CardMinion.heal(" + quantity + "), health avant: " + health + ")");
 		if(health + quantity <= healthMax) {
 			health = health + quantity;
 		} else {
 			health = healthMax;
 		}
+		System.out.println("CardMinion.heal(" + quantity + "), health après: " + health + ")");
 	}
 	
 	@Override
 	public void buffHealth(int quantity) {
+		System.out.println("CardMinion.buffHealth(" + quantity + "), health avant: " + health + ")");
 		health += quantity;
 		healthBoosted += quantity;
+		System.out.println("CardMinion.buffHealth(" + quantity + "), health après: " + health + ")");
 	}
 	
 	@Override
@@ -189,7 +197,7 @@ public class CardMinion extends Card implements IEntity {
 	
 	@Override
 	public boolean isDead() {
-		return health <= 0;
+		return (health <= 0);
 	}
 
 	public void setReady(boolean ready){
@@ -208,6 +216,9 @@ public class CardMinion extends Card implements IEntity {
 
 	@Override
 	public Card copy(IPlayer owner) {
+		System.out.println("CardMinion.copy_health: " + healthMax);
+
+
 		Set<String> capacities = new HashSet<>();
 		if(taunt) {
 			capacities.add("taunt");
@@ -223,11 +234,12 @@ public class CardMinion extends Card implements IEntity {
 		boosts.put("health", boostHealth);
 		boosts.put("damage", boostDamage);
 
-		return new CardMinion(UUID.randomUUID().toString(), deck, owner, name, manaCost, damage, health, capacities, boosts);
+		return new CardMinion(UUID.randomUUID().toString(), deck, owner, name, manaCost, damage, healthMax, capacities, boosts);
 	}
 
 	@Override
 	public void transform(CardMinion into) {
+		System.out.println("CardMinion.transform(health avant: " + health + ")");
 		name = into.name;
 		health = into.health;
 		manaCost = into.manaCost;
@@ -237,5 +249,6 @@ public class CardMinion extends Card implements IEntity {
 		ready = into.ready; // Pas sûr qu'on le change
 		damage = into.damage;
 		// Si la carte donne des boosts on fait quoi ?
+		System.out.println("CardMinion.transform(health après: " + health + ")");
 	}
 }

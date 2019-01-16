@@ -69,6 +69,15 @@ public class Player implements IPlayer, IPlayerMessageSender {
 				this.deck.add(i.next());
 		}
 		this.hero.setPlayer(this);
+
+		System.out.println("Player()");
+		System.out.print("Contenu du deck: [ ");
+		for(Card c : this.deck) {
+			if(c instanceof CardMinion) {
+				System.out.print("{nom: " + c.getName() + ", health: " + ((CardMinion)c).getHealth());
+			}
+		}
+		System.out.println(" ]");
 	}
 
 	public Player(String name, String sessionId, String gameId, String heroType) {
@@ -104,13 +113,30 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	@Override
 	public void summonMinion(String minionId) {
 		System.out.println("Player.summonMinion(" + minionId + ")");
+		System.out.println("Player.summonMinion (debut)");
+		System.out.print("Contenu du board [ ");
+		for(Card c : board.values())
+			System.out.print("{name: " + c.getName() + ", id: " + c.getId() + "} ");
+		System.out.println("]");
+		for(Card c : board.values())
+			System.out.println("\tname: " + c.getName() + " - id: " + c.getId());
 		CardMinion minion = (CardMinion)hand.get(minionId);
 		summonMinion(minion);
+		System.out.println("Player.summonMinion (fin)");
+		System.out.print("Contenu du board [ ");
+		for(Card c : board.values())
+			System.out.print("{name: " + c.getName() + ", id: " + c.getId() + "} ");
+		System.out.println("]");
 	}
 
 	@Override
 	public void summonMinion(CardMinion minion) {
 		System.out.println("Player.summonMinion(" + minion + ")");
+		System.out.println("Player.summonMinion (debut)");
+		System.out.print("Contenu du board [ ");
+		for(Card c : board.values())
+			System.out.print("{name: " + c.getName() + ", id: " + c.getId() + "} ");
+		System.out.println("]");
 		if(looseMana(minion.getManaCost())) {
 			hand.remove(minion.getId());
 			board.put(minion.getId(), minion);
@@ -119,10 +145,21 @@ public class Player implements IPlayer, IPlayerMessageSender {
 		} else {
 			// Si on a le temps: faire un message de type "notEnoughMana" et l'envoyer
 		}
+		System.out.println("Player.summonMinion (fin)");
+		System.out.print("Contenu du board [ ");
+		for(Card c : board.values())
+			System.out.print("{name: " + c.getName() + ", id: " + c.getId() + "} ");
+		System.out.println("]");
 	}
 
 	@Override
 	public void summonMinionByName(String minionName) {
+		System.out.println("Player.summonMinionByName(" + minionName + ")");
+		System.out.println("Player.summonMinionByName (debut)");
+		System.out.print("Contenu du board [ ");
+		for(Card c : board.values())
+			System.out.print("{name: " + c.getName() + ", id: " + c.getId() + "} ");
+		System.out.println("]");
 		CardMinion minion = (CardMinion)cardMinionRepository.findByName(minionName).copy(this);
 		if(looseMana(minion.getManaCost())) {
 			board.put(minion.getId(), minion);
@@ -131,11 +168,20 @@ public class Player implements IPlayer, IPlayerMessageSender {
 		} else {
 			// Si on a le temps: faire un message de type "notEnoughMana" et l'envoyer
 		}
+		System.out.println("Player.summonMinionByName (fin)");
+		System.out.print("Contenu du board [ ");
+		for(Card c : board.values())
+			System.out.print("{name: " + c.getName() + ", id: " + c.getId() + "} ");
+		System.out.println("]");
 	}
 	
 	@Override
 	public void attack(boolean isHero, String cardId, String targetId) { // Plus de vérifications (genre opponent card existe ou pas) ??
 		System.out.println("Player.attack(" + isHero + ", " + cardId + ", " + targetId + ")");
+		System.out.print("Contenu du board [ ");
+		for(Card c : board.values())
+			System.out.print("{name: " + c.getName() + ", id: " + c.getId() + "} ");
+		System.out.println("]");
 		CardMinion minion = (CardMinion)board.get(cardId);
 		if(minion.isReady()) {
 			if(isHero) {
@@ -151,7 +197,11 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	
 	@Override
 	public Card drawCard(boolean send) {
-		System.out.println("Draw card " + name + " : " + deck.size());
+		System.out.println("Player.drawCard(" + send + ")");
+		System.out.print("Contenu de hand [ ");
+		for(Card c : hand.values())
+			System.out.print("{name: " + c.getName() + ", id: " + c.getId() + "} ");
+		System.out.println("]");
 		Card card = (Card)deck.toArray()[(int)(Math.random() * deck.size())];
 		
 		return drawCard(card, send);
@@ -159,6 +209,11 @@ public class Player implements IPlayer, IPlayerMessageSender {
 
 	@Override
 	public Card drawCard(Card card, boolean send) {
+		System.out.println("Player.drawCard(" + card + ", " + send + ")");
+		System.out.print("Contenu de hand [ ");
+		for(Card c : hand.values())
+			System.out.print("{name: " + c.getName() + ", id: " + c.getId() + "} ");
+		System.out.println("]");
 		Card cardDrawn = card.copy(this);
 
 		hand.put(cardDrawn.getId(), cardDrawn);
@@ -307,11 +362,16 @@ public class Player implements IPlayer, IPlayerMessageSender {
 
 	@Override
 	public boolean checkDead() {
-		Iterator<Map.Entry<String, CardMinion>> i = this.board.entrySet().iterator();
+		//Iterator<Map.Entry<String, CardMinion>> i = board.entrySet().iterator();
+		Iterator<CardMinion> i = board.values().iterator();
 
 		while(i.hasNext()) {
-			if(i.next().getValue().isDead()) {
-				i.remove();
+			//if(i.next().getValue().isDead()) {
+			CardMinion current = i.next();
+			if(current.isDead()) {
+				System.out.println("----- REMOVE(" + current.getName() + ") -----");
+				new Exception().printStackTrace();
+				//i.remove();
 			}
 		}
 
