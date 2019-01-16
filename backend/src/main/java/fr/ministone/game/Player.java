@@ -113,10 +113,10 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	@Override
 	public void summonMinion(CardMinion minion) {
 		if(looseMana(minion.getManaCost())) {
-			minion.play();
-			board.put(minion.getId(), minion);
 			hand.remove(minion.getId());
-			sendSummonMinion(minion.getId());
+			board.put(minion.getId(), minion);
+			minion.play();
+			sendSummonMinionFromHand(minion.getId());
 		} else {
 			// Si on a le temps: faire un message de type "notEnoughMana" et l'envoyer
 		}
@@ -125,7 +125,13 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	@Override
 	public void summonMinionByName(String minionName) {
 		CardMinion minion = cardMinionRepository.findByName(minionName);
-		summonMinion(minion);
+		if(looseMana(minion.getManaCost())) {
+			board.put(minion.getId(), minion);
+			minion.play();
+			sendSummonMinionGlobal(minionName);
+		} else {
+			// Si on a le temps: faire un message de type "notEnoughMana" et l'envoyer
+		}
 	}
 	
 	@Override
@@ -175,8 +181,8 @@ public class Player implements IPlayer, IPlayerMessageSender {
 			victim = (own ? this : opponent).getBoard().get(targetId);
 		}
 		if(looseMana(spell.getManaCost())) {
-			spell.play(victim);
 			hand.remove(spell.getId());
+			spell.play(victim);
 			sendCastTargetedSpell(own, isHero, spellId, targetId);
 		}
 		
@@ -187,8 +193,8 @@ public class Player implements IPlayer, IPlayerMessageSender {
 		CardSpell spell = (CardSpell)hand.get(spellId);
 		
 		if(looseMana(spell.getManaCost())) {
-			spell.play();
 			hand.remove(spell.getId());
+			spell.play();
 			sendCastUntargetedSpell(spellId);
 		}
 		
@@ -318,11 +324,19 @@ public class Player implements IPlayer, IPlayerMessageSender {
 
 
 	@Override
-	public void sendSummonMinion(String minionId) {
+	public void sendSummonMinionFromHand(String minionId) {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", name);
 		send.put("cardId", minionId);
-		template.convertAndSend("/topic/game/" + gameId + "/summonMinion", JsonUtil.toJSON(send));
+		template.convertAndSend("/topic/game/" + gameId + "/summonMinionFromHand", JsonUtil.toJSON(send));
+	}
+
+	@Override
+	public void sendSummonMinionGlobal(String minionName) {
+		Map<String,String> send = new HashMap<>();
+		send.put("playerName", name);
+		send.put("cardName", minionName);
+		template.convertAndSend("/topic/game/" + gameId + "/summonMinionGlobal", JsonUtil.toJSON(send));
 	}
 
 	@Override
@@ -376,6 +390,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", opponent.getName());
 		send.put("cardName", cardName);
+		send.put("cardType", cardType);
 		send.put("cardId", cardId);
 		template.convertAndSend("/topic/game/" + gameId + "/nextTurn", JsonUtil.toJSON(send));
 	}
