@@ -7,7 +7,6 @@ import org.springframework.messaging.core.AbstractMessageSendingTemplate;
 public class MSimpMessagingTemplate extends AbstractMessageSendingTemplate<String> {
     @Override
 	public void convertAndSend(String destination, Object payload) throws MessagingException {
-		System.out.println("Envoi de " + payload + " sur " + destination);
 	}
 
     @Override

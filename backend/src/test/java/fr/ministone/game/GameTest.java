@@ -59,9 +59,6 @@ public class GameTest {
 		spellRepo.save(carte2);
 		spellRepo.save(carte4);
 
-		System.out.println("Cartes dans minionRepo: " + minionRepo.count());
-		System.out.println("Cartes dans spellRepo: " + spellRepo.count());
-
 		game = new MGame(user1, user2, minionRepo, spellRepo);
 		game.receiveConfirmStart("Pat");
 		game.receiveConfirmStart("Bob");

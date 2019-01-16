@@ -34,7 +34,6 @@ public class Game implements IGame {
 		this.cardMinionRepository = cardMinionRepository;
 		this.cardSpellRepository = cardSpellRepository;
 
-		System.out.println("Nouvelle game (1)");
 		IPlayer player1 = new Player(user1.getName(), user1.getSessionId(), id, user1.getHeroType(), template, cardMinionRepository, cardSpellRepository);
 		IPlayer player2 = new Player(user2.getName(), user2.getSessionId(), id, user2.getHeroType(), template, cardMinionRepository, cardSpellRepository);
 		
@@ -52,23 +51,17 @@ public class Game implements IGame {
 
 	@Override
 	public void receiveConfirmStart(String playerName) {
-		System.out.println("Confirmation de " + playerName);
 		IPlayer p = players.get(playerName);
 		p.readyToStart();
 		if(p.getOpponent().isReady()) {
-			System.out.println("Tout le monde est prêt");
 			start();
-		} else {
-			System.out.println(p.getOpponent().getName() + " n'est pas encore prêt");
 		}
 	}
 
 	@Override
 	public void receiveSummonMinion(String playerName, String cardId) {
-		//System.out.println("ReceiveSummonMinion");
 		IPlayer p = players.get(playerName);
 		if(playerName.equals(playing.getName())) {
-			//System.out.println("ReceiveSummonMinion -b");
 			p.summonMinion(cardId);
 			checkBoard();
 		}
@@ -76,7 +69,6 @@ public class Game implements IGame {
 
 	@Override
 	public void receiveAttack(String playerName, boolean isHero, String cardId, String targetId) {
-		System.out.println("Game.receiveAttack(" + playerName + ", " + isHero + ", " + cardId + ", " + targetId + ")");
 		IPlayer p = players.get(playerName);
 		if(playerName.equals(playing.getName())) {
 			p.attack(isHero, cardId, targetId);
@@ -140,7 +132,6 @@ public class Game implements IGame {
 
 	@Override
 	public void start() {
-		System.out.println("Starting game");
 		for(int i = 0; i < 4; i++) {
 			playing.drawCard(true);
 			playing.getOpponent().drawCard(true);

@@ -87,15 +87,11 @@ public class LobbyController {
 		String userLevel = message.getLevel();
 		String userHeroType = message.getHeroType();
 
-		System.out.println("Level recu : " + userLevel);
-		System.out.println("HeroType recu + " + userHeroType);
-
 		if(users.containsKey(userName)) {
 			// Le nom est déjà pris
 			String sendError = new ObjectMapper().writeValueAsString(new Object() {
 				@JsonProperty private String message = "Name already taken";
 			});
-			System.out.println("Le nom existe déjà");
 			template.convertAndSend("/topic/lobby/" + sessionId + "/error", sendError);
 		} else {
 			String sendPlayer = new ObjectMapper().writeValueAsString(new Object() {
@@ -103,7 +99,6 @@ public class LobbyController {
 				@JsonProperty private String level = userLevel;
 				@JsonProperty private String heroType = userHeroType;
 			});
-			System.out.println("Confirmation du nom : envoi sur /topic/lobby/" + sessionId + "/confirmName");
 
 			template.convertAndSend("/topic/lobby/" + sessionId + "/confirmName", sendPlayer);
 
@@ -127,7 +122,6 @@ public class LobbyController {
 
 	@MessageMapping("/lobby/leave")
 	public void leaveLobby(@Header("simpSessionId") String sessionId) throws Exception {
-		System.out.println("reçu sur /lobby/leave");
 		if(!containsSessionId(sessionId)) {
 			return;
 		}
@@ -144,7 +138,6 @@ public class LobbyController {
 	// Lorsqu'un utilisateur veut créer une partie, une demande d'affrontement est envoyée au joueur adverse, si celui-ci accepte, la partie est créée
 	@MessageMapping("/lobby/searchGame")
 	public void createGame(@Header("simpSessionId") String sessionId) throws Exception {
-		System.out.println("reçu sur /lobby/searchGame");
 		if(!containsSessionId(sessionId)) {
 			return;
 		}
@@ -152,12 +145,10 @@ public class LobbyController {
 		User user1 = getBySessionId(sessionId); //
 		String user1Level = user1.getLevel(); //
 
-		System.out.println("Level du joueur qui vient de rechercher une game : " + user1Level);
 		// Si le joueur est le premier à se mettre en file d'attente
 		if(waiting.get(user1Level) == null) {
 			waiting.put(user1Level, users.get(user1.getName()));
 			//waiting = users.get(user1.getName());
-			System.out.println("Premier joueur en attente");
 
 		// Si le joueur est déjà en attente
 		} else if(waiting.get(user1Level).getName().equals(user1.getName())) {
@@ -165,7 +156,6 @@ public class LobbyController {
 			System.out.println("Même joueur deux fois dans la file d'attente");
 		// S'il y a déjà un joueur en attente
 		} else {
-			System.out.println("Deuxième joueur en attente");
 			User user2 = waiting.get(user1Level);
 			//users.remove(user1.getName());
 			waiting.put(user1Level, null);
@@ -190,7 +180,6 @@ public class LobbyController {
 
 	@MessageMapping("/lobby/acceptMatch")
 	public void confirmGame(@Header("simpSessionId") String sessionId) throws Exception {
-		System.out.println("reçu sur /lobby/acceptMatch");
 		if(!isInTemporaryGame(sessionId)) {
 			return;
 		}
@@ -201,7 +190,6 @@ public class LobbyController {
 		User user2 = user1.getOpponent();
 
 		if(tg.hasAccepted(user2)) { // L'adversaire a déjà accepté
-			System.out.println("Les deux joueurs ont accepté");
 
 			gameController.createGame(gId, user1, user2);
 			temporaryGames.remove(gId);
@@ -214,7 +202,6 @@ public class LobbyController {
 
 	@MessageMapping("/lobby/declineMatch")
 	public void declineGame(@Header("simpSessionId") String sessionId) throws Exception {
-		System.out.println("reçu sur /lobby/declineMatch");
 		if(!isInTemporaryGame(sessionId)) {
 			return;
 		}
@@ -243,13 +230,11 @@ public class LobbyController {
 	@EventListener
 	public void onConnectEvent(SessionConnectEvent event) {
 		StompHeaderAccessor headers = StompHeaderAccessor.wrap(event.getMessage());
-		System.out.println("onConnect (lobby): " + headers.getSessionId());
 	}
 
 	@EventListener
 	public void onDisconnectEvent(SessionDisconnectEvent event) {
 		StompHeaderAccessor headers = StompHeaderAccessor.wrap(event.getMessage());
-		System.out.println("onDisconnect (lobby): " + headers.getSessionId());
 		try {
 			leaveLobby(headers.getSessionId());
 		} catch(Exception e) {}
