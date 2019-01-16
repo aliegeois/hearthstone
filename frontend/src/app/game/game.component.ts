@@ -1,8 +1,7 @@
 import { Component, OnInit, Injectable } from '@angular/core';
 import { Player, CardMinion, Card, CardSpell, AppComponent, Entity } from '../app.component';
 import { initDomAdapter } from '@angular/platform-browser/src/browser';
-import { SingleTargetEffect, MultipleTargetEffect, GlobalEffect } from '../effect.service';
-import { stringify } from '@angular/core/src/util';
+import { SingleTargetEffect, MultipleTargetEffect, GlobalEffect, Transform, SingleTargetDamage } from '../effect.service';
 
 @Component({
   selector: 'app-game',
@@ -31,7 +30,7 @@ export class GameComponent implements OnInit {
 
     this.secretMode = false;
     this.gameId = AppComponent.gameId;
-    this.infoLog = "zuefyzeiueoizqgc";
+    this.infoLog = "";
     
     this.selectedHand = null;
     this.selectedAttacking = null;
@@ -41,7 +40,8 @@ export class GameComponent implements OnInit {
 
     this.playing = this.getPlayer(AppComponent.playing);
     AppComponent.addListener(this);
-    AppComponent.stompClient.send(`/game/${this.gameId}/confirmGame`, {});
+    console.log("Envoi de la confirmation de game");
+    AppComponent.stompClient.send(`/game/${this.gameId}/confirmStart`, {});
 
   }
 
@@ -66,6 +66,21 @@ export class GameComponent implements OnInit {
         this.selectedAttacking = null;
         this.selectedHand = null;
         this.selectedHeroPower = false;
+
+        this.joueur.hand.forEach((value: Card, key: number) => {
+          console.log("On met la carte " + value.getName() + " a untargetable");
+          value.setTargetable(true);
+        });
+
+        this.opponent.board.forEach((value: CardMinion, key: number) => {
+          console.log("On met la carte " + value.getName() + " a untargetable");
+          value.setTargetable(true);
+        });
+
+        this.joueur.board.forEach((value: CardMinion, key: number) => {
+          console.log("On met la carte " + value.getName() + " a untargetable");
+          value.setTargetable(true);
+        });
     }}, false);
     
   }
@@ -257,23 +272,28 @@ export class GameComponent implements OnInit {
 
     let cardTest1: CardMinion = new CardMinion(1,"Recrue de la main d'argent", 1, 1, 1, new Set<String>(), new Map<String, number>(), this.joueur);
     let cardTest2: CardMinion = new CardMinion(2, "Champion Frisselame", 3, 4, 2, new Set<String>().add("charge"), new Map<String, number>(), this.joueur);
-    let cardTest3: CardSpell = new CardSpell(3, "Métamorphose", 4, new Set<SingleTargetEffect>(), new Set<MultipleTargetEffect>(), new Set<GlobalEffect>(), this.joueur);
-    let cardTest4: CardMinion = new CardMinion(4, "Soldat du Comté de l'or", 1, 1, 2, new Set<String>().add("taunt"), new Map<String, number>(), this.joueur)
+    let cardTest3: CardSpell = new CardSpell(3, "Métamorphose", 4, new Set<SingleTargetEffect>().add(new Transform(cardTest1)), new Set<MultipleTargetEffect>(), new Set<GlobalEffect>(), this.joueur);
+    let cardTest4: CardMinion = new CardMinion(4, "Chevaucheur de loup", 1, 1, 2, new Set<String>().add("taunt"), new Map<String, number>(), this.joueur)
+    let cardTest5: CardMinion = new CardMinion(5,"Image Miroir_token", 1, 1, 1, new Set<String>(), new Map<String, number>(), this.joueur);
+    let cardTest6: CardMinion = new CardMinion(6,"Sanglier Brocheroc", 1, 1, 1, new Set<String>(), new Map<String, number>(), this.joueur);
+    let cardTest7: CardMinion = new CardMinion(7,"Chef de raid", 1, 1, 1, new Set<String>(), new Map<String, number>(), this.joueur);
+    let cardTest8: CardMinion = new CardMinion(8,"Yeti noroit", 1, 1, 1, new Set<String>(), new Map<String, number>(), this.joueur);
+    let cardTest9: CardSpell = new CardSpell(9, "Image Miroir", 4, new Set<SingleTargetEffect>(), new Set<MultipleTargetEffect>(), new Set<GlobalEffect>(), this.joueur);
+    let cardTest10: CardSpell = new CardSpell(10, "Fireball", 4, new Set<SingleTargetEffect>().add(new SingleTargetDamage(6)), new Set<MultipleTargetEffect>(), new Set<GlobalEffect>(), this.joueur);
 
     this.joueur.hand.set(0, cardTest1);
     this.joueur.hand.set(1, cardTest2);
     this.joueur.hand.set(2, cardTest3);
+    this.joueur.hand.set(9, cardTest9);
+    this.joueur.hand.set(10, cardTest10);
 
-    this.joueur.board.set(0, cardTest1);
-    this.joueur.board.set(1, cardTest2);
+    this.joueur.board.set(0, cardTest4);
+    this.joueur.board.set(1, cardTest6);
 
-    this.opponent.hand.set(0, cardTest2);
-    this.opponent.hand.set(1, cardTest2);
+    this.opponent.board.set(0, cardTest5);
+    this.opponent.board.set(1, cardTest7);
   
-    this.opponent.board.set(0, cardTest2);
-    this.opponent.board.set(1, cardTest1);
-    this.opponent.board.set(2, cardTest2);
-    this.opponent.board.set(4, cardTest4);
+    this.opponent.hand.set(0, cardTest8);
     
 
   }
@@ -375,14 +395,27 @@ export class GameComponent implements OnInit {
 
 
   selectCardHand(card: Card): void {
+
     this.selectedHand = card;
+    this.selectCardOpponentBoard = null;
+    this.selectCardPlayerBoard = null;
+    this.selectedHeroPower = false;
+
+    console.log("Select cardHand");
 
     // S'il ne possède pas de targetable spell, on le lance direct
     if(!this.selectedHand.hasTargetedSpell()) {
-      card.playReceived(this.id);
+      card.playReceived(this.gameId);
+
+      // On remet tout à zéro
       this.selectedHand = null;
+      this.joueur.hand.forEach((value: Card, key: number) => {
+        console.log("On met la carte " + value.getName() + " a untargetable");
+        value.setTargetable(false);
+      });
     } else {
       this.joueur.hand.forEach((value: Card, key: number) => {
+        console.log("On met la carte " + value.getName() + " a untargetable");
         value.setTargetable(false);
       });
   
@@ -395,7 +428,7 @@ export class GameComponent implements OnInit {
   selectCardPlayerBoard(card: CardMinion): void {
     this.selectedAttacking = card;
 
-    // On opacifie les autres cartes de notre board
+    // On opacifie les autres cartes de notre board et de notre main
     this.joueur.board.forEach((value: Card, key: number) => {
       value.setTargetable(false);
     });
@@ -424,12 +457,12 @@ export class GameComponent implements OnInit {
     // Si on avait déjà choisi une carte sur le board, on lance une attaque sur card
     if(this.selectedAttacking != null) {
       console.log('Envoi de attack sur ' + card.name);
-      AppComponent.stompClient.send(`/game/${this.id}/attack`, {}, JSON.stringify({isHero: false, cardId: this.selectedAttacking.id, targetId: card.id}));
+      AppComponent.stompClient.send(`/game/${this.gameId}/attack`, {}, JSON.stringify({isHero: false, cardId: this.selectedAttacking.id, targetId: card.id}));
       this.selectedAttacking = null;
     }
     // Sinon, si on avait déjà choisit une carte dans la main, on la joue avec pour cible card
     else if(this.selectedHand != null) {
-      this.selectedHand.playReceived(this.id, card);
+      this.selectedHand.playReceived(this.gameId, card);
       this.selectedHand = null;
     }
     // Sinon, si on avait déjà cliquer sur le héro power, on le joue avec pour cible card
@@ -444,12 +477,12 @@ export class GameComponent implements OnInit {
     // Si on avait déjà choisi une carte sur le board, on lance une attaque sur card
     if(this.selectedAttacking != null) {
       console.log('Envoi de attack sur le hero');
-      AppComponent.stompClient.send(`/game/${this.id}/attack`, {}, JSON.stringify({isHero: true, cardId: this.selectedAttacking.id, targetId: null}));
+      AppComponent.stompClient.send(`/game/${this.gameId}/attack`, {}, JSON.stringify({isHero: true, cardId: this.selectedAttacking.id, targetId: null}));
       this.selectedAttacking = null;
     }
     // Sinon, si on avait déjà choisit une carte dans la main, on la joue avec pour cible le héros adverse
     else if(this.selectedHand != null) {
-      this.selectedHand.playReceived(this.id, this.opponent.hero);
+      this.selectedHand.playReceived(this.gameId, this.opponent.hero);
     }
     // Sinon, si on avait déjà cliquer sur le héro power, on le joue avec pour cible card
     else if(this.selectedHeroPower) {
@@ -462,7 +495,7 @@ export class GameComponent implements OnInit {
     console.log("Click hero");
     // Si on avait déjà choisit une carte dans la main, on la joue avec pour cible notre héros
     if(this.selectedHand != null) {
-      this.selectedHand.playReceived(this.id, this.joueur.hero);
+      this.selectedHand.playReceived(this.gameId, this.joueur.hero);
     }
   }
 
@@ -488,9 +521,7 @@ export class GameComponent implements OnInit {
       name = name.replace(/ /g,'') //On vire les espaces
       name = name.replace(/'/g, ''); //On vire les '
       name = name.replace(/-/g, ''); //On vire les -
-      name = name.replace(/_/g, ''); //On vire les _
       let url = '../../assets/images/cards/' + name.toLocaleLowerCase() + '.png';
-      console.log('URLIMG : ' + url);
       return url;
     }
 
@@ -535,9 +566,10 @@ export class GameComponent implements OnInit {
     }
   }
 
+  resetSelected() {
 
+  }
   test() {
     console.log("Envoi draw");
-    AppComponent.stompClient.send(`/game/${this.gameId}/drawCard`, {}, JSON.stringify({playerName: this.joueur.name}));
   }
 }

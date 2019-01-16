@@ -49,6 +49,7 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/confirmStart")
 	public void confirmStart(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId) {
+		System.out.println("Confirmation du démarrage de la partie");
 		IGame g = games.get(gameId);
 		if(g == null)
 			return;
