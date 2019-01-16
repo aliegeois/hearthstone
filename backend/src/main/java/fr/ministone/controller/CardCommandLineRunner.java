@@ -15,7 +15,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-//import java.util.stream.Stream;
 import java.util.Set;
 
 @Component
@@ -113,7 +112,7 @@ public class CardCommandLineRunner implements CommandLineRunner {
 		for(CardSpell s : spells)
 			spellRepository.save(s);
 
-		System.out.println("spells:");
+		/*System.out.println("spells:");
 		spellRepository.findAll().forEach(spell -> {
 			System.out.println("Spell " + spell.getName());
 			System.out.println("ge: ");
@@ -125,6 +124,6 @@ public class CardCommandLineRunner implements CommandLineRunner {
 			System.out.println("ste: ");
 			for(SingleTargetEffect ste : spell.getSTE())
 				System.out.println("Class: " + ste.getType());
-		});
+		});*/
     }
 }
