@@ -3,13 +3,18 @@ package fr.ministone.repository;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 
+import fr.ministone.game.PlayerMock;
 import fr.ministone.game.card.CardSpell;
+import fr.ministone.game.effect.GlobalEffect;
+import fr.ministone.game.effect.MultipleTargetEffect;
+import fr.ministone.game.effect.SingleTargetEffect;
 
 public class MCardSpellRepository implements CardSpellRepository {
-	private Map<String, CardSpell> cards = new HashMap<>();
+	private Map<String, CardSpell> cards = new HashMap<String, CardSpell>();
 
 	@Override
 	public <S extends CardSpell> S save(S entity) {

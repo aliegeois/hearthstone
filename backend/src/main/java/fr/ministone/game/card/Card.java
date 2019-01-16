@@ -65,4 +65,8 @@ public abstract class Card {
 	public void setId(Long newId) {
 		this.id = newId;
 	}
+
+	public String getDeck() {
+		return deck;
+	}
 }

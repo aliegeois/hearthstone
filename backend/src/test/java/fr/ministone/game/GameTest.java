@@ -13,6 +13,9 @@ import org.springframework.messaging.core.AbstractMessageSendingTemplate;
 import fr.ministone.User;
 import fr.ministone.game.*;
 import fr.ministone.game.card.*;
+import fr.ministone.game.effect.GlobalEffect;
+import fr.ministone.game.effect.MultipleTargetEffect;
+import fr.ministone.game.effect.SingleTargetEffect;
 import fr.ministone.game.hero.*;
 import fr.ministone.repository.CardMinionRepository;
 import fr.ministone.repository.CardSpellRepository;
@@ -28,7 +31,9 @@ public class GameTest {
 
     //private AbstractMessageSendingTemplate<String> template;
 
-
+    private PlayerMock player2 = new PlayerMock("paladin");
+    private PlayerMock player1 = new PlayerMock("warrior");
+	
     @BeforeEach
     public void init() {
 
