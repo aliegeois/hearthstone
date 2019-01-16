@@ -153,7 +153,7 @@ export class Player {
         this.hand = new Map<string, Card>();
         this.board = new Map<string, CardMinion>();
 
-        this.manaMax = 1;
+        this.manaMax = 0;
         this.mana = this.manaMax;
 
     }
@@ -167,7 +167,7 @@ export class Player {
         this.hand.delete(cardId);
         
         // On applique les boosts
-        
+
         this.board.set(cardId, card);
     }
     
