@@ -65,6 +65,7 @@
 			<img src="{{ joueur.hero.portrait }}" alt="Portrait de {{ joueur.hero.name }}" />
 				<p id="name">{{ joueur.name }}</p>
 				<span id="health">{{ joueur.hero.health }}</span>
+				<span id="armor">{{ opponent.hero.armor }}</span>
 		</div>
 		<button id="special" [class.cardSelected]="selectedHeroPower" [disabled]="this.joueur != this.playing" (click)="special()">Special</button>
 

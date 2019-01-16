@@ -461,6 +461,10 @@ export abstract class Hero implements Entity {
 		if(this.armor < 0) { //Si on a cassé toute l'armure
 		this.health += this.armor;
 		this.armor = 0;
+
+		if(this.isDead()) {
+			this.die();
+		}
 	}
 }
 
@@ -621,25 +625,24 @@ export class CardMinion extends Card implements Entity {
 		}
 		
 		attack(target: Entity): void {
-			this.takeDamage(target.getDamage());
-			target.takeDamage(this.getDamage());
-			this.canAttack = false;
-
 			//Application du lifesteal
 			if(this.capacities.has("lifesteal")) {
 				this.owner.hero.heal(this.damage);
 			}
+			this.canAttack = false;
 
-			if(this.isDead()) {
-				this.die();
-			}
-			if(target.isDead()) {
-				target.die();
-			}
+			this.takeDamage(target.getDamage());
+			target.takeDamage(this.getDamage());
+			
+
 		}
 		
 		takeDamage(quantity: number) {
 			this.health = this.health - quantity;
+
+			if(this.isDead()) {
+				this.die();
+			}
 		}
 		
 		boostDamage(quantity: number) {
