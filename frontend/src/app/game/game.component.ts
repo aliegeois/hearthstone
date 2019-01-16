@@ -282,6 +282,7 @@ export class GameComponent implements OnInit {
 	
 	/*loadDecks() {
 		
+		
 		//On charge toutes les cartes neutre :
 		fetch('http://localhost:8080/cards/deckMinion?deck=shared')
 		.then( response => {
