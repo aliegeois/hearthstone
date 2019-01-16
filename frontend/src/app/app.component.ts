@@ -355,30 +355,30 @@ export class Player {
 	}
 	
 	foundTarget(targetId: string, own: String, hero: boolean): Entity {
-		let target: Entity;
+			let target: Entity;
+			
+			if(own == "true") { //Own indique si l'entité visée est du coté du joueur
+			if(hero) {
+				target = this.hero;
+			} else {
+				target = this.hand.get(targetId) as CardMinion;
+			}
+		} else if(own == "false") {
+			if(hero) {
+				target = this.opponent.hero;
+			} else {
+				target = this.opponent.hand.get(targetId) as CardMinion;
+			}
+		} else {
+			console.log("Own not defined");
+		}
 		
-		if(own == "true") { //Own indique si l'entité visée est du coté du joueur
-		if(hero) {
-			target = this.hero;
-		} else {
-			target = this.hand.get(targetId) as CardMinion;
-		}
-	} else if(own == "false") {
-		if(hero) {
-			target = this.opponent.hero;
-		} else {
-			target = this.opponent.hand.get(targetId) as CardMinion;
-		}
-	} else {
-		console.log("Own not defined");
+		return target;
 	}
-	
-	return target;
-}
 
-specialReceived(gameId: string, e?: Entity) {
-	this.hero.specialReceived(gameId, e);
-}
+	specialReceived(gameId: string, e?: Entity) {
+		this.hero.specialReceived(gameId, e);
+	}
 
 }
 

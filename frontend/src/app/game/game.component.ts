@@ -232,6 +232,7 @@ export class GameComponent implements OnInit {
 			let card: Card;
 			let concernedPlayer : Player = this.getPlayer(msg.playerName);
 			
+			concernedPlayer.draw(msg.cardName, msg.cardType, msg.cardId)
 			if(msg.cardType == "minion") {
 				fetch('http://localhost:8080/cards/getMinion?name=' + msg.cardName)
 				
