@@ -350,38 +350,45 @@ export class Player {
 				
 				for(let o of response.ste) {
 					switch(o.type) {
-						case 'MultipleTargetBuff':
-						mte.add(new MultiTargetBuff(o.ownBoard, o.opponentBoard, o.ownHero, o.opponentHero, o.life, o.attack, o.armor));
-						break;
-						case 'MultipleTargetDamage':
-						mte.add(new MultiTargetDamage(o.ownBoard, o.opponentBoard, o.ownHero, o.opponentHero, o.quantity));
-						break;
-						case 'MultipleTargetHeal':
-						mte.add(new MultiTargetHeal(o.ownBoard, o.opponentBoard, o.ownHero, o.opponentHero, o.quantity));
-						break;
-						
 						case 'SingleTargetDamageBuff':
-						ste.add(new SingleTargetDamageBuff(o.quantity));
-						break;
+							ste.add(new SingleTargetDamageBuff(o.quantity));
+							break;
 						case 'SingleTargetLifeBuff':
-						ste.add(new SingleTargetLifeBuff(o.quantity));
-						break;
+							ste.add(new SingleTargetLifeBuff(o.quantity));
+							break;
 						case 'SingleTargetDamage':
-						ste.add(new SingleTargetDamage(o.quantity));
-						break;
+							ste.add(new SingleTargetDamage(o.quantity));
+							break;
 						case 'SingleTargetHeal':
-						ste.add(new SingleTargetHeal(o.quantity));
-						break;
+							ste.add(new SingleTargetHeal(o.quantity));
+							break;
 						case 'Transform':
-						ste.add(new Transform(null)); // AAAAAAAaaaahhhhh
-						break;
-						
+							ste.add(new Transform(null)); // AAAAAAAaaaahhhhh
+							break;
+					}
+				}
+				for(let o of response.mte) {
+					switch(o.type) {
+						case 'MultipleTargetBuff':
+							mte.add(new MultiTargetBuff(o.ownBoard, o.opponentBoard, o.ownHero, o.opponentHero, o.life, o.attack, o.armor));
+							break;
+						case 'MultipleTargetDamage':
+							mte.add(new MultiTargetDamage(o.ownBoard, o.opponentBoard, o.ownHero, o.opponentHero, o.quantity));
+							break;
+						case 'MultipleTargetHeal':
+							mte.add(new MultiTargetHeal(o.ownBoard, o.opponentBoard, o.ownHero, o.opponentHero, o.quantity));
+							break;
+					}
+				}
+
+				for(let o of response.ge) {
+					switch(o.type) {
 						case 'DrawRandom':
-						ge.add(new DrawRandom(o.quantity));
-						break;
+							ge.add(new DrawRandom(o.quantity));
+							break;
 						case 'SummonSpecific':
-						ge.add(new SummonSpecific(o.minionName, o.quantity));
-						break;
+							ge.add(new SummonSpecific(o.minionName, o.quantity));
+							break;
 					}
 				}
 				
@@ -748,6 +755,15 @@ export class CardMinion extends Card implements Entity {
 			globalEffects: Set<GlobalEffect>,
 			owner: Player) {
 				super(id, name, mana, owner);
+				
+				console.log("CardSpell()");
+				console.log("singleEffects:");
+				console.log(singleEffects);
+				console.log("multipleEffects:");
+				console.log(multipleEffects);
+				console.log("globalEffects:");
+				console.log(globalEffects);
+
 				this.singleEffects = singleEffects;
 				this.multipleEffects = multipleEffects;
 				this.globalEffects = globalEffects;
