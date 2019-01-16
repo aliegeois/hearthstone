@@ -20,6 +20,6 @@ public class SummonSpecific extends GlobalEffect {
 	
 	@Override
 	public void play() {
-		card.getOwner().summonMinion(card.getOwner().findMinionByName(minionName));
+		card.getOwner().summonMinionByName(minionName);
 	}
 }

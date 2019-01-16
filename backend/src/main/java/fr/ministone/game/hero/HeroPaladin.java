@@ -11,7 +11,7 @@ public class HeroPaladin extends Hero {
 	@Override
 	public void special() {
 		//player.summonMinion(new CardMinion(UUID.randomUUID().getLeastSignificantBits(), "paladin", player, "Recrue de la Main d'argent", 1, 1, 1, new HashSet<>(), new HashMap<>()));
-		player.summonMinion("Recrue de la Main d'argent");
+		player.summonMinionByName("Recrue de la Main d'argent");
 	}
 
 	@Override
