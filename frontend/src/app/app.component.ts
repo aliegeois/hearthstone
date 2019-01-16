@@ -255,7 +255,7 @@ export class Player {
                 boosts.set("life", response.boostHealth as number);
                 boosts.set("damage", response.boostDamage as number);
       
-                card = new CardMinion(cardId, response.name, response.manaCost, response.damageBase, response.HealthMax, capacities, boosts, this);
+                card = new CardMinion(cardId, response.name, response.manaCost, response.damageBase, response.healthMax, capacities, boosts, this);
                 this.drawSpecific(card);
               });
             } else if(cardType == "spell") {

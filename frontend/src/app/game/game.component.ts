@@ -116,7 +116,7 @@ export class GameComponent implements OnInit {
           boosts.set("life", response.boostHealth as number);
           boosts.set("damage", response.boostDamage as number);
 
-          let card: CardMinion = new CardMinion(msg.cardId, response.name, response.manaCost, response.damageBase, response.HealthMax, capacities, boosts, concernedPlayer);
+          let card: CardMinion = new CardMinion(msg.cardId, response.name, response.manaCost, response.damageBase, response.healthMax, capacities, boosts, concernedPlayer);
           concernedPlayer.board.set(msg.cardId, card);
         });
     });
@@ -450,6 +450,7 @@ export class GameComponent implements OnInit {
 
   selectCardOpponentBoard(card: CardMinion): void {
     console.log("Select cardOpponentBoard " + card.name);
+
     // Si on avait déjà choisi une carte sur le board, on lance une attaque sur card
     if(this.selectedAttacking != null && this.selectedAttacking.canAttack) {
       console.log('Envoi de attack sur ' + card.name);
