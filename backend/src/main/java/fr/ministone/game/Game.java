@@ -19,6 +19,15 @@ public class Game implements IGame {
 	protected Map<String, IPlayer> players = new HashMap<>();
 	protected IPlayer playing;
 
+	/**
+	 * 
+	 * @param id Identifiant de la Game
+	 * @param template Objet permettant d'envoyer des messages
+	 * @param user1 Joueur 1
+	 * @param user2 Joueur 2
+	 * @param cardMinionRepository Stockage des cartes serviteur
+	 * @param cardSpellRepository Stockage des cartes sort
+	 */
 	public Game(String id, AbstractMessageSendingTemplate<String> template, User user1, User user2, CardMinionRepository cardMinionRepository, CardSpellRepository cardSpellRepository) {
 		this.id = id;
 		this.template = template;
@@ -47,7 +56,6 @@ public class Game implements IGame {
 			System.out.println(p.getOpponent().getName() + " n'est pas encore prêt");
 		}
 	}
-
 
 	@Override
 	public void receiveSummonMinion(String playerName, String cardId) {
@@ -151,7 +159,7 @@ public class Game implements IGame {
 	@Override
 	public boolean checkBoard() {
 		for(IPlayer p : players.values()) {
-			if(p.checkDead()){
+			if(p.checkDead()) {
 				return true; 
 			}
 		}
