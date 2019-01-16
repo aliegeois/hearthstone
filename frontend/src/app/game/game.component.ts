@@ -230,7 +230,7 @@ export class GameComponent implements OnInit {
 			let msg = JSON.parse(data.body);
 			
 			let concernedPlayer : Player = this.getPlayer(msg.playerName);
-			concernedPlayer.draw(data.cardName, data.cardType, data.cardId);
+			concernedPlayer.draw(msg.cardName, msg.cardType, msg.cardId);
 		});
 	}
 	
