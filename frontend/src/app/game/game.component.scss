@@ -28,8 +28,8 @@ body {
                 font-weight: bold;
                 width: 95%;
                 text-align: right;
-                bottom: 65%;
-                right: 5%;
+                bottom: 64%;
+                left: 78%;
                 color: white;
             }
         }
@@ -58,8 +58,8 @@ body {
                 font-weight: bold;
                 width: 95%;
                 text-align: right;
-                bottom: 65%;
-                right: 5%;
+                bottom: 64%;
+                left: 78%;
                 color: white;
             }
         }
@@ -140,6 +140,7 @@ body {
             position: relative;
             height: 170px;
 
+            z-index: 10;
             img {
                 height: 100%;
                 position: relative;

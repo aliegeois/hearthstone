@@ -10,7 +10,7 @@ import java.util.Map;
 import org.springframework.messaging.core.AbstractMessageSendingTemplate;
 
 public class Game implements IGame {
-	protected String id;
+	protected Long id;
 	
 	protected AbstractMessageSendingTemplate<String> template;
 	protected CardMinionRepository cardMinionRepository;
@@ -19,7 +19,7 @@ public class Game implements IGame {
 	protected Map<String, IPlayer> players = new HashMap<>();
 	protected IPlayer playing;
 
-	public Game(String id, AbstractMessageSendingTemplate<String> template, User user1, User user2, CardMinionRepository cardMinionRepository, CardSpellRepository cardSpellRepository) {
+	public Game(Long id, AbstractMessageSendingTemplate<String> template, User user1, User user2, CardMinionRepository cardMinionRepository, CardSpellRepository cardSpellRepository) {
 		this.id = id;
 		this.template = template;
 		this.cardMinionRepository = cardMinionRepository;
@@ -37,10 +37,15 @@ public class Game implements IGame {
 
 	@Override
 	public void receiveConfirmStart(String playerName) {
+		System.out.println("Confirmation de " + playerName);
 		IPlayer p = players.get(playerName);
 		p.readyToStart();
-		if(p.getOpponent().isReady())
+		if(p.getOpponent().isReady()) {
+			System.out.println("Tout le monde est prêt");
 			start();
+		} else {
+			System.out.println(p.getOpponent().getName() + " n'est pas encore prêt");
+		}
 	}
 
 

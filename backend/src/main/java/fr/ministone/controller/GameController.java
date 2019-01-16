@@ -31,7 +31,7 @@ public class GameController {
 	// Pour envoyer des messages sans utiliser "@SendTo"
 	private SimpMessagingTemplate template;
 	// Liste des parties en cours
-	private Map<String, IGame> games = new HashMap<>();
+	private Map<Long, IGame> games = new HashMap<>();
 
 	@Autowired
 	private CardMinionRepository cardMinionRepository;
@@ -49,13 +49,18 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/confirmStart")
 	public void confirmStart(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId) {
+		System.out.println("réception de /game/" + gameId + "/confirmStart");
 		IGame g = games.get(gameId);
 		if(g == null)
 			return;
+		else
+			System.out.println("Game non trouvée");
 		
 		IPlayer p = g.getPlayer(sessionId);
 		if(p == null)
 			return;
+		else
+			System.out.println("Player non trouvé");
 		
 		g.receiveConfirmStart(p.getName());
 	}
@@ -164,7 +169,7 @@ public class GameController {
 		System.out.println("onDisconnect (game): " + headers.getSessionId());
 	}
 
-	public void createGame(String gId, User user1, User user2) throws Exception {
+	public void createGame(Long gId, User user1, User user2) throws Exception {
 		Game g = new Game(gId, template, user1, user2, cardMinionRepository, cardSpellRepository);
 		games.put(gId, g);
 
@@ -175,7 +180,7 @@ public class GameController {
 			@JsonProperty private String opponentName = user2.getName();
 			@JsonProperty private String opponentHero = user2.getHeroType();
 			@JsonProperty private String playing = g.getPlaying().getName(); // On considère que le premier a avoir cliqué commence
-			@JsonProperty private String gameId = gId;
+			@JsonProperty private Long gameId = gId;
 		});
 		String sendUser2 = new ObjectMapper().writeValueAsString(new Object() {
 			@JsonProperty private String playerName = user2.getName();
@@ -183,7 +188,7 @@ public class GameController {
 			@JsonProperty private String opponentName = user1.getName();
 			@JsonProperty private String opponentHero = user1.getHeroType();
 			@JsonProperty private String playing = g.getPlaying().getName();
-			@JsonProperty private String gameId = gId;
+			@JsonProperty private Long gameId = gId;
 		});
 
 		// User1 est celui qui a envoyer le acceptMatch

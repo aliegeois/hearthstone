@@ -13,7 +13,7 @@ import fr.ministone.repository.MCardSpellRepository;
 
 public class MGame extends Game {
 	public MGame(User u1, User u2, CardMinionRepository minionRepo, CardSpellRepository spellRepo) {
-		super("", new MSimpMessagingTemplate(), u1, u2, minionRepo, spellRepo);
+		super(0l, new MSimpMessagingTemplate(), u1, u2, minionRepo, spellRepo);
 
 		playing = players.get(u1.getName());
 	}

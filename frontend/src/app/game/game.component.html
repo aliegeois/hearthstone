@@ -18,9 +18,10 @@
 			</ul>
 		</div>
 
-		<div id="main_joueur">
+		
+		<div id="main_joueur" (click)="test()">
 			<ul>
-				<li *ngFor="let card of joueur.hand | keyvalue" id="card">
+				<li *ngFor="let card of joueur.hand | keyvalue" id="card" (click)="selectCardHand(card.value)" [class.nonTargetable]="!card.value.isTargetable()">
 					<img [src]="getImgUrl(card.value)" alt="{{ card.value.name }}" />
 					<span id="cardManaCost">{{ card.value.manaCost }}</span>
 					<span id="cardDamage">{{ card.value.damage }}</span>
@@ -29,9 +30,10 @@
 			</ul>
 		</div>
 
+
 		<div id="board_joueur">
 			<ul>
-				<li *ngFor="let card of joueur.board | keyvalue" id="card">
+				<li *ngFor="let card of joueur.board | keyvalue" id="card" [class.nonTargetable]="!card.value.isTargetable()">
 					<img [src]="getImgUrl(card.value)" alt="{{ card.value.name }}" />
 					<span id="cardManaCost">{{ card.value.manaCost }}</span>
 					<span id="cardDamage">{{ card.value.damage }}</span>
@@ -42,7 +44,7 @@
 
 		<div id="board_opponent">
 			<ul>
-				<li *ngFor="let card of opponent.board | keyvalue" id="card">
+				<li *ngFor="let card of opponent.board | keyvalue" id="card" [class.nonTargetable]="!card.value.isTargetable()">
 					<img [src]="getImgUrl(card.value)" alt="{{ card.value.name }}" />
 					<span id="cardManaCost">{{ card.value.manaCost }}</span>
 					<span id="cardDamage">{{ card.value.damage }}</span>
@@ -51,6 +53,7 @@
 			</ul>
 		</div>
 
+
 		<button id="endTurn_button" (click)="endTurn()" [disabled]="opponent == playing">
 			<div *ngIf="joueur == playing">END TURN</div>
 			<div *ngIf="opponent == playing">OPPONENT TURN</div>
@@ -58,18 +61,16 @@
 
 
 
-		<div id="joueur">
+		<div id="joueur" [class.nonTargetable]="!joueur.hero.isTargetable()">
 			<img src="{{ joueur.hero.portrait }}" alt="Portrait de {{ joueur.hero.name }}" />
-				<br />
 				<p id="name">{{ joueur.name }}</p>
-				<p id="health">{{ joueur.hero.health }}</p>
+				<span id="health">{{ joueur.hero.health }}</span>
 		</div>
 
-		<div id="opponent">
+		<div id="opponent" [class.nonTargetable]="!joueur.hero.isTargetable()">
 			<img src="{{ opponent.hero.portrait }}" alt="Portrait de {{ opponent.hero.name }}" />
-				<br />
 				<p id="name">{{ opponent.name }}</p>
-				<p id="health">{{ opponent.hero.health }}</p>
+				<span id="health">{{ opponent.hero.health }}</span>
 		</div>
 
 
@@ -79,6 +80,5 @@
 
 
 
-		<button (click)="test()">Test</button>
 	</body>
 </html>

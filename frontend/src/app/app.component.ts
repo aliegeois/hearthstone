@@ -46,7 +46,7 @@ export class AppComponent implements OnInit {
   static opponentName: string;
   static opponentHero: string;
   static playing: string;
-  static gameId: string;
+  static gameId: number;
 
   initializeWebSocketConnection() {
 
