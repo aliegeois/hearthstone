@@ -181,8 +181,8 @@ public class Player implements IPlayer, IPlayerMessageSender {
 			victim = (own ? this : opponent).getBoard().get(targetId);
 		}
 		if(looseMana(spell.getManaCost())) {
-			hand.remove(spell.getId());
 			spell.play(victim);
+			hand.remove(spell.getId());
 			sendCastTargetedSpell(own, isHero, spellId, targetId);
 		}
 		
@@ -193,8 +193,8 @@ public class Player implements IPlayer, IPlayerMessageSender {
 		CardSpell spell = (CardSpell)hand.get(spellId);
 		
 		if(looseMana(spell.getManaCost())) {
-			hand.remove(spell.getId());
 			spell.play();
+			hand.remove(spell.getId());
 			sendCastUntargetedSpell(spellId);
 		}
 		
@@ -202,9 +202,10 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	
 	@Override
 	public void heroSpecial(boolean own, boolean isHero, String targetId) {
-		IEntity victim;
-		if(!(getHero().isUsed())){
-			if(looseMana(Constants.HEROSPECIALCOST)){
+		if(!(getHero().isUsed())) {
+			if(looseMana(Constants.HEROSPECIALCOST)) {
+				IEntity victim;
+
 				if(isHero) {
 					victim = (own ? this : opponent).getHero();
 				} else {
