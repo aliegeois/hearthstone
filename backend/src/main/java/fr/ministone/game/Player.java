@@ -217,11 +217,10 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	public void heroSpecial() {
 		if(!(hero.isUsed())){
 			if(looseMana(Constants.HEROSPECIALCOST)) {
-				System.out.println("BOOOOOOOOM");
 				hero.special();
 				sendHeroUntargetedSpecial();
 				hero.setUsed(true);
-			}
+			} 
 		}
 			
 	}
