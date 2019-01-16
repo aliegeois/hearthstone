@@ -203,20 +203,20 @@ public class CardMinion extends Card implements IEntity {
 
 	@Override
 	public Card copy() {
-		Set<String> capacities = new HashSet<String>();
-		if(this.taunt) {
+		Set<String> capacities = new HashSet<>();
+		if(taunt) {
 			capacities.add("taunt");
 		}
-		if(this.charge) {
-			capacities.add("add");
+		if(charge) {
+			capacities.add("charge");
 		}
-		if(this.lifesteal) {
+		if(lifesteal) {
 			capacities.add("lifesteal");
 		}
 
-		Map<String, Integer> boosts = new HashMap<String, Integer>();
-		boosts.put("health", this.boostHealth);
-		boosts.put("damage", this.boostDamage);
+		Map<String, Integer> boosts = new HashMap<>();
+		boosts.put("health", boostHealth);
+		boosts.put("damage", boostDamage);
 
 		return new CardMinion(UUID.randomUUID().toString(), deck, owner, name, manaCost, damage, health, capacities, boosts);
 	}

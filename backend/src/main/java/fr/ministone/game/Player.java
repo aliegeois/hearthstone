@@ -160,13 +160,12 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	@Override
 	public Card drawCard(Card card, boolean send) {
 		Card cardDrawn = card.copy();
-		String cId = UUID.randomUUID().toString();
 
-		cardDrawn.setId(cId);
-		hand.put(cId, cardDrawn);
+		cardDrawn.setId(cardDrawn.getId());
+		hand.put(cardDrawn.getId(), cardDrawn);
 		System.out.print("nb de carte" + hand.size());
 		if(send)
-			sendDrawCard(cardDrawn.getName(), cId, cardDrawn instanceof CardMinion ? "minion" : "spell");
+			sendDrawCard(cardDrawn.getName(), cardDrawn.getId(), cardDrawn instanceof CardMinion ? "minion" : "spell");
 		
 		return cardDrawn;
 	}
