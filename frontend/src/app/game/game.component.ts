@@ -406,7 +406,6 @@ export class GameComponent implements OnInit {
 	
 	selectCardOpponentBoard(card: CardMinion): void {
 		console.log("Select cardOpponentBoard " + card.name);
-		
 		// Si on avait déjà choisi une carte sur le board, on lance une attaque sur card
 		if(this.selectedAttacking != null && this.selectedAttacking.canAttack && (!this.tauntInTheWay() || card.isProvoking())) {
 			console.log('Envoi de attack sur ' + card.name);

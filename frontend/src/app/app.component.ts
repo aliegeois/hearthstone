@@ -758,16 +758,20 @@ export class CardMinion extends Card implements Entity {
 				let player = this.owner;
 				let opponent = this.owner.opponent;
 				
+				console.log('FFF');
 				if(e != null) {
+					console.log('AAA');
 					this.singleEffects.forEach( effect => {
 						effect.cast(e);
 					});
 				}
 				this.multipleEffects.forEach( effect => {
+					console.log('BBB');
 					effect.cast(player.hero, player.board, opponent.hero, opponent.board);
 					
 				});
 				this.globalEffects.forEach( effect => {
+					console.log('CCC');
 					effect.cast(player.hero, player.deck, player.hand, player.board, opponent.hero, opponent.deck, opponent.hand, opponent.board);
 				});
 			}
