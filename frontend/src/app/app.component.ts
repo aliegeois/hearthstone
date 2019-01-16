@@ -177,7 +177,7 @@ export class Player {
         console.log(card.name);
         let target: Entity;
 
-        if(hero == "hero") {
+        if(hero == "true") {
             target = this.opponent.hero;
         } else {
             target = this.opponent.board.get(targetId) as CardMinion;

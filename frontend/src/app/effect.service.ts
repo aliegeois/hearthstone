@@ -21,7 +21,7 @@ export abstract class GlobalEffect extends EffectService {
         super();
      }
 
-     cast(player: Hero, playerDeck: Set<Card>, playerHand: Map<string, Card>, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentDeck: Set<Card>, opponentHand: Map<string, Card>, opponentBoard: Map<string, Card>) {}
+    abstract cast(player: Hero, playerDeck: Set<Card>, playerHand: Map<string, Card>, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentDeck: Set<Card>, opponentHand: Map<string, Card>, opponentBoard: Map<string, Card>);
 }
 
 export abstract class MultipleTargetEffect extends EffectService {
@@ -54,7 +54,7 @@ export abstract class MultipleTargetEffect extends EffectService {
         return this.opponentHero;
     }
 
-    cast(player: Hero, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentBoard: Map<string, CardMinion>) {}
+    abstract cast(player: Hero, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentBoard: Map<string, CardMinion>);
 }
 
 export abstract class SingleTargetEffect extends EffectService {
@@ -63,7 +63,7 @@ export abstract class SingleTargetEffect extends EffectService {
         super();
     }
 
-    cast(e: Entity) {}
+    abstract cast(e: Entity);
 }
 
 export class MultiTargetBuff extends MultipleTargetEffect {
