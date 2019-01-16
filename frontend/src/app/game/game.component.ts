@@ -455,7 +455,7 @@ export class GameComponent implements OnInit {
     // Si on avait déjà choisi une carte sur le board, on lance une attaque sur card
     if(this.selectedAttacking != null && this.selectedAttacking.canAttack && (!this.tauntInTheWay() || card.isProvoking())) {
       console.log('Envoi de attack sur ' + card.name);
-      AppComponent.stompClient.send(`/app/game/${this.gameId}/attack`, {}, JSON.stringify({isHero: "false", cardId: this.selectedAttacking.id, targetId: card.id}));
+      AppComponent.stompClient.send(`/app/game/${this.gameId}/attack`, {}, JSON.stringify({hero: "false", cardId: this.selectedAttacking.id, targetId: card.id}));
       this.selectedAttacking = null;
     }
     // Sinon, si on avait déjà choisit une carte dans la main, on la joue avec pour cible card
@@ -476,7 +476,7 @@ export class GameComponent implements OnInit {
     // Si on avait déjà choisi une carte sur le board, on lance une attaque sur card
     if(this.selectedAttacking != null && this.selectedAttacking.canAttack) {
       console.log('Envoi de attack sur le hero');
-      AppComponent.stompClient.send(`/app/game/${this.gameId}/attack`, {}, JSON.stringify({isHero: "true", cardId: this.selectedAttacking.id, targetId: null}));
+      AppComponent.stompClient.send(`/app/game/${this.gameId}/attack`, {}, JSON.stringify({hero: "true", cardId: this.selectedAttacking.id, targetId: null}));
       this.selectedAttacking = null;
     }
     // Sinon, si on avait déjà choisit une carte dans la main, on la joue avec pour cible le héros adverse
