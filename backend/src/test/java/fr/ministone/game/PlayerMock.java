@@ -7,7 +7,7 @@ import fr.ministone.repository.MCardSpellRepository;
 
 public class PlayerMock extends Player {
     public PlayerMock(String heroType, int mana) {
-        super("name-test", "session-id-test", "game-id-test", heroType);
+        super("name-test", "session-id-test", 0l, heroType);
 
         this.manaMax = 1;
         this.mana = mana;

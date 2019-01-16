@@ -69,7 +69,7 @@ public class LobbyController {
 	private Map<String, User> users = new HashMap<>(); // AMELIORER
 	//private Map<String, User> waiting = new HashMap<>();
 	Map<String, User> waiting = null; //Une liste pour les user novice, une pour les users regular, et une pour les users expert
-	private Map<String, TemporaryGame> temporaryGames = new HashMap<>();
+	private Map<Long, TemporaryGame> temporaryGames = new HashMap<>();
 	
 	@Autowired
 	public LobbyController(SimpMessagingTemplate template, GameController gameController) {
@@ -170,7 +170,7 @@ public class LobbyController {
 			//users.remove(user1.getName());
 			waiting.put(user1Level, null);
 			TemporaryGame tg = new TemporaryGame(user1, user2);
-			String gameId = UUID.randomUUID().toString();
+			Long gameId = UUID.randomUUID().getLeastSignificantBits();
 			temporaryGames.put(gameId, tg);
 			user1.setTemporaryGameId(gameId);
 			user2.setTemporaryGameId(gameId);
@@ -196,7 +196,7 @@ public class LobbyController {
 		}
 		
 		User user1 = getFromTemporaryGame(sessionId);
-		String gId = user1.getTemporaryGameId();
+		Long gId = user1.getTemporaryGameId();
 		TemporaryGame tg = temporaryGames.get(gId);
 		User user2 = user1.getOpponent();
 
@@ -220,7 +220,7 @@ public class LobbyController {
 		}
 
 		User user1 = getFromTemporaryGame(sessionId);
-		String gId = user1.getTemporaryGameId();
+		Long gId = user1.getTemporaryGameId();
 		//TemporaryGame tg = temporaryGames.get(gameId);
 		User user2 = user1.getOpponent();
 
@@ -229,11 +229,11 @@ public class LobbyController {
 		temporaryGames.remove(gId);
 
 		String sendDeclineUser1 = new ObjectMapper().writeValueAsString(new Object() {
-			@JsonProperty private String gameId = gId;
+			@JsonProperty private Long gameId = gId;
 			@JsonProperty private String opponent = user2.getName();
 		});
 		String sendDeclineUser2 = new ObjectMapper().writeValueAsString(new Object() {
-			@JsonProperty private String gameIdd = gId;
+			@JsonProperty private Long gameIdd = gId;
 			@JsonProperty private String opponent = user1.getName();
 		});
 		template.convertAndSend("/topic/lobby/" + user1.getSessionId() + "/matchDeclined", sendDeclineUser1);
@@ -271,7 +271,7 @@ public class LobbyController {
 	}
 
 	public User getFromTemporaryGame(String sessionId) {
-		for(Map.Entry<String, TemporaryGame> pair : temporaryGames.entrySet())
+		for(Map.Entry<Long, TemporaryGame> pair : temporaryGames.entrySet())
 			if(pair.getValue().hasUser(sessionId))
 				return pair.getValue().getUser(sessionId);
 		return null;
