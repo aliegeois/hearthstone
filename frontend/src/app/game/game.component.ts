@@ -229,58 +229,9 @@ export class GameComponent implements OnInit {
 			console.log(`event: drawCard, data: ${data.body}`);
 			let msg = JSON.parse(data.body);
 			
-			let card: Card;
 			let concernedPlayer : Player = this.getPlayer(msg.playerName);
-			
-			if(msg.cardType == "minion") {
-				fetch('http://localhost:8080/cards/getMinion?name=' + msg.cardName)
-				
-				.then( response => {          
-					return response.json();
-				})
-				.then( response => {
-					let capacities: Set<String> = new Set<String>();
-					if(response.taunt) {
-						capacities.add("taunt");
-					}
-					if(response.lifesteal) {
-						capacities.add("lifesteal");
-					}
-					if(response.charge) {
-						capacities.add("charge");
-					}
-					
-					let boosts: Map<string, number> = new Map<string, number>();
-					boosts.set("life", response.boostHealth as number);
-					boosts.set("damage", response.boostDamage as number);
-					
-					card = new CardMinion(msg.cardId, response.name, response.manaCost, response.damageBase, response.healthMax, capacities, boosts, concernedPlayer);
-					concernedPlayer.drawSpecific(card);
-				});
-			} else if(msg.cardType == "spell") {
-				
-				fetch('http://localhost:8080/cards/getSpell?name=' + msg.cardName)
-				.then( response => {
-					return response.json();
-				})
-				.then( response => {
-					let ste: Set<SingleTargetEffect> = response.ste;
-					let mte: Set<MultipleTargetEffect> = response.mte;
-					let ge: Set<GlobalEffect> = response.ge;
-					console.log("ste");
-					console.log(ste);
-					
-					card = new CardSpell(msg.cardId, response.name, response.manaCost, ste, mte, ge, concernedPlayer);
-					concernedPlayer.drawSpecific(card);
-				});
-			}
-			
-			
-			
+			concernedPlayer.draw(data.cardName, data.cardType, data.cardId);
 		});
-		
-		
-		
 	}
 	
 	

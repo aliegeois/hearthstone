@@ -141,14 +141,14 @@ export class Player {
 		this.name = name;
 		switch (heroType) {
 			case 'mage':
-				this.hero = new HeroMage(this);
-				break;
+			this.hero = new HeroMage(this);
+			break;
 			case 'paladin':
-				this.hero = new HeroPaladin(this);
-				break;
+			this.hero = new HeroPaladin(this);
+			break;
 			case 'warrior':
-				this.hero = new HeroWarrior(this);
-				break;
+			this.hero = new HeroWarrior(this);
+			break;
 		}
 		this.deck = new Set<Card>();
 		this.hand = new Map<string, Card>();
@@ -266,41 +266,41 @@ export class Player {
 				let mte: Set<MultipleTargetEffect> = new Set();
 				let ste: Set<SingleTargetEffect> = new Set();
 				let ge: Set<GlobalEffect> = new Set();
-
+				
 				for(let o of response.ste) {
 					switch(o.type) {
 						case 'MultiTargetBuff':
-							mte.add(new MultiTargetBuff(o.ownBoard, o.opponentBoard, o.ownHero, o.opponentHero, o.life, o.attack, o.armor));
-							break;
+						mte.add(new MultiTargetBuff(o.ownBoard, o.opponentBoard, o.ownHero, o.opponentHero, o.life, o.attack, o.armor));
+						break;
 						case 'MultiTargetDamage':
-							mte.add(new MultiTargetDamage(o.ownBoard, o.opponentBoard, o.ownHero, o.opponentHero, o.quantity));
-							break;
+						mte.add(new MultiTargetDamage(o.ownBoard, o.opponentBoard, o.ownHero, o.opponentHero, o.quantity));
+						break;
 						case 'MultiTargetHeal':
-							mte.add(new MultiTargetHeal(o.ownBoard, o.opponentBoard, o.ownHero, o.opponentHero, o.quantity));
-							break;
+						mte.add(new MultiTargetHeal(o.ownBoard, o.opponentBoard, o.ownHero, o.opponentHero, o.quantity));
+						break;
 						
 						case 'SingleTargetDamageBuff':
-							ste.add(new SingleTargetDamageBuff(o.quantity));
-							break;
+						ste.add(new SingleTargetDamageBuff(o.quantity));
+						break;
 						case 'SingleTargetLifeBuff':
-							ste.add(new SingleTargetLifeBuff(o.quantity));
-							break;
+						ste.add(new SingleTargetLifeBuff(o.quantity));
+						break;
 						case 'SingleTargetDamage':
-							ste.add(new SingleTargetDamage(o.quantity));
-							break;
+						ste.add(new SingleTargetDamage(o.quantity));
+						break;
 						case 'SingleTargetHeal':
-							ste.add(new SingleTargetHeal(o.quantity));
-							break;
+						ste.add(new SingleTargetHeal(o.quantity));
+						break;
 						case 'Transform':
-							ste.add(new Transform(null)); // AAAAAAAaaaahhhhh
-							break;
-
+						ste.add(new Transform(null)); // AAAAAAAaaaahhhhh
+						break;
+						
 						case 'DrawRandom':
-							ge.add(new DrawRandom(o.quantity));
-							break;
+						ge.add(new DrawRandom(o.quantity));
+						break;
 						case 'SummonSpecific':
-							ge.add(new SummonSpecific(o.minionName, o.quantity));
-							break;
+						ge.add(new SummonSpecific(o.minionName, o.quantity));
+						break;
 					}
 				}
 				
@@ -358,28 +358,105 @@ export class Player {
 		let target: Entity;
 		
 		if(own == "true") { //Own indique si l'entité visée est du coté du joueur
-		if(hero) {
-			target = this.hero;
+			if(hero) {
+				target = this.hero;
+			} else {
+				target = this.hand.get(targetId) as CardMinion;
+			}
+		} else if(own == "false") {
+			if(hero) {
+				target = this.opponent.hero;
+			} else {
+				target = this.opponent.hand.get(targetId) as CardMinion;
+			}
 		} else {
-			target = this.hand.get(targetId) as CardMinion;
+			console.log("Own not defined");
 		}
-	} else if(own == "false") {
-		if(hero) {
-			target = this.opponent.hero;
-		} else {
-			target = this.opponent.hand.get(targetId) as CardMinion;
-		}
-	} else {
-		console.log("Own not defined");
+		
+		return target;
 	}
-	
-	return target;
-}
 
-specialReceived(gameId: string, e?: Entity) {
-	this.hero.specialReceived(gameId, e);
-}
+	specialReceived(gameId: string, e?: Entity) {
+		this.hero.specialReceived(gameId, e);
+	}
 
+	draw(cardName: string, cardType: string, cardId: string): void {
+		if(cardType == "minion") {
+			fetch('http://localhost:8080/cards/getMinion?name=' + cardName)
+			.then( response => {          
+				return response.json();
+			})
+			.then( response => {
+				let capacities: Set<String> = new Set<String>();
+				if(response.taunt) {
+					capacities.add("taunt");
+				}
+				if(response.lifesteal) {
+					capacities.add("lifesteal");
+				}
+				if(response.charge) {
+					capacities.add("charge");
+				}
+				
+				let boosts: Map<string, number> = new Map<string, number>();
+				boosts.set("life", response.boostHealth as number);
+				boosts.set("damage", response.boostDamage as number);
+				
+				this.drawSpecific(new CardMinion(cardId, response.name, response.manaCost, response.damageBase, response.healthMax, capacities, boosts, this));
+			});
+		} else if(cardType == "spell") {
+			fetch('http://localhost:8080/cards/getSpell?name=' + cardName)
+			.then( response => {
+				return response.json();
+			})
+			.then( response => {
+				let mte: Set<MultipleTargetEffect> = new Set();
+				let ste: Set<SingleTargetEffect> = new Set();
+				let ge: Set<GlobalEffect> = new Set();
+				
+				for(let o of response.ste) {
+					switch(o.type) {
+						case 'MultiTargetBuff':
+						mte.add(new MultiTargetBuff(o.ownBoard, o.opponentBoard, o.ownHero, o.opponentHero, o.life, o.attack, o.armor));
+						break;
+						case 'MultiTargetDamage':
+						mte.add(new MultiTargetDamage(o.ownBoard, o.opponentBoard, o.ownHero, o.opponentHero, o.quantity));
+						break;
+						case 'MultiTargetHeal':
+						mte.add(new MultiTargetHeal(o.ownBoard, o.opponentBoard, o.ownHero, o.opponentHero, o.quantity));
+						break;
+						
+						case 'SingleTargetDamageBuff':
+						ste.add(new SingleTargetDamageBuff(o.quantity));
+						break;
+						case 'SingleTargetLifeBuff':
+						ste.add(new SingleTargetLifeBuff(o.quantity));
+						break;
+						case 'SingleTargetDamage':
+						ste.add(new SingleTargetDamage(o.quantity));
+						break;
+						case 'SingleTargetHeal':
+						ste.add(new SingleTargetHeal(o.quantity));
+						break;
+						case 'Transform':
+						ste.add(new Transform(null)); // AAAAAAAaaaahhhhh
+						break;
+						
+						case 'DrawRandom':
+						ge.add(new DrawRandom(o.quantity));
+						break;
+						case 'SummonSpecific':
+						ge.add(new SummonSpecific(o.minionName, o.quantity));
+						break;
+					}
+				}
+				
+				this.drawSpecific(new CardSpell(cardId, response.name, response.manaCost, ste, mte, ge, this));
+			});
+		} else {
+			console.error('Aled');
+		}
+	}
 }
 
 export interface Entity {
@@ -735,13 +812,13 @@ export class CardMinion extends Card implements Entity {
 				this.singleEffects = singleEffects;
 				this.multipleEffects = multipleEffects;
 				this.globalEffects = globalEffects;
-
+				
 				for(let s of this.singleEffects)
-					s.setCard(this);
+				s.setCard(this);
 				for(let m of this.multipleEffects)
-					m.setCard(this);
+				m.setCard(this);
 				for(let g of this.globalEffects)
-					g.setCard(this);
+				g.setCard(this);
 				
 				this.targetable = true;
 			}
