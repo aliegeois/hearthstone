@@ -1,7 +1,6 @@
 package fr.ministone.message;
 
 public class MessageCreateGame {
-	// Nom du joueur à affronter
 	private String opponent;
 
 	public MessageCreateGame() {}

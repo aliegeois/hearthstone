@@ -6,9 +6,9 @@ public class MessageCastTargetedSpell {
 
 	public MessageCastTargetedSpell() {}
 
-	public MessageCastTargetedSpell(boolean own, boolean hero, String cardId, String targetId) {
-		this.hero = hero;
-		this.own = own;
+	public MessageCastTargetedSpell(String own, String hero, String cardId, String targetId) {
+		this.hero = "true".equals(hero);
+		this.own = "true".equals(own);
 		this.cardId = cardId;
 		this.targetId = targetId;
 	}
