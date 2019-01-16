@@ -73,7 +73,7 @@ export class GameComponent implements OnInit {
 
 
     // On reçoit un summonMinion
-		AppComponent.stompClient.subscribe(`/topic/game/${this.gameId}/summonMinion`, data => {
+		AppComponent.stompClient.subscribe(`/topic/game/${this.gameId}/summonMinionFromHand`, data => {
       console.log(`event: summonMinion, data: ${data.body}`);
       let msg = JSON.parse(data.body);
 
@@ -81,6 +81,40 @@ export class GameComponent implements OnInit {
 
       // On retire le minion de la main et on l'ajoute au niveau du board
       concernedPlayer.summon(msg.cardId);
+    });
+
+    // On reçoit un summonMinion
+		AppComponent.stompClient.subscribe(`/topic/game/${this.gameId}/summonMinionGlobal`, data => {
+      console.log(`event: summonMinion, data: ${data.body}`);
+      let msg = JSON.parse(data.body);
+
+      let concernedPlayer : Player = this.getPlayer(msg.playerName);
+
+      // On ajoute le minion au board
+      fetch('http://localhost:8080/cards/getMinion?name=' + msg.cardName)
+        
+        .then( response => {          
+          return response.json();
+        })
+        .then( response => {
+          let capacities: Set<String> = new Set<String>();
+          if(response.taunt) {
+            capacities.add("taunt");
+          }
+          if(response.lifesteal) {
+            capacities.add("lifesteal");
+          }
+          if(response.charge) {
+            capacities.add("charge");
+          }
+
+          let boosts: Map<string, number> = new Map<string, number>();
+          boosts.set("life", response.boostHealth as number);
+          boosts.set("damage", response.boostDamage as number);
+
+          let card: CardMinion = new CardMinion(msg.cardId, response.name, response.manaCost, response.damageBase, response.HealthMax, capacities, boosts, concernedPlayer);
+          concernedPlayer.drawSpecific(card);
+        });
     });
 
     

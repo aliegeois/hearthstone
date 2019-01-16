@@ -74,7 +74,13 @@
 		</div>
 
 
-		Mana : {{ joueur.mana}} / {{ joueur.manaMax }}
+		<div id="mana">
+			<span>{{ joueur.mana}} / {{ joueur.manaMax }}</span>
+			<img src="../../assets/images/mana.png" alt="mana" />
+		</div>
+
+
+
 		<button id="secret_mode" [class.inlined]="secretMode == true" (click)="enter_secretMode()">Enter secret mode</button>
 
 
