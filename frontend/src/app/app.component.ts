@@ -165,6 +165,9 @@ export class Player {
         let card: CardMinion = this.hand.get(cardId) as CardMinion;
         this.mana = this.mana - card.manaCost;
         this.hand.delete(cardId);
+        
+        // On applique les boosts
+        
         this.board.set(cardId, card);
     }
     
