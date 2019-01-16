@@ -29,12 +29,12 @@ public class MessageCastTargetedSpell {
 		return targetId;
 	}
 
-	public void setOwn(boolean newOwn) {
-		own = newOwn;
+	public void setOwn(String newOwn) {
+		own = "true".equals(newOwn);
 	}
 
-	public void setHero(boolean newHero) {
-		hero = newHero;
+	public void setHero(String newHero) {
+		hero = "true".equals(newHero);
 	}
 
 	public void setCardId(String newCardId) {
