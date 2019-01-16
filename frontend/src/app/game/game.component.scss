@@ -215,10 +215,17 @@ body {
         }
 
         #mana {
-            position: absolute;
-            bottom: 5%;
-            left: 5%;
-            border: 1px solid black;
+            position: fixed;
+            bottom: 25%;
+            right: 5%;
+
+            img {
+                height: 50px;
+            }
+
+            span {
+                font-weight: bold;
+            }
         }
     
 }
