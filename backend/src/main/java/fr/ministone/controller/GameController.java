@@ -31,7 +31,7 @@ public class GameController {
 	// Pour envoyer des messages sans utiliser "@SendTo"
 	private SimpMessagingTemplate template;
 	// Liste des parties en cours
-	private Map<Long, IGame> games = new HashMap<>();
+	private Map<String, IGame> games = new HashMap<>();
 
 	@Autowired
 	private CardMinionRepository cardMinionRepository;
@@ -50,24 +50,28 @@ public class GameController {
 	@MessageMapping("/game/{gameId}/confirmStart")
 	public void confirmStart(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId) {
 		System.out.println("réception de /game/" + gameId + "/confirmStart");
-		IGame g = games.get(gameId);
-		if(g == null)
-			return;
-		else
+
+		for(IGame g : games.values())
+			System.out.println("game " + g.getId());
+
+		IGame g = games.get(Long.parseLong(gameId));
+		if(g == null) {
 			System.out.println("Game non trouvée");
+			return;
+		}
 		
 		IPlayer p = g.getPlayer(sessionId);
-		if(p == null)
-			return;
-		else
+		if(p == null) {
 			System.out.println("Player non trouvé");
+			return;
+		}
 		
 		g.receiveConfirmStart(p.getName());
 	}
 
 	@MessageMapping("/game/{gameId}/summonMinion")
 	public void summonMinion(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageSummonMinion message) {
-		IGame g = games.get(gameId);
+		IGame g = games.get(Long.parseLong(gameId));
 		if(g == null)
 			return;
 		
@@ -80,7 +84,7 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/attack")
 	public void attack(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageAttack message) {
-		IGame g = games.get(gameId);
+		IGame g = games.get(Long.parseLong(gameId));
 		if(g == null)
 			return;
 		
@@ -93,7 +97,7 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/castUntargetedSpell")
 	public void castUntargetedSpell(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageCastUntargetedSpell message) {
-		IGame g = games.get(gameId);
+		IGame g = games.get(Long.parseLong(gameId));
 		if(g == null)
 			return;
 		
@@ -106,7 +110,7 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/castTargetedSpell")
 	public void castTargetedSpell(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageCastTargetedSpell message) {
-		IGame g = games.get(gameId);
+		IGame g = games.get(Long.parseLong(gameId));
 		if(g == null)
 			return;
 		
@@ -119,7 +123,7 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/heroUntargetedSpecial")
 	public void heroUntargetedSpecial(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId) {
-		IGame g = games.get(gameId);
+		IGame g = games.get(Long.parseLong(gameId));
 		if(g == null)
 			return;
 		
@@ -132,7 +136,7 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/heroTargetedSpecial")
 	public void heroTargetedSpecial(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageHeroTargetedSpecial message) {
-		IGame g = games.get(gameId);
+		IGame g = games.get(Long.parseLong(gameId));
 		if(g == null)
 			return;
 		
@@ -145,7 +149,7 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/endTurn")
 	public void endTurn(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId) {
-		IGame g = games.get(gameId);
+		IGame g = games.get(Long.parseLong(gameId));
 		if(g == null)
 			return;
 		
@@ -169,7 +173,7 @@ public class GameController {
 		System.out.println("onDisconnect (game): " + headers.getSessionId());
 	}
 
-	public void createGame(Long gId, User user1, User user2) throws Exception {
+	public void createGame(String gId, User user1, User user2) throws Exception {
 		Game g = new Game(gId, template, user1, user2, cardMinionRepository, cardSpellRepository);
 		games.put(gId, g);
 
@@ -180,7 +184,7 @@ public class GameController {
 			@JsonProperty private String opponentName = user2.getName();
 			@JsonProperty private String opponentHero = user2.getHeroType();
 			@JsonProperty private String playing = g.getPlaying().getName(); // On considère que le premier a avoir cliqué commence
-			@JsonProperty private Long gameId = gId;
+			@JsonProperty private String gameId = gId;
 		});
 		String sendUser2 = new ObjectMapper().writeValueAsString(new Object() {
 			@JsonProperty private String playerName = user2.getName();
@@ -188,7 +192,7 @@ public class GameController {
 			@JsonProperty private String opponentName = user1.getName();
 			@JsonProperty private String opponentHero = user1.getHeroType();
 			@JsonProperty private String playing = g.getPlaying().getName();
-			@JsonProperty private Long gameId = gId;
+			@JsonProperty private String gameId = gId;
 		});
 
 		// User1 est celui qui a envoyer le acceptMatch
