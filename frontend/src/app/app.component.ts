@@ -190,12 +190,6 @@ export class Player {
 		}
 		card.attack(target);
 		
-		if(card.isDead()) {
-			card.die();
-		}
-		if(target.isDead()) {
-			target.die();
-		}
 	}
 	
 	castTargetedSpell(cardId: string, targetId: string, own: string, hero: boolean) {
@@ -630,6 +624,18 @@ export class CardMinion extends Card implements Entity {
 			this.takeDamage(target.getDamage());
 			target.takeDamage(this.getDamage());
 			this.canAttack = false;
+
+			//Application du lifesteal
+			if(this.capacities.has("lifesteal")) {
+				this.owner.hero.heal(this.damage);
+			}
+
+			if(this.isDead()) {
+				this.die();
+			}
+			if(target.isDead()) {
+				target.die();
+			}
 		}
 		
 		takeDamage(quantity: number) {
