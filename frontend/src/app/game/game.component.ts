@@ -207,6 +207,7 @@ export class GameComponent implements OnInit {
       // On démarre le tour du joueur concerné
       concernedPlayer.beginTurn(msg.cardName, msg.cardId, msg.cardType);
       this.playing = concernedPlayer;
+      this.resetSelected();
     });
 
     // On reçoit la victoire d'un joueur
@@ -452,7 +453,7 @@ export class GameComponent implements OnInit {
     console.log("Select cardOpponentBoard " + card.name);
 
     // Si on avait déjà choisi une carte sur le board, on lance une attaque sur card
-    if(this.selectedAttacking != null && this.selectedAttacking.canAttack) {
+    if(this.selectedAttacking != null && this.selectedAttacking.canAttack && (!this.tauntInTheWay() || card.isProvoking())) {
       console.log('Envoi de attack sur ' + card.name);
       AppComponent.stompClient.send(`/app/game/${this.gameId}/attack`, {}, JSON.stringify({isHero: "false", cardId: this.selectedAttacking.id, targetId: card.id}));
       this.selectedAttacking = null;
@@ -468,6 +469,7 @@ export class GameComponent implements OnInit {
       this.selectedHeroPower = false;
     }
   }
+
 
   selectOpponent(): void {
     console.log("Click opponent");
@@ -498,7 +500,7 @@ export class GameComponent implements OnInit {
 
 
   special(): void {
-    if(this.joueur.hero.isSpecialUsable()) {
+    if(this.joueur.hero.isSpecialUsable() && this.joueur == this.playing) {
       if(AppComponent.joueurHero == "mage") {
         this.selectedHeroPower = true;
       } else {
@@ -511,7 +513,15 @@ export class GameComponent implements OnInit {
 
 
 
+  tauntInTheWay(): boolean {
+    let tauntInTheWay = false;
+    
+    this.opponent.board.forEach((value: CardMinion, key: string) => {
+      tauntInTheWay = tauntInTheWay || value.isProvoking();
+    });
 
+    return tauntInTheWay;
+  }
 
 
 

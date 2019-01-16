@@ -11,26 +11,27 @@ body {
             left: 2%;
     
             height: 25%;
+
+            display: inline-block;
             img {
                 height: 100%;
                 position: relative;
             }
             #name {
                 font-weight: bold;
-                position: relative;
+                position: absolute;
                 width: 100%;
-                bottom: 37%;
+                bottom: 10%;
                 text-align: center;
             }
             #health {
                 position: absolute;
-                position: relative;
                 font-weight: bold;
-                width: 95%;
+                width: 100%;
+                right: 10%;
+                top: 63%;
                 text-align: right;
-                bottom: 64%;
-                left: 78%;
-                color: white;
+                color: rgba(255,255,255,1);
             }
         }
         
@@ -46,26 +47,26 @@ body {
             left: 2%;
     
             height: 25%;
+            display: inline-block;
             img {
                 height: 100%;
                 position: relative;
             }
             #name {
                 font-weight: bold;
-                position: relative;
+                position: absolute;
                 width: 100%;
-                bottom: 37%;
+                bottom: 10%;
                 text-align: center;
             }
             #health {
                 position: absolute;
-                position: relative;
                 font-weight: bold;
-                width: 95%;
+                width: 100%;
+                right: 10%;
+                top: 63%;
                 text-align: right;
-                bottom: 64%;
-                left: 78%;
-                color: white;
+                color: rgba(255,255,255,1);
             }
         }
     
@@ -136,7 +137,7 @@ body {
             position: fixed;
             right: 5%;
             top: 49%;
-            width: 6%;
+            padding: 5px;
             text-align: center;
             border: 1px solid black;
             font-family: Arial, Helvetica, sans-serif;
@@ -195,7 +196,12 @@ body {
         }
     
     
-    
+        #special{
+            position: fixed;
+            bottom: 10%;
+            left: 8%;
+        }
+
         #secret_mode {
             position: fixed;
             bottom: 0;

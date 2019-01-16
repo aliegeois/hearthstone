@@ -66,6 +66,7 @@
 				<p id="name">{{ joueur.name }}</p>
 				<span id="health">{{ joueur.hero.health }}</span>
 		</div>
+		<button id="special" [class.cardSelected]="selectedHeroPower" [disabled]="this.joueur != this.playing" (click)="special()">Special</button>
 
 		<div id="opponent" (click)="selectOpponent()">
 			<img src="{{ opponent.hero.portrait }}" alt="Portrait de {{ opponent.hero.name }}" />

@@ -43,6 +43,7 @@ public class CardCommandLineRunner implements CommandLineRunner {
 		minions.add(new CardMinion("shared", "Soldat du comté-de-l'or", 1, 1, 2, capacities02, new HashMap<>()));
 
 		Set<String> capacities03 = new HashSet<>();
+		capacities03.add("charge");
 		minions.add(new CardMinion("shared", "Chevaucheur de loup", 3, 3, 1, capacities03, new HashMap<>()));
 
 		Map<String, Integer> boosts04 = new HashMap<>();
@@ -55,7 +56,7 @@ public class CardCommandLineRunner implements CommandLineRunner {
 		
 		Set<String> capacities11 = new HashSet<>();
 		capacities11.add("provocation");
-		CardMinion invocation = new CardMinion("special", "Image miroir_token", 0, 2, 0, capacities11, new HashMap<>());
+		CardMinion invocation = new CardMinion("special", "Image miroir_token", 0, 0, 2, capacities11, new HashMap<>());
 		Set<GlobalEffect> gte11 = new HashSet<>();
 		SummonSpecific effect11 = new SummonSpecific(invocation.getName(), 2);
 		minions.add(invocation);
