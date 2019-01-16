@@ -319,6 +319,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 
 	@Override
 	public void sendSummonMinion(String minionId) {
+		System.out.println("Envoi sur /topic/game/" + gameId + "/summonMinion");
 		Map<String,String> send = new HashMap<>();
 		send.put("playerName", name);
 		send.put("cardId", minionId);

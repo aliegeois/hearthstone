@@ -59,8 +59,10 @@ public class Game implements IGame {
 
 	@Override
 	public void receiveSummonMinion(String playerName, String cardId) {
+		System.out.println("ReceiveSummonMinion");
 		IPlayer p = players.get(playerName);
 		if(playerName.equals(playing.getName())) {
+			System.out.println("ReceiveSummonMinion -b");
 			p.summonMinion(cardId);
 		}
 	}

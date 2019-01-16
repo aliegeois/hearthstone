@@ -163,10 +163,11 @@ export class GameComponent implements OnInit {
       let msg = JSON.parse(data.body);
 
       //concernedPlayer est le nom du joueur dont le tour vient de commencer
-      let concernedPlayer : Player = this.getPlayer(msg.playerName);
+      let concernedPlayer : Player = this.getPlayer(msg.playerName).opponent;
 
+      
       // On démarre le tour du joueur concerné
-      concernedPlayer.beginTurn();
+      concernedPlayer.beginTurn(msg.cardName, msg.cardId, msg.cardType);
       this.playing = concernedPlayer;
     });
 

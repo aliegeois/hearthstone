@@ -205,10 +205,52 @@ export class Player {
         this.hero.special();
     }
 
-    beginTurn() {
+    beginTurn(cardName: string, cardId: string, cardType: string) {
         this.manaMax = Math.min(this.manaMax++, ConstantesService.MANAMAX); // Incrémentation de manaMax de 1
         this.mana = this.manaMax;
-        //this.drawCard();
+      
+            let card: Card;
+      
+            if(cardType == "minion") {
+              fetch('http://localhost:8080/cards/getMinion?name=' + cardName)
+              
+              .then( response => {          
+                return response.json();
+              })
+              .then( response => {
+                let capacities: Set<String> = new Set<String>();
+                if(response.taunt) {
+                  capacities.add("taunt");
+                }
+                if(response.lifesteal) {
+                  capacities.add("lifesteal");
+                }
+                if(response.charge) {
+                  capacities.add("charge");
+                }
+      
+                let boosts: Map<string, number> = new Map<string, number>();
+                boosts.set("life", response.boostHealth as number);
+                boosts.set("damage", response.boostDamage as number);
+      
+                card = new CardMinion(cardId, response.name, response.manaCost, response.damageBase, response.HealthMax, capacities, boosts, this);
+                this.drawSpecific(card);
+              });
+            } else if(cardType == "spell") {
+      
+              fetch('http://localhost:8080/cards/getSpell?name=' + cardName)
+              .then( response => {
+                return response.json();
+              })
+              .then( response => {
+                let ste: Set<SingleTargetEffect> = response.ste;
+                let mte: Set<MultipleTargetEffect> = response.mte;
+                let ge: Set<GlobalEffect> = response.ge;
+      
+                card = new CardSpell(cardId, response.name, response.manaCost, ste, mte, ge, this);
+                this.drawSpecific(card);
+              });
+            }
     }
 
 
