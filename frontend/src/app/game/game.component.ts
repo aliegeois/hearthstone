@@ -422,7 +422,7 @@ export class GameComponent implements OnInit {
 
     this.selectedHand = card;
 
-    console.log("Select cardHand");
+    console.log("Select cardHand " + card.name);
 
     // S'il ne possède pas de targetable spell, on le lance direct
     if(!this.selectedHand.hasTargetedSpell()) {
@@ -430,13 +430,7 @@ export class GameComponent implements OnInit {
 
       // On remet tout à zéro
       this.selectedHand = null;
-      this.joueur.hand.forEach((value: Card, key: string) => {
-        console.log("On met la carte " + value.getName() + " a untargetable");
-      });
     } else {
-      this.joueur.hand.forEach((value: Card, key: string) => {
-        console.log("On met la carte " + value.getName() + " a untargetable");
-      });
   
     }
 
@@ -444,15 +438,18 @@ export class GameComponent implements OnInit {
 
 
   selectCardPlayerBoard(card: CardMinion): void {
-
+    
     this.resetSelected();
 
     this.selectedAttacking = card;
+
+    console.log("Select cardBoard " + card.name);
 
   }
 
 
   selectCardOpponentBoard(card: CardMinion): void {
+    console.log("Select cardOpponentBoard " + card.name);
     // Si on avait déjà choisi une carte sur le board, on lance une attaque sur card
     if(this.selectedAttacking != null && this.selectedAttacking.canAttack) {
       console.log('Envoi de attack sur ' + card.name);
@@ -476,7 +473,7 @@ export class GameComponent implements OnInit {
     // Si on avait déjà choisi une carte sur le board, on lance une attaque sur card
     if(this.selectedAttacking != null && this.selectedAttacking.canAttack) {
       console.log('Envoi de attack sur le hero');
-      AppComponent.stompClient.send(`/app/game/${this.gameId}/attack`, {}, JSON.stringify({isHero: "false", cardId: this.selectedAttacking.id, targetId: null}));
+      AppComponent.stompClient.send(`/app/game/${this.gameId}/attack`, {}, JSON.stringify({isHero: "true", cardId: this.selectedAttacking.id, targetId: null}));
       this.selectedAttacking = null;
     }
     // Sinon, si on avait déjà choisit une carte dans la main, on la joue avec pour cible le héros adverse

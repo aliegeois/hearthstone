@@ -171,16 +171,25 @@ export class Player {
         this.board.set(cardId, card);
     }
     
-    attack(cardId: string, targetId: string, isHero: boolean) {
-        let card: CardMinion = this.hand.get(cardId) as CardMinion;
+    attack(cardId: string, targetId: string, isHero: string) {
+        let card: CardMinion = this.board.get(cardId) as CardMinion;
+        console.log("Card attaquante : ");
+        console.log(card.name);
         let target: Entity;
 
-        if(isHero) {
+        if(isHero == "hero") {
             target = this.opponent.hero;
         } else {
-            target = this.opponent.hand.get(targetId) as CardMinion;
+            target = this.opponent.board.get(targetId) as CardMinion;
         }
         card.attack(target);
+
+        if(card.isDead()) {
+            card.die();
+        }
+        if(target.isDead()) {
+            target.die();
+        }
     }
 
     castTargetedSpell(cardId: string, targetId: string, own: string, hero: boolean) {
@@ -346,6 +355,7 @@ export interface Entity {
     getDamage(): number;
     isProvoking(): void;
     isDead(): boolean;
+    die(): void;
     getOwner(): Player;
     isTargetable(): boolean; // Usefull for the html, do not delete
 }
@@ -429,6 +439,10 @@ export abstract class Hero implements Entity {
 
     isDead(): boolean {
         return (this.health <= 0);
+    }
+
+    die(): void {
+        alert("Victoire de " + this.owner.opponent.name);
     }
 
     getOwner(): Player {
@@ -628,6 +642,10 @@ export class CardMinion extends Card implements Entity {
         return (this.health <= 0);
     }
     
+    die(): void {
+        this.owner.board.delete(this.id);
+    }
+
     getOwner(): Player {
         return this.owner;
     }
