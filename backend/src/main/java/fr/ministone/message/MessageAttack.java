@@ -24,8 +24,8 @@ public class MessageAttack {
 		return targetId;
 	}
 
-	public void setHero(boolean newHero) {
-		hero = newHero;
+	public void setHero(String newHero) {
+		hero = "true".equals(newHero);
 	}
 
 	public void setSource(String newCardId) {
