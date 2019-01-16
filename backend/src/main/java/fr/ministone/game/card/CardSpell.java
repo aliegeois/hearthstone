@@ -49,6 +49,7 @@ public class CardSpell extends Card {
 	
 	@Override
 	public void play() {
+		System.out.println("CardSpell.play()");
 		for(MultipleTargetEffect m : multipleEffects) {
 			m.play();
 		}
@@ -60,6 +61,7 @@ public class CardSpell extends Card {
 
 	@Override
 	public void play(IEntity e) {
+		System.out.println("CardSpell.play(" + e + ")");
 		for(SingleTargetEffect s : singleEffects) {
 			s.play(e);
 		}

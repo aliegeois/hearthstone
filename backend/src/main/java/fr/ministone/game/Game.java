@@ -128,11 +128,11 @@ public class Game implements IGame {
 	@Override
 	public void start() {
 		System.out.println("Starting game");
-		for(int i = 0; i < 3; i++) {
+		for(int i = 0; i < 4; i++) {
 			playing.drawCard(true);
 			playing.getOpponent().drawCard(true);
 		}
-		playing.getOpponent().drawCard(true);
+		//playing.getOpponent().drawCard(true);
 	}
 
 	@Override

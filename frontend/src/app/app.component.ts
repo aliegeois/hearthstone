@@ -168,14 +168,14 @@ export class Player {
         this.board.set(cardId, card);
     }
     
-    attack(cardId: string, targetId: number, isHero: boolean) {
+    attack(cardId: string, targetId: string, isHero: boolean) {
         let card: CardMinion = this.hand.get(cardId) as CardMinion;
         let target: Entity;
 
         if(isHero) {
             target = this.opponent.hero;
         } else {
-            target = this.opponent.hand.get(cardId) as CardMinion;
+            target = this.opponent.hand.get(targetId) as CardMinion;
         }
         card.attack(target);
     }
@@ -183,7 +183,8 @@ export class Player {
     castTargetedSpell(cardId: string, targetId: string, own: string, hero: boolean) {
         let card: CardSpell = this.hand.get(cardId) as CardSpell;
         this.mana = this.mana - card.manaCost;
-        let target: Entity = this.foundTarget(targetId, own, hero);
+		let target: Entity = this.foundTarget(targetId, own, hero);
+		// Supprimer la carte de la main
 
         card.play(target);
     }
@@ -191,7 +192,8 @@ export class Player {
     castUntargetedSpell(cardId: string) {
         let card: CardSpell = this.hand.get(cardId) as CardSpell;
         this.mana = this.mana - card.manaCost;
-        card.play();
+		card.play();
+		// Supprimer la carte de la main
     }
 
     castTargetedSpecial(targetId: string, own: string, hero: boolean) {
