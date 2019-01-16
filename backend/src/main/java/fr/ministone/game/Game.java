@@ -37,10 +37,15 @@ public class Game implements IGame {
 
 	@Override
 	public void receiveConfirmStart(String playerName) {
+		System.out.println("Confirmation de " + playerName);
 		IPlayer p = players.get(playerName);
 		p.readyToStart();
-		if(p.getOpponent().isReady())
+		if(p.getOpponent().isReady()) {
+			System.out.println("Tout le monde est prêt");
 			start();
+		} else {
+			System.out.println(p.getOpponent().getName() + " n'est pas encore prêt");
+		}
 	}
 
 
@@ -118,7 +123,7 @@ public class Game implements IGame {
 			playing.getOpponent().drawCard(true);
 		}
 		playing.getOpponent().drawCard(true);
-		playing.nextTurn();
+		//playing.nextTurn();
 	}
 
 	@Override

@@ -49,13 +49,18 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/confirmStart")
 	public void confirmStart(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId) {
+		System.out.println("réception de /game/" + gameId + "/confirmStart");
 		IGame g = games.get(gameId);
 		if(g == null)
 			return;
+		else
+			System.out.println("Game non trouvée");
 		
 		IPlayer p = g.getPlayer(sessionId);
 		if(p == null)
 			return;
+		else
+			System.out.println("Player non trouvé");
 		
 		g.receiveConfirmStart(p.getName());
 	}
