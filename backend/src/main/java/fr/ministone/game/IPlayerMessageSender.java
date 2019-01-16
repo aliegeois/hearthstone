@@ -2,7 +2,7 @@ package fr.ministone.game;
 
 public interface IPlayerMessageSender {
 	public void sendSummonMinionFromHand(String minionId);
-	public void sendSummonMinionGlobal(String minionName);
+	public void sendSummonMinionGlobal(String minionName, String minionId);
 	public void sendAttack(boolean hero, String cardId, String targetId);
 	
     public void sendCastTargetedSpell(boolean own, boolean hero, String spellId, String targetId);

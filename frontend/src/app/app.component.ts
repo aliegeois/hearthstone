@@ -228,7 +228,7 @@ export class Player {
 			value.canAttack = true;
 		});
 		
-		this.draw(cardName, cardType, cardId);
+		this.draw(cardName, cardType, cardId, "hand");
 	}
 	
 	
@@ -301,7 +301,7 @@ export class Player {
 		this.hero.specialReceived(gameId, e);
 	}
 
-	draw(cardName: string, cardType: string, cardId: string): void {
+	draw(cardName: string, cardType: string, cardId: string, where: string): void {
 		if(cardType == "minion") {
 			fetch('http://localhost:8080/cards/getMinion?name=' + cardName)
 			.then( response => {          
@@ -322,8 +322,13 @@ export class Player {
 				let boosts: Map<string, number> = new Map<string, number>();
 				boosts.set("life", response.boostHealth as number);
 				boosts.set("damage", response.boostDamage as number);
+
+				let card: CardMinion = new CardMinion(cardId, response.name, response.manaCost, response.damageBase, response.healthMax, capacities, boosts, this);
 				
-				this.drawSpecific(new CardMinion(cardId, response.name, response.manaCost, response.damageBase, response.healthMax, capacities, boosts, this));
+				if(where == "hand")
+					this.hand.set(cardId, card);
+				else if(where == "board")
+					this.board.set(cardId, card);
 			});
 		} else if(cardType == "spell") {
 			fetch('http://localhost:8080/cards/getSpell?name=' + cardName)
@@ -372,11 +377,16 @@ export class Player {
 					}
 				}
 				
-				this.drawSpecific(new CardSpell(cardId, response.name, response.manaCost, ste, mte, ge, this));
+				let card: CardSpell = new CardSpell(cardId, response.name, response.manaCost, ste, mte, ge, this);
+				if(where == "hand")
+					this.hand.set(cardId, card);
+				else if(where == "board")
+					console.error("Something's fishy...");
 			});
 		} else {
 			console.error('Aled');
 		}
+		
 	}
 }
 
@@ -735,11 +745,11 @@ export class CardMinion extends Card implements Entity {
 				this.globalEffects = globalEffects;
 				
 				for(let s of this.singleEffects)
-				s.setCard(this);
+					s.setCard(this);
 				for(let m of this.multipleEffects)
-				m.setCard(this);
+					m.setCard(this);
 				for(let g of this.globalEffects)
-				g.setCard(this);
+					g.setCard(this);
 				
 				this.targetable = true;
 			}
@@ -779,8 +789,7 @@ export class CardMinion extends Card implements Entity {
 			}
 			
 			clone(): CardSpell {
-				let card: CardSpell = new CardSpell(this.id, this.name, this.manaCost, this.singleEffects, this.multipleEffects, this.globalEffects, this.owner);
-				return card;
+				return new CardSpell(this.id, this.name, this.manaCost, this.singleEffects, this.multipleEffects, this.globalEffects, this.owner);
 			}
 			
 			

@@ -80,6 +80,7 @@ export class MultiTargetBuff extends MultipleTargetEffect {
 		super(ownBoard, opponentBoard, ownHero, opponentHero);
 		this.life = life;
 		this.attack = attack;
+		this.armor = armor;
 	}
 	
 	cast(player: Hero, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentBoard: Map<string, CardMinion>) {
@@ -87,7 +88,7 @@ export class MultiTargetBuff extends MultipleTargetEffect {
 			player.boostHealth(this.life);
 			player.boostArmor(this.armor);
 		}
-		
+
 		if(this.opponentHero) {
 			opponent.boostHealth(this.life);
 			player.boostArmor(this.armor);
