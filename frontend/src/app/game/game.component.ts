@@ -113,7 +113,7 @@ export class GameComponent implements OnInit {
           boosts.set("damage", response.boostDamage as number);
 
           let card: CardMinion = new CardMinion(msg.cardId, response.name, response.manaCost, response.damageBase, response.HealthMax, capacities, boosts, concernedPlayer);
-          concernedPlayer.drawSpecific(card);
+          concernedPlayer.board.set(msg.cardId, card);
         });
     });
 
@@ -249,7 +249,7 @@ export class GameComponent implements OnInit {
           boosts.set("life", response.boostHealth as number);
           boosts.set("damage", response.boostDamage as number);
 
-          card = new CardMinion(msg.cardId, response.name, response.manaCost, response.damageBase, response.HealthMax, capacities, boosts, concernedPlayer);
+          card = new CardMinion(msg.cardId, response.name, response.manaCost, response.damageBase, response.healthMax, capacities, boosts, concernedPlayer);
           concernedPlayer.drawSpecific(card);
         });
       } else if(msg.cardType == "spell") {
