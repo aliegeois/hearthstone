@@ -1,7 +1,7 @@
 # Ministone
 Mini projet Hearthstone
 
-Projet d'Analyse Conception et Evolution logicielle et Tests Logicielles de Master 1 ALMA (. Ce projet a pour but de la création d'une version simplifiée du jeu Hearthstone dévellopé par Blizzard (https://playhearthstone.com/en-us/).
+Projet d'Analyse Conception et Evolution logicielle et Tests Logicielles de Master 1 ALMA. Ce projet a pour but de la création d'une version simplifiée du jeu Hearthstone dévellopé par Blizzard (https://playhearthstone.com/en-us/.
 
 Le projet possède une interface web réalisée grâce à Angular (https://angular.io/) communiquant via websockets avec un serveur spring gérant également la persistence des données statiques (cartes, effets...)
 
@@ -12,8 +12,8 @@ Le projet possède une interface web réalisée grâce à Angular (https://angul
 - E158479K : Antoine Godet (Zardas)
 - E16B498D : Charles Bequet-Ermoy (BuildTools)
 
->Nous savons que des commits ont été effectués après la date de rendu (15/01 à 00h00) mais nous préférons que vous évaluiez la version finale, quitte à perdre des points pour le retard.
->Merci
+>Nous savons que des commits ont été effectués après la date de rendu (15/01 à 23h59) mais nous préférons que vous évaluiez la version finale, quitte à perdre des points pour le retard.
+>Bisou
 
 ## Comment lancer le(s) serveur(s)
 
