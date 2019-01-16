@@ -6,9 +6,9 @@ public class MessageHeroTargetedSpecial {
 
 	public MessageHeroTargetedSpecial() {}
 
-	public MessageHeroTargetedSpecial(boolean own, boolean hero, String targetId) {
-		this.own = own;
-		this.hero = hero;
+	public MessageHeroTargetedSpecial(String own, String hero, String targetId) {
+		this.own = "true".equals(own);
+		this.hero = "true".equals(hero);
 		this.targetId = targetId;
 	}
 

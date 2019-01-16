@@ -42,6 +42,10 @@ export class GameComponent implements OnInit {
     console.log("Envoi de la confirmation de game");
     AppComponent.stompClient.send(`/app/game/${this.gameId}/confirmStart`, {});
 
+    this.playing.manaMax = this.playing.manaMax + 1;
+    this.playing.mana = this.playing.manaMax;
+
+
   }
 
   ngOnInit() {
@@ -112,7 +116,7 @@ export class GameComponent implements OnInit {
           boosts.set("life", response.boostHealth as number);
           boosts.set("damage", response.boostDamage as number);
 
-          let card: CardMinion = new CardMinion(msg.cardId, response.name, response.manaCost, response.damageBase, response.HealthMax, capacities, boosts, concernedPlayer);
+          let card: CardMinion = new CardMinion(msg.cardId, response.name, response.manaCost, response.damageBase, response.healthMax, capacities, boosts, concernedPlayer);
           concernedPlayer.board.set(msg.cardId, card);
         });
     });
@@ -418,7 +422,7 @@ export class GameComponent implements OnInit {
 
     this.selectedHand = card;
 
-    console.log("Select cardHand");
+    console.log("Select cardHand " + card.name);
 
     // S'il ne possède pas de targetable spell, on le lance direct
     if(!this.selectedHand.hasTargetedSpell()) {
@@ -426,37 +430,31 @@ export class GameComponent implements OnInit {
 
       // On remet tout à zéro
       this.selectedHand = null;
-      this.joueur.hand.forEach((value: Card, key: string) => {
-        console.log("On met la carte " + value.getName() + " a untargetable");
-        value.setTargetable(false);
-      });
     } else {
-      this.joueur.hand.forEach((value: Card, key: string) => {
-        console.log("On met la carte " + value.getName() + " a untargetable");
-        value.setTargetable(false);
-      });
   
-      this.selectedHand.setTargetable(true);
     }
 
   }
 
 
   selectCardPlayerBoard(card: CardMinion): void {
-
+    
     this.resetSelected();
 
     this.selectedAttacking = card;
 
-    card.setTargetable(true);
+    console.log("Select cardBoard " + card.name);
+
   }
 
 
   selectCardOpponentBoard(card: CardMinion): void {
+    console.log("Select cardOpponentBoard " + card.name);
+
     // Si on avait déjà choisi une carte sur le board, on lance une attaque sur card
-    if(this.selectedAttacking != null) {
+    if(this.selectedAttacking != null && this.selectedAttacking.canAttack) {
       console.log('Envoi de attack sur ' + card.name);
-      AppComponent.stompClient.send(`/app/game/${this.gameId}/attack`, {}, JSON.stringify({isHero: false, cardId: this.selectedAttacking.id, targetId: card.id}));
+      AppComponent.stompClient.send(`/app/game/${this.gameId}/attack`, {}, JSON.stringify({isHero: "false", cardId: this.selectedAttacking.id, targetId: card.id}));
       this.selectedAttacking = null;
     }
     // Sinon, si on avait déjà choisit une carte dans la main, on la joue avec pour cible card
@@ -474,9 +472,9 @@ export class GameComponent implements OnInit {
   selectOpponent(): void {
     console.log("Click opponent");
     // Si on avait déjà choisi une carte sur le board, on lance une attaque sur card
-    if(this.selectedAttacking != null) {
+    if(this.selectedAttacking != null && this.selectedAttacking.canAttack) {
       console.log('Envoi de attack sur le hero');
-      AppComponent.stompClient.send(`/app/game/${this.gameId}/attack`, {}, JSON.stringify({isHero: true, cardId: this.selectedAttacking.id, targetId: null}));
+      AppComponent.stompClient.send(`/app/game/${this.gameId}/attack`, {}, JSON.stringify({isHero: "true", cardId: this.selectedAttacking.id, targetId: null}));
       this.selectedAttacking = null;
     }
     // Sinon, si on avait déjà choisit une carte dans la main, on la joue avec pour cible le héros adverse
@@ -500,10 +498,12 @@ export class GameComponent implements OnInit {
 
 
   special(): void {
-    if(AppComponent.joueurHero == "mage") {
-      this.selectedHeroPower = true;
-    } else {
-      this.joueur.specialReceived(this.gameId);
+    if(this.joueur.hero.isSpecialUsable()) {
+      if(AppComponent.joueurHero == "mage") {
+        this.selectedHeroPower = true;
+      } else {
+        this.joueur.specialReceived(this.gameId);
+      }
     }
   }
 
@@ -552,12 +552,6 @@ export class GameComponent implements OnInit {
 
 
 
-    isTargetable(card: Card) {
-      console.log('Check is targetable');
-      return card.isTargetable();
-    }
-
-
   enter_secretMode() {
     switch(this.secretMode) {
       case true:
@@ -587,19 +581,5 @@ export class GameComponent implements OnInit {
         this.selectedAttacking = null;
         this.selectedHand = null;
         this.selectedHeroPower = false;
-
-        this.joueur.hand.forEach((value: Card, key: string) => {
-          console.log("On met la carte " + value.getName() + " a untargetable");
-          value.setTargetable(true);
-        });
-
-        this.joueur.board.forEach((value: CardMinion, key: string) => {
-          console.log("On met la carte " + value.getName() + " a untargetable");
-          value.setTargetable(true);
-        });
-  }
-
-  test() {
-    console.log("Envoi draw");
   }
 }

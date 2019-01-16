@@ -6,8 +6,8 @@ public class MessageAttack {
 
 	public MessageAttack() {}
 
-	public MessageAttack(boolean hero, String cardId, String targetId) {
-		this.hero = hero;
+	public MessageAttack(String hero, String cardId, String targetId) {
+		this.hero = "true".equals(hero);
 		this.cardId = cardId;
 		this.targetId = targetId;
 	}
@@ -24,8 +24,8 @@ public class MessageAttack {
 		return targetId;
 	}
 
-	public void setHero(boolean newHero) {
-		hero = newHero;
+	public void setHero(String newHero) {
+		hero = "true".equals(newHero);
 	}
 
 	public void setSource(String newCardId) {

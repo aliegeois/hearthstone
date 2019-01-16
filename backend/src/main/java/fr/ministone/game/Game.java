@@ -37,11 +37,17 @@ public class Game implements IGame {
 		System.out.println("Nouvelle game (1)");
 		IPlayer player1 = new Player(user1.getName(), user1.getSessionId(), id, user1.getHeroType(), template, cardMinionRepository, cardSpellRepository);
 		IPlayer player2 = new Player(user2.getName(), user2.getSessionId(), id, user2.getHeroType(), template, cardMinionRepository, cardSpellRepository);
-		player1.setOpponent(player2);
+		
 		this.players.put(user1.getName(), player1);
 		this.players.put(user2.getName(), player2);
 
-		playing = Math.random() > .5 ? player1 : player2;
+		if(Math.random() > .5) {
+			playing = player1;
+			player1.setOpponent(player2);
+		} else {
+			playing = player2;
+			player2.setOpponent(player1);
+		}
 	}
 
 	@Override
@@ -64,14 +70,17 @@ public class Game implements IGame {
 		if(playerName.equals(playing.getName())) {
 			System.out.println("ReceiveSummonMinion -b");
 			p.summonMinion(cardId);
+			checkBoard();
 		}
 	}
 
 	@Override
 	public void receiveAttack(String playerName, boolean isHero, String cardId, String targetId) {
+		System.out.println("Game.receiveAttack(" + playerName + ", " + isHero + ", " + cardId + ", " + targetId + ")");
 		IPlayer p = players.get(playerName);
 		if(playerName.equals(playing.getName())) {
 			p.attack(isHero, cardId, targetId);
+			checkBoard();
 		}
 	}
 
@@ -80,6 +89,7 @@ public class Game implements IGame {
 		IPlayer p = players.get(playerName);
 		if(playerName.equals(playing.getName())) {
 			p.castSpell(cardId);
+			checkBoard();
 		}
 	}
 
@@ -88,6 +98,7 @@ public class Game implements IGame {
 		IPlayer p = players.get(playerName);
 		if(playerName.equals(playing.getName())) {
 			p.castSpell(own, isHero, cardId, targetId);
+			checkBoard();
 		}
 	}
 
@@ -96,6 +107,7 @@ public class Game implements IGame {
 		IPlayer p = players.get(playerName);
 		if(playerName.equals(playing.getName())) {
 			p.heroSpecial();
+			checkBoard();
 		}
 	}
 
@@ -104,6 +116,7 @@ public class Game implements IGame {
 		IPlayer p = players.get(playerName);
 		if(playerName.equals(playing.getName())) {
 			p.heroSpecial(own, isHero, targetId);
+			checkBoard();
 		}
 	}
 

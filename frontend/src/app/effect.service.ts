@@ -252,10 +252,12 @@ export class DrawRandom extends GlobalEffect {
 
 export class SummonSpecific extends GlobalEffect {
     minionName: string;
+    quantity: number;
 
-    constructor(minionName: string) {
+    constructor(minionName: string, quantity: number) {
         super();
         this.minionName = minionName;
+        this.quantity = quantity;
     }
 
     cast(player: Hero, playerDeck: Set<Card>, playerHand: Map<string, Card>, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentDeck: Set<Card>, opponentHand: Map<string, Card>, opponentBoard: Map<string, Card>) {

@@ -1,7 +1,6 @@
 package fr.ministone.message;
 
 public class MessageGameCreated {
-	// Nom du joueur qui fait la demande d'affrontement et de celui qui se fait affronter
 	private String userAsking, userAsked;
 
 	public MessageGameCreated() {}

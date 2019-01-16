@@ -7,8 +7,8 @@ body {
 
         #joueur {
             position: fixed;
-            bottom: 5%;
-            left: 5%;
+            bottom: 25%;
+            left: 2%;
     
             height: 25%;
             img {
@@ -34,11 +34,16 @@ body {
             }
         }
         
-    
+        #joueur:hover {
+            -moz-box-shadow: 0 0 10px #ccc;
+            -webkit-box-shadow: 0 0 10px #ccc; 
+            box-shadow: 0 0 10px #ccc; 
+        }
+
         #opponent {
             position: fixed;
-            top: 5%;
-            left: 5%;
+            top: 22%;
+            left: 2%;
     
             height: 25%;
             img {
@@ -64,12 +69,17 @@ body {
             }
         }
     
+        #opponent:hover {
+            -moz-box-shadow: 0 0 10px #ccc;
+            -webkit-box-shadow: 0 0 10px #ccc; 
+            box-shadow: 0 0 10px #ccc; 
+        }
+
         #main_opponent {
             background-color: rgba(10, 10, 10, 0.3);
             position: fixed;
             top: 0%;
-            width: 80%;
-            left: 10%;
+            width: 100%;
             text-align: center;
     
             ul {
@@ -90,8 +100,8 @@ body {
             background-color: rgba(10, 10, 10, 0.3);
             position: fixed;
             bottom: 0%;
-            width: 80%;
-            left: 10%;
+            width: 100%;
+            left: 0%;
             text-align: center;
     
             ul {
@@ -168,6 +178,18 @@ body {
             }
         }
     
+        #card:hover {
+            -moz-box-shadow: 0 0 10px #ccc;
+            -webkit-box-shadow: 0 0 10px #ccc; 
+            box-shadow: 0 0 10px #ccc; 
+        }
+
+        .cardSelected {
+            -moz-box-shadow: 0 0 10px #ccc;
+            -webkit-box-shadow: 0 0 10px #ccc; 
+            box-shadow: 0 0 10px #ccc; 
+        }
+
         .nonTargetable {
             opacity: 0.5;
         }

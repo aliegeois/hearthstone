@@ -4,11 +4,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-//import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 
-//import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.core.AbstractMessageSendingTemplate;
 
 import fr.ministone.repository.*;
@@ -30,8 +27,8 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	protected Map<String, Card> hand = new HashMap<>();
 	protected Map<String, CardMinion> board = new HashMap<>();
 	
-	protected int manaMax = 1;
-	protected int mana = 1;
+	protected int manaMax = 0;
+	protected int mana = 0;
 
 	protected boolean ready = false;
 	
@@ -72,8 +69,6 @@ public class Player implements IPlayer, IPlayerMessageSender {
 				this.deck.add(i.next());
 		}
 		this.hero.setPlayer(this);
-
-		//new UUID().getLeastSignificantBits()
 	}
 
 	public Player(String name, String sessionId, String gameId, String heroType) {
@@ -95,6 +90,8 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	public void setOpponent(IPlayer p) {
 		opponent = p;
 		if(p.getOpponent() == null) {
+			mana = 1;
+			manaMax = 1;
 			p.setOpponent(this);
 		}
 	}
@@ -138,15 +135,16 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	
 	@Override
 	public void attack(boolean isHero, String cardId, String targetId) { // Plus de vérifications (genre opponent card existe ou pas) ??
+		System.out.println("Player.attack(" + isHero + ", " + cardId + ", " + targetId + ")");
 		CardMinion minion = (CardMinion)board.get(cardId);
-		if(minion.isReady()){
+		if(minion.isReady()) {
 			if(isHero) {
 				minion.attack(opponent.getHero());
 			} else {
 				minion.attack(opponent.getBoard().get(targetId));
 			}
 			sendAttack(isHero, cardId, targetId); // J'ai un doute sur l'ordre mdr
-			minion.setReady(false);;
+			minion.setReady(false);
 		}
 		
 	}
@@ -164,7 +162,6 @@ public class Player implements IPlayer, IPlayerMessageSender {
 		Card cardDrawn = card.copy(this);
 
 		hand.put(cardDrawn.getId(), cardDrawn);
-		System.out.print("nb de carte" + hand.size());
 		if(send)
 			sendDrawCard(cardDrawn.getName(), cardDrawn.getId(), cardDrawn instanceof CardMinion ? "minion" : "spell");
 		
