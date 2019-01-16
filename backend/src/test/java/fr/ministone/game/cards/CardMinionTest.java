@@ -27,8 +27,8 @@ public class CardMinionTest {
 		Set<String> capacities2 = new HashSet<String>();
 		capacities1.add("charge");
 		capacities2.add("provocation");
-		card1 = new CardMinion(1l, "shared", player1, "Card Minion 1", 2, 7, 4, capacities1, new HashMap<String, Integer>());
-		card2 = new CardMinion(2l, "shared", player2, "Card Minion 2", 1, 2, 10, capacities2, new HashMap<String, Integer>());
+		card1 = new CardMinion("1", "shared", player1, "Card Minion 1", 2, 7, 4, capacities1, new HashMap<String, Integer>());
+		card2 = new CardMinion("2", "shared", player2, "Card Minion 2", 1, 2, 10, capacities2, new HashMap<String, Integer>());
 	}
 
 	@Test

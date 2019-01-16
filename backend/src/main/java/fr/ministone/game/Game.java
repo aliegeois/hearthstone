@@ -61,7 +61,7 @@ public class Game implements IGame {
 	public void receiveSummonMinion(String playerName, String cardId) {
 		IPlayer p = players.get(playerName);
 		if(playerName.equals(playing.getName())) {
-			p.summonMinion(Long.parseLong(cardId));
+			p.summonMinion(cardId);
 		}
 	}
 
@@ -69,7 +69,7 @@ public class Game implements IGame {
 	public void receiveAttack(String playerName, boolean isHero, String cardId, String targetId) {
 		IPlayer p = players.get(playerName);
 		if(playerName.equals(playing.getName())) {
-			p.attack(isHero, Long.parseLong(cardId), Long.parseLong(targetId));
+			p.attack(isHero, cardId, targetId);
 		}
 	}
 
@@ -77,7 +77,7 @@ public class Game implements IGame {
 	public void receiveCastSpell(String playerName, String cardId) {
 		IPlayer p = players.get(playerName);
 		if(playerName.equals(playing.getName())) {
-			p.castSpell(Long.parseLong(cardId));
+			p.castSpell(cardId);
 		}
 	}
 
@@ -85,7 +85,7 @@ public class Game implements IGame {
 	public void receiveCastSpell(String playerName, boolean own, boolean isHero, String cardId, String targetId) {
 		IPlayer p = players.get(playerName);
 		if(playerName.equals(playing.getName())) {
-			p.castSpell(own, isHero, Long.parseLong(cardId), Long.parseLong(targetId));
+			p.castSpell(own, isHero, cardId, targetId);
 		}
 	}
 
@@ -101,7 +101,7 @@ public class Game implements IGame {
 	public void receiveHeroSpecial(String playerName, boolean own, boolean isHero, String targetId) {
 		IPlayer p = players.get(playerName);
 		if(playerName.equals(playing.getName())) {
-			p.heroSpecial(own, isHero, Long.parseLong(targetId));
+			p.heroSpecial(own, isHero, targetId);
 		}
 	}
 
@@ -125,7 +125,7 @@ public class Game implements IGame {
 
 	@Override
 	public void start() {
-		System.out.println("Starting baby");
+		System.out.println("Starting game");
 		for(int i = 0; i < 3; i++) {
 			playing.drawCard(true);
 			playing.getOpponent().drawCard(true);

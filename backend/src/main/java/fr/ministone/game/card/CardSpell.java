@@ -29,7 +29,7 @@ public class CardSpell extends Card {
 		super();
 	}
 	
-	public CardSpell(Long id, String deck, IPlayer owner, String name, int mana, Set<SingleTargetEffect> singleEffects, Set<MultipleTargetEffect> multipleEffects, Set<GlobalEffect> globalEffects) {
+	public CardSpell(String id, String deck, IPlayer owner, String name, int mana, Set<SingleTargetEffect> singleEffects, Set<MultipleTargetEffect> multipleEffects, Set<GlobalEffect> globalEffects) {
 		super(id, deck, owner, name, mana);
 		this.singleEffects = singleEffects;
 		this.multipleEffects = multipleEffects;
@@ -87,6 +87,6 @@ public class CardSpell extends Card {
 
 	@Override
 	public Card copy() {
-		return new CardSpell(UUID.randomUUID().getLeastSignificantBits(), deck, owner, name, manaCost, singleEffects, multipleEffects, globalEffects);
+		return new CardSpell(UUID.randomUUID().toString(), deck, owner, name, manaCost, singleEffects, multipleEffects, globalEffects);
 	}
 }

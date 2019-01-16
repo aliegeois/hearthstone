@@ -126,8 +126,8 @@ export class AppComponent implements OnInit {
 export class Player {
     name: String;
     deck: Set<Card>;
-    hand: Map<number, Card>;
-    board: Map<number, CardMinion>;
+    hand: Map<string, Card>;
+    board: Map<string, CardMinion>;
 
     manaMax: number;
     mana: number;
@@ -150,8 +150,8 @@ export class Player {
                 break;
         }
         this.deck = new Set<Card>();
-        this.hand = new Map<number, Card>();
-        this.board = new Map<number, CardMinion>();
+        this.hand = new Map<string, Card>();
+        this.board = new Map<string, CardMinion>();
 
         this.manaMax = 0;
         this.mana = this.manaMax;
@@ -161,14 +161,14 @@ export class Player {
 
 
 
-    summon(cardId: number) {
+    summon(cardId: string) {
         let card: CardMinion = this.hand.get(cardId) as CardMinion;
         this.mana = this.mana - card.manaCost;
         this.hand.delete(cardId);
         this.board.set(cardId, card);
     }
     
-    attack(cardId: number, targetId: number, isHero: boolean) {
+    attack(cardId: string, targetId: number, isHero: boolean) {
         let card: CardMinion = this.hand.get(cardId) as CardMinion;
         let target: Entity;
 
@@ -180,7 +180,7 @@ export class Player {
         card.attack(target);
     }
 
-    castTargetedSpell(cardId: number, targetId: number, own: string, hero: boolean) {
+    castTargetedSpell(cardId: string, targetId: string, own: string, hero: boolean) {
         let card: CardSpell = this.hand.get(cardId) as CardSpell;
         this.mana = this.mana - card.manaCost;
         let target: Entity = this.foundTarget(targetId, own, hero);
@@ -188,13 +188,13 @@ export class Player {
         card.play(target);
     }
 
-    castUntargetedSpell(cardId: number) {
+    castUntargetedSpell(cardId: string) {
         let card: CardSpell = this.hand.get(cardId) as CardSpell;
         this.mana = this.mana - card.manaCost;
         card.play();
     }
 
-    castTargetedSpecial(targetId: number, own: string, hero: boolean) {
+    castTargetedSpecial(targetId: string, own: string, hero: boolean) {
         this.mana = this.mana - ConstantesService.HEROPOWERMANACOST;
         let target: Entity = this.foundTarget(targetId, own, hero);
         this.hero.special(target);
@@ -231,11 +231,11 @@ export class Player {
         return this.deck;
     }
 
-    getHand(): Map<number, Card> {
+    getHand(): Map<string, Card> {
         return this.hand;
     }
 
-    getBoard(): Map<number, CardMinion> {
+    getBoard(): Map<string, CardMinion> {
         return this.board;
     }
 
@@ -255,7 +255,7 @@ export class Player {
         return this.mana;
     }
 
-    foundTarget(targetId: number, own: String, hero: boolean): Entity {
+    foundTarget(targetId: string, own: String, hero: boolean): Entity {
         let target: Entity;
 
         if(own == "true") { //Own indique si l'entité visée est du coté du joueur
@@ -404,12 +404,12 @@ export abstract class Hero implements Entity {
 
 
 export abstract class Card {
-    id: number;
+    id: string;
     name: String;
     manaCost: number;
     owner: Player;
 
-  constructor(id: number, name: String, manaCost: number, owner: Player) {
+  constructor(id: string, name: String, manaCost: number, owner: Player) {
       this.id = id;
       this.name = name;
       this.manaCost = manaCost;
@@ -418,7 +418,7 @@ export abstract class Card {
 
   play(e?: Entity): void {}
 
-  getId(): UUID {
+  getId(): string {
       return this.id;
   }
 
@@ -466,7 +466,7 @@ export class CardMinion extends Card implements Entity {
 
   targetable: boolean; // For html
 
-  constructor(id: number,
+  constructor(id: string,
               name: String,
               mana: number,
               damage: number,
@@ -589,7 +589,7 @@ export class CardMinion extends Card implements Entity {
 
     playReceived(gameId: string): void {
         console.log("Envoi de summonMinion du minion " + this.attack.name);
-        AppComponent.stompClient.send(`/game/${gameId}/summonMinion`, {}, JSON.stringify({cardId: this.id}));
+        AppComponent.stompClient.send(`/app/game/${gameId}/summonMinion`, {}, JSON.stringify({cardId: this.id}));
     }
 }
 
@@ -609,7 +609,7 @@ export class CardSpell extends Card {
 
   targetable: boolean; // For html
 
-  constructor(id: number,
+  constructor(id: string,
               name: String,
               mana: number,
               singleEffects: Set<SingleTargetEffect>,
@@ -668,21 +668,21 @@ export class CardSpell extends Card {
             // Il faut envoyer si l'entité est de notre coté du plateau
             if(e == this.owner.hero) {
                 console.log("Envoi de castTargetedSpell sur notre hero");
-                AppComponent.stompClient.send(`/game/${gameId}/castTargetedSpell`, {}, JSON.stringify({own: true, isHero: true, cardId: this.id, targetId: null}));
+                AppComponent.stompClient.send(`/app/game/${gameId}/castTargetedSpell`, {}, JSON.stringify({own: true, isHero: true, cardId: this.id, targetId: null}));
             } else if(e == this.owner.opponent.hero) {
                 console.log("Envoi de castTargetedSpell sur le hero adverse");
-                AppComponent.stompClient.send(`/game/${gameId}/castTargetedSpell`, {}, JSON.stringify({own: false, isHero: true, cardId: this.id, targetId: null}));
+                AppComponent.stompClient.send(`/app/game/${gameId}/castTargetedSpell`, {}, JSON.stringify({own: false, isHero: true, cardId: this.id, targetId: null}));
             } else {
 
                 // Sinon, on cherche la cible sur le plateau
                 try {
-                    let targetId: number = (e as CardMinion).id; // Work because we only get their if e is not a hero
+                    let targetId: string = (e as CardMinion).id; // Work because we only get their if e is not a hero
                     if(this.owner.board.get(targetId)) {
                         console.log("Envoi de castTargetedSpell de " + this.name + " sur notre board");
-                        AppComponent.stompClient.send(`/game/${gameId}/castTargetedSpell`, {}, JSON.stringify({own: true, isHero: false, cardId: this.id, targetId: targetId}));
+                        AppComponent.stompClient.send(`/app/game/${gameId}/castTargetedSpell`, {}, JSON.stringify({own: true, isHero: false, cardId: this.id, targetId: targetId}));
                     } else if(this.owner.opponent.board.get(targetId)) {
                         console.log("Envoi de castTargetedSpell de " + this.name + " sur le board adverse");
-                        AppComponent.stompClient.send(`/game/${gameId}/castTargetedSpell`, {}, JSON.stringify({own: false, isHero: false, cardId: this.id, targetId: targetId}));
+                        AppComponent.stompClient.send(`/app/game/${gameId}/castTargetedSpell`, {}, JSON.stringify({own: false, isHero: false, cardId: this.id, targetId: targetId}));
                     } else {
                         console.log("Carte cible non trouvée");
                     }
@@ -696,7 +696,7 @@ export class CardSpell extends Card {
         } else {
             // Si on a reçu un envoi sans target
             console.log("Envoi de castUntargetedSpell de " + this.name);
-            AppComponent.stompClient.send(`/game/${gameId}/castUntargetedSpell`, {}, JSON.stringify({cardId: this.id}));
+            AppComponent.stompClient.send(`/app/game/${gameId}/castUntargetedSpell`, {}, JSON.stringify({cardId: this.id}));
         }
     }
 }
@@ -727,10 +727,10 @@ export class HeroMage extends Hero {
         // Il faut envoyer si l'entité est de notre coté du plateau
         if(e == this.owner.hero) {
             console.log("Envoi de castTargetedSpecial sur notre hero");
-            AppComponent.stompClient.send(`/game/${gameId}/castTargetedSpecial`, {}, JSON.stringify({own: true, isHero: true, targetId: null}));
+            AppComponent.stompClient.send(`/app/game/${gameId}/heroTargetedSpecial`, {}, JSON.stringify({own: true, isHero: true, targetId: null}));
         } else if(e == this.owner.opponent.hero) {
             console.log("Envoi de castTargetedSpecial sur le hero adverse");
-            AppComponent.stompClient.send(`/game/${gameId}/castTargetedSpecial`, {}, JSON.stringify({own: false, isHero: true, targetId: null}));
+            AppComponent.stompClient.send(`/app/game/${gameId}/heroTargetedSpecial`, {}, JSON.stringify({own: false, isHero: true, targetId: null}));
         } else {
 
             // Sinon, on cherche la cible sur le plateau
@@ -738,10 +738,10 @@ export class HeroMage extends Hero {
                 let targetId = (e as CardMinion).id; // Work because we only get their if e is not a hero
                 if(this.owner.board.get(targetId)) {
                     console.log("Envoi de castTargetedSpecial de mage sur notre board");
-                    AppComponent.stompClient.send(`/game/${gameId}/castTargetedSpecial`, {}, JSON.stringify({own: true, isHero: false, targetId: targetId}));
+                    AppComponent.stompClient.send(`/app/game/${gameId}/heroTargetedSpecial`, {}, JSON.stringify({own: true, isHero: false, targetId: targetId}));
                 } else if(this.owner.opponent.board.get(targetId)) {
                     console.log("Envoi de castTargetedSpecial de mage sur le board adverse");
-                    AppComponent.stompClient.send(`/game/${gameId}/castTargetedSpecial`, {}, JSON.stringify({own: false, isHero: false, targetId: targetId}));
+                    AppComponent.stompClient.send(`/app/game/${gameId}/heroTargetedSpecial`, {}, JSON.stringify({own: false, isHero: false, targetId: targetId}));
                 } else {
                     console.log("Carte cible non trouvée");
                 }
@@ -779,7 +779,7 @@ export class HeroPaladin extends Hero {
     // On reçoit depuis le client
     specialReceived(gameId: string) {
         console.log("Envoi de castTargetedSpecial de paladin");
-        AppComponent.stompClient.send(`/game/${gameId}/castUntargetedSpecial`, {});
+        AppComponent.stompClient.send(`/app/game/${gameId}/heroUntargetedSpecial`, {});
     }
 
 
@@ -810,7 +810,7 @@ export class HeroWarrior extends Hero {
     // On reçoit depuis le client
     specialReceived(gameId: string) {
         console.log('Envoi de castUntargetedSpecial pour le warrior');
-        AppComponent.stompClient.send(`/game/${gameId}/castUntargetedSpecial`, {});
+        AppComponent.stompClient.send(`/app/game/${gameId}/heroUntargetedSpecial`, {});
     }
 
     normalMode(): void {

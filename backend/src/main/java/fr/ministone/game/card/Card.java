@@ -14,7 +14,7 @@ import fr.ministone.game.IEntity;
 public abstract class Card {
 	@Transient
 	@JsonIgnore
-	protected Long id;
+	protected String id;
 
 	protected String deck;
 	
@@ -29,7 +29,7 @@ public abstract class Card {
 
 	public Card() {}
 	
-	public Card(Long id, String deck, IPlayer owner, String name, int manaCost) {
+	public Card(String id, String deck, IPlayer owner, String name, int manaCost) {
 		this.id = id;
 		this.deck = deck;
 		this.owner = owner;
@@ -43,7 +43,7 @@ public abstract class Card {
 	public abstract Card copy();
 	
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 	public String getName() {
@@ -62,7 +62,7 @@ public abstract class Card {
 		return manaCost;
 	}
 
-	public void setId(Long newId) {
+	public void setId(String newId) {
 		this.id = newId;
 	}
 }

@@ -21,7 +21,7 @@ export abstract class GlobalEffect extends EffectService {
         super();
      }
 
-     cast(player: Hero, playerDeck: Set<Card>, playerHand: Map<number, Card>, playerBoard: Map<number, CardMinion>, opponent: Hero, opponentDeck: Set<Card>, opponentHand: Map<number, Card>, opponentBoard: Map<number, Card>) {}
+     cast(player: Hero, playerDeck: Set<Card>, playerHand: Map<string, Card>, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentDeck: Set<Card>, opponentHand: Map<string, Card>, opponentBoard: Map<string, Card>) {}
 }
 
 export abstract class MultipleTargetEffect extends EffectService {
@@ -54,7 +54,7 @@ export abstract class MultipleTargetEffect extends EffectService {
         return this.opponentHero;
     }
 
-    cast(player: Hero, playerBoard: Map<number, CardMinion>, opponent: Hero, opponentBoard: Map<number, CardMinion>) {}
+    cast(player: Hero, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentBoard: Map<string, CardMinion>) {}
 }
 
 export abstract class SingleTargetEffect extends EffectService {
@@ -77,7 +77,7 @@ export class MultiTargetBuff extends MultipleTargetEffect {
         this.attack = attack;
     }
 
-    cast(player: Hero, playerBoard: Map<number, CardMinion>, opponent: Hero, opponentBoard: Map<number, CardMinion>) {
+    cast(player: Hero, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentBoard: Map<string, CardMinion>) {
         if(this.ownHero) {
             player.boostHealth(this.life);
             player.boostArmor(this.armor);
@@ -113,7 +113,7 @@ export class MultiTargetDamage extends MultipleTargetEffect {
         this.quantity = quantity;
     }
 
-    cast(player: Hero, playerBoard: Map<number, CardMinion>, opponent: Hero, opponentBoard: Map<number, CardMinion>) {
+    cast(player: Hero, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentBoard: Map<string, CardMinion>) {
         if(this.ownHero) {
             player.takeDamage(this.quantity);
         }
@@ -144,7 +144,7 @@ export class MultiTargetHeal extends MultipleTargetEffect {
         this.amount = amount;
     }
 
-    cast(player: Hero, playerBoard: Map<number, CardMinion>, opponent: Hero, opponentBoard: Map<number, CardMinion>) {
+    cast(player: Hero, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentBoard: Map<string, CardMinion>) {
         if(this.ownHero) {
             player.heal(this.amount);
         }
@@ -244,7 +244,7 @@ export class DrawRandom extends GlobalEffect {
         this.cardNumber = cardNumber;
     }
 
-    cast(player: Hero, playerDeck: Set<Card>, playerHand: Map<number, Card>, playerBoard: Map<number, CardMinion>, opponent: Hero, opponentDeck: Set<Card>, opponentHand: Map<number, Card>, opponentBoard: Map<number, Card>) {
+    cast(player: Hero, playerDeck: Set<Card>, playerHand: Map<string, Card>, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentDeck: Set<Card>, opponentHand: Map<string, Card>, opponentBoard: Map<string, Card>) {
         // Nothing to do, the server send a message to /draw
     }
 
@@ -258,7 +258,7 @@ export class SummonSpecific extends GlobalEffect {
         this.minionName = minionName;
     }
 
-    cast(player: Hero, playerDeck: Set<Card>, playerHand: Map<number, Card>, playerBoard: Map<number, CardMinion>, opponent: Hero, opponentDeck: Set<Card>, opponentHand: Map<number, Card>, opponentBoard: Map<number, Card>) {
+    cast(player: Hero, playerDeck: Set<Card>, playerHand: Map<string, Card>, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentDeck: Set<Card>, opponentHand: Map<string, Card>, opponentBoard: Map<string, Card>) {
         // Nothing to do, the server send a message to /summon
     }
 

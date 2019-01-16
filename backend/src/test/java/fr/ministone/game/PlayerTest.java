@@ -36,9 +36,9 @@ public class PlayerTest {
 		capacities1.add("charge");
 		capacities2.add("provocation");
 
-		card1 = new CardMinion(1l, "shared", player1, "Card Minion 1", 1, 1, 10, capacities1, new HashMap<String,Integer>());
-		card2 = new CardMinion(2l, "shared", player2, "Card Minion 2", 1, 1, 10, capacities2, new HashMap<String,Integer>());
-		card3 = new CardSpell(3l, "shared", player1, "Card Spell 3", 1, new HashSet<SingleTargetEffect>(), new HashSet<MultipleTargetEffect>(), new HashSet<GlobalEffect>());
+		card1 = new CardMinion("1", "shared", player1, "Card Minion 1", 1, 1, 10, capacities1, new HashMap<String,Integer>());
+		card2 = new CardMinion("2", "shared", player2, "Card Minion 2", 1, 1, 10, capacities2, new HashMap<String,Integer>());
+		card3 = new CardSpell("3", "shared", player1, "Card Spell 3", 1, new HashSet<SingleTargetEffect>(), new HashSet<MultipleTargetEffect>(), new HashSet<GlobalEffect>());
 
 		player1.getDeck().add(card1);
 		player2.getDeck().add(card2);
@@ -72,7 +72,7 @@ public class PlayerTest {
 
 	@Test
 	public void testUnableSummonMinion(){
-		Card card9 = new CardMinion(9l, "shared", player1, "Card Minion 9", 11, 1, 10, new HashSet<String>(), new HashMap<String,Integer>());
+		Card card9 = new CardMinion("9", "shared", player1, "Card Minion 9", 11, 1, 10, new HashSet<String>(), new HashMap<String,Integer>());
 
 		assertEquals(1, player1.getBoard().size());
 		assertEquals(0, player1.getHand().size());
@@ -101,7 +101,7 @@ public class PlayerTest {
 		player1.heroSpecial();
 		assertEquals(2, player1.getHero().getArmor());
 
-		player2.heroSpecial(false, true, 0l);
+		player2.heroSpecial(false, true, "0");
 		assertEquals(0, player1.getHero().getArmor());
 		assertEquals(Constants.HEROHEALTHMAX, player1.getHero().getHealth());
 	}
@@ -128,7 +128,7 @@ public class PlayerTest {
 	public void testAttackHero() {
 		assertEquals(Constants.HEROHEALTHMAX, player2.getHero().getHealth());
 
-		player1.attack(true, card1.getId(), 0l);
+		player1.attack(true, card1.getId(), "0");
 
 		assertEquals(29, player2.getHero().getHealth());
 	}

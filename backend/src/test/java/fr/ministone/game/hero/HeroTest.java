@@ -33,13 +33,13 @@ public class HeroTest {
 		player2 = new PlayerMock("mage");
 		player3 = new PlayerMock("paladin");
 
-		CardMinion recrue = new CardMinion(8l, "paladin", player3, "Recrue de la Main d'argent", 1, 1, 1, new HashSet<String>(), new HashMap<String, Integer>());
+		CardMinion recrue = new CardMinion("8", "paladin", player3, "Recrue de la Main d'argent", 1, 1, 1, new HashSet<String>(), new HashMap<String, Integer>());
 
 		minionRepository.save(recrue);
 
 		player3.setCardMinionRepository(minionRepository);
 		
-		card = new CardMinion(1l, "shared", null, "Card Minion 1", 1, 0, 3, new HashSet<String>(), new HashMap<String, Integer>());
+		card = new CardMinion("1", "shared", null, "Card Minion 1", 1, 0, 3, new HashSet<String>(), new HashMap<String, Integer>());
 
 		hero1 = (HeroWarrior)player1.getHero();
 		hero2 = (HeroMage)player2.getHero();

@@ -71,6 +71,7 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/summonMinion")
 	public void summonMinion(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageSummonMinion message) {
+		System.out.println("réception de /game/" + gameId + "/summonMinion");
 		IGame g = games.get(gameId);
 		if(g == null)
 			return;

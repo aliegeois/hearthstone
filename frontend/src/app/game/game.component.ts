@@ -153,7 +153,7 @@ export class GameComponent implements OnInit {
         this.infoLog = "Le tour adverse est terminé";
       }
       
-      AppComponent.stompClient.send(`/game/${this.gameId}/endTurn`, {}, JSON.stringify({playerName: concernedPlayer.name}));
+      AppComponent.stompClient.send(`/app/game/${this.gameId}/endTurn`, {}, JSON.stringify({playerName: concernedPlayer.name}));
     });
 
     
@@ -167,7 +167,6 @@ export class GameComponent implements OnInit {
 
       // On démarre le tour du joueur concerné
       concernedPlayer.beginTurn();
-      AppComponent.stompClient.send(`/game/${this.gameId}/drawCard`, {}, JSON.stringify({playerName: concernedPlayer.name}));
       this.playing = concernedPlayer;
     });
 
@@ -314,7 +313,7 @@ export class GameComponent implements OnInit {
           boosts.set("damage", response.boostDamage);
     
     
-          let cardJoueur: CardMinion = new CardMinion(i, response.name, response.manaCost, response.damageBase, response.healthMax, capacities, boosts, this.joueur)
+          let cardJoueur: CardMinion = new CardMinion(i as unknown as string, response.name, response.manaCost, response.damageBase, response.healthMax, capacities, boosts, this.joueur)
           this.joueur.deck.add(cardJoueur);
         }
       });
@@ -345,7 +344,7 @@ export class GameComponent implements OnInit {
         boosts.set("damage", response.boostDamage);
   
   
-        let cardJoueur: CardMinion = new CardMinion(i, response.name, response.manaCost, response.damageBase, response.healthMax, capacities, boosts, this.joueur)
+        let cardJoueur: CardMinion = new CardMinion(i as unknown as string, response.name, response.manaCost, response.damageBase, response.healthMax, capacities, boosts, this.joueur)
         this.joueur.deck.add(cardJoueur);
       }
     });
@@ -358,7 +357,7 @@ export class GameComponent implements OnInit {
     .then( response => {
       for(let i = 0 ; i < response.length ; i++) {
   
-        let cardJoueur: CardSpell = new CardSpell(i, response.name, response.manaCost, response.ste, response.mte, response.ge, this.joueur)
+        let cardJoueur: CardSpell = new CardSpell(i as unknown as string, response.name, response.manaCost, response.ste, response.mte, response.ge, this.joueur)
         this.joueur.deck.add(cardJoueur);
       }
     });
@@ -392,12 +391,12 @@ export class GameComponent implements OnInit {
 
       // On remet tout à zéro
       this.selectedHand = null;
-      this.joueur.hand.forEach((value: Card, key: number) => {
+      this.joueur.hand.forEach((value: Card, key: string) => {
         console.log("On met la carte " + value.getName() + " a untargetable");
         value.setTargetable(false);
       });
     } else {
-      this.joueur.hand.forEach((value: Card, key: number) => {
+      this.joueur.hand.forEach((value: Card, key: string) => {
         console.log("On met la carte " + value.getName() + " a untargetable");
         value.setTargetable(false);
       });
@@ -414,28 +413,7 @@ export class GameComponent implements OnInit {
 
     this.selectedAttacking = card;
 
-    // On opacifie les autres cartes de notre board et de notre main
-    this.joueur.board.forEach((value: Card, key: number) => {
-      value.setTargetable(false);
-    });
-
     card.setTargetable(true);
-
-    // On vérifie s'il y a au moins un taunt
-    let nbTaunt: number = 0;
-    this.opponent.board.forEach((value: CardMinion, key: number) => {
-      if(value.isProvoking()) {
-        nbTaunt++;
-      }
-    });
-
-    // On grise toutes les entités adverses, sauf celles avec taunt, s'il y a au moins un taunt
-    if(nbTaunt > 0) {
-      this.opponent.hero.setTargetable(false);
-      this.opponent.board.forEach((value: CardMinion, key: number) => {
-        value.setTargetable(value.isProvoking());
-      });
-    }
   }
 
 
@@ -575,17 +553,12 @@ export class GameComponent implements OnInit {
         this.selectedHand = null;
         this.selectedHeroPower = false;
 
-        this.joueur.hand.forEach((value: Card, key: number) => {
+        this.joueur.hand.forEach((value: Card, key: string) => {
           console.log("On met la carte " + value.getName() + " a untargetable");
           value.setTargetable(true);
         });
 
-        this.opponent.board.forEach((value: CardMinion, key: number) => {
-          console.log("On met la carte " + value.getName() + " a untargetable");
-          value.setTargetable(true);
-        });
-
-        this.joueur.board.forEach((value: CardMinion, key: number) => {
+        this.joueur.board.forEach((value: CardMinion, key: string) => {
           console.log("On met la carte " + value.getName() + " a untargetable");
           value.setTargetable(true);
         });

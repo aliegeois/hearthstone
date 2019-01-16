@@ -44,7 +44,7 @@
 
 		<div id="board_opponent">
 			<ul>
-				<li *ngFor="let card of opponent.board | keyvalue" id="card" [class.nonTargetable]="!card.value.isTargetable()">
+				<li *ngFor="let card of opponent.board | keyvalue" id="card">
 					<img [src]="getImgUrl(card.value)" alt="{{ card.value.name }}" />
 					<span id="cardManaCost">{{ card.value.manaCost }}</span>
 					<span id="cardDamage">{{ card.value.damage }}</span>
@@ -74,9 +74,7 @@
 		</div>
 
 
-		Taille deck {{ joueur.deck.size }}
-
-		<button id="secret_mode" [class.inlined]="secretMode == true" (click)="test()">Enter secret mode</button>
+		<button id="secret_mode" [class.inlined]="secretMode == true" (click)="enter_secretMode()">Enter secret mode</button>
 
 
 
