@@ -63,7 +63,7 @@ public class CardCommandLineRunner implements CommandLineRunner {
 		spells.add(new CardSpell("mage", "Image miroir", 1, new HashSet<>(), new HashSet<>(), gte11));
 		
 		Set<MultipleTargetEffect> mte12 = new HashSet<>();
-		mte12.add(new MultipleTargetDamage(false, false, false, true, 1));
+		mte12.add(new MultipleTargetDamage(false, true, false, false, 1));
 		spells.add(new CardSpell("mage", "Explosion des arcanes", 2, new HashSet<>(), mte12, new HashSet<>()));
 
 		CardMinion mouton = new CardMinion("special", "Métamorphose_token", 0, 1, 1, new HashSet<>(), new HashMap<>());
@@ -84,7 +84,7 @@ public class CardCommandLineRunner implements CommandLineRunner {
 		spells.add(new CardSpell("paladin", "Bénédiction de puissance", 1, ste22, new HashSet<>(), new HashSet<>()));
 
 		Set<MultipleTargetEffect> mte23 = new HashSet<>();
-		mte23.add(new MultipleTargetDamage(false, false, true, true, 2));
+		mte23.add(new MultipleTargetDamage(false, true, false, true, 2));
 		spells.add(new CardSpell("paladin", "Consécration", 4, new HashSet<>(), mte23, new HashSet<>()));
 
 
