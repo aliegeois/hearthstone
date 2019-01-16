@@ -237,7 +237,8 @@ export class Transform extends SingleTargetEffect {
 	}
 	
 	cast(e: Entity) {
-		e = this.into;
+		//e = this.into;
+		e = new CardMinion((e as any as CardMinion).getId(), "Métamorphose_token", 0, 1, 1, new Set<String>(), new Map<string, number>(), e.getOwner());
 	}
 	
 }
@@ -251,7 +252,7 @@ export class DrawRandom extends GlobalEffect {
 	}
 	
 	cast(player: Hero, playerHand: Map<string, Card>, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentHand: Map<string, Card>, opponentBoard: Map<string, Card>) {
-		// Nothing to do, the server send a message to /draw
+		// Nothing to do, the server sends a message to /draw
 	}
 	
 }
@@ -267,7 +268,7 @@ export class SummonSpecific extends GlobalEffect {
 	}
 	
 	cast(player: Hero, playerHand: Map<string, Card>, playerBoard: Map<string, CardMinion>, opponent: Hero, opponentHand: Map<string, Card>, opponentBoard: Map<string, Card>) {
-		// Nothing to do, the server send a message to /summon
+		// Nothing to do, the server sends a message to /summon
 	}
 	
 }

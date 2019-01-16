@@ -35,6 +35,16 @@ public class CardCommandLineRunner implements CommandLineRunner {
 		Collection<CardMinion> minions = new ArrayList<>();
 		Collection<CardSpell> spells = new ArrayList<>();
 
+		
+		minions.add(new CardMinion("special", "Recrue de la Main d'argent", 1, 1, 1, new HashSet<>(), new HashMap<>()));
+
+		Set<String> capacities11 = new HashSet<>();
+		capacities11.add("provocation");
+		CardMinion invocation = new CardMinion("special", "Image miroir_token", 0, 0, 2, capacities11, new HashMap<>());
+		minions.add(invocation);
+
+		
+		
 		minions.add(new CardMinion("shared", "Sanglier brocheroc", 1, 1, 1, new HashSet<>(), new HashMap<>()));
 
 		Set<String> capacities02 = new HashSet<>();
@@ -52,18 +62,14 @@ public class CardCommandLineRunner implements CommandLineRunner {
 		minions.add(new CardMinion("shared", "Yéti noroit", 4, 4, 5, new HashSet<>(), new HashMap<>()));
 
 
-		
-		Set<String> capacities11 = new HashSet<>();
-		capacities11.add("provocation");
-		CardMinion invocation = new CardMinion("special", "Image miroir_token", 0, 0, 2, capacities11, new HashMap<>());
+
 		Set<GlobalEffect> gte11 = new HashSet<>();
 		SummonSpecific effect11 = new SummonSpecific(invocation.getName(), 2);
-		minions.add(invocation);
 		gte11.add(effect11);
 		spells.add(new CardSpell("mage", "Image miroir", 1, new HashSet<>(), new HashSet<>(), gte11));
 		
 		Set<MultipleTargetEffect> mte12 = new HashSet<>();
-		mte12.add(new MultipleTargetDamage(false, false, false, true, 1));
+		mte12.add(new MultipleTargetDamage(false, true, false, false, 1));
 		spells.add(new CardSpell("mage", "Explosion des arcanes", 2, new HashSet<>(), mte12, new HashSet<>()));
 
 		CardMinion mouton = new CardMinion("special", "Métamorphose_token", 0, 1, 1, new HashSet<>(), new HashMap<>());
@@ -84,7 +90,7 @@ public class CardCommandLineRunner implements CommandLineRunner {
 		spells.add(new CardSpell("paladin", "Bénédiction de puissance", 1, ste22, new HashSet<>(), new HashSet<>()));
 
 		Set<MultipleTargetEffect> mte23 = new HashSet<>();
-		mte23.add(new MultipleTargetDamage(false, false, true, true, 2));
+		mte23.add(new MultipleTargetDamage(false, true, false, true, 2));
 		spells.add(new CardSpell("paladin", "Consécration", 4, new HashSet<>(), mte23, new HashSet<>()));
 
 
@@ -97,13 +103,11 @@ public class CardCommandLineRunner implements CommandLineRunner {
 		capacities32.add("provocation");
 		minions.add(new CardMinion("warrior", "Avocat commis d'office", 2, 0, 7, capacities32, new HashMap<>()));
 
-		/*Set<SingleTargetEffect> ste33 = new HashSet<>();
-		ste33.add
-		spells.add(new CardSpell("warrior", "Maîtrise du blocage", 3, singleEffects, multipleEffects, globalEffects))*/
-
-
-
-		minions.add(new CardMinion("special", "Recrue de la Main d'argent", 1, 1, 1, new HashSet<>(), new HashMap<>()));
+		Set<MultipleTargetEffect> mte33 = new HashSet<>();
+		Set<GlobalEffect> ge33 = new HashSet<>();
+		mte33.add(new MultipleTargetBuff(false, false, true, false, 0, 0, 5));
+		ge33.add(new DrawRandom(1));
+		spells.add(new CardSpell("warrior", "Maîtrise du blocage", 3, new HashSet<>(), mte33, ge33));
 
 
 

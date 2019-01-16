@@ -227,10 +227,10 @@ public class LobbyController {
 		template.convertAndSend("/topic/lobby/" + user2.getSessionId() + "/matchDeclined", sendDeclineUser2);
 	}
 
-	@EventListener
+	/*@EventListener
 	public void onConnectEvent(SessionConnectEvent event) {
 		StompHeaderAccessor headers = StompHeaderAccessor.wrap(event.getMessage());
-	}
+	}*/
 
 	@EventListener
 	public void onDisconnectEvent(SessionDisconnectEvent event) {
