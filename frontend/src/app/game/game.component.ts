@@ -1,7 +1,5 @@
 import { Component, OnInit, Injectable } from '@angular/core';
 import { Player, CardMinion, Card, CardSpell, AppComponent, Entity } from '../app.component';
-import { initDomAdapter } from '@angular/platform-browser/src/browser';
-import { SingleTargetEffect, MultipleTargetEffect, GlobalEffect, Transform, SingleTargetDamage } from '../effect.service';
 
 @Component({
 	selector: 'app-game',
@@ -246,7 +244,7 @@ export class GameComponent implements OnInit {
 		this.joueur.setOpponent(this.opponent);
 		this.opponent.setOpponent(this.joueur);
 		
-		this.loadDecks();
+		//this.loadDecks();
 		
 		/*let cardTest1: CardMinion = new CardMinion(1,"Recrue de la main d'argent", 1, 1, 1, new Set<String>(), new Map<String, number>(), this.joueur);
 		let cardTest2: CardMinion = new CardMinion(2, "Champion Frisselame", 3, 4, 2, new Set<String>().add("charge"), new Map<String, number>(), this.joueur);
@@ -282,7 +280,7 @@ export class GameComponent implements OnInit {
 	
 	
 	
-	loadDecks() {
+	/*loadDecks() {
 		
 		//On charge toutes les cartes neutre :
 		fetch('http://localhost:8080/cards/deckMinion?deck=shared')
@@ -357,7 +355,7 @@ export class GameComponent implements OnInit {
 			}
 		});
 		
-	}
+	}*/
 	
 	
 	
