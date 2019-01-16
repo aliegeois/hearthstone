@@ -1,7 +1,7 @@
 # Ministone
 Mini projet Hearthstone
 
-Projet d'Analyse Conception et Evolution logicielle et Tests Logicielles de Master 1 ALMA (. Ce projet a pour but de la création d'une version simplifiée du jeu Hearthstone dévellopé par Blizzard (https://playhearthstone.com/en-us/).
+Projet d'Analyse Conception et Evolution logicielle et Tests Logicielles de Master 1 ALMA. Ce projet a pour but de la création d'une version simplifiée du jeu Hearthstone dévellopé par Blizzard (https://playhearthstone.com/en-us/.
 
 Le projet possède une interface web réalisée grâce à Angular (https://angular.io/) communiquant via websockets avec un serveur spring gérant également la persistence des données statiques (cartes, effets...)
 
