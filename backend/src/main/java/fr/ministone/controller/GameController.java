@@ -49,7 +49,7 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/confirmStart")
 	public void confirmStart(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId) {
-		System.out.println("réception de /game/" + gameId + "/confirmStart");
+		System.out.println("réception sur /game/" + gameId + "/confirmStart");
 
 		for(IGame g : games.values())
 			System.out.println("game " + g.getId());
@@ -71,7 +71,7 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/summonMinion")
 	public void summonMinion(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageSummonMinion message) {
-		System.out.println("réception de /game/" + gameId + "/summonMinion");
+		System.out.println("réception sur /game/" + gameId + "/summonMinion de " + message);
 		IGame g = games.get(gameId);
 		if(g == null) {
 			System.out.println("Game not found");
@@ -90,7 +90,7 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/attack")
 	public void attack(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageAttack message) {
-		System.out.println("réception de /game/" + gameId + "/attack");
+		System.out.println("réception sur /game/" + gameId + "/attack de " + message);
 		IGame g = games.get(gameId);
 		if(g == null) {
 			System.out.println("Game not found");
@@ -108,7 +108,7 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/castUntargetedSpell")
 	public void castUntargetedSpell(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageCastUntargetedSpell message) {
-		System.out.println("réception de /game/" + gameId + "/castUntargetedSpell");
+		System.out.println("réception sur /game/" + gameId + "/castUntargetedSpell de " + message);
 		IGame g = games.get(gameId);
 		if(g == null) {
 			System.out.println("Game not found");
@@ -126,7 +126,7 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/castTargetedSpell")
 	public void castTargetedSpell(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageCastTargetedSpell message) {
-		System.out.println("réception de /game/" + gameId + "/castTargetedSpell");
+		System.out.println("réception sur /game/" + gameId + "/castTargetedSpell de " + message);
 		IGame g = games.get(gameId);
 		if(g == null) {
 			System.out.println("Game not found");
@@ -144,7 +144,7 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/heroUntargetedSpecial")
 	public void heroUntargetedSpecial(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId) {
-		System.out.println("réception de /game/" + gameId + "/heroUntargetedSpecial");
+		System.out.println("réception sur /game/" + gameId + "/heroUntargetedSpecial");
 		IGame g = games.get(gameId);
 		if(g == null) {
 			System.out.println("Game not found");
@@ -162,7 +162,7 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/heroTargetedSpecial")
 	public void heroTargetedSpecial(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId, @Payload MessageHeroTargetedSpecial message) {
-		System.out.println("réception de /game/" + gameId + "/heroTargetedSpecial");
+		System.out.println("réception sur /game/" + gameId + "/heroTargetedSpecial de " + message);
 		IGame g = games.get(gameId);
 		if(g == null) {
 			System.out.println("Game not found");
@@ -180,7 +180,7 @@ public class GameController {
 
 	@MessageMapping("/game/{gameId}/endTurn")
 	public void endTurn(@Header("simpSessionId") String sessionId, @DestinationVariable("gameId") String gameId) {
-		System.out.println("réception de /game/" + gameId + "/endTurn");
+		System.out.println("réception sur /game/" + gameId + "/endTurn");
 		IGame g = games.get(gameId);
 		if(g == null) {
 			System.out.println("Game not found");
