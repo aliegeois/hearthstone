@@ -153,7 +153,7 @@ export class Player {
         this.hand = new Map<string, Card>();
         this.board = new Map<string, CardMinion>();
 
-        this.manaMax = 0;
+        this.manaMax = 1;
         this.mana = this.manaMax;
 
     }
@@ -206,7 +206,7 @@ export class Player {
     }
 
     beginTurn(cardName: string, cardId: string, cardType: string) {
-        this.manaMax = Math.min(this.manaMax++, ConstantesService.MANAMAX); // Incrémentation de manaMax de 1
+        this.manaMax = Math.min(this.manaMax + 1, ConstantesService.MANAMAX); // Incrémentation de manaMax de 1
         this.mana = this.manaMax;
       
             let card: Card;
