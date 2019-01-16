@@ -7,30 +7,31 @@ body {
 
         #joueur {
             position: fixed;
-            bottom: 5%;
-            left: 5%;
+            bottom: 25%;
+            left: 2%;
     
             height: 25%;
+
+            display: inline-block;
             img {
                 height: 100%;
                 position: relative;
             }
             #name {
                 font-weight: bold;
-                position: relative;
+                position: absolute;
                 width: 100%;
-                bottom: 37%;
+                bottom: 10%;
                 text-align: center;
             }
             #health {
                 position: absolute;
-                position: relative;
                 font-weight: bold;
-                width: 95%;
+                width: 100%;
+                right: 10%;
+                top: 63%;
                 text-align: right;
-                bottom: 64%;
-                left: 78%;
-                color: white;
+                color: rgba(255,255,255,1);
             }
         }
         
@@ -42,30 +43,30 @@ body {
 
         #opponent {
             position: fixed;
-            top: 5%;
-            left: 5%;
+            top: 22%;
+            left: 2%;
     
             height: 25%;
+            display: inline-block;
             img {
                 height: 100%;
                 position: relative;
             }
             #name {
                 font-weight: bold;
-                position: relative;
+                position: absolute;
                 width: 100%;
-                bottom: 37%;
+                bottom: 10%;
                 text-align: center;
             }
             #health {
                 position: absolute;
-                position: relative;
                 font-weight: bold;
-                width: 95%;
+                width: 100%;
+                right: 10%;
+                top: 63%;
                 text-align: right;
-                bottom: 64%;
-                left: 78%;
-                color: white;
+                color: rgba(255,255,255,1);
             }
         }
     
@@ -79,8 +80,7 @@ body {
             background-color: rgba(10, 10, 10, 0.3);
             position: fixed;
             top: 0%;
-            width: 80%;
-            left: 10%;
+            width: 100%;
             text-align: center;
     
             ul {
@@ -101,10 +101,9 @@ body {
             background-color: rgba(10, 10, 10, 0.3);
             position: fixed;
             bottom: 0%;
-            width: 80%;
-            left: 10%;
+            width: 100%;
+            left: 0%;
             text-align: center;
-            overflow: scroll;
     
             ul {
                 list-style-type: none;
@@ -138,7 +137,7 @@ body {
             position: fixed;
             right: 5%;
             top: 49%;
-            width: 6%;
+            padding: 5px;
             text-align: center;
             border: 1px solid black;
             font-family: Arial, Helvetica, sans-serif;
@@ -197,7 +196,12 @@ body {
         }
     
     
-    
+        #special{
+            position: fixed;
+            bottom: 10%;
+            left: 8%;
+        }
+
         #secret_mode {
             position: fixed;
             bottom: 0;
