@@ -191,6 +191,10 @@ public class CardMinion extends Card implements IEntity {
 	public boolean isDead() {
 		return health <= 0;
 	}
+
+	public void setReady(boolean ready){
+		this.ready = ready;
+	}
 	
 	@Override
 	public void die() {

@@ -153,7 +153,7 @@ export class GameComponent implements OnInit {
         this.infoLog = "Le tour adverse est terminé";
       }
       
-      AppComponent.stompClient.send(`/game/${this.gameId}/endTurn`, {}, JSON.stringify({playerName: concernedPlayer.name}));
+      AppComponent.stompClient.send(`/app/game/${this.gameId}/endTurn`, {}, JSON.stringify({playerName: concernedPlayer.name}));
     });
 
     
@@ -167,7 +167,7 @@ export class GameComponent implements OnInit {
 
       // On démarre le tour du joueur concerné
       concernedPlayer.beginTurn();
-      AppComponent.stompClient.send(`/game/${this.gameId}/drawCard`, {}, JSON.stringify({playerName: concernedPlayer.name}));
+      AppComponent.stompClient.send(`/app/game/${this.gameId}/drawCard`, {}, JSON.stringify({playerName: concernedPlayer.name}));
       this.playing = concernedPlayer;
     });
 
