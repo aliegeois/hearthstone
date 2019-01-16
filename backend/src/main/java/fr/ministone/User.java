@@ -27,7 +27,7 @@ public class User {
 	
 	@Transient
 	@JsonIgnore
-	private String temporaryGameId;
+	private Long temporaryGameId;
 
 	@Transient
 	@JsonIgnore
@@ -69,7 +69,7 @@ public class User {
 		return nbWins;
 	}
 
-	public String getTemporaryGameId() {
+	public Long getTemporaryGameId() {
 		return temporaryGameId;
 	}
 
@@ -89,7 +89,7 @@ public class User {
 		return opponent;
 	}
 
-	public void setTemporaryGameId(String newTemporaryGameId) {
+	public void setTemporaryGameId(Long newTemporaryGameId) {
 		temporaryGameId = newTemporaryGameId;
 	}
 

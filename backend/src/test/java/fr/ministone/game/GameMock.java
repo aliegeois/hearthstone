@@ -27,7 +27,7 @@ public class GameMock extends Game {
 	private AbstractMessageSendingTemplate template; 
 	
 	public GameMock(User user1, User user2, CardMinionRepository minionRepository, CardSpellRepository spellRepository) {
-		super("1", new MSimpMessagingTemplate(), user1, user2, minionRepository, spellRepository);
+		super(1l, new MSimpMessagingTemplate(), user1, user2, minionRepository, spellRepository);
 
 		//this.turn = 0;
 	}
