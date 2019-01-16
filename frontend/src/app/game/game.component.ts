@@ -454,9 +454,9 @@ export class GameComponent implements OnInit {
 
   selectCardOpponentBoard(card: CardMinion): void {
     // Si on avait déjà choisi une carte sur le board, on lance une attaque sur card
-    if(this.selectedAttacking != null) {
+    if(this.selectedAttacking != null && this.selectedAttacking.canAttack) {
       console.log('Envoi de attack sur ' + card.name);
-      AppComponent.stompClient.send(`/app/game/${this.gameId}/attack`, {}, JSON.stringify({isHero: false, cardId: this.selectedAttacking.id, targetId: card.id}));
+      AppComponent.stompClient.send(`/app/game/${this.gameId}/attack`, {}, JSON.stringify({isHero: "false", cardId: this.selectedAttacking.id, targetId: card.id}));
       this.selectedAttacking = null;
     }
     // Sinon, si on avait déjà choisit une carte dans la main, on la joue avec pour cible card
@@ -474,9 +474,9 @@ export class GameComponent implements OnInit {
   selectOpponent(): void {
     console.log("Click opponent");
     // Si on avait déjà choisi une carte sur le board, on lance une attaque sur card
-    if(this.selectedAttacking != null) {
+    if(this.selectedAttacking != null && this.selectedAttacking.canAttack) {
       console.log('Envoi de attack sur le hero');
-      AppComponent.stompClient.send(`/app/game/${this.gameId}/attack`, {}, JSON.stringify({isHero: true, cardId: this.selectedAttacking.id, targetId: null}));
+      AppComponent.stompClient.send(`/app/game/${this.gameId}/attack`, {}, JSON.stringify({isHero: "false", cardId: this.selectedAttacking.id, targetId: null}));
       this.selectedAttacking = null;
     }
     // Sinon, si on avait déjà choisit une carte dans la main, on la joue avec pour cible le héros adverse
@@ -500,10 +500,12 @@ export class GameComponent implements OnInit {
 
 
   special(): void {
-    if(AppComponent.joueurHero == "mage") {
-      this.selectedHeroPower = true;
-    } else {
-      this.joueur.specialReceived(this.gameId);
+    if(this.joueur.hero.isSpecialUsable()) {
+      if(AppComponent.joueurHero == "mage") {
+        this.selectedHeroPower = true;
+      } else {
+        this.joueur.specialReceived(this.gameId);
+      }
     }
   }
 
