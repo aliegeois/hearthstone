@@ -66,7 +66,4 @@ public abstract class Card {
 		this.id = newId;
 	}
 
-	public String getDeck() {
-		return deck;
-	}
 }

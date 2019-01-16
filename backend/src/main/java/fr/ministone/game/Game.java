@@ -118,7 +118,6 @@ public class Game implements IGame {
 			playing.getOpponent().drawCard(true);
 		}
 		playing.getOpponent().drawCard(true);
-		playing.nextTurn();
 	}
 
 	@Override
