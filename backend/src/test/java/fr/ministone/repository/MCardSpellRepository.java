@@ -1,5 +1,7 @@
 package fr.ministone.repository;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -74,7 +76,11 @@ public class MCardSpellRepository implements CardSpellRepository {
 
 	@Override
 	public Iterable<CardSpell> findAllByDeck(String deck) {
-		return null;
-	}
+		Collection<CardSpell> result = new ArrayList<>();
+		for(CardSpell s : cards.values())
+			if(deck.equals(s.getDeck()))
+				result.add(s);
 
+		return result;
+	}
 }
