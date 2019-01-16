@@ -123,13 +123,13 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	@Override
 	public void summonMinionByName(String minionName) {
 		CardMinion minion = (CardMinion)cardMinionRepository.findByName(minionName).copy(this);
-		if(looseMana(minion.getManaCost())) {
+		//if(looseMana(minion.getManaCost())) {
 			board.put(minion.getId(), minion);
 			minion.play();
 			sendSummonMinionGlobal(minionName, minion.getId());
-		} else {
+		//} else {
 			// Si on a le temps: faire un message de type "notEnoughMana" et l'envoyer
-		}
+		//}
 
 	}
 	
