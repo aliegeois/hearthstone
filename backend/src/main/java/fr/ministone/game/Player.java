@@ -30,8 +30,8 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	protected Map<String, Card> hand = new HashMap<>();
 	protected Map<String, CardMinion> board = new HashMap<>();
 	
-	protected int manaMax = 0;
-	protected int mana = 0;
+	protected int manaMax = 1;
+	protected int mana = 1;
 
 	protected boolean ready = false;
 	
@@ -185,11 +185,11 @@ public class Player implements IPlayer, IPlayerMessageSender {
 			hand.remove(spell.getId());
 			sendCastTargetedSpell(own, isHero, spellId, targetId);
 		}
-		
 	}
 
 	@Override
 	public void castSpell(String spellId) {
+		System.out.println("Player.castSpell(" + spellId + ")");
 		CardSpell spell = (CardSpell)hand.get(spellId);
 		
 		if(looseMana(spell.getManaCost())) {
@@ -197,7 +197,6 @@ public class Player implements IPlayer, IPlayerMessageSender {
 			hand.remove(spell.getId());
 			sendCastUntargetedSpell(spellId);
 		}
-		
 	}
 	
 	@Override
@@ -235,7 +234,7 @@ public class Player implements IPlayer, IPlayerMessageSender {
 
 	@Override
 	public void nextTurn() {
-		manaMax++;
+		manaMax = Math.min(manaMax + 1, Constants.PLAYERMANAMAX);
 		mana = manaMax;
 		Card drawn = drawCard(false);
 		getHero().setUsed(false);
@@ -298,10 +297,14 @@ public class Player implements IPlayer, IPlayerMessageSender {
 
 	@Override
 	public boolean looseMana(int quantity) {
+		System.out.println("Player.looseMana(" + quantity + ")");
 		if(mana >= quantity) {
+			System.out.println("Assez de mana (" + mana + " >= " + quantity + ")");
 			mana -= quantity;
+			System.out.println("mana = " + mana);
 			return true;
 		}
+		System.out.println("Pas assez de mana (" + mana + " < " + quantity + ")");
 		return false;
 	}
 
