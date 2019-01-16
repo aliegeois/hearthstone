@@ -178,7 +178,8 @@ body {
                 color: white;
             }
         }
-    
+
+        
         #card:hover {
             -moz-box-shadow: 0 0 10px #ccc;
             -webkit-box-shadow: 0 0 10px #ccc; 
@@ -195,11 +196,22 @@ body {
             opacity: 0.5;
         }
     
-    
+        #armor_joueur {
+            position: fixed;
+            bottom: 23%;
+            left: 5%;
+            font-weight: bold;
+        }
+        #armor_opponent {
+            position: fixed;
+            top: 47%;
+            left: 5%;
+            font-weight: bold;
+        }
         #special{
             position: fixed;
             bottom: 20%;
-            left: 8%;
+            left: 7%;
         }
 
         #secret_mode {
