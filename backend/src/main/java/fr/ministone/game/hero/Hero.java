@@ -94,4 +94,12 @@ public abstract class Hero implements IEntity {
 	public IPlayer getPlayer() {
 		return player;
 	}
+
+	public boolean isUsed() {
+		return alreadyUsed;
+	}
+
+	public void setUsed(boolean alreadyUsed) {
+		this.alreadyUsed = alreadyUsed;
+	}
 }

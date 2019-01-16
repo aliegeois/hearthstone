@@ -131,12 +131,16 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	@Override
 	public void attack(boolean isHero, String cardId, String targetId) { // Plus de vérifications (genre opponent card existe ou pas) ??
 		CardMinion minion = (CardMinion)board.get(cardId);
-		if(isHero) {
-			minion.attack(opponent.getHero());
-		} else {
-			minion.attack(opponent.getBoard().get(targetId));
+		if(minion.isReady()){
+			if(isHero) {
+				minion.attack(opponent.getHero());
+			} else {
+				minion.attack(opponent.getBoard().get(targetId));
+			}
+			sendAttack(isHero, cardId, targetId); // J'ai un doute sur l'ordre mdr
+			minion.setReady(false);;
 		}
-		sendAttack(isHero, cardId, targetId); // J'ai un doute sur l'ordre mdr
+		
 	}
 	
 	@Override
@@ -193,24 +197,32 @@ public class Player implements IPlayer, IPlayerMessageSender {
 	@Override
 	public void heroSpecial(boolean own, boolean isHero, String targetId) {
 		IEntity victim;
-		if(looseMana(Constants.HEROSPECIALCOST)){
-			if(isHero) {
-				victim = (own ? this : opponent).getHero();
-			} else {
-				victim = (own ? this : opponent).getBoard().get(targetId);
+		if(!(getHero().isUsed())){
+			if(looseMana(Constants.HEROSPECIALCOST)){
+				if(isHero) {
+					victim = (own ? this : opponent).getHero();
+				} else {
+					victim = (own ? this : opponent).getBoard().get(targetId);
+				}
+				
+				hero.special(victim);
+				sendHeroTargetedSpecial(own, isHero, targetId);
 			}
-			
-			hero.special(victim);
-			sendHeroTargetedSpecial(own, isHero, targetId);
+			getHero().setUsed(true);
 		}
+		
 	}
 
 	@Override
 	public void heroSpecial() {
-		if(looseMana(Constants.HEROSPECIALCOST)) {
-			hero.special();
-			sendHeroUntargetedSpecial();
+		if(!(getHero().isUsed())){
+			if(looseMana(Constants.HEROSPECIALCOST)) {
+				hero.special();
+				sendHeroUntargetedSpecial();
+			}
+			getHero().setUsed(true);
 		}
+		
 	}
 
 
@@ -219,6 +231,10 @@ public class Player implements IPlayer, IPlayerMessageSender {
 		manaMax++;
 		mana = manaMax;
 		Card drawn = drawCard(false);
+		getHero().setUsed(false);
+		for(CardMinion card: getBoard().values()){
+			card.setReady(true);
+		}
 		sendNextTurn(drawn.getName(), drawn.getId(), drawn instanceof CardMinion ? "minion" : "spell");
 	}
 
