@@ -203,6 +203,11 @@ public class CardMinion extends Card implements IEntity {
 
 	@Override
 	public Card copy() {
+		return copy(null);
+	}
+
+	@Override
+	public Card copy(IPlayer owner) {
 		Set<String> capacities = new HashSet<>();
 		if(taunt) {
 			capacities.add("taunt");

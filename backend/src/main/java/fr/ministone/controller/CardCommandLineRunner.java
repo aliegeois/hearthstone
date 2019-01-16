@@ -57,7 +57,7 @@ public class CardCommandLineRunner implements CommandLineRunner {
 		capacities11.add("provocation");
 		CardMinion invocation = new CardMinion("special", "Image miroir_token", 0, 2, 0, capacities11, new HashMap<>());
 		Set<GlobalEffect> gte11 = new HashSet<>();
-		SummonSpecific effect11 = new SummonSpecific(invocation.getName());
+		SummonSpecific effect11 = new SummonSpecific(invocation.getName(), 2);
 		minions.add(invocation);
 		gte11.add(effect11);
 		spells.add(new CardSpell("mage", "Image miroir", 1, new HashSet<>(), new HashSet<>(), gte11));

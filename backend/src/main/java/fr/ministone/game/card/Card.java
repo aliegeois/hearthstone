@@ -41,6 +41,7 @@ public abstract class Card {
 	public abstract void play(IEntity target);
 
 	public abstract Card copy();
+	public abstract Card copy(IPlayer owner);
 	
 
 	public String getId() {
