@@ -40,7 +40,7 @@ export class GameComponent implements OnInit {
     this.playing = this.getPlayer(AppComponent.playing);
     AppComponent.addListener(this);
     console.log("Envoi de la confirmation de game");
-    AppComponent.stompClient.send(`/game/${this.gameId}/confirmStart`, {});
+    AppComponent.stompClient.send(`app/game/${this.gameId}/confirmStart`, {});
 
   }
 
@@ -456,7 +456,7 @@ export class GameComponent implements OnInit {
     // Si on avait déjà choisi une carte sur le board, on lance une attaque sur card
     if(this.selectedAttacking != null) {
       console.log('Envoi de attack sur ' + card.name);
-      AppComponent.stompClient.send(`/game/${this.gameId}/attack`, {}, JSON.stringify({isHero: false, cardId: this.selectedAttacking.id, targetId: card.id}));
+      AppComponent.stompClient.send(`app/game/${this.gameId}/attack`, {}, JSON.stringify({isHero: false, cardId: this.selectedAttacking.id, targetId: card.id}));
       this.selectedAttacking = null;
     }
     // Sinon, si on avait déjà choisit une carte dans la main, on la joue avec pour cible card
@@ -476,7 +476,7 @@ export class GameComponent implements OnInit {
     // Si on avait déjà choisi une carte sur le board, on lance une attaque sur card
     if(this.selectedAttacking != null) {
       console.log('Envoi de attack sur le hero');
-      AppComponent.stompClient.send(`/game/${this.gameId}/attack`, {}, JSON.stringify({isHero: true, cardId: this.selectedAttacking.id, targetId: null}));
+      AppComponent.stompClient.send(`app/game/${this.gameId}/attack`, {}, JSON.stringify({isHero: true, cardId: this.selectedAttacking.id, targetId: null}));
       this.selectedAttacking = null;
     }
     // Sinon, si on avait déjà choisit une carte dans la main, on la joue avec pour cible le héros adverse
@@ -509,7 +509,7 @@ export class GameComponent implements OnInit {
 
     endTurn(): void {
       console.log('Envoi de fin du tour');
-      AppComponent.stompClient.send(`/game/${this.gameId}/endTurn`, {});
+      AppComponent.stompClient.send(`app/game/${this.gameId}/endTurn`, {});
     }
   
 
