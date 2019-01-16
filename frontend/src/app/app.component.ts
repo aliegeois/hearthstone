@@ -46,7 +46,7 @@ export class AppComponent implements OnInit {
   static opponentName: string;
   static opponentHero: string;
   static playing: string;
-  static gameId: string;
+  static gameId: number;
 
   initializeWebSocketConnection() {
 
@@ -435,7 +435,7 @@ export abstract class Card {
   abstract isTargetable(): boolean;
   abstract setTargetable(bool: boolean): void;
   abstract hasTargetedSpell(): boolean;
-  abstract playReceived(gameId: string, target?: Entity): void;
+  abstract playReceived(gameId: number, target?: Entity): void;
 
   abstract clone();
 }
@@ -587,7 +587,7 @@ export class CardMinion extends Card implements Entity {
         return card;
     }
 
-    playReceived(gameId: string): void {
+    playReceived(gameId: number): void {
         console.log("Envoi de summonMinion du minion " + this.attack.name);
         AppComponent.stompClient.send(`/game/${gameId}/summonMinion`, {}, JSON.stringify({cardId: this.id}));
     }
@@ -660,7 +660,7 @@ export class CardSpell extends Card {
     }
 
 
-    playReceived(gameId: string, e?: Entity): void {
+    playReceived(gameId: number, e?: Entity): void {
         // Si on a reçu l'envoi avec une target
         if(e) {
 
