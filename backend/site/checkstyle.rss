@@ -1,0 +1,796 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+<rss version="0.91">
+  <channel>
+    <title>Ministone - Checkstyle report</title>
+    <link>https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone</link>
+    <description>Ministone - Checkstyle report</description>
+    <language>en-us</language>
+    <copyright>&#169;2019</copyright>
+    <item>
+      <title>File: 53,
+             Errors: 1791,
+             Warnings: 0,
+             Infos: 0
+      </title>
+            <link>https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html</link>
+      <description>
+        <p>Click <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html">here</a> for the full Checkstyle report.</p>
+
+        <table summary="Files" boder="1">
+          <thead>
+            <tr>
+              <th>Files</th>
+              <th style="width:30px;"><abbr title="Info">I</abbr></th>
+              <th style="width:30px;"><abbr title="Warning">W</abbr></th>
+              <th style="width:30px;"><abbr title="Error">E</abbr></th>
+            </tr>
+          </thead>
+          <tbody>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.game.Game.java">fr/ministone/game/Game.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  95
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.game.effect.SingleTargetDamageBuff.java">fr/ministone/game/effect/SingleTargetDamageBuff.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  12
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.Application.java">fr/ministone/Application.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  7
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.repository.CardSpellRepository.java">fr/ministone/repository/CardSpellRepository.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.game.hero.HeroPaladin.java">fr/ministone/game/hero/HeroPaladin.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.repository.CardMinionRepository.java">fr/ministone/repository/CardMinionRepository.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  5
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.game.hero.HeroWarrior.java">fr/ministone/game/hero/HeroWarrior.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  5
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.game.effect.SingleTargetLifeBuff.java">fr/ministone/game/effect/SingleTargetLifeBuff.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  13
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.User.java">fr/ministone/User.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  63
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.message.MessageSetHero.java">fr/ministone/message/MessageSetHero.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  15
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#application.properties">application.properties</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.JsonUtil.java">fr/ministone/JsonUtil.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  14
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.message.MessageSummonMinion.java">fr/ministone/message/MessageSummonMinion.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  15
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.game.effect.Effect.java">fr/ministone/game/effect/Effect.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  19
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.controller.LobbyController.java">fr/ministone/controller/LobbyController.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  141
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.game.effect.MultipleTargetHeal.java">fr/ministone/game/effect/MultipleTargetHeal.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  22
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.message.MessageCastTargetedSpell.java">fr/ministone/message/MessageCastTargetedSpell.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  38
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.game.effect.SingleTargetEffect.java">fr/ministone/game/effect/SingleTargetEffect.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.message.MessageTest.java">fr/ministone/message/MessageTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  16
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.controller.UserController.java">fr/ministone/controller/UserController.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  13
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.game.effect.MultipleTargetDamage.java">fr/ministone/game/effect/MultipleTargetDamage.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  23
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.message.MessageAttack.java">fr/ministone/message/MessageAttack.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  32
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.message.MessageCreateGame.java">fr/ministone/message/MessageCreateGame.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  15
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.message.MessageHeroTargetedSpecial.java">fr/ministone/message/MessageHeroTargetedSpecial.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  31
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.repository.UserRepository.java">fr/ministone/repository/UserRepository.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.game.card.CardMinion.java">fr/ministone/game/card/CardMinion.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  119
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.controller.CardCommandLineRunner.java">fr/ministone/controller/CardCommandLineRunner.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  60
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.game.effect.SingleTargetHeal.java">fr/ministone/game/effect/SingleTargetHeal.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  11
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.game.hero.Hero.java">fr/ministone/game/hero/Hero.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  53
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.message.MessageGameCreated.java">fr/ministone/message/MessageGameCreated.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  23
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.game.IGameMessageReceiver.java">fr/ministone/game/IGameMessageReceiver.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  21
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.game.effect.SingleTargetDamage.java">fr/ministone/game/effect/SingleTargetDamage.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  11
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.game.effect.SummonSpecific.java">fr/ministone/game/effect/SummonSpecific.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  11
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.game.card.Card.java">fr/ministone/game/card/Card.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  52
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.game.effect.MultipleTargetEffect.java">fr/ministone/game/effect/MultipleTargetEffect.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  35
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.game.hero.HeroMage.java">fr/ministone/game/hero/HeroMage.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  5
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.game.effect.Transform.java">fr/ministone/game/effect/Transform.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  12
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.game.Player.java">fr/ministone/game/Player.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  261
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.controller.CardController.java">fr/ministone/controller/CardController.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  44
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.message.MessageCastUntargetedSpell.java">fr/ministone/message/MessageCastUntargetedSpell.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  15
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.controller.GameController.java">fr/ministone/controller/GameController.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  148
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.message.MessageJoinLobby.java">fr/ministone/message/MessageJoinLobby.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  31
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.game.card.CardSpell.java">fr/ministone/game/card/CardSpell.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  64
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.game.IGameMessageSender.java">fr/ministone/game/IGameMessageSender.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  8
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.WebSocketConfiguration.java">fr/ministone/WebSocketConfiguration.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  7
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.game.effect.GlobalEffect.java">fr/ministone/game/effect/GlobalEffect.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  9
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.game.IPlayer.java">fr/ministone/game/IPlayer.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  58
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.game.IPlayerMessageSender.java">fr/ministone/game/IPlayerMessageSender.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  26
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.game.effect.MultipleTargetBuff.java">fr/ministone/game/effect/MultipleTargetBuff.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  39
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.game.IGame.java">fr/ministone/game/IGame.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  14
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.game.effect.DrawRandom.java">fr/ministone/game/effect/DrawRandom.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  14
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.game.Constants.java">fr/ministone/game/Constants.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://projects.spring.io/spring-boot/#/spring-boot-starter-parent/ministone/checkstyle.html#fr.ministone.game.IEntity.java">fr/ministone/game/IEntity.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  22
+                </td>
+              </tr>
+                      </tbody>
+        </table>
+        
+      </description>
+    </item>
+  </channel>
+</rss>
+
