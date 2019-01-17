@@ -39,7 +39,7 @@ ng serve
 
 Les tests sont situés dans backend/src/test/java/fr/ministone
 
-### Petit notice sur les communications client-serveur
+### Petite notice sur les communications client-serveur
 
 Après avoir envisagé de faire uniquement des calculs coté client et de renvoyer tout l'état du jeu au client afin qu'il se mette à jour après chacune de ses actions, nous avons préféré partir sur un système fonctionnant ainsi :
  1 - Le client envoie un input au client sur une url auquel le server est subscribe

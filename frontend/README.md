@@ -25,3 +25,10 @@ Au début de chaque tour, les actions suivantes sont effectuées par le joueur d
 - Une carte est piochée
 
 Si vous cliquez sur un minion dans votre main et que vous avez suffisamment de mana pour le jouer, il est invoqué sur votre plateau. Si vous cliquez sur un minion sur votre plateau, puis sur un minion adverse ou votre adversaire, votre minion attaque la cible désignée.
+
+
+
+## Notes complémentaires
+
+Dû à un retard de notre part, nous n'avons pas été en mesure d'implémentation la carte Métamorphose et le spécial du héro Mage (qui se retrouve donc fort dépourvu).
+Nous n'avons également pas implémenté totalement la notion de buff (comme celui du chef de raid) : celui-ci ne disparait pas à sa mort. Il nous aurait fallu pour cela modifier notre structure en profondeur en ajoutant dans chaque carte un tableau de buff un type de buff (vie ou attaque), une quantité, le tout mappé par la carte à l'origine du buff, afin de pouvoir le faire disparaître à la mort de ladite carte.
